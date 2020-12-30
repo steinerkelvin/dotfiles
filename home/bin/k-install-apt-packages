@@ -1,0 +1,5 @@
+#!/bin/bash
+set -e
+set -o pipefail
+FILE=${1:-packages.txt}
+cat "$FILE" | grep -v "^\#" | xargs sudo apt install

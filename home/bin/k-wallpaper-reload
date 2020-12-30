@@ -1,0 +1,2 @@
+#!/bin/bash
+swaymsg output '*' bg "$HOME/wallpaper" fill

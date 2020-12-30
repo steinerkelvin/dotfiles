@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR="$1"
+
+if [ -z "$DIR" ]; then
+    (>&2 printf "usage: $0 DIR\n")
+    exit 1
+fi
+
+(
+    cd $DIR
+    for i in ./*.sh; do
+        echo "# ===== $i ===== #"
+        bash $i
+        echo
+    done
+)

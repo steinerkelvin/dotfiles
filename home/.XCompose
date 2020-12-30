@@ -1,0 +1,125 @@
+# Import default rules from the system Compose file
+include "%L"
+
+<Multi_key> <v> <v> : "✓" U2713
+<Multi_key> <exclam> <question> : "‽"   U203D  # INTERROBANG
+<Multi_key> <less>    <period>  : "‹"   U2039  # LEFT-POINTING ANGLE QUOTATION MARK
+<Multi_key> <greater> <period>  : "›"   U203A  # RIGHT-POINTING ANGLE QUOTATION MARK
+
+
+# ARROWS
+<Multi_key> <less> <minus> <greater>      : "↔"  U2194
+<Multi_key> <downarrow> <minus> <uparrow> : "↕"  U2195
+<Multi_key> <uparrow> <minus> <downarrow> : "↕"  U2195
+### TEST ###
+<Multi_key> <bar> <downarrow> : "↓"  U2193
+<Multi_key> <bar> <uparrow>   : "↑"  U2191
+# LONG ARROWS
+<Multi_key> <less> <minus> <minus> :    "⟵"  U27F5
+<Multi_key> <minus> <minus> <greater> : "⟶"  U27F6
+<Multi_key> <less> <minus> <minus> <greater> : "⟷"  U27F7
+
+
+# MATH
+<Multi_key> <minus> <period> : "−"
+<Multi_key> <minus> <plus> : "∓"
+<Multi_key> <asciicircum> <period> : "⋀"
+<Multi_key> <backslash> <slash> : "⋁"
+# SET THEORY
+<Multi_key> <S> <e> <minus> : "∊"
+<Multi_key> <S> <E> <minus> : "∈"
+<Multi_key> <V> <minus> : "∀"
+<Multi_key> <S> <V> <minus> : "∀"
+<Multi_key> <E> <E> : "∃"
+
+
+# GREEK LETTERS
+
+<Multi_key> <g> <a> : "α"
+<Multi_key> <g> <b> : "β"
+<Multi_key> <g> <g> : "γ"
+<Multi_key> <g> <d> : "δ"
+<Multi_key> <g> <3> <3> : "ε"
+<Multi_key> <g> <3> <c> : "ϵ"
+<Multi_key> <g> <z> : "ζ"
+<Multi_key> <g> <e> : "η"
+<Multi_key> <g> <h> : "θ"
+<Multi_key> <g> <i> : "ι"
+<Multi_key> <g> <k> : "κ"
+<Multi_key> <g> <l> : "λ"
+<Multi_key> <g> <m> : "μ"
+<Multi_key> <g> <n> : "ν"
+<Multi_key> <g> <x> : "ξ"
+<Multi_key> <g> <p> : "π"
+<Multi_key> <g> <r> : "ρ"
+<Multi_key> <g> <s> : "σ"
+<Multi_key> <g> <t> : "τ"
+<Multi_key> <g> <u> : "ψ"
+<Multi_key> <g> <f> : "φ"
+<Multi_key> <g> <c> : "χ"
+<Multi_key> <g> <o> : "ω"
+
+<Multi_key> <g> <G> : "Γ"
+<Multi_key> <g> <D> : "Δ"
+<Multi_key> <g> <H> : "Θ"
+<Multi_key> <g> <L> : "Λ"
+<Multi_key> <g> <X> : "Ξ"
+<Multi_key> <g> <P> : "Π"
+<Multi_key> <g> <S> : "Σ"
+<Multi_key> <g> <F> : "Φ"
+<Multi_key> <g> <U> : "Ψ"
+<Multi_key> <g> <O> : "Ω"
+
+
+# Blackboard Bold
+
+<Multi_key> <B> <A> : "𝔸"
+<Multi_key> <B> <B> : "𝔹"
+<Multi_key> <B> <C> : "ℂ"
+<Multi_key> <B> <D> : "𝔻"
+<Multi_key> <B> <E> : "𝔼"
+<Multi_key> <B> <F> : "𝔽"
+<Multi_key> <B> <G> : "𝔾"
+<Multi_key> <B> <H> : "ℍ"
+<Multi_key> <B> <I> : "𝕀"
+<Multi_key> <B> <J> : "𝕁"
+<Multi_key> <B> <K> : "𝕂"
+<Multi_key> <B> <L> : "𝕃"
+<Multi_key> <B> <M> : "𝕄"
+<Multi_key> <B> <N> : "ℕ"
+<Multi_key> <B> <O> : "𝕆"
+<Multi_key> <B> <P> : "ℙ"
+<Multi_key> <B> <Q> : "ℚ"
+<Multi_key> <B> <R> : "ℝ"
+<Multi_key> <B> <S> : "𝕊"
+<Multi_key> <B> <T> : "𝕋"
+<Multi_key> <B> <U> : "𝕌"
+<Multi_key> <B> <V> : "𝕍"
+<Multi_key> <B> <W> : "𝕎"
+<Multi_key> <B> <X> : "𝕏"
+<Multi_key> <B> <Y> : "𝕐"
+<Multi_key> <B> <Z> : "ℤ"
+
+
+# Subscript Letters
+
+<Multi_key> <underscore> <a> : "ₐ"
+<Multi_key> <underscore> <e> : "ₑ"
+<Multi_key> <underscore> <o> : "ₒ"
+<Multi_key> <underscore> <x> : "ₓ"
+<Multi_key> <underscore> <h> : "ₕ"
+<Multi_key> <underscore> <k> : "ₖ"
+<Multi_key> <underscore> <l> : "ₗ"
+<Multi_key> <underscore> <m> : "ₘ"
+<Multi_key> <underscore> <n> : "ₙ"
+<Multi_key> <underscore> <p> : "ₚ"
+<Multi_key> <underscore> <s> : "ₛ"
+<Multi_key> <underscore> <t> : "ₜ"
+
+
+# Emoji?
+
+<Multi_key> <colon> <parenright>        : "☺"   U263A           # WHITE SMILING FACE
+<Multi_key> <colon> <parenleft>         : "☹"   U2639           # WHITE FROWNING FACE
+<Multi_key> <less> <3>                  : "♥"   U2665           # BLACK HEART SUIT
+

@@ -1,0 +1,3 @@
+#!/bin/bash
+file=$(find "$HOME/pictures/wallpapers" -regex ".*\(jpg\|png\)" | shuf -n 1)
+ln -f -s "$file" "$HOME/wallpaper"

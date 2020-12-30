@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cbclip="$(wl-paste)"
+cbprim="$(wl-paste --primary)"
+
+cat "${HOME}/k-commands" \
+    | rofi -dmenu -mesg "$(printf "«%s»\n«%s»" "${cbclip}" "${cbprim}")" \
+    | xargs -I{} bash -c "{}"

@@ -1,0 +1,36 @@
+{
+    "editor.rulers": [80],
+    "editor.minimap.enabled": false,
+    "workbench.activityBar.visible": true,
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false,
+    "workbench.startupEditor": "newUntitledFile",
+    "zenMode.fullScreen": false,
+    "window.restoreWindows": "none",
+    "window.zoomLevel": -1,
+    "editor.fontSize": 18,
+    "editor.fontFamily": "Inconsolata",
+    "terminal.integrated.fontSize": 20,
+    "python.formatting.autopep8Path": "black",
+    "problems.showCurrentInStatus": true,
+    "terminal.external.linuxExec": "alacritty",
+    "todo-tree.tree.showScanModeButton": false,
+    "zenMode.hideLineNumbers": false,
+    "workbench.colorTheme": "Atom One Dark",
+    "workbench.sideBar.location": "right",
+    "terminal.integrated.automationShell.linux": "/bin/bash",
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "python.formatting.provider": "black"
+}

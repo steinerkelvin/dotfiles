@@ -1,0 +1,2 @@
+#!/bin/bash
+chromium-browser --app="chrome-extension://eggkanocgddhmamlbiijnphhppkpkmkl/activesessionview.html"
