@@ -8,6 +8,10 @@ castle_repo="git@github.com:kelvinss/${castle_name}.git"
 homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
 
+pkgs=()
+pkgs+=(vim git stow openssh)
+pkgs+=(zsh fzf tmux)
+
 # This is a general-purpose function to ask Yes/No questions in Bash, either
 # with or without a default answer. It keeps repeating the question until it
 # gets a valid answer.
@@ -58,7 +62,7 @@ function ask_to_run() {
     return 1
 }
 
-ask_to_run "sudo pacman -S --needed vim git openssh zsh fzf tmux" "Y"
+ask_to_run "sudo pacman -S --needed ${pkgs[*]}" "Y"
 
 # Installs homeshick
 if [ ! -d "$homeshick_path" ] ; then
