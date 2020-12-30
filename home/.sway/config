@@ -2,6 +2,8 @@
 
 ### Variables ###
 
+set $altsink 0
+
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 
@@ -29,16 +31,17 @@ set $menu_alt dmenu_path | rofi -run-command 'echo {cmd}' -show drun | xargs swa
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
 # res 1366x768
-output  eDP-1                           pos     1920   0    transform 270
+# transform 270
+output  eDP-1                           pos     1920   0
 
 # res 1920x1080
-output  "Goldstar Company Ltd 23MB35 "  pos     0      0 
+output  "Goldstar Company Ltd 23MB35 "  pos     0      0
 
-# workspace 1 output "Goldstar Company Ltd 23MB35 "
+workspace 1 output "Goldstar Company Ltd 23MB35 "
+workspace 7 output "eDP-1"
 
 exec k-wallpaper-next
 output * bg "$HOME/wallpaper" fill
-
 
 
 ### Idle configuration ###
@@ -270,8 +273,10 @@ include /etc/sway/config.d/*
 
 font Inconsolata 10
 
+for_window [app_id="scratchpadterm"] move scratchpad
 for_window [class="Chromium"] border none
 
+exec  alacritty --class scratchpadterm
 exec  mako
 exec  autostart
 
@@ -286,11 +291,15 @@ bindsym XF86AudioRaiseVolume    exec    pactl set-sink-volume   $(pacmd list-sin
 bindsym XF86AudioLowerVolume    exec    pactl set-sink-volume   $(pacmd list-sinks | awk '/* index:/{print $3}') -5%
 bindsym XF86AudioMute           exec    pactl set-sink-mute     $(pacmd list-sinks | awk '/* index:/{print $3}') toggle
 
+bindsym $mod+F12    exec    pactl set-sink-volume   $altsink +5%
+bindsym $mod+F11    exec    pactl set-sink-volume   $altsink -5%
+bindsym $mod+F10    exec    pactl set-sink-mute     $altsink toggle
+
 ## Media
 bindsym XF86AudioPlay           exec    playerctl play-pause
 bindsym XF86AudioNext           exec    playerctl next
 bindsym XF86AudioPrev           exec    playerctl previous
-# bindsym XF86AudioMedia          exec    
+# bindsym XF86AudioMedia          exec
 
 bindsym $mod+c                  exec    k-commander-beta
 
@@ -300,7 +309,7 @@ bindsym $mod+Print              exec    grim -g "$(slurp)" - | wl-copy
 bindsym $mod+Ctrl+Print         exec    grim -g "$(slurp)" "./screenshots/$(date -Iseconds).png"
 bindsym $mod+Shift+Print        exec  	grim - | wl-copy
 bindsym $mod+Shift+Ctrl+Print   exec  	grim "./screenshots/$(date -Iseconds).png"
- 
+
 
 # Zoiper
 for_window [class="Zoiper" title="Zoiper"]  floating disable, border normal
