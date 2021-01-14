@@ -2,7 +2,7 @@
 
 ### Variables ###
 
-set $altsink 0
+set $altsink 'alsa_output.usb-Tdlasunnic_Sharkoon_Gaming_DAC_Pro_S_20181228.1-00.iec958-stereo' 
 
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -84,7 +84,7 @@ input "2:14:ETPS/2_Elantech_Touchpad" {
 
 input "1241:41110:USB_Keyboard" {
     xkb_layout us
-    xkb_options compose:rctrl
+    xkb_options compose:rctrl,ctrl:nocaps
 }
 
 input "1133:49271:Logitech_USB_Optical_Mouse" {
