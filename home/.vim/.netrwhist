@@ -1,0 +1,11 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =9
+let g:netrw_dirhist_9='/home/kelvin/pop/atividades/vault'
+let g:netrw_dirhist_8='/data/home/kelvin/opt/bin'
+let g:netrw_dirhist_7='/home/kelvin/wireguard'
+let g:netrw_dirhist_6='/home/kelvin/bin'
+let g:netrw_dirhist_5='/home/kelvin/.ssh'
+let g:netrw_dirhist_4='/home/kelvin/.config/ownCloud'
+let g:netrw_dirhist_3='/home/kelvin/config/shrc.d'
+let g:netrw_dirhist_2='/home/kelvin/config/profile.d'
+let g:netrw_dirhist_1='/home/kelvin/pop/workspace/kvm-remoto/.git'
