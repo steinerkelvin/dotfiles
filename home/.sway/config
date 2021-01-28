@@ -280,6 +280,49 @@ exec  alacritty --class scratchpadterm
 exec  mako
 exec  autostart
 
+
+## mid-keyboard arrow keys
+bindsym $mod+Ctrl+$left  exec wtype -k "Left"
+bindsym $mod+Ctrl+$down  exec wtype -k "Down"
+bindsym $mod+Ctrl+$up    exec wtype -k "Up"
+bindsym $mod+Ctrl+$right exec wtype -k "Right"
+
+
+## mouse mode
+
+bindsym $mod+m mode "mouse"
+
+mode "mouse" {
+    bindsym $left   seat - cursor move -20  00
+    bindsym $down   seat - cursor move  00 +20
+    bindsym $up     seat - cursor move  00 -20
+    bindsym $right  seat - cursor move +20  00
+
+    bindsym Ctrl+$left   seat - cursor move -200  000
+    bindsym Ctrl+$down   seat - cursor move  000 +200
+    bindsym Ctrl+$up     seat - cursor move  000 -200
+    bindsym Ctrl+$right  seat - cursor move +200  000
+
+    bindsym Shift+$left   seat - cursor move -5  0
+    bindsym Shift+$down   seat - cursor move  0 +5
+    bindsym Shift+$up     seat - cursor move  0 -5
+    bindsym Shift+$right  seat - cursor move +5  0
+
+    bindsym Space       seat - cursor press button1 , seat - cursor release button1 , mode "default"
+    bindsym Alt+Space   seat - cursor press button2 , seat - cursor release button2 , mode "default"
+    bindsym Ctrl+Space  seat - cursor press button3 , seat - cursor release button3 , mode "default"
+
+    bindsym Shift+Space       seat - cursor press button1
+    bindsym Shift+Alt+Space   seat - cursor press button2
+    bindsym Shift+Ctrl+Space  seat - cursor press button3
+
+    bindsym $mod+m  seat - cursor release button1 , seat - cursor release button2 , seat - cursor release button3
+
+    bindsym Return mode "default"
+    bindsym Escape mode "default"
+}
+
+
 ## Backlight
 bindsym XF86MonBrightnessDown   exec    light -U 5  # brightnessctl set -5%
 bindsym XF86MonBrightnessUp     exec    light -A 5  # brightnessctl set +5%
