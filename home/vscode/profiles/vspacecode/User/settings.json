@@ -1,0 +1,95 @@
+{
+    // font
+    "editor.fontSize": 18,
+    "editor.fontFamily": "Inconsolata",
+    // window, workbench and editor
+    "window.zoomLevel": -1,
+    "window.restoreWindows": "none",
+    "workbench.colorTheme": "Tomorrow",
+    "workbench.startupEditor": "newUntitledFile",
+    "workbench.sideBar.location": "right",
+    "workbench.activityBar.visible": true,
+    "editor.rulers": [
+        80
+    ],
+    "editor.minimap.enabled": false,
+    // zen mode
+    "zenMode.fullScreen": false,
+    "zenMode.hideLineNumbers": false,
+    // problems
+    "problems.showCurrentInStatus": true,
+    // terminal
+    "terminal.integrated.fontSize": 20,
+    "terminal.external.linuxExec": "alacritty",
+    "terminal.integrated.automationShell.linux": "/bin/bash",
+    // gitlens
+    "gitlens.currentLine.enabled": false,
+    "gitlens.hovers.currentLine.over": "line",
+    "gitlens.codeLens.enabled": false,
+    // Todo Tree 
+    "todo-tree.tree.showScanModeButton": false,
+    // python
+    "python.formatting.provider": "black",
+    "python.formatting.autopep8Path": "black",
+    "[c]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    },
+    "[markdown]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "tabnine.experimentalAutoImports": true,
+    // VSpaceCode
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    // auto
+}
