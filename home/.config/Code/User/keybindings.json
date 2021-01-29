@@ -1,12 +1,9 @@
-// Place your key bindings in this file to override the defaultsauto[]
+// Place your key bindings in this file to override the defaults
+
 [
     {
         "key": "ctrl+shift+alt+a",
         "command": "workbench.action.toggleActivityBarVisibility"
-    },
-    {
-        "key": "ctrl+shift+alt+l",
-        "command": "markdown.extension.editing.toggleList"
     },
     {
         "key": "ctrl+tab",
