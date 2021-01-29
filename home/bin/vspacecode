@@ -1,0 +1,8 @@
+#!/bin/bash
+
+base_path="$HOME/vscode/profiles"
+prof_name="vspacecode"
+
+mkdir -p "${base_path}/${prof_name}/extensions"
+
+code --user-data-dir "${base_path}/${prof_name}" --extensions-dir "${base_path}/${prof_name}/extensions" $@
