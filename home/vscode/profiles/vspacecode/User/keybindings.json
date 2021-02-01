@@ -135,6 +135,6 @@
 		"key": "ctrl+l",
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
-	}
+	},
 	// auto
 ]
