@@ -64,9 +64,10 @@
         "spacing": 10
     },
     "clock": {
-        "format": "{:%Y/%j | W%U %a | %Y-%m-%d | %H:%M}", 
+        "format": "{:%Y/%j | W%U %a | %Y-%m-%d | %H:%M | %Z}",
         "tooltip-format": "{:%Y-%m-%d | %H:%M}",
-        "format-alt": "{:%Y-%m-%d}"
+        "format-alt": "{:%Y-%m-%d}",
+        "timezones": ["America/Sao_Paulo", "Etc/UTC"]
     },
     "cpu": {
         "format": "{usage}% ",
