@@ -1,8 +1,11 @@
 #!/bin/bash
+set -e
 
-cbclip="$(wl-paste)"
-cbprim="$(wl-paste --primary)"
+cbclip="$(wl-paste | head -n 2)"
+cbprim="$(wl-paste --primary | head -n 2)"
 
-cat "${HOME}/k-commands" \
-    | rofi -dmenu -mesg "$(printf "«%s»\n«%s»" "${cbclip}" "${cbprim}")" \
-    | xargs -I{} bash -c "{}"
+chosen_cmd=$(
+    rofi <"${HOME}/k-commands" -dmenu -mesg "$(printf "«%s»\n«%s»" "${cbclip}" "${cbprim}")"
+)
+
+eval "${chosen_cmd}"

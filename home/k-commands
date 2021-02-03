@@ -2,3 +2,4 @@ makoctl dismiss -a
 swaymsg -t command output eDP-1 disable
 pass mv-xerifao | deln | wl-copy
 pass mv-root | deln | wl-copy
+wtype "¯\_(ツ)_/¯"
