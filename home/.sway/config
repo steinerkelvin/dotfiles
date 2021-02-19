@@ -283,9 +283,14 @@ for_window [app_id="scratchpadterm"] move scratchpad
 for_window [class="Chromium"] border none
 
 exec  alacritty --class scratchpadterm
-exec  mako
-exec  autostart
 
+exec  mako
+# exec i3-notifier
+exec autostart
+
+
+## notifications
+bindsym $mod+x  exec k-notifications-show
 
 ## mid-keyboard arrow keys
 bindsym $mod+Ctrl+$left  exec wtype -k "Left"
@@ -318,6 +323,9 @@ mode "mouse" {
     bindsym Alt+Space   seat - cursor press button2 , seat - cursor release button2 , mode "default"
     bindsym Ctrl+Space  seat - cursor press button3 , seat - cursor release button3 , mode "default"
 
+    bindsym $mod+$left  seat - cursor press button1 , seat - cursor release button1 , mode "default"
+    bindsym $mod+$right seat - cursor press button3 , seat - cursor release button3 , mode "default"
+
     bindsym Shift+Space       seat - cursor press button1
     bindsym Shift+Alt+Space   seat - cursor press button2
     bindsym Shift+Ctrl+Space  seat - cursor press button3
@@ -349,6 +357,7 @@ bindsym XF86AudioPlay           exec    playerctl play-pause
 bindsym XF86AudioNext           exec    playerctl next
 bindsym XF86AudioPrev           exec    playerctl previous
 # bindsym XF86AudioMedia          exec
+# bindsym XF86Tools               exec
 
 bindsym $mod+c                  exec    k-commander-beta
 

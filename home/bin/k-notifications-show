@@ -1,0 +1,2 @@
+#!/bin/bash
+dbus-send --session --print-reply --dest=org.freedesktop.Notifications /org/freedesktop/Notifications org.freedesktop.Notifications.ShowNotifications
