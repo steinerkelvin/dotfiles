@@ -12,6 +12,12 @@ call plug#end()
 let mapleader = "\<Space>"
 
 
+" === my stuff ===
+
+nnoremap <leader>d "_d
+xnoremap <leader>d "_d
+
+
 " === which-key config ===
 
 nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
