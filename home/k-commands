@@ -3,3 +3,7 @@ swaymsg -t command output eDP-1 disable
 pass mv-xerifao | deln | wl-copy
 pass mv-root | deln | wl-copy
 wtype "¯\_(ツ)_/¯"
+nmcli connection down wired-hub
+nmcli connection up wired-hub
+nmcli connection up mia2
+systemctl --user restart spotifyd.service
