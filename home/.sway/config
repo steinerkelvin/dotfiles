@@ -286,7 +286,7 @@ exec  alacritty --class scratchpadterm
 
 exec  mako
 # exec i3-notifier
-exec autostart
+exec autostart-sway
 
 
 ## notifications
