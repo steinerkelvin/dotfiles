@@ -1,12 +1,11 @@
 #!/bin/bash
 
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 
 # /usr/lib/kdeconnectd &
 # kdeconnect-indicator &
 
-redshift -m wayland -l "-20.3285:-40.372" -t 6500:2000 &
-# nextcloud &
+# redshift -m wayland -l "-20.3285:-40.372" -t 6500:2000 &
 
 # mako | true &
 # setxkbmap -option compose:rctrl
