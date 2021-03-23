@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e
 
-cbclip="$(wl-paste | head -n 2)"
-cbprim="$(wl-paste --primary | head -n 2)"
+# cbclip="$(wl-paste | head -n 2)"
+# cbprim="$(wl-paste --primary | head -n 2)"
 
 chosen_cmd=$(
     rofi <"${HOME}/k-commands" -dmenu -mesg "$(printf "«%s»\n«%s»" "${cbclip}" "${cbprim}")"
