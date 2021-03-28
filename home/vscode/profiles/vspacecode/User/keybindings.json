@@ -21,7 +21,7 @@
 	{
 		"key": "space",
 		"command": "vspacecode.space",
-		"when": "activeEditorGroupEmpty && focusedView == '' && !whichkeyActive && !inputFocus"
+		"when": "activeEditorGroupEmpty && !inputFocus && !whichkeyActive && focusedView == ''"
 	},
 	{
 		"key": "space",
@@ -135,6 +135,10 @@
 		"key": "ctrl+l",
 		"command": "file-browser.stepIn",
 		"when": "inFileBrowser"
+	},
+	{
+		"key": "ctrl+k ctrl+v",
+		"command": "toggleVim"
 	},
 	// auto
 ]
