@@ -182,6 +182,9 @@ for_window [class="plasmashell" window_type="notification"] floating enable, bor
 
 ### CUSTOM ###
 
+for_window [class="Matplotlib"] floating enable;
+
+
 for_window [window_role=".*scratchpad.*"] move scratchpad
 
 exec $TERMINAL --role='scratchpad-terminal'
@@ -195,7 +198,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 ## k-commander ##
-bindsym $mod+c exec k-commander
+bindsym $mod+c exec k-commander-beta
 
 
 ## Greenclip ##
