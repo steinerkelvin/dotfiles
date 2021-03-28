@@ -7,7 +7,9 @@ autorandr -c
 # /usr/lib/kdeconnectd &
 # kdeconnect-indicator &
 
-redshift -l "-20.3285:-40.372" -t 6500:2000 &
-
 setxkbmap -option compose:rctrl
 "$HOME/.fehbg"
+
+redshift -l "-20.3285:-40.372" -t 6500:2000 &
+
+dunst &
