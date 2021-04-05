@@ -1,12 +1,11 @@
 {
     // font
-    "editor.fontSize": 18,
+    "editor.fontSize": 20,
     "editor.fontFamily": "Inconsolata",
     // window, workbench and editor
     "files.insertFinalNewline": true,
-    "window.zoomLevel": -1,
     "window.restoreWindows": "none",
-    "workbench.colorTheme": "Atom One Light",
+    "workbench.colorTheme": "Atom One Dark",
     "workbench.startupEditor": "newUntitledFile",
     "workbench.sideBar.location": "right",
     "workbench.activityBar.visible": true,
@@ -43,7 +42,7 @@
         "editor.defaultFormatter": "vscode.json-language-features"
     },
     "[markdown]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+        "editor.defaultFormatter": "yzhang.markdown-all-in-one"
     },
     "[yaml]": {
         "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -123,6 +122,26 @@
                 }
             ]
         }
+    ],
+    "[python]": {
+        "editor.defaultFormatter": "ms-python.python"
+    },
+    "workbench.editorAssociations": [
+        {
+            "viewType": "jupyter.notebook.ipynb",
+            "filenamePattern": "*.ipynb"
+        }
+    ],
+    "cSpell.userWords": [
+        "inplace",
+        "ndarray",
+        "njit",
+        "numba",
+        "zscore"
+    ],
+    "cSpell.enabled": false,
+    "cSpell.enableFiletypes": [
+        "!markdown"
     ],
     // auto
 }
