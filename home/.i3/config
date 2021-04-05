@@ -243,5 +243,5 @@ bindsym $mod+Ctrl+Shift+Up    move workspace to output up
 bindsym $mod+Ctrl+Shift+Right move workspace to output right
 
 
-# for_window [class="Zoiper" title="Zoiper"]  floating disable, border normal
-# for_window [class="Zoiper" window_type="dialog"]  exec msg-telefone-tocando
+for_window [class="Zoiper" title="Zoiper"]  floating disable, border normal
+for_window [class="Zoiper" window_type="dialog"]  exec ntfy -b telegram send "zoiper"
