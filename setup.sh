@@ -9,7 +9,7 @@ castle_repo="git@github.com:kelvinss/${castle_name}.git"
 homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
 
-pkgs=()
+pkgs=(man)
 pkgs+=(vim git stow openssh)
 pkgs+=(zsh fzf tmux)
 
