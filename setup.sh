@@ -56,6 +56,7 @@ ask() {
 function ask_to_run() {
     local cmd="$1"
     local flag="$2"
+    echo
     if ask "run '${cmd}' ?" "${flag}"; then
         ${cmd}
         return 0
