@@ -69,7 +69,7 @@ ask_to_run "sudo pacman -S --needed ${pkgs[*]}" "Y"
 # Installs homeshick
 if [ ! -d "$homeshick_path" ] ; then
     git clone "$homeshick_repo" "$homeshick_path"
-    printf '\nsource "%s/homeshick.sh"' "{$homeshick_path}" >> $HOME/.bashrc
+    printf '\nsource "%s/homeshick.sh"' "${homeshick_path}" >> $HOME/.bashrc
 fi
 
 # Loads homeshick
