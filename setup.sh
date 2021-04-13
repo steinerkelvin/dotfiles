@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 username="$USER"
 
@@ -8,7 +9,7 @@ castle_repo="git@github.com:kelvinss/${castle_name}.git"
 homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
 
-pkgs=()
+pkgs=(man)
 pkgs+=(vim git stow openssh)
 pkgs+=(zsh fzf tmux)
 
@@ -55,6 +56,7 @@ ask() {
 function ask_to_run() {
     local cmd="$1"
     local flag="$2"
+    echo
     if ask "run '${cmd}' ?" "${flag}"; then
         ${cmd}
         return 0
@@ -67,7 +69,7 @@ ask_to_run "sudo pacman -S --needed ${pkgs[*]}" "Y"
 # Installs homeshick
 if [ ! -d "$homeshick_path" ] ; then
     git clone "$homeshick_repo" "$homeshick_path"
-    printf '\nsource "%s/homeshick.sh"' "{$homeshick_path}" >> $HOME/.bashrc
+    printf '\nsource "%s/homeshick.sh"' "${homeshick_path}" >> $HOME/.bashrc
 fi
 
 # Loads homeshick
