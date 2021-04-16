@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -e
+
+TXT=$(xclip -selection clipboard -o)
+OUT=$(echo "$TXT" | convert-date-br-to-iso)
+
+echo "$OUT" | xclip -selection clipboard -i

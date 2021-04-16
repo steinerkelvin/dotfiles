@@ -8,3 +8,4 @@ nmcli connection down wired-hub
 nmcli connection up wired-hub
 nmcli connection up mia2
 systemctl --user restart spotifyd.service
+nmcli connection up ferris
