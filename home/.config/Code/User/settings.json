@@ -18,7 +18,7 @@
     "terminal.external.linuxExec": "alacritty",
     "todo-tree.tree.showScanModeButton": false,
     "zenMode.hideLineNumbers": false,
-    "workbench.colorTheme": "Atom One Dark",
+    "workbench.colorTheme": "Atom One Light",
     "workbench.sideBar.location": "right",
     "terminal.integrated.automationShell.linux": "/bin/bash",
     "[c]": {

@@ -1,0 +1,2 @@
+#!/bin/bash
+du -h -d 1 "$@" | sort -h
