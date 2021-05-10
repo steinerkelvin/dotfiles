@@ -9,7 +9,7 @@ homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
 
 pkgs=(man)
-pkgs+=(vim git stow openssh)
+pkgs+=(vim git stow openssh unzip)
 pkgs+=(zsh fzf tmux)
 pkgs+=(neovim exa)
 
