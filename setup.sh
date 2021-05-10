@@ -11,6 +11,7 @@ homeshick_repo="https://github.com/andsens/homeshick.git"
 pkgs=(man)
 pkgs+=(vim git stow openssh)
 pkgs+=(zsh fzf tmux)
+pkgs+=(neovim exa)
 
 # This is a general-purpose function to ask Yes/No questions in Bash, either
 # with or without a default answer. It keeps repeating the question until it
