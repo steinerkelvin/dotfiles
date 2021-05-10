@@ -2,9 +2,8 @@
 set -e
 
 username="$USER"
-
 castle_name="dotfiles"
-castle_repo="git@github.com:kelvinss/${castle_name}.git"
+castle_repo="git@github.com:quleuber/${castle_name}.git"
 
 homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
