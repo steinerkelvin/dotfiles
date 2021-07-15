@@ -1,15 +1,15 @@
 #!/bin/bash
 
+setxkbmap -option compose:rctrl,ctrl:nocaps
 autorandr -c
+"$HOME/.fehbg"
 
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+dunst &
+
+barrier &
 
 # /usr/lib/kdeconnectd &
 # kdeconnect-indicator &
 
-setxkbmap -option compose:rctrl,ctrl:nocaps
-"$HOME/.fehbg"
-
 redshift -l "-20.3285:-40.372" -t 6500:2000 &
-
-dunst &
