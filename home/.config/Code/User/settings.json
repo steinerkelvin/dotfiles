@@ -4,6 +4,8 @@
     ],
     "editor.minimap.enabled": false,
     "workbench.activityBar.visible": true,
+    "workbench.sideBar.location": "right",
+    "workbench.colorTheme": "Tomorrow Night",
     "gitlens.currentLine.enabled": false,
     "gitlens.hovers.currentLine.over": "line",
     "gitlens.codeLens.enabled": false,
@@ -11,30 +13,19 @@
     "zenMode.fullScreen": false,
     "window.restoreWindows": "none",
     "window.zoomLevel": -1,
-    "editor.fontFamily": "Inconsolata",
-    "terminal.integrated.fontSize": 20,
-    "python.formatting.autopep8Path": "black",
+    "editor.fontFamily": "'Fira Code', Inconsolata, monospace",
+    "editor.fontSize": 20,
+    "editor.fontLigatures": true,
+    "terminal.integrated.fontFamily": "Inconsolata",
+    "terminal.integrated.fontSize": 18,
     "problems.showCurrentInStatus": true,
     "terminal.external.linuxExec": "alacritty",
-    "todo-tree.tree.showScanModeButton": false,
     "zenMode.hideLineNumbers": false,
-    "workbench.colorTheme": "Atom One Light",
-    "workbench.sideBar.location": "right",
-    "terminal.integrated.automationShell.linux": "/bin/bash",
-    "[c]": {
-        "editor.defaultFormatter": "xaver.clang-format"
-    },
-    "[cpp]": {
-        "editor.defaultFormatter": "xaver.clang-format"
-    },
-    "[jsonc]": {
-        "editor.defaultFormatter": "vscode.json-language-features"
-    },
-    "[markdown]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "python.formatting.provider": "black",
-    "window.menuBarVisibility": "default",
+    "python.formatting.autopep8Path": "black",
+    "workbench.editor.untitled.hint": "hidden",
     "tabnine.experimentalAutoImports": true,
-    "editor.fontSize": 18
+    "remote.SSH.remotePlatform": {
+        "hanekawa.local": "linux"
+    },
 }
