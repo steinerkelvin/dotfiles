@@ -8,8 +8,9 @@ autorandr -c
 dunst &
 
 barrier &
+aw-qt &
 
 # /usr/lib/kdeconnectd &
 # kdeconnect-indicator &
 
-redshift -l "-20.3285:-40.372" -t 6500:2000 &
+redshift -l "-20.3285:-40.372" -t 6500:3000 &
