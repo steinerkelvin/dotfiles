@@ -31,7 +31,10 @@ include "%L"
 <Multi_key> <V> <minus> : "∀"
 <Multi_key> <S> <V> <minus> : "∀"
 <Multi_key> <E> <E> : "∃"
-
+# LOGIC
+<Multi_key> <less> <equal> : "⇐"
+<Multi_key> <equal> <greater> : "⇒"
+<Multi_key> <less> <equal> <greater> : "⇔"
 
 # GREEK LETTERS
 
