@@ -28,4 +28,22 @@
     "remote.SSH.remotePlatform": {
         "hanekawa.local": "linux"
     },
+    "cSpell.userWords": [
+        "upsert",
+        "upserted"
+    ],
+    "todo-tree.general.tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]"
+    ],
+    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+    "files.associations": {
+        "*.tf": "tf",
+        "*.yml": "yaml"
+    },
 }
