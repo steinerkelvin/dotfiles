@@ -12,6 +12,7 @@ pkgs=(man)
 pkgs+=(vim git stow openssh unzip)
 pkgs+=(zsh fzf tmux)
 pkgs+=(neovim exa)
+pkgs+=(ansible ansible-lint)
 
 # This is a general-purpose function to ask Yes/No questions in Bash, either
 # with or without a default answer. It keeps repeating the question until it

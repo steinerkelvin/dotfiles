@@ -4,7 +4,6 @@
     ],
     "editor.minimap.enabled": false,
     "workbench.activityBar.visible": true,
-    "workbench.sideBar.location": "right",
     "workbench.colorTheme": "Tomorrow Night",
     "gitlens.currentLine.enabled": false,
     "gitlens.hovers.currentLine.over": "line",
@@ -12,8 +11,7 @@
     "workbench.startupEditor": "newUntitledFile",
     "zenMode.fullScreen": false,
     "window.restoreWindows": "none",
-    "window.zoomLevel": -1,
-    "editor.fontFamily": "'Fira Code', Inconsolata, monospace",
+    "editor.fontFamily": "'Fira Mono', Inconsolata, monospace",
     "editor.fontSize": 20,
     "editor.fontLigatures": true,
     "terminal.integrated.fontFamily": "Inconsolata",
@@ -29,6 +27,11 @@
         "hanekawa.local": "linux"
     },
     "cSpell.userWords": [
+        "concat",
+        "deserializable",
+        "deserialization",
+        "keccak",
+        "succ",
         "upsert",
         "upserted"
     ],
@@ -46,4 +49,51 @@
         "*.tf": "tf",
         "*.yml": "yaml"
     },
+    "vim.easymotion": true,
+    "vim.useSystemClipboard": true,
+    "vim.normalModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "vim.visualModeKeyBindingsNonRecursive": [
+        {
+            "before": [
+                "<space>"
+            ],
+            "commands": [
+                "vspacecode.space"
+            ]
+        },
+        {
+            "before": [
+                ","
+            ],
+            "commands": [
+                "vspacecode.space",
+                {
+                    "command": "whichkey.triggerKey",
+                    "args": "m"
+                }
+            ]
+        }
+    ],
+    "workbench.sideBar.location": "right",
 }

@@ -135,5 +135,10 @@
         "key": "ctrl+l",
         "command": "file-browser.stepIn",
         "when": "inFileBrowser"
+    },
+    {
+        "key": "ctrl+f1",
+        "command": "editor.action.showHover",
+        "when": "editorTextFocus"
     }
 ]
