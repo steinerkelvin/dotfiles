@@ -1,0 +1,10 @@
+[Unit]
+Description = Check battery level periodically.
+
+[Timer]
+# OnStartupSec = 5min
+# OnUnitActiveSec = 2min
+OnCalendar=*:0/2
+
+[Install]
+WantedBy=default.target

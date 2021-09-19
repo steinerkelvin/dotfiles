@@ -1,0 +1,15 @@
+#!/bin/sh
+
+BAT_PATH=/sys/class/power_supply/BAT0
+BAT_FULL=$BAT_PATH/energy_full
+BAT_NOW=$BAT_PATH/energy_now
+
+bf=$(cat $BAT_FULL)
+bn=$(cat $BAT_NOW)
+bl=$(( 100 * bn / bf ))
+
+echo >&2 "battery level: ${bl}"
+
+if [ $bl -lt 15 ]; then
+    notify-send -u critical "Battery level is low!" "Baterry level is: ${bl}"
+fi
