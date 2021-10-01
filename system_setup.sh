@@ -11,10 +11,17 @@ pacman -S \
   brightnessctl acpi \
   arch-install-scripts
 
+systemctl enable NetworkManager
+systemctl start  NetworkManager
+
+# graphical
+
 pacman -S \
   sddm \
   arandr autorandr maim \
   i3-gaps i3blocks dunst 
 
-systemclt enable NetworkManager
-systemclt start  NetworkManager
+systemctl enable sddm
+
+echo "Run:"
+echo systemctl start sddm
