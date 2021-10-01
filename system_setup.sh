@@ -20,6 +20,7 @@ pacman -S --needed \
   sddm \
   arandr autorandr maim \
   i3-gaps i3status i3blocks dmenu rofi dunst libnotify \
+  alacritty \
   nm-connection-editor
 
 systemctl enable sddm
