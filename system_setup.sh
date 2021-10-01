@@ -1,7 +1,7 @@
 #!/bin/bash
 pacman -Sy
 
-pacman -S \
+pacman -S --needed \
   sudo man vi vim \
   openssh git rsync curl wget \
   networkmanager avahi nss-mdns \
@@ -16,7 +16,7 @@ systemctl start  NetworkManager
 
 # graphical
 
-pacman -S \
+pacman -S --needed \
   sddm \
   arandr autorandr maim \
   i3-gaps i3blocks dunst 
