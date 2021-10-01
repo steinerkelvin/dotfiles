@@ -19,7 +19,8 @@ systemctl start  NetworkManager
 pacman -S --needed \
   sddm \
   arandr autorandr maim \
-  i3-gaps i3blocks dunst 
+  i3-gaps i3status i3blocks dmenu rofi dunst libnotify \
+  nm-connection-editor
 
 systemctl enable sddm
 
