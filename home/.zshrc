@@ -36,3 +36,6 @@ fi
 
 . "$HOME/config/shrc.sh"
 
+# export HOMEBREW_NO_AUTO_UPDATE=1
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
