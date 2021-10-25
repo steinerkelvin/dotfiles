@@ -4,7 +4,7 @@
 
 - [.zshrc](home/.zshrc)
 - [.vimrc](home/.vimrc)
-- [.Xcompose](home/.Xcompose)
+- [.XCompose](home/.XCompose)
 
 ## Arch Linux
 
