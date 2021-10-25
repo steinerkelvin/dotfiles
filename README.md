@@ -15,4 +15,4 @@
 ~/config/mac/my-brew-formulae.sh
 ```
 
-[/home/config/mac/my-brew-formulae.sh](.home/config/mac/my-brew-formulae.sh)
+[home/config/mac/my-brew-formulae.sh](home/config/mac/my-brew-formulae.sh)
