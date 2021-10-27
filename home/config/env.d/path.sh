@@ -1,3 +1,4 @@
+#!/bin/sh
 
 if [ -d "/home/kelvin/.gem/ruby/2.7.0/bin" ] ; then
     PATH="/home/kelvin/.gem/ruby/2.7.0/bin:$PATH"

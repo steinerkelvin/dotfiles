@@ -12,9 +12,13 @@ brew install tig
 brew install shellcheck
 brew install ipython
 brew install yarn
+brew install ngrok
 
 brew install --cask syncthing
 brew install --cask stats
+brew install --cask activitywatch
+brew install --cask anydesk
+brew install --cask airdroid
 
 brew install --cask telegram-desktop
 brew install --cask whatsapp
@@ -25,6 +29,7 @@ brew install --cask calibre
 
 brew install --cask iterm2
 brew install --cask visual-studio-code
+brew install --cask docker
 
 brew install --cask font-fira-code
 brew install --cask font-inconsolata-g
