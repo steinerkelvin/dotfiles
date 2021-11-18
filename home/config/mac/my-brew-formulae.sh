@@ -3,16 +3,25 @@
 # terminal tools
 
 brew install git
+brew install wget
 brew install stow
 brew install fzf
 brew install the_silver_searcher
 brew install exa
 brew install tmux
 brew install neovim
+brew install htop
 brew install tig
+brew install watch
+brew install dtach
+brew install jq
+brew install pass
 
 ## other terminal tools
 brew install tldr
+
+##dunno
+brew install graphviz
 
 ## network tools
 brew install nmap
@@ -40,14 +49,22 @@ brew install --cask telegram-desktop
 brew install --cask whatsapp
 brew install --cask discord
 brew install --cask spotify
+brew install --cask bitwarden
+
 brew install --cask calibre
 brew install --cask logseq
 brew install --cask keybase
 brew install --cask notion
 
+brew install --cask gimp
+brew install --cask ledger-live
+
 brew install --cask iterm2
 brew install --cask visual-studio-code
 brew install --cask docker
+
+brew install --cask keycastr
+brew install --cask obs
 
 brew install --cask steam
 
