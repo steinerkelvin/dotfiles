@@ -4,6 +4,10 @@ if [ -d "/home/kelvin/.gem/ruby/2.7.0/bin" ] ; then
     PATH="/home/kelvin/.gem/ruby/2.7.0/bin:$PATH"
 fi
 
+if [ -d "$HOME/.deno/bin" ] ; then
+    PATH="$HOME/.deno/bin:$PATH"
+fi
+
 if [ -d "$HOME/.cargo/bin" ] ; then
     PATH="$HOME/.cargo/bin:$PATH"
 fi
