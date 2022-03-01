@@ -46,6 +46,10 @@ brew install --cask hookshot
 brew install --cask hyperkey
 brew install --cask lunar
 
+## dev
+
+brew install --cask kitty
+
 # apps
 
 brew install --cask syncthing
