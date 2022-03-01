@@ -14,6 +14,7 @@ brew install htop
 brew install tig
 brew install watch
 brew install dtach
+brew install sponge
 brew install jq
 brew install pass
 brew install clac
@@ -41,13 +42,13 @@ brew install android-platform-tools
 
 # gui tools
 
-# brew install --cask rectangle
 brew install --cask hookshot
 brew install --cask hyperkey
-brew install --cask lunar
+# brew install --cask lunar
 
 ## dev
 
+brew install --cask karabiner-elements
 brew install --cask kitty
 
 # apps
