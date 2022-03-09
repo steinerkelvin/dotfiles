@@ -16,7 +16,7 @@
                 },
                 "rules": [
                     {
-                        "description": "Caps Lock to Cmd+Option (Caps Lock if alone)",
+                        "description": "Caps Lock to Cmd+Option (Cmd if alone)",
                         "manipulators": [
                             {
                                 "from": {
@@ -28,11 +28,6 @@
                                         "modifiers": [
                                             "left_option"
                                         ]
-                                    }
-                                ],
-                                "to_if_alone": [
-                                    {
-                                        "key_code": "caps_lock"
                                     }
                                 ],
                                 "type": "basic"

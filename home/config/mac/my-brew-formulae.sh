@@ -18,6 +18,7 @@ brew install sponge
 brew install jq
 brew install pass
 brew install clac
+brew install imagemagick
 
 ## other terminal tools
 brew install tldr
@@ -58,6 +59,7 @@ brew install --cask stats
 brew install --cask activitywatch
 brew install --cask anydesk
 brew install --cask airdroid
+brew install --cask vlc
 
 brew install --cask telegram-desktop
 brew install --cask whatsapp
@@ -89,3 +91,7 @@ brew install --cask steam
 
 brew install --cask font-fira-code
 brew install --cask font-inconsolata-g
+
+# pending
+brew install --cask duet
+brew install --cask deskreen
