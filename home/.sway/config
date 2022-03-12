@@ -38,16 +38,17 @@ set $menu_alt dmenu_path | rofi -run-command 'echo {cmd}' -show drun | xargs swa
 
 # res 1366x768
 # transform 270
-output  eDP-1                           pos     1920   0
+output  eDP-1       pos     2560   540
+output  eDP-1 scale 1.5
 
 # res 1920x1080
-output  "Goldstar Company Ltd 23MB35 "  pos     0      0
+output  HDMI-A-1    pos     0      0
 
-workspace 1 output "Goldstar Company Ltd 23MB35 "
+workspace 1 output "HDMI-A-1"
 workspace 7 output "eDP-1"
 
 exec k-wallpaper-next
-output * bg "$HOME/wallpaper" fill
+# output * bg "$HOME/wallpaper" fill
 
 
 ### Idle configuration ###
@@ -74,6 +75,10 @@ input * {
     xkb_options compose:rctrl
 }
 
+input "4012:2782:keyd_virtual_keyboard" {
+    xkb_layout us
+}
+
 input "1:1:AT_Translated_Set_2_keyboard" {
     xkb_options compose:ralt
 }
@@ -90,7 +95,8 @@ input "2:14:ETPS/2_Elantech_Touchpad" {
 
 input "1241:41110:USB_Keyboard" {
     xkb_layout us
-    xkb_options compose:rctrl,ctrl:nocaps
+    # xkb_options compose:rctrl,ctrl:nocaps
+    xkb_options compose:rctrl
 }
 
 input "1133:49271:Logitech_USB_Optical_Mouse" {
