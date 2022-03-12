@@ -15,3 +15,5 @@ aw-qt &
 # kdeconnect-indicator &
 
 redshift -l "-20.3285:-40.372" -t 6500:3000 &
+
+~/.fehbg
