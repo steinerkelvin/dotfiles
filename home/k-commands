@@ -8,4 +8,6 @@ nmcli connection up ferris
 systemctl --user restart spotifyd.service
 ~/.fehbg
 xdotool type --delay 50 "33941721000155"
+systemctl --user restart spotifyd.service
+brightnessctl s 100%
 setxkbmap -option compose:rctrl,ctrl:nocaps us
