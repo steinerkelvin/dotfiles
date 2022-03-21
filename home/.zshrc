@@ -21,8 +21,9 @@ antigen bundle command-not-found
 antigen bundle zsh-users/zsh-syntax-highlighting
 
 # Load the theme.
-#antigen theme robbyrussell
-antigen theme agkozak/agkozak-zsh-prompt
+# antigen theme robbyrussell
+# antigen theme agkozak/agkozak-zsh-prompt
+eval "$(starship init zsh)"
 
 # Tell Antigen that you're done.
 antigen apply
