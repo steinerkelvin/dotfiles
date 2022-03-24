@@ -4,18 +4,16 @@
     ],
     "editor.minimap.enabled": false,
     "workbench.activityBar.visible": true,
-    "workbench.colorTheme": "Tomorrow Night",
+    "workbench.colorTheme": "Tomorrow Night Bright",
     "gitlens.currentLine.enabled": false,
     "gitlens.hovers.currentLine.over": "line",
     "gitlens.codeLens.enabled": false,
     "workbench.startupEditor": "newUntitledFile",
     "zenMode.fullScreen": false,
-    "zenMode.hideLineNumbers": false,
     "window.restoreWindows": "none",
     "editor.fontFamily": "'Fira Mono', Inconsolata, monospace",
     "editor.fontSize": 20,
     "editor.fontLigatures": true,
-    "terminal.integrated.fontFamily": "Inconsolata",
     "terminal.integrated.fontSize": 18,
     "problems.showCurrentInStatus": true,
     "terminal.external.linuxExec": "alacritty",
@@ -27,17 +25,21 @@
         "hanekawa.local": "linux"
     },
     "cSpell.userWords": [
+        "camelcase",
         "concat",
         "deserializable",
         "deserialization",
+        "hasher",
         "incentivized",
         "keccak",
         "Nakamoto",
         "quleuber",
         "roadmap",
+        "Stringification",
         "succ",
         "upsert",
-        "upserted"
+        "upserted",
+        "vals"
     ],
     "todo-tree.general.tags": [
         "BUG",
@@ -51,7 +53,8 @@
     "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
     "files.associations": {
         "*.tf": "tf",
-        "*.yml": "yaml"
+        "*.yml": "yaml",
+        "*.lit": "kind"
     },
     "vim.easymotion": true,
     "vim.useSystemClipboard": true,
@@ -100,4 +103,16 @@
         }
     ],
     "workbench.sideBar.location": "right",
+    "[jsonc]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "zenMode.hideLineNumbers": false,
+    "editor.renderWhitespace": "all",
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "redhat.telemetry.enabled": false,
+    "terminal.integrated.fontFamily": "'Fira Mono', Inconsolata",
+    "deno.config": "",
+    "window.zoomLevel": -1,
 }

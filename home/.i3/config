@@ -206,6 +206,13 @@ bindsym $mod+c exec k-commander-beta
 # bindsym $mod+c exec rofi -modi "clipboard:greenclip print" -show clipboard -run-command '{cmd}'
 
 
+# screen brightness
+bindsym XF86MonBrightnessDown   exec    brightness s 10%-
+bindsym XF86MonBrightnessUp     exec    brightness s +10%
+bindsym $mod+F9                 exec    brightness s 10%-
+bindsym $mod+F10                exec    brightness s +10%
+
+
 ## screenshot ##
 bindsym $mod+Print              exec    maim -s | xclip -sel clip -t image/png
 bindsym $mod+Ctrl+Print         exec    maim -s > "./screenshots/$(date -Iseconds).png"
@@ -223,7 +230,7 @@ bindsym XF86AudioMute           exec    pactl set-sink-mute     $(pacmd list-sin
 
 bindsym $mod+F12    exec    pactl set-sink-volume   $altsink +5%
 bindsym $mod+F11    exec    pactl set-sink-volume   $altsink -5%
-bindsym $mod+F10    exec    pactl set-sink-mute     $altsink toggle
+# bindsym $mod+F10    exec    pactl set-sink-mute     $altsink toggle
  
 bindsym XF86AudioPlay           exec    playerctl play-pause
 bindsym XF86AudioNext           exec    playerctl next
