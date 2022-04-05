@@ -37,7 +37,7 @@ yabai -m config insert_feedback_color        0xffd75f5f
 
 yabai -m config split_ratio                  0.50
 yabai -m config auto_balance                 off
-yabai -m config mouse_modifier               fn
+yabai -m config mouse_modifier               alt
 yabai -m config mouse_action1                move
 yabai -m config mouse_action2                resize
 yabai -m config mouse_drop_action            swap
@@ -50,12 +50,14 @@ yabai -m config left_padding                 08
 yabai -m config right_padding                08
 yabai -m config window_gap                   04
 
-# float system preferences
+# float system preferences / settings
 yabai -m rule --add app='^System Information$' manage=off
 yabai -m rule --add app='^System Preferences$' manage=off
 yabai -m rule --add title='Preferences$' manage=off
-
-# float settings windows
 yabai -m rule --add title='Settings$' manage=off
+yabai -m rule --add title='Stats' manage=off
+
+# float some apps
+yabai -m rule --add app='Todoist' manage=off
 
 echo "yabai configuration loaded.."

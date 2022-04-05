@@ -2,6 +2,7 @@
 
 # terminal tools
 
+brew install coreutils findutils
 brew install git
 brew install wget
 brew install stow
