@@ -10,7 +10,7 @@ homeshick_repo="https://github.com/andsens/homeshick.git"
 
 pkgs=(man)
 pkgs+=(vim git stow openssh unzip)
-pkgs+=(zsh fzf tmux)
+pkgs+=(zsh fzf tmux starship)
 pkgs+=(neovim exa)
 
 # This is a general-purpose function to ask Yes/No questions in Bash, either
@@ -76,6 +76,10 @@ fi
 source "${homeshick_path}/homeshick.sh"
 # Checks for updates (in case it was already installed)
 homeshick check
+
+# Neovim vim-plug
+sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+       https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
 ask_to_run "homeshick clone $castle_repo" "Y"
 ask_to_run "systemctl --user enable ssh-agent" "Y"

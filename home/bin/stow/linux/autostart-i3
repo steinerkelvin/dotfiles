@@ -1,6 +1,6 @@
 #!/bin/bash
 
-setxkbmap -option compose:rctrl,ctrl:nocaps br
+setxkbmap -option compose:rctrl # ,ctrl:nocaps br
 
 autorandr -c
 "$HOME/.fehbg"
