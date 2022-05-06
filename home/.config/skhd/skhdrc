@@ -177,8 +177,10 @@ cmd + lalt - 3 : yabai -m space --focus 3
 cmd + lalt - 4 : yabai -m space --focus 4
 cmd + lalt - 5 : yabai -m space --focus 5
 cmd + lalt - 6 : yabai -m space --focus 6
-cmd + lalt - 7 : yabai -m space --focus 6
-cmd + lalt - 8 : yabai -m space --focus 6
+cmd + lalt - 7 : yabai -m space --focus 7
+cmd + lalt - 8 : yabai -m space --focus 8
+cmd + lalt - 9 : yabai -m space --focus 9
+cmd + lalt - 0 : yabai -m space --focus 10
 
 # focus space cardinally
 cmd + lalt + ctrl - h : yabai -m display --focus west
@@ -193,6 +195,8 @@ cmd + lalt + shift - 5 : yabai -m window --space 5
 cmd + lalt + shift - 6 : yabai -m window --space 6
 cmd + lalt + shift - 7 : yabai -m window --space 7
 cmd + lalt + shift - 8 : yabai -m window --space 8
+cmd + lalt + shift - 9 : yabai -m window --space 9
+cmd + lalt + shift - 0 : yabai -m window --space 10
 
 cmd + lalt - space : yabai -m window --toggle float
 
