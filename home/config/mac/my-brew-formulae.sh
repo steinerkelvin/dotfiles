@@ -2,7 +2,10 @@
 
 # terminal tools
 
-brew install coreutils findutils
+brew install starship
+brew install zoxide
+
+brew install coreutils findutils diffutils
 brew install git
 brew install wget
 brew install stow
