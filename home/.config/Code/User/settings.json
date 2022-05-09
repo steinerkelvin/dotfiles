@@ -1,118 +1,161 @@
 {
-    "editor.rulers": [
-        80
-    ],
-    "editor.minimap.enabled": false,
-    "workbench.activityBar.visible": true,
-    "workbench.colorTheme": "Tomorrow Night Bright",
-    "gitlens.currentLine.enabled": false,
-    "gitlens.hovers.currentLine.over": "line",
-    "gitlens.codeLens.enabled": false,
-    "workbench.startupEditor": "newUntitledFile",
-    "zenMode.fullScreen": false,
-    "window.restoreWindows": "none",
-    "editor.fontFamily": "'Fira Mono', Inconsolata, monospace",
-    "editor.fontSize": 20,
-    "editor.fontLigatures": true,
-    "terminal.integrated.fontSize": 18,
-    "problems.showCurrentInStatus": true,
-    "terminal.external.linuxExec": "alacritty",
-    "python.formatting.provider": "black",
-    "python.formatting.autopep8Path": "black",
-    "workbench.editor.untitled.hint": "hidden",
-    "tabnine.experimentalAutoImports": true,
-    "remote.SSH.remotePlatform": {
-        "hanekawa.local": "linux"
+  "window.restoreWindows": "none",
+  // Workbench
+  "workbench.startupEditor": "newUntitledFile",
+  "workbench.sideBar.location": "right",
+  // Editor
+  "editor.rulers": [80],
+  "editor.tabSize": 2,
+  "editor.inlineSuggest.enabled": true,
+  "editor.minimap.enabled": false,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.renderWhitespace": "all",
+  // Theme
+  "workbench.colorTheme": "Tomorrow Night Bright",
+  "gitlens.currentLine.enabled": false,
+  "gitlens.hovers.currentLine.over": "line",
+  "gitlens.codeLens.enabled": false,
+  // Font
+  "editor.fontFamily": "'Fira Code', Inconsolata, monospace",
+  "editor.fontSize": 16,
+  "editor.fontLigatures": true,
+  // Zen Mode
+  "zenMode.fullScreen": false,
+  "zenMode.hideLineNumbers": false,
+  "problems.showCurrentInStatus": true,
+  // Terminal
+  "terminal.integrated.fontSize": 18,
+  "terminal.external.linuxExec": "alacritty",
+  "terminal.external.osxExec": "kitty.app",
+  "terminal.integrated.fontFamily": "Inconsolata, monospace",
+  "terminal.integrated.tabs.enabled": false,
+  // Python
+  "python.analysis.typeCheckingMode": "strict",
+  "python.formatting.provider": "black",
+  "python.formatting.autopep8Path": "black",
+  // // ???
+  // Auto-complete
+  "tabnine.experimentalAutoImports": true,
+  // Screencast Mode
+  "screencastMode.verticalOffset": 2,
+  "screencastMode.fontSize": 32,
+  // bah
+  // "workbench.editor.untitled.hint": "hidden",
+  "editor.accessibilitySupport": "off",
+  "redhat.telemetry.enabled": false,
+  // Spelling
+  "cSpell.language": "en,pt-BR",
+  "cSpell.ignoreWords": ["quleuber", "stricts"],
+  "cSpell.userWords": [
+    "arity",
+    "bytecode",
+    "camelcase",
+    "concat",
+    "configfile",
+    "deserializable",
+    "deserialization",
+    "dtach",
+    "hasher",
+    "incentivized",
+    "keccak",
+    "Kindelia",
+    "Nakamoto",
+    "quleuber",
+    "roadmap",
+    "singlepass",
+    "Stringification",
+    "Stringifier",
+    "succ",
+    "traefik",
+    "typecheck",
+    "upsert",
+    "upserted",
+    "vals"
+  ],
+  // `TODO`
+  "todo-tree.general.tags": [
+    "BUG",
+    "HACK",
+    "FIXME",
+    "TODO",
+    "XXX",
+    "[ ]",
+    "[x]"
+  ],
+  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
+  // File associations
+  "files.associations": {
+    "*.tf": "tf",
+    "*.yml": "yaml",
+    "*.hvm": "hvm"
+  },
+  // Vim mode
+  "vim.easymotion": true,
+  "vim.useSystemClipboard": true,
+  "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": ["vspacecode.space"]
     },
-    "cSpell.userWords": [
-        "camelcase",
-        "concat",
-        "deserializable",
-        "deserialization",
-        "hasher",
-        "incentivized",
-        "keccak",
-        "Nakamoto",
-        "quleuber",
-        "roadmap",
-        "Stringification",
-        "succ",
-        "upsert",
-        "upserted",
-        "vals"
-    ],
-    "todo-tree.general.tags": [
-        "BUG",
-        "HACK",
-        "FIXME",
-        "TODO",
-        "XXX",
-        "[ ]",
-        "[x]"
-    ],
-    "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
-    "files.associations": {
-        "*.tf": "tf",
-        "*.yml": "yaml",
-        "*.lit": "kind"
-    },
-    "vim.easymotion": true,
-    "vim.useSystemClipboard": true,
-    "vim.normalModeKeyBindingsNonRecursive": [
+    {
+      "before": [","],
+      "commands": [
+        "vspacecode.space",
         {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "vspacecode.space"
-            ]
-        },
-        {
-            "before": [
-                ","
-            ],
-            "commands": [
-                "vspacecode.space",
-                {
-                    "command": "whichkey.triggerKey",
-                    "args": "m"
-                }
-            ]
+          "command": "whichkey.triggerKey",
+          "args": "m"
         }
-    ],
-    "vim.visualModeKeyBindingsNonRecursive": [
+      ]
+    }
+  ],
+  "vim.visualModeKeyBindingsNonRecursive": [
+    {
+      "before": ["<space>"],
+      "commands": ["vspacecode.space"]
+    },
+    {
+      "before": [","],
+      "commands": [
+        "vspacecode.space",
         {
-            "before": [
-                "<space>"
-            ],
-            "commands": [
-                "vspacecode.space"
-            ]
-        },
-        {
-            "before": [
-                ","
-            ],
-            "commands": [
-                "vspacecode.space",
-                {
-                    "command": "whichkey.triggerKey",
-                    "args": "m"
-                }
-            ]
+          "command": "whichkey.triggerKey",
+          "args": "m"
         }
-    ],
-    "workbench.sideBar.location": "right",
-    "[jsonc]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "zenMode.hideLineNumbers": false,
-    "editor.renderWhitespace": "all",
-    "[typescript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "redhat.telemetry.enabled": false,
-    "terminal.integrated.fontFamily": "'Fira Mono', Inconsolata",
-    "deno.config": "",
-    "window.zoomLevel": -1,
+      ]
+    }
+  ],
+  "vspacecode.bindingOverrides": [
+    {
+      "keys": "n",
+      "name": "Add cursor selection to next match",
+      "type": "command",
+      "command": "editor.action.addSelectionToNextFindMatch"
+    }
+  ],
+  // lang: JSONC
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // lang: Yaml
+  "[yaml]": {
+    "editor.defaultFormatter": "redhat.vscode-yaml"
+  },
+  // lang: Markdown
+  // "markdown-preview-github-styles.colorTheme": "light",
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // lang: Javascript
+  "[javascript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  // lang: Rust
+  "rust-analyzer.checkOnSave.command": "clippy",
+  "[rust]": {
+    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
+  }
+  // ...
 }
