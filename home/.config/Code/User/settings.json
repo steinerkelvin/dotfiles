@@ -47,6 +47,7 @@
   "cSpell.language": "en,pt-BR",
   "cSpell.ignoreWords": ["quleuber", "stricts"],
   "cSpell.userWords": [
+    "allocs",
     "arity",
     "bytecode",
     "camelcase",
@@ -63,8 +64,8 @@
     "quleuber",
     "roadmap",
     "singlepass",
-    "Stringification",
-    "Stringifier",
+    "stringification",
+    "stringifier",
     "succ",
     "traefik",
     "typecheck",
