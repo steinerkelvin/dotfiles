@@ -6,6 +6,8 @@ brew install starship
 brew install zoxide
 
 brew install coreutils findutils diffutils
+brew install gpg
+brew install pinentry-mac
 brew install git
 brew install wget
 brew install stow
@@ -56,7 +58,12 @@ brew install --cask hyperkey
 brew install --cask karabiner-elements
 brew install --cask kitty
 
+# fonts
+brew install font-iosevka-nerd-font
+
 # apps
+
+brew install --cask alt-tab
 
 brew install --cask syncthing
 brew install --cask stats
@@ -96,6 +103,6 @@ brew install --cask steam
 brew install --cask font-fira-code
 brew install --cask font-inconsolata-g
 
-# pending
-brew install --cask duet
-brew install --cask deskreen
+# screen sharing
+brew install --cask betterdummy
+# brew install --cask deskreen
