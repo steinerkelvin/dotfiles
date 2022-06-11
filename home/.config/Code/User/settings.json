@@ -3,22 +3,26 @@
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
   "workbench.sideBar.location": "right",
+  "workbench.iconTheme": "material-icon-theme",
   // Editor
   "editor.rulers": [80],
   "editor.tabSize": 2,
   "editor.inlineSuggest.enabled": true,
+  "editor.acceptSuggestionOnEnter": "off",
   "editor.minimap.enabled": false,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.renderWhitespace": "all",
+  // Diff Editor
+  "diffEditor.ignoreTrimWhitespace": false,
   // Theme
-  "workbench.colorTheme": "Tomorrow Night Bright",
+  "workbench.colorTheme": "GitHub Dark",
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   // Font
-  "editor.fontFamily": "'Fira Code', Inconsolata, monospace",
+  "editor.fontFamily": "'IosevkaNerdFontComplete-Light', 'Fira Code', Inconsolata-g, monospace",
   "editor.fontSize": 16,
-  "editor.fontLigatures": true,
+  "editor.fontLigatures": false,
   // Zen Mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
@@ -45,33 +49,59 @@
   "redhat.telemetry.enabled": false,
   // Spelling
   "cSpell.language": "en,pt-BR",
-  "cSpell.ignoreWords": ["quleuber", "stricts"],
+  "cSpell.ignoreWords": [
+    "quleuber",
+    "stricts",
+    "usermod"
+  ],
   "cSpell.userWords": [
+    "addrs",
     "allocs",
+    "arit",
+    "arities",
     "arity",
     "bytecode",
     "camelcase",
     "concat",
     "configfile",
+    "Couldn",
+    "curr",
     "deserializable",
     "deserialization",
+    "dotfiles",
     "dtach",
+    "elems",
+    "erasedness",
+    "forall",
+    "funcs",
     "hasher",
     "incentivized",
+    "Iosevka",
     "keccak",
     "Kindelia",
+    "mergeable",
     "Nakamoto",
+    "nonblocking",
+    "oper",
     "quleuber",
+    "redexes",
+    "retr",
     "roadmap",
+    "Serializers",
     "singlepass",
     "stringification",
     "stringifier",
+    "struct",
     "succ",
     "traefik",
+    "tupl",
     "typecheck",
+    "typeclass",
     "upsert",
     "upserted",
-    "vals"
+    "uuid",
+    "vals",
+    "wouldn"
   ],
   // `TODO`
   "todo-tree.general.tags": [
@@ -151,12 +181,15 @@
     "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[typescript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // lang: Rust
   "rust-analyzer.checkOnSave.command": "clippy",
   "[rust]": {
-    "editor.defaultFormatter": "ms-vsliveshare.vsliveshare"
-  }
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
   // ...
 }
