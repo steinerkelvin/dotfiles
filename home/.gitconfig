@@ -1,18 +1,10 @@
-# This is Git's per-user configuration file.
-
-# [user]
-# # Please adapt and uncomment the following lines:
-#	name = Kelvin Santos
-#	email = kelvinsteinersantos@gmail.com
-
 [color]
 	ui = true
-
 [push]
 	default = simple
 [user]
-	email = kelvinsteinersantos@gmail.com
 	name = Kelvin Santos
+	email = me@quleuber.dev
 [pull]
 	rebase = false
 [filter "lfs"]
