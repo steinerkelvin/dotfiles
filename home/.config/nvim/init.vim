@@ -4,7 +4,8 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'easymotion/vim-easymotion'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'tom-doerr/vim_codex'
+" Plug 'tom-doerr/vim_codex'
+Plug 'wakatime/vim-wakatime'
 
 call plug#end()
 
