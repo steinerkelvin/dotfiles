@@ -13,6 +13,7 @@ antigen use oh-my-zsh
 antigen bundle fzf
 antigen bundle git
 antigen bundle pip
+antigen bundle yarn
 antigen bundle command-not-found
 
 # # Codex completion
@@ -57,3 +58,5 @@ fi
 
 test -e "${HOME}/.iterm2_shell_integration.zsh" && . "${HOME}/.iterm2_shell_integration.zsh"
 
+# Vim mode
+bindkey -v
