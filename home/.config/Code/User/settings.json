@@ -2,7 +2,6 @@
   "window.restoreWindows": "none",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.sideBar.location": "right",
   "workbench.iconTheme": "material-icon-theme",
   // Editor
   "editor.rulers": [80],
@@ -11,7 +10,7 @@
   "editor.acceptSuggestionOnEnter": "off",
   "editor.minimap.enabled": false,
   "editor.inlayHints.enabled": "offUnlessPressed",
-  "editor.renderWhitespace": "all",
+  "editor.renderWhitespace": "trailing",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   // Theme
@@ -22,7 +21,7 @@
   // Font
   "editor.fontFamily": "'IosevkaNerdFontComplete-Light', 'Fira Code', Inconsolata-g, monospace",
   "editor.fontSize": 16,
-  "editor.fontLigatures": false,
+  "editor.fontLigatures": true,
   // Zen Mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
@@ -60,6 +59,7 @@
     "arit",
     "arities",
     "arity",
+    "ascii",
     "bytecode",
     "camelcase",
     "concat",
@@ -75,15 +75,18 @@
     "forall",
     "funcs",
     "hasher",
+    "hashrate",
     "incentivized",
     "Iosevka",
     "keccak",
     "Kindelia",
     "mergeable",
     "Nakamoto",
+    "newtype",
     "nonblocking",
     "oper",
     "quleuber",
+    "redex",
     "redexes",
     "retr",
     "roadmap",
@@ -100,6 +103,7 @@
     "upsert",
     "upserted",
     "uuid",
+    "uuids",
     "vals",
     "wouldn"
   ],
@@ -125,11 +129,17 @@
   "vim.useSystemClipboard": true,
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": ["<space>"],
-      "commands": ["vspacecode.space"]
+      "before": [
+        "<space>"
+      ],
+      "commands": [
+        "vspacecode.space"
+      ]
     },
     {
-      "before": [","],
+      "before": [
+        ","
+      ],
       "commands": [
         "vspacecode.space",
         {
@@ -141,11 +151,17 @@
   ],
   "vim.visualModeKeyBindingsNonRecursive": [
     {
-      "before": ["<space>"],
-      "commands": ["vspacecode.space"]
+      "before": [
+        "<space>"
+      ],
+      "commands": [
+        "vspacecode.space"
+      ]
     },
     {
-      "before": [","],
+      "before": [
+        ","
+      ],
       "commands": [
         "vspacecode.space",
         {
@@ -191,5 +207,12 @@
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
+  "window.zoomLevel": 1,
   // ...
 }
