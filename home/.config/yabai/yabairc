@@ -44,10 +44,10 @@ yabai -m config mouse_drop_action            swap
 
 # general space settings
 yabai -m config layout                       bsp
-yabai -m config top_padding                  08
-yabai -m config bottom_padding               08
-yabai -m config left_padding                 08
-yabai -m config right_padding                08
+yabai -m config top_padding                  00
+yabai -m config bottom_padding               00
+yabai -m config left_padding                 00
+yabai -m config right_padding                00
 yabai -m config window_gap                   04
 
 # float system preferences / settings
