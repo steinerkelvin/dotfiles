@@ -9,6 +9,8 @@ brew install coreutils findutils diffutils
 brew install gpg
 brew install pinentry-mac
 brew install git
+brew install git-extras
+brew install diff-so-fancy
 brew install wget
 brew install stow
 brew install fzf
@@ -71,6 +73,7 @@ brew install --cask activitywatch
 brew install --cask anydesk
 brew install --cask airdroid
 brew install --cask vlc
+brew install --cask qbittorrent
 
 brew install --cask telegram-desktop
 brew install --cask whatsapp
