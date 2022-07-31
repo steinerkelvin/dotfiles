@@ -1,5 +1,7 @@
 #!/bin/bash
 
+user="kelvin"
+
 # Update Pacman Index
 pacman -Sy
 
@@ -8,6 +10,9 @@ pacman -S --needed \
   sudo man vi vim \
   openssh git rsync curl wget \
   arch-install-scripts
+
+useradd -m -G wheel,adm "${user}"
+passwd "${user}"
 
 # =====
 
