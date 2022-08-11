@@ -5,7 +5,7 @@
 brew install starship
 brew install zoxide
 
-brew install coreutils findutils diffutils
+brew install coreutils grep findutils diffutils rename
 brew install gpg
 brew install pinentry-mac
 brew install git
@@ -73,6 +73,7 @@ brew install --cask activitywatch
 brew install --cask anydesk
 brew install --cask airdroid
 brew install --cask vlc
+brew install --cask syncplay
 brew install --cask qbittorrent
 
 brew install --cask telegram-desktop
