@@ -20,8 +20,8 @@ set $up k
 set $right l
 
 # Your preferred terminal emulator
-set $term alacritty
-set $term2 terminator
+set $term  kitty
+set $term2 alacritty
 
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
@@ -36,16 +36,13 @@ set $menu_alt dmenu_path | rofi -run-command 'echo {cmd}' -show drun | xargs swa
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-# res 1366x768
-# transform 270
-output  eDP-1       pos     2560   540
-output  eDP-1 scale 1.5
+output "Virtual-1" {
+    resolution  1920x1080@60Hz
+    # scale 1.5
+}
 
-# res 1920x1080
-output  HDMI-A-1    pos     0      0
-
-workspace 1 output "HDMI-A-1"
-workspace 7 output "eDP-1"
+# workspace 1 output "HDMI-A-1"
+# workspace 7 output "eDP-1"
 
 exec k-wallpaper-next
 # output * bg "$HOME/wallpaper" fill
@@ -71,7 +68,7 @@ exec k-wallpaper-next
 # Read `man 5 sway-input` for more information about this section.
 
 input * {
-    xkb_layout br
+    xkb_layout us
     xkb_options compose:rctrl
 }
 

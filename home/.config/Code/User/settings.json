@@ -36,7 +36,6 @@
   "python.analysis.typeCheckingMode": "strict",
   "python.formatting.provider": "black",
   "python.formatting.autopep8Path": "black",
-  // // ???
   // Auto-complete
   "tabnine.experimentalAutoImports": true,
   // Screencast Mode
@@ -79,6 +78,7 @@
     "incentivized",
     "Iosevka",
     "keccak",
+    "kindelia",
     "Kindelia",
     "mergeable",
     "Nakamoto",
@@ -90,6 +90,7 @@
     "redexes",
     "retr",
     "roadmap",
+    "serde",
     "Serializers",
     "singlepass",
     "stringification",
@@ -179,6 +180,13 @@
       "command": "editor.action.addSelectionToNextFindMatch"
     }
   ],
+  // Copilot
+  "github.copilot.enable": {
+    "*": true,
+    "yaml": true,
+    "plaintext": true,
+    "markdown": true
+  },
   // lang: JSONC
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -207,12 +215,6 @@
   "[rust]": {
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": true,
-    "plaintext": true,
-    "markdown": true
-  },
-  "window.zoomLevel": 1,
-  // ...
+  "rust-analyzer.lens.implementations.enable": false,
+  "//": null
 }
