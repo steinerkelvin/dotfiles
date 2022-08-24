@@ -8,3 +8,4 @@ alias dusm='du -hs'
 alias dtcd='homeshick cd dotfiles; cd home'
 
 alias sshk='kitty +kitten ssh'
+alias icatk='kitty +icat'
