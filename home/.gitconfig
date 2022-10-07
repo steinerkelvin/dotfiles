@@ -1,18 +1,13 @@
-[color]
-	ui = true
 [push]
 	default = simple
 [user]
-	name = Kelvin Santos
-	email = me@quleuber.dev
+	name = Kelvin Steiner
+	email = me@steinerkelvin.dev
 [pull]
-	rebase = false
-[filter "lfs"]
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
-	clean = git-lfs clean -- %f
+	ff = true
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [interactive]
 	diffFilter = diff-so-fancy --patch
+[color]
+	ui = true
