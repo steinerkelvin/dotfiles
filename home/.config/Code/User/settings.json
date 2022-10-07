@@ -14,21 +14,19 @@
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   // Theme
-  "workbench.colorTheme": "GitHub Dark",
+  "workbench.colorTheme": "Tomorrow Night",
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   // Font
-  "editor.fontFamily": "'IosevkaNerdFontComplete-Light', 'Fira Code', Inconsolata-g, monospace",
+  "editor.fontFamily": "'IosevkaNerdFontComplete-Light', 'Iosevka', 'Fira Code', Inconsolata-g, monospace",
   "editor.fontSize": 16,
   "editor.fontLigatures": true,
   // Zen Mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
   "problems.showCurrentInStatus": true,
-  // Terminal
-  "terminal.integrated.fontSize": 18,
-  "terminal.external.linuxExec": "alacritty",
+  "terminal.external.linuxExec": "kitty",
   "terminal.external.osxExec": "kitty.app",
   "terminal.integrated.fontFamily": "Inconsolata, monospace",
   "terminal.integrated.tabs.enabled": false,
