@@ -45,11 +45,7 @@
   "redhat.telemetry.enabled": false,
   // Spelling
   "cSpell.language": "en,pt-BR",
-  "cSpell.ignoreWords": [
-    "quleuber",
-    "stricts",
-    "usermod"
-  ],
+  "cSpell.ignoreWords": ["quleuber", "stricts", "usermod"],
   "cSpell.userWords": [
     "addrs",
     "allocs",
@@ -128,17 +124,11 @@
   "vim.useSystemClipboard": true,
   "vim.normalModeKeyBindingsNonRecursive": [
     {
-      "before": [
-        "<space>"
-      ],
-      "commands": [
-        "vspacecode.space"
-      ]
+      "before": ["<space>"],
+      "commands": ["vspacecode.space"]
     },
     {
-      "before": [
-        ","
-      ],
+      "before": [","],
       "commands": [
         "vspacecode.space",
         {
@@ -150,17 +140,11 @@
   ],
   "vim.visualModeKeyBindingsNonRecursive": [
     {
-      "before": [
-        "<space>"
-      ],
-      "commands": [
-        "vspacecode.space"
-      ]
+      "before": ["<space>"],
+      "commands": ["vspacecode.space"]
     },
     {
-      "before": [
-        ","
-      ],
+      "before": [","],
       "commands": [
         "vspacecode.space",
         {
@@ -172,10 +156,23 @@
   ],
   "vspacecode.bindingOverrides": [
     {
-      "keys": "n",
-      "name": "Add cursor selection to next match",
-      "type": "command",
-      "command": "editor.action.addSelectionToNextFindMatch"
+      "keys": "k",
+      "name": "Kelvin's custom stuff",
+      "type": "bindings",
+      "bindings": [
+        {
+          "key": "n",
+          "name": "Add cursor selection to next match",
+          "type": "command",
+          "command": "editor.action.addSelectionToNextFindMatch"
+        },
+        {
+          "key": "u",
+          "name": "Cursor undo",
+          "type": "command",
+          "command": "cursorUndo"
+        }
+      ]
     }
   ],
   // Copilot
