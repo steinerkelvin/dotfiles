@@ -6,6 +6,9 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
 " Plug 'tom-doerr/vim_codex'
 Plug 'wakatime/vim-wakatime'
+" Themes
+Plug 'projekt0n/github-nvim-theme'
+Plug 'jacoborus/tender.vim'
 
 call plug#end()
 
@@ -15,6 +18,10 @@ let mapleader = "\<Space>"
 
 
 " === my stuff ===
+
+colorscheme github_*
+colorscheme github_dark_default
+colorscheme tender
 
 nnoremap <leader>d "_d
 xnoremap <leader>d "_d
