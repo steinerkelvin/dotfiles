@@ -1,19 +1,27 @@
 #!/bin/bash
 
-setxkbmap -option compose:rctrl # ,ctrl:nocaps br
-
-autorandr -c
-"$HOME/.fehbg"
-
+# Authentication stuff
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+
+# Keyboard
+setxkbmap -option compose:rctrl # ,ctrl:nocaps # br
+xmodmap .Xmodmap
+
+# Automatic multi-screen layout
+autorandr -c
+
+# Notifications daemon
 dunst &
 
-# barrier &
-aw-qt &
-
-# /usr/lib/kdeconnectd &
-# kdeconnect-indicator &
-
+# Blue light filter
 redshift -l "-20.3285:-40.372" -t 6500:3000 &
 
-~/.fehbg
+# Wallpaper
+"$HOME/.fehbg"
+
+# Old Stuff
+#
+# barrier &
+# aw-qt &
+# /usr/lib/kdeconnectd &
+# kdeconnect-indicator &
