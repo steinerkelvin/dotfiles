@@ -3,8 +3,8 @@
 # Please see https://i3wm.org/docs/userguide.html for a complete reference!
 
 set $mod Mod3
-
 set $screenshot_base p
+set $term kitty
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
@@ -27,7 +27,8 @@ floating_modifier $mod
 # start a terminal
 # bindsym $mod+Return exec i3-sensible-terminal
 # bindsym $mod+Return exec alacritty
-bindsym $mod+Return exec kitty
+bindsym $mod+Return exec $term
+bindsym Mod4+Return exec $term
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -179,12 +180,9 @@ for_window [class="plasmashell" window_type="notification"] floating enable, bor
 
 ### CUSTOM ###
 
-for_window [class="Matplotlib"] floating enable;
-
-
 for_window [window_role=".*scratchpad.*"] move scratchpad
 
-exec $TERMINAL --role='scratchpad-terminal'
+#exec $term --role='scratchpad-terminal' # TODO: fix
 exec autostart-i3
 
 
@@ -194,8 +192,9 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
-## k-commander ##
-bindsym $mod+c exec k-commander-beta
+
+# ## k-commander ##
+# bindsym $mod+c exec k-commander-beta
 
 
 ## Greenclip ##
