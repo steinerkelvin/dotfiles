@@ -1,5 +1,7 @@
 #!/bin/sh
 
+eval "$(dbus-launch --sh-syntax)"
+
 [ -f /etc/xprofile ] && . /etc/xprofile
 [ -f ~/.xprofile ] && . ~/.xprofile
 
