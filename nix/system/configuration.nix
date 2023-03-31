@@ -317,6 +317,7 @@
       maim
 
       sway
+      wofi
 
       wl-clipboard
       slurp
@@ -480,7 +481,6 @@
             }
           ];
           keybindings =
-            # cfg.keybindings //
             {
               # open terminal
               "${mod}+Return" = "exec kitty";
@@ -605,6 +605,8 @@
         keybindings = let
             modifier = config.wayland.windowManager.sway.config.modifier;
           in lib.mkOptionDefault {
+            "${modifier}+d"       = "exec  wofi --show run";
+            "${modifier}+Shift+d" = "exec  wofi --show drun";
             ## Screenshot
             "${modifier}+p"             = "exec  grim -g \"$(slurp)\" - | wl-copy";
             "${modifier}+Ctrl+p"        = "exec  grim -g \"$(slurp)\" \"./screenshots/$(date -Iseconds).png\"";
