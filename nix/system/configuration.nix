@@ -318,6 +318,13 @@
 
       sway
 
+      wl-clipboard
+      slurp
+      grim
+
+      imv
+      mpv
+
       kitty
       vscode
       keybase-gui
@@ -564,7 +571,6 @@
               # i3 management
 
               "${mod}+Shift+c"       = "reload";
-              "${mod}+Shift+r"       = "restart";
               "${mod}+Shift+e"       = ''exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"'';
 
               # screenshot
@@ -582,11 +588,11 @@
               "${mod}+F9"            = "exec brightness s 10%-";
               "${mod}+F10"           = "exec brightness s +10%";
 
-              # TODO: port rest of custom keybindings
+               # TODO: port rest of custom keybindings
             };
           };
        };
-     };
+    };
 
     wayland.windowManager.sway = {
       enable = true;
@@ -596,7 +602,22 @@
         startup = [
           { command = "firefox"; }
         ];
-      };
+        keybindings = let
+            modifier = config.wayland.windowManager.sway.config.modifier;
+          in lib.mkOptionDefault {
+            ## Screenshot
+            "${modifier}+p"             = "exec  grim -g \"$(slurp)\" - | wl-copy";
+            "${modifier}+Ctrl+p"        = "exec  grim -g \"$(slurp)\" \"./screenshots/$(date -Iseconds).png\"";
+            "${modifier}+Shift+p"       = "exec  grim - | wl-copy";
+            "${modifier}+Shift+Ctrl+p"  = "exec  grim \"./screenshots/$(date -Iseconds).png\"";
+          };
+        };
+      extraConfig = ''
+        input * {
+          xkb_layout "us"
+          xkb_options "compose:rctrl"
+        }
+      '';
     };
 
     # services.mako.enable = true;
