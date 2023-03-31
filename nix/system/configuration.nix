@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       <home-manager/nixos>
+      ../modules/keyd.nix
     ];
 
   # Bootloader.
@@ -20,6 +21,18 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  services.keyd.enable = true;
+  services.keyd.config.default = ''
+    [ids]
+    *
+
+    [main]
+    # capslock = layer(custom_caps)
+    capslock = overload(custom_caps, esc)
+
+    [custom_caps:M]
+  '';
 
   services.avahi = {
     enable = true;
@@ -293,6 +306,8 @@
       pulsemixer
 
       brightnessctl
+
+      libinput
 
       i3
       i3blocks
@@ -576,11 +591,10 @@
     wayland.windowManager.sway = {
       enable = true;
       config = rec {
-        modifier = "Mod1";
+        modifier = "Mod4";
         terminal = "kitty";
         startup = [
-          # Launch Firefox on start
-          {command = "firefox";}
+          { command = "firefox"; }
         ];
       };
     };
