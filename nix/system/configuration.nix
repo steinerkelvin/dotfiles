@@ -22,17 +22,15 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
-  services.keyd.enable = true;
-  services.keyd.config.default = ''
-    [ids]
-    *
-
-    [main]
-    # capslock = layer(custom_caps)
-    capslock = overload(custom_caps, esc)
-
-    [custom_caps:M]
-  '';
+  # services.keyd.enable = true;
+  # services.keyd.config.default = ''
+  #   [ids]
+  #   *
+  #   [main]
+  #   # capslock = layer(custom_caps)
+  #   capslock = overload(custom_caps, esc)
+  #   [custom_caps:M]
+  # '';
 
   services.avahi = {
     enable = true;
@@ -91,10 +89,16 @@
 
     layout = "us";
     xkbVariant = "";
+    xkbOptions = "compose:rctrl";
   };
 
   programs.xwayland.enable = true;
   programs.sway.enable = true;
+
+  xdg.portal.extraPortals = with pkgs; [
+    gnome3.gnome-keyring
+    xdg-desktop-portal-wlr
+  ];
 
   services.printing.enable = true;
 
@@ -449,10 +453,10 @@
       add mod4 = Super_L Super_R
     '';
 
-    programs.i3status = {
-      enable = true;
-      package = pkgs.i3blocks;
-    };
+    # programs.i3status = {
+    #   enable = true;
+    #   package = pkgs.i3blocks;
+    # };
 
     xsession = {
       enable = true;
@@ -475,11 +479,11 @@
           modifier = "${mod}";
           terminal = "kitty";
           # TODO: fix i3blocks
-          bars = [
-            {
-              command = "${pkgs.i3blocks}/bin/i3blocks -c \${HOME}/.i3blocks.conf";
-            }
-          ];
+          # bars = [
+          #   {
+          #     command = "${pkgs.i3blocks}/bin/i3blocks -c \${HOME}/.i3blocks.conf";
+          #   }
+          # ];
           keybindings =
             {
               # open terminal
@@ -571,6 +575,7 @@
               # i3 management
 
               "${mod}+Shift+c"       = "reload";
+              "${mod}+Shift+r"       = "restart";
               "${mod}+Shift+e"       = ''exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'"'';
 
               # screenshot
