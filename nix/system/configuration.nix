@@ -17,14 +17,16 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
-  # boot.loader.systemd-boot.enable = true;
-
-  boot.loader.grub = {
-    enable = true;
-    version = 2;
-    device = "nodev";
-    efiSupport = true;
-    useOSProber = true;
+  boot.loader = {
+    # boot.loader.systemd-boot.enable = true;
+    grub = {
+      enable = true;
+      version = 2;
+      device = "nodev";
+      efiSupport = true;
+      useOSProber = true;
+    };
+    timeout = 7;
   };
 
   networking.hostName = "nixia"; # Define your hostname.
@@ -300,8 +302,13 @@
 
       # GUI
 
+      # GUI Apps
       firefox
       microsoft-edge
+      tdesktop
+      discord
+      calibre
+      qbittorrent
 
       gnome.seahorse
 
@@ -350,10 +357,6 @@
       keybase-gui
 
       speedcrunch
-
-      tdesktop
-      discord
-      calibre
 
       spotifyd
     ];
