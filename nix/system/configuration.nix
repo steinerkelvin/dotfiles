@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, lib, ... }:
 
 {
@@ -10,12 +6,26 @@
       ./hardware-configuration.nix
       <home-manager/nixos>
       ../modules/keyd.nix
+      ../modules/services/syncthing.nix
+      ../modules/services/n8n.nix
     ];
 
+  modules.services.syncthing.enable = true;
+  # modules.services.n8n.enable = true;
+
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.loader.efi.efiSysMountPoint = "/boot/efi";
+
+  # boot.loader.systemd-boot.enable = true;
+
+  boot.loader.grub = {
+    enable = true;
+    version = 2;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = true;
+  };
 
   networking.hostName = "nixia"; # Define your hostname.
 
@@ -231,9 +241,11 @@
     services.kbfs.enable = true;
 
     home.packages = with pkgs; [
+      # Nix tools
       direnv
       nix-direnv
       nix-index
+      nixos-option
       dhall
       home-manager
       lorri
@@ -249,16 +261,19 @@
       openssh
       git
 
+      # Secrets
       gnupg
       git-crypt
       libsecret
 
+      # Shell
       zsh
       zsh-autosuggestions
       zsh-syntax-highlighting
       starship
       zoxide
 
+      # Shell tools
       fzf
       silver-searcher
       ripgrep
@@ -266,14 +281,14 @@
       stow
       shellcheck
       diff-so-fancy
+      exa
+      bat
 
+      # Editors
       vim
       helix
 
       rustup
-
-      exa
-      bat
 
       tig
 
