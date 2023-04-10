@@ -4,7 +4,8 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      <home-manager/nixos>
+      # <home-manager/nixos>
+      ../modules/home-manager.nix
       ../modules/keyd.nix
       ../modules/services/syncthing.nix
       ../modules/services/n8n.nix
@@ -33,6 +34,17 @@
 
   # Enable networking
   networking.networkmanager.enable = true;
+
+  services.resolved = {
+    enable = true;
+    domains = [ "m.steinerkelvin.dev" ];
+    fallbackDns = [
+      "1.1.1.1"
+      "1.0.0.1"
+      "2606:4700:4700::1111"
+      "2606:4700:4700::1001"
+    ];
+  };
 
   # services.keyd.enable = true;
   # services.keyd.config.default = ''
@@ -255,6 +267,8 @@
       lsof
       inetutils
       nmap
+      dig
+
       pstree
 
       curl
@@ -275,7 +289,7 @@
       starship
       zoxide
 
-      # Shell tools
+      # Terminal / shell tools
       fzf
       silver-searcher
       ripgrep
@@ -285,6 +299,7 @@
       diff-so-fancy
       exa
       bat
+      htop
 
       # Editors
       vim
@@ -309,6 +324,11 @@
       discord
       calibre
       qbittorrent
+      gimp
+
+      # Image editing
+      krita
+      xkcd-font
 
       gnome.seahorse
 
