@@ -370,6 +370,7 @@
 
       imv
       mpv
+      viu
 
       kitty
       vscode
