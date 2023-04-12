@@ -5,11 +5,10 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       # <home-manager/nixos>
-      ../modules/home-manager.nix
-      ../modules/keyd.nix
-      ../modules/services/syncthing.nix
-      ../modules/services/n8n.nix
+      ../modules
     ];
+
+  modules.radeon.enable = true;
 
   modules.services.syncthing.enable = true;
   # modules.services.n8n.enable = true;

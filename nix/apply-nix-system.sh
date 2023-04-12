@@ -12,5 +12,5 @@ fi
 
 (
   cd "${basedir}" || exit 1
-  sudo nixos-rebuild -I "nixos-config=./system/configuration.nix" "${command}" 
+  sudo nixos-rebuild -I "nixos-config=./system/configuration.nix" "${command}"
 )
