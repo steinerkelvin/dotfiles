@@ -20,7 +20,7 @@ in {
   config = lib.mkMerge [
 
     {
-      environment.systemPackages = with pkgs; [ 
+      environment.systemPackages = with pkgs; [
         # Editors
         vim
         neovim

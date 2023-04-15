@@ -15,11 +15,13 @@ in {
     };
 
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
+
       home.username = username;
       home.homeDirectory = "/home/${username}";
-      home.stateVersion = "22.11";
-      nixpkgs.config.allowUnfree = true;
 
+      home.stateVersion = "22.11";
+
+      nixpkgs.config.allowUnfree = true;
       programs.home-manager.enable = true;
 
       home.sessionVariables = {
@@ -248,6 +250,17 @@ in {
         '';
       };
 
+      home.file.".Xmodmap".text = ''
+        keycode 66 = Hyper_L
+
+        clear lock
+        clear mod3
+        clear mod4
+
+        add mod3 = Hyper_L
+        add mod4 = Super_L Super_R
+      '';
+
       services.spotifyd = {
         enable = true;
         settings = {
@@ -260,17 +273,9 @@ in {
         };
       };
 
-      home.file.".Xmodmap".text = ''
-        keycode 66 = Hyper_L
-
-        clear lock
-        clear mod3
-        clear mod4
-
-        add mod3 = Hyper_L
-        add mod4 = Super_L Super_R
-      '';
     };
+
+    modules.services.spotifyd.enable = true;
 
   };
 }
