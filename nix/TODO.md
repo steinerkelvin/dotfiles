@@ -1,0 +1,3 @@
+# Nix TODO
+
+- [ ] pin Nixpkgs

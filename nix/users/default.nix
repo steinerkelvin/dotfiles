@@ -1,5 +1,5 @@
 { ... }:
 
 {
-  imports = [ ./kelvin.nix ];
+  imports = [ ./kelvin ];
 }

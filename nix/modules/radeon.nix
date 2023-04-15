@@ -25,7 +25,7 @@ in
       rocm-opencl-icd
       rocm-opencl-runtime
     ];
-    
+
     environment.systemPackages = with pkgs; [
       radeontop
       # corectl # TODO: write derivation for `corectl`

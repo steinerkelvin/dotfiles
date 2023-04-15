@@ -1,13 +1,22 @@
-{ lib, config, packages, ... }:
+{ lib, config, pkgs, ... }:
 
-{
+let username = "kelvin";
+in {
   imports = [ ./graphical.nix ];
 
   config = {
 
-    home-manager.users.kelvin = { pkgs, config, lib, ... }: {
-      home.username = "kelvin";
-      home.homeDirectory = "/home/kelvin";
+    users.users."${username}" = {
+      isNormalUser = true;
+      description = "Kelvin";
+      extraGroups = [ "networkmanager" "wheel" ];
+      shell = pkgs.zsh;
+      packages = with pkgs; [ firefox kate ];
+    };
+
+    home-manager.users."${username}" = { pkgs, config, lib, ... }: {
+      home.username = username;
+      home.homeDirectory = "/home/${username}";
       home.stateVersion = "22.11";
       nixpkgs.config.allowUnfree = true;
 
@@ -32,6 +41,7 @@
         nix-direnv
         nix-index
         nixos-option
+        nixfmt
         dhall
         home-manager
         lorri
