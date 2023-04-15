@@ -50,7 +50,6 @@ in {
         inetutils
         nmap
         dig
-
         pstree
 
         curl
