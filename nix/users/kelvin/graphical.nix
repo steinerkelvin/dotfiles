@@ -1,8 +1,6 @@
 { lib, config, pkgs, ... }:
 
 {
-  imports = [ ./graphical.nix ];
-
   config = lib.mkIf config.modules.graphical.enable {
 
     home-manager.users.kelvin = { lib, config, pkgs, ... }: {

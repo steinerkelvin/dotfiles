@@ -2,6 +2,7 @@
 
 let username = "kelvin";
 in {
+  imports = [ ./graphical.nix ];
 
   config = {
 
