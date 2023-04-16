@@ -14,6 +14,8 @@ in {
       packages = with pkgs; [ firefox kate ];
     };
 
+    modules.services.spotifyd.enable = true;
+
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
 
       home.username = username;
@@ -273,9 +275,21 @@ in {
         };
       };
 
-    };
+      # Config files
+      home.file = {
+        ".config/user-dirs.dirs".text = ''
+          XDG_DESKTOP_DIR="$HOME/desktop"
+          XDG_DOWNLOAD_DIR="$HOME/downloads"
+          XDG_TEMPLATES_DIR="$HOME/templates"
+          XDG_PUBLICSHARE_DIR="$HOME/public"
+          XDG_DOCUMENTS_DIR="$HOME/documents"
+          XDG_MUSIC_DIR="$HOME/music"
+          XDG_PICTURES_DIR="$HOME/pictures"
+          XDG_VIDEOS_DIR="$HOME/videos"
+        '';
+      };
 
-    modules.services.spotifyd.enable = true;
+    };
 
   };
 }
