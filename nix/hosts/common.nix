@@ -1,10 +1,9 @@
-{ lib, config, pkgs, ... }:
+{ inputs, lib, config, pkgs, ... }:
 
 let
   machineType = config.k.kind;
   isPC = lib.elem machineType [ "pc" ];
 in {
-  imports = [ ../modules ];
 
   options.k = let
     types = lib.types;

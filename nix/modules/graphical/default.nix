@@ -1,10 +1,12 @@
 { lib, config, pkgs, ... }:
+
 let
   cfg = config.modules.graphical;
   optionals = lib.lists.optionals;
 in {
+
   options.modules.graphical = with lib; {
-    enable = mkEnableOption { };
+    enable = mkEnableOption "GUI";
     dm = mkOption { # TODO: define only if `cfg.enable`
       description = "Enable Display Manager";
       type = types.bool;
@@ -39,7 +41,7 @@ in {
           i3lock
         ];
       };
-  
+
       layout = "us";
       xkbVariant = "";
       xkbOptions = "compose:rctrl";

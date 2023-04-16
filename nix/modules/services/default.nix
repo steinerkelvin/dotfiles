@@ -1,9 +1,9 @@
-{...}:
+{ ... }:
 
 {
-	imports = [
-		./n8n.nix
-		./spotifyd.nix
-		./syncthing.nix
-	];
+  imports = [
+    ./n8n.nix
+    ./spotifyd.nix
+    ./syncthing.nix
+  ];
 }

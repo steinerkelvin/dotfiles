@@ -1,5 +1,3 @@
-{ ... }:
-
 {
-  imports = [ ./kelvin ];
+  kelvin = import ./kelvin;
 }

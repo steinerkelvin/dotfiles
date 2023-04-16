@@ -2,8 +2,8 @@
 
 let
   cfg = config.modules.services.syncthing;
-  user = "kelvin";
-  home = config.users.users."${user}".home;
+  user = "kelvin";        # TODO: user from parameters
+  home = "/home/kelvin";
 in
 {
   options.modules.services.syncthing = with lib; {
