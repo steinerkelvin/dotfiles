@@ -20,6 +20,9 @@ in {
   config = lib.mkMerge [
 
     {
+      nix.settings.experimental-features = [ "nix-command" "flakes" ];
+      nixpkgs.config.allowUnfree = true;
+
       environment.systemPackages = with pkgs; [
         # Editors
         vim
@@ -45,8 +48,6 @@ in {
       ];
 
       programs.mtr.enable = true;
-
-      nixpkgs.config.allowUnfree = true;
 
       # Hostname
       networking.hostName = config.k.name;
