@@ -11,8 +11,4 @@ in
       ../users
       machines.nixia
     ];
-
-  # TODO: how to handle the firewall?
-  # Probably should let it enabled
-  networking.firewall.enable = false;
 }
