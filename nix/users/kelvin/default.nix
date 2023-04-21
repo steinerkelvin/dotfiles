@@ -90,6 +90,11 @@ in {
         vim
         helix
 
+        # Utilities
+        pdftk
+
+        # Dev
+
         rustup
 
         tig
@@ -157,6 +162,7 @@ in {
         imv
         mpv
         viu
+        zathura
 
         kitty
         vscode
