@@ -115,6 +115,7 @@ in {
         calibre
         qbittorrent
         gimp
+        spotify
 
         # Image editing
         krita
