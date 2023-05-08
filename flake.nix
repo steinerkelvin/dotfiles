@@ -12,6 +12,7 @@
   outputs = inputs@{ self, nixpkgs, ... }:
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
+      forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
       nixosModules = import ./nix/modules;
       userModules = import ./nix/users;
@@ -27,25 +28,22 @@
           specialArgs = { inherit inputs; };
         });
 
-      forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
-    in rec {
+      lib = import ./nix/lib { inherit inputs; };
+    in
+    rec {
       inherit nixosModules;
 
-      lib = import ./nix/lib { inherit inputs; };
-
-      # packages.x86_64-linux.hello = nixpkgs.legacyPackages.x86_64-linux.hello;
-      # packages.x86_64-linux.default = self.packages.x86_64-linux.hello;
-
-      # packages = forAllPlatforms (platform:
-      #   lib.filterSupportedPkgs platform
-      #     (import ./pkgs {
-      #       pkgs = import nixpkgs {
-      #         hostPlatform = platform;
-      #         overlays = [ ];
-      #         config.allowUnfree = true;
-      #       };
-      #     })
-      # );
+      # Export custom packages
+      packages = forAllPlatforms (system:
+        lib.filterSupportedPkgs system
+          (import ./nix/pkgs {
+            pkgs = import nixpkgs {
+              inherit system;
+              overlays = [ ];
+              config.allowUnfree = true;
+            };
+          })
+      );
 
       nixosConfigurations = {
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
