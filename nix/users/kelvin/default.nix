@@ -1,6 +1,8 @@
 { lib, config, pkgs, ... }:
 
-let username = "kelvin";
+let
+  username = "kelvin";
+  shellScripts = import ./shell {};
 in {
   imports = [ ./graphical.nix ];
 
@@ -95,9 +97,11 @@ in {
 
         # Dev
 
-        rustup
-
         tig
+
+        yarn
+        nodejs
+        rustup
 
         python310Packages.ipython
 
@@ -218,7 +222,14 @@ in {
 
         # Vim mode
         bindkey -v
-      '';
+
+        alias nxshz='nix-shell --command zsh'
+      '' + (
+        lib.lists.foldl'
+          (a: b: a+b)
+          ""
+          (lib.attrValues shellScripts)
+        );
 
       # Vim
 
