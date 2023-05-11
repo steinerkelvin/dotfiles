@@ -16,6 +16,10 @@
 
     # Hardware
     modules.radeon.enable = true;
+    
+    environment.systemPackages = with pkgs; [
+      steam
+    ];
 
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
