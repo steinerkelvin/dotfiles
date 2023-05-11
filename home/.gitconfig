@@ -4,7 +4,7 @@
 	name = Kelvin Steiner
 	email = me@steinerkelvin.dev
 [pull]
-	ff = true
+	ff = only
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [interactive]
