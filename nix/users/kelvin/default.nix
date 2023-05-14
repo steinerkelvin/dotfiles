@@ -113,6 +113,7 @@ in {
 
         # GUI Apps
         firefox
+        brave
         microsoft-edge
         tdesktop
         discord
