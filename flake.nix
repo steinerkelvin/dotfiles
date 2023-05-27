@@ -7,6 +7,8 @@
 
     home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
@@ -29,6 +31,8 @@
         });
 
       lib = import ./nix/lib { inherit inputs; };
+
+      hostConfigs = import ./nix/hosts;
     in
     rec {
       inherit nixosModules;
@@ -46,8 +50,9 @@
       );
 
       nixosConfigurations = {
-        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
-        kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma ]; };
+        nixia = mkSystem { extraModules = [ hostConfigs.nixia ]; };
+        kazuma = mkSystem { extraModules = [ hostConfigs.kazuma ]; };
+        ryuko = mkSystem { extraModules = [ hostConfigs.ryuko-wsl ]; };
       };
 
       # TODO: home / profile configurarions
