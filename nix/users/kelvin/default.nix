@@ -87,6 +87,7 @@ in {
         exa
         bat
         htop
+        jq
 
         # Editors
         vim
