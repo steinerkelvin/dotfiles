@@ -9,6 +9,8 @@
 
     system.stateVersion = "22.11";
 
+    k.modules.audio-prod.enable = true;
+
     modules.graphical.enable = true;
 
     modules.services.syncthing.enable = true;

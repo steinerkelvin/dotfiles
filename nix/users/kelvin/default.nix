@@ -103,8 +103,10 @@ in {
         yarn
         nodejs
         rustup
+        # haskellPackages.ghcup
 
         python310Packages.ipython
+        # ihaskell
 
         tabnine
 
@@ -115,7 +117,7 @@ in {
         # GUI Apps
         firefox
         brave
-        microsoft-edge
+        dolphin
         tdesktop
         discord
         calibre
