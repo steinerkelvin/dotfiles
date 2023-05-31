@@ -105,6 +105,7 @@ in {
         rustup
         # haskellPackages.ghcup
 
+        python310
         python310Packages.ipython
         # ihaskell
 
