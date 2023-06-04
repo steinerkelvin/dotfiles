@@ -1,8 +1,8 @@
 { inputs, lib, config, pkgs, ... }:
 
 let
-  machineType = config.k.kind;
-  isPC = lib.elem machineType [ "pc" ];
+  machineKind = config.k.kind;
+  isPC = lib.elem machineKind [ "pc" ];
 in {
 
   options.k = let
@@ -10,6 +10,7 @@ in {
     mkOption = lib.mkOption;
   in {
     name = mkOption { type = types.str; };
+    domain = mkOption { type = types.str; };
     kind = mkOption {
       type = types.enum [ "bare" "pc" ];
       default = "bare";
@@ -19,6 +20,8 @@ in {
   config = lib.mkMerge [
 
     {
+      k.domain = "h.steinerkelvin.dev";
+
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nixpkgs.config.allowUnfree = true;
 
@@ -50,6 +53,7 @@ in {
 
       # Hostname
       networking.hostName = config.k.name;
+      networking.domain = config.k.domain;
 
       # Bootloader
       boot.loader = if !isPC then {
@@ -148,6 +152,10 @@ in {
       services.printing.enable = true;
 
     })
+    
+    {
+      programs.adb.enable = true;
+    }
 
   ];
 
