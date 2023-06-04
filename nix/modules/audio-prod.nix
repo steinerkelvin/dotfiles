@@ -10,9 +10,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    services.pipewire.wireplumber.enable = true;
+    services.pipewire = {
+      enable = true;
+      wireplumber.enable = true;
+      jack = {
+        enable = true;
+      };
+    };
 
     environment.systemPackages = with pkgs; [
+      pipewire
       qpwgraph
       ardour
     ];
