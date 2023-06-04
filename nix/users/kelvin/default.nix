@@ -1,8 +1,10 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, pkgs, inputs, ... }:
 
 let
   username = "kelvin";
   shellScripts = import ./shell {};
+  unstable = (import inputs.unstable { system = pkgs.system; });
+
 in {
   imports = [ ./graphical.nix ];
 
@@ -71,7 +73,7 @@ in {
 
         # Shell
         zsh
-        zsh-autosuggestions
+        # zsh-autosuggestions
         zsh-syntax-highlighting
         starship
         zoxide
@@ -198,7 +200,7 @@ in {
 
         # Load the plugins
         antigen bundle git
-        antigen bundle zsh-users/zsh-autosuggestions
+        # antigen bundle zsh-users/zsh-autosuggestions
         antigen bundle zsh-users/zsh-syntax-highlighting
         antigen bundle fzf
         antigen bundle git
