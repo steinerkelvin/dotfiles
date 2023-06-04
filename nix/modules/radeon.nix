@@ -21,10 +21,11 @@ in
       "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
     ];
 
-    hardware.opengl.extraPackages = with pkgs; [
-      rocm-opencl-icd
-      rocm-opencl-runtime
-    ];
+    # # TODO: flag
+    # hardware.opengl.extraPackages = with pkgs; [
+    #   rocm-opencl-icd
+    #   rocm-opencl-runtime
+    # ];
 
     environment.systemPackages = with pkgs; [
       radeontop

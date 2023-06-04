@@ -18,6 +18,8 @@ in {
       packages = with pkgs; [ firefox kate ];
     };
 
+    programs.zsh.enable = true;
+
     modules.services.spotifyd.enable = true;
 
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {

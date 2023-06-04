@@ -61,7 +61,6 @@ in {
       } else {
         grub = {
           enable = true;
-          version = 2;
           device = "nodev";
           efiSupport = true;
           useOSProber = true;
@@ -74,7 +73,7 @@ in {
 
       # SSH
       services.openssh.enable = true;
-      services.openssh.forwardX11 = true;
+      services.openssh.settings.X11Forwarding = true;
       # SSH agent
       programs.ssh.startAgent = true;
       # Mosh
