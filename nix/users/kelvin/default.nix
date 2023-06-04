@@ -165,6 +165,7 @@ in {
         rofi
         dunst
         maim
+        feh
 
         sway
         wofi
