@@ -214,13 +214,13 @@ in {
 
         # Load the theme
         #antigen theme robbyrussell
-        if command -v "starship" >/dev/null; then
-          eval "$(starship init zsh)"
-        else
-          export AGKOZAK_LEFT_PROMPT_ONLY=1
-          export AGKOZAK_BLANK_LINES=1
-          antigen theme agkozak/agkozak-zsh-prompt
-        fi
+        #if command -v "starship" >/dev/null; then
+        #  eval "$(starship init zsh)"
+        #else
+        #  export AGKOZAK_LEFT_PROMPT_ONLY=1
+        #  export AGKOZAK_BLANK_LINES=1
+        #  antigen theme agkozak/agkozak-zsh-prompt
+        #fi
 
         # Apply the settings
         antigen apply
