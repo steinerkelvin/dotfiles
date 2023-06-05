@@ -5,6 +5,11 @@
 
     home-manager.users.kelvin = { lib, config, pkgs, ... }: {
 
+      home.packages = with pkgs; [
+        feh
+        redshift
+      ];
+
       xsession = {
         enable = true;
 
@@ -26,6 +31,10 @@
           in {
             modifier = "${mod}";
             terminal = "kitty";
+            startup = [
+              { command = "~/.fehbg"; }
+              # TODO: redshift
+            ];
             # TODO: fix i3blocks
             # bars = [
             #   {
