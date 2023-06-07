@@ -3,11 +3,13 @@
 [user]
 	name = Kelvin Steiner
 	email = me@steinerkelvin.dev
+[init]
+	defaultBranch = master
 [pull]
 	ff = only
+[color]
+	ui = true
 [core]
 	pager = diff-so-fancy | less --tabs=4 -RFX
 [interactive]
 	diffFilter = diff-so-fancy --patch
-[color]
-	ui = true
