@@ -7,7 +7,7 @@
     k.name = "nixia";
     k.kind = "pc";
 
-    system.stateVersion = "22.11";
+    system.stateVersion = "23.05";
 
     k.modules.audio-prod.enable = true;
 
