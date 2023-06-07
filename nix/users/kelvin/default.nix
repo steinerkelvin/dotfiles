@@ -236,12 +236,20 @@ in {
         bindkey -v
 
         alias nxshz='nix-shell --command zsh'
-      '' + (
-        lib.lists.foldl'
-          (a: b: a+b)
-          ""
-          (lib.attrValues shellScripts)
-        );
+        '' 
+        + (
+          lib.lists.foldl'
+            (a: b: a+b)
+            ""
+            (lib.attrValues shellScripts)
+          )
+        + ''
+          if [ -d "$HOME/.mix/escripts" ]; then
+            PATH="$HOME/.mix/escripts:$PATH"
+          fi
+        ''
+        # TODO: variable for set of custom PATH values
+        ;
 
       # Vim
 
