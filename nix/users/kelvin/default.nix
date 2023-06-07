@@ -92,6 +92,8 @@ in {
         bat
         htop
         jq
+        tmux
+        tmate
 
         # Editors
         vim
