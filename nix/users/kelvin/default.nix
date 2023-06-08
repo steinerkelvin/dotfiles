@@ -37,6 +37,11 @@ in {
         VISUAL = "hx";
       };
 
+      # TODO: conditional on existance
+      home.sessionPath = [
+        "$HOME/.mix/escripts"
+      ];
+
       programs.direnv.enable = true;
       programs.direnv.nix-direnv.enable = true;
 
@@ -74,11 +79,12 @@ in {
         libsecret
 
         # Shell
-        zsh
+        # zsh
         # zsh-autosuggestions
-        zsh-syntax-highlighting
-        starship
+        # zsh-syntax-highlighting
+        # starship
         zoxide
+        nerdfonts
 
         # Terminal / shell tools
         fzf
@@ -193,64 +199,57 @@ in {
 
       # Zsh
 
-      programs.zsh.enable = true;
+      programs.starship = {
+        enable = true;
+        enableZshIntegration = true;
+      };
 
-      programs.starship.enable = true;
+      programs.zsh = {
+        # vim mode?
+        enable = true;
+        shellAliases = {
+          # Nix aliases
+          nxshz = "nix-shell --command zsh";
+          # Exa aliases
+          ll = "exa -l";
+          la = "exa -l -a";
+        };
+        oh-my-zsh = {
+          enable = true;
+          plugins = [
+            "sudo"
+            "command-not-found"
+            "zoxide"
+            "git"
+            "fzf"
+            "rust"
+            "pip"
+            "yarn"
+          ];
+        };
+      };
 
-      home.file.".zshrc".text = ''
-        # Load Antigen
-        source ${pkgs.antigen}/share/antigen/antigen.zsh
-
-        # Set up Antigen to use oh-my-zsh's library
-        #antigen use oh-my-zsh
-
-        # Load the plugins
-        antigen bundle git
-        # antigen bundle zsh-users/zsh-autosuggestions
-        antigen bundle zsh-users/zsh-syntax-highlighting
-        antigen bundle fzf
-        antigen bundle git
-        antigen bundle cargo
-        antigen bundle pip
-        antigen bundle yarn
-        antigen bundle command-not-found
-
-        # Load the theme
-        #antigen theme robbyrussell
-        #if command -v "starship" >/dev/null; then
-        #  eval "$(starship init zsh)"
-        #else
-        #  export AGKOZAK_LEFT_PROMPT_ONLY=1
-        #  export AGKOZAK_BLANK_LINES=1
-        #  antigen theme agkozak/agkozak-zsh-prompt
-        #fi
-
-        # Apply the settings
-        antigen apply
-
-        # Setup Zoxide
-        if command -v "zoxide" >/dev/null; then
-          eval "$(zoxide init zsh)"
-        fi
-
-        # Vim mode
-        bindkey -v
-
-        alias nxshz='nix-shell --command zsh'
-        '' 
-        + (
-          lib.lists.foldl'
-            (a: b: a+b)
-            ""
-            (lib.attrValues shellScripts)
-          )
-        + ''
-          if [ -d "$HOME/.mix/escripts" ]; then
-            PATH="$HOME/.mix/escripts:$PATH"
-          fi
-        ''
-        # TODO: variable for set of custom PATH values
-        ;
+      # home.file.".zshrc".text = ''
+      #   # Load Antigen
+      #   source ${pkgs.antigen}/share/antigen/antigen.zsh
+      #   # Set up Antigen to use oh-my-zsh's library
+      #   #antigen use oh-my-zsh
+      #   # Load the plugins
+      #   antigen bundle git
+      #   # TODO:
+      #   antigen bundle zsh-users/zsh-autosuggestions
+      #   antigen bundle zsh-users/zsh-syntax-highlighting
+      #   # Apply the settings
+      #   antigen apply
+      #   # TODO: custom scripts
+      #   ''
+      #   + (
+      #     lib.lists.foldl'
+      #       (a: b: a+b)
+      #       ""
+      #       (lib.attrValues shellScripts)
+      #     )
+      #   ;
 
       # Vim
 
