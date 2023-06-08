@@ -124,6 +124,7 @@ in {
         # GUI Apps
         firefox
         brave
+        logseq
         dolphin
         tdesktop
         discord
