@@ -10,6 +10,12 @@ in {
 
   config = {
 
+    # TODO: integrate this better on separate module
+    modules.services.spotifyd.enable = true;
+
+    # TODO: separate user module for shell
+    programs.zsh.enable = true;
+
     users.users."${username}" = {
       isNormalUser = true;
       description = "Kelvin";
@@ -17,10 +23,6 @@ in {
       shell = pkgs.zsh;
       packages = with pkgs; [ firefox kate ];
     };
-
-    programs.zsh.enable = true;
-
-    modules.services.spotifyd.enable = true;
 
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
 
@@ -49,6 +51,9 @@ in {
 
       services.keybase.enable = true;
       services.kbfs.enable = true;
+
+      # Enable user fonts
+      fonts.fontconfig.enable = true;
 
       home.packages = with pkgs; [
         # Nix tools
@@ -195,6 +200,12 @@ in {
         speedcrunch
 
         spotifyd
+
+        # Fonts
+        roboto
+        fira-code
+        fira-code-symbols
+        xkcd-font
       ];
 
       # Zsh

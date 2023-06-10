@@ -16,6 +16,16 @@ in {
 
   config = lib.mkIf cfg.enable {
 
+    fonts.fonts = with pkgs; [
+      noto-fonts
+      noto-fonts-cjk
+      noto-fonts-emoji
+      roboto
+      liberation_ttf
+      dejavu_fonts
+      ubuntu_font_family
+    ];
+
     services.xserver = {
       enable = true;
 
