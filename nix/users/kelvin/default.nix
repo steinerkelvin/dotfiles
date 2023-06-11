@@ -242,6 +242,17 @@ in {
         add mod4 = Super_L Super_R
       '';
 
+      # Helix
+      programs.helix = {
+        enable = true;
+        settings = {
+          editor.auto-pairs = false;
+          editor.file-picker.hidden = false;
+        };
+      };
+
+      # Spotifyd
+      # TODO: move to module
       services.spotifyd = {
         enable = true;
         settings = {
@@ -254,7 +265,7 @@ in {
         };
       };
 
-      # Config files
+      # XDG User Dirs
       home.file = {
         ".config/user-dirs.dirs".text = ''
           XDG_DESKTOP_DIR="$HOME/desktop"
@@ -268,7 +279,9 @@ in {
         '';
       };
 
+    # end home-manager.users.${username}
     };
 
+  # end config
   };
 }
