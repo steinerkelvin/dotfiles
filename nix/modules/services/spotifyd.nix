@@ -10,11 +10,11 @@
   config = {
 
     networking.firewall.allowedTCPPorts = [
-      57621  # spotifyd
+      57621
     ];
     networking.firewall.allowedUDPPorts = [
-      5353  # spotifyd
-      57621 # spotifyd
+      5353
+      57621
     ];
 
   };

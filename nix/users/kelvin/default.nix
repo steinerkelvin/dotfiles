@@ -114,101 +114,17 @@ in {
         pdftk
 
         # Dev
-
         tig
-
+        ## Package managers
         yarn
         nodejs
+        ## Language managers
         rustup
-        # haskellPackages.ghcup
+        haskellPackages.ghcup
 
         python310
         python310Packages.ipython
         # ihaskell
-
-        tabnine
-
-        wakatime
-
-        # GUI
-
-        # GUI Apps
-        firefox
-        brave
-        logseq
-        dolphin
-        tdesktop
-        discord
-        calibre
-        qbittorrent
-        gimp
-        spotify
-
-        # Image editing
-        krita
-        xkcd-font
-
-        gnome.seahorse
-
-        xorg.xmodmap
-        xorg.xev
-        xclip
-        xdotool
-        libnotify
-        redshift
-
-        pipewire
-        wireplumber
-        qpwgraph
-        easyeffects
-
-        networkmanagerapplet
-        networkmanager_dmenu
-
-        pulseaudio
-        pavucontrol
-        pulsemixer
-
-        brightnessctl
-
-        libinput
-
-        i3
-        i3blocks
-        dmenu
-        rofi
-        dunst
-        maim
-        feh
-
-        sway
-        wofi
-
-        wl-clipboard
-        slurp
-        grim
-
-        imv
-        mpv
-        viu
-        zathura
-
-        kitty
-        vscode
-        keybase-gui
-
-        speedcrunch
-
-        spotifyd
-
-        # Fonts
-        roboto
-        inconsolata
-        inconsolata-nerdfont
-        iosevka
-        fira-code
-        fira-code-symbols
-        xkcd-font
       ];
 
       # Zsh

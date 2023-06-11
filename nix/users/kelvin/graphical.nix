@@ -6,8 +6,96 @@
     home-manager.users.kelvin = { lib, config, pkgs, ... }: {
 
       home.packages = with pkgs; [
-        feh
+        # X11 / Xorg
+        xorg.xmodmap
+        xorg.xev
+        xclip
+        xdotool
+        libnotify
         redshift
+
+        # Terminal
+        kitty
+        viu
+
+        # GUI Apps
+        ## Browser
+        firefox
+        brave
+        ## Note-taking
+        logseq
+        ## File Manager
+        dolphin
+        ## Communication
+        tdesktop
+        discord
+        calibre
+        qbittorrent
+        ## Music
+        spotify
+        ## Image-editing
+        gimp
+        krita
+        ## Misc
+        keybase-gui
+        ## Tools
+        speedcrunch
+        ## Dev
+        vscode
+        tabnine
+        wakatime
+
+        # Audio
+        ## Pipewire
+        pipewire
+        wireplumber
+        qpwgraph
+        easyeffects
+        ## Pulseaudio
+        pulseaudio
+        pavucontrol
+        pulsemixer
+
+        # Network
+        networkmanagerapplet
+        networkmanager_dmenu
+
+        # Credentials
+        gnome.seahorse
+
+        # Input tools
+        libinput
+
+        # i3
+        i3
+        i3blocks
+        dmenu
+        rofi
+        dunst
+        maim
+        feh
+
+        # sway
+        sway
+        wofi
+        wl-clipboard
+        slurp
+        grim
+
+        # Tiling native apps
+        imv
+        mpv
+        zathura
+
+        # Fonts
+        roboto
+        inconsolata
+        inconsolata-nerdfont
+        iosevka
+        fira-code
+        fira-code-symbols
+        ## Content
+        xkcd-font
       ];
 
       xsession = {
