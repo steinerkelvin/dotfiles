@@ -14,6 +14,7 @@ in
 
     system.stateVersion = "22.11";
 
+    virtualisation.docker.enable = true;
     virtualisation.podman.enable = true;
 
     modules.graphical.enable = true;
