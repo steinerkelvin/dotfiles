@@ -203,6 +203,9 @@ in {
 
         # Fonts
         roboto
+        inconsolata
+        inconsolata-nerdfont
+        iosevka
         fira-code
         fira-code-symbols
         xkcd-font
@@ -223,7 +226,7 @@ in {
           rmr = "rm -r";
           dusm = "du -hs";
           # Nix aliases
-          nxshz = "nix-shell --command zsh";
+          nxs = "nix-shell --command zsh";
           # Exa aliases
           ll = "exa -l";
           la = "exa -l -a";

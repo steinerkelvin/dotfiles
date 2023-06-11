@@ -1,0 +1,22 @@
+.config/alacritty
+.config/Code
+.config/Code - OSS
+.config/gtk-3.0
+.config/htop
+.config/karabiner
+.config/kitty
+.config/mako
+.config/mpv
+.config/nix
+.config/ntfy
+.config/nvim
+.config/picom
+.config/skhd
+.config/spotifyd
+.config/starship.toml
+.config/systemd
+.config/user-dirs.dirs
+.config/user-dirs.locale
+.config/waybar
+.config/yabai
+.config/helix
