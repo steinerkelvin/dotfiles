@@ -120,7 +120,7 @@ in {
         nodejs
         ## Language managers
         rustup
-        haskellPackages.ghcup
+        # haskellPackages.ghcup
 
         python310
         python310Packages.ipython
