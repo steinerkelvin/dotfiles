@@ -219,12 +219,23 @@ in {
         # vim mode?
         enable = true;
         shellAliases = {
+          # Shell aliases
+          rmr = "rm -r";
+          dusm = "du -hs";
           # Nix aliases
           nxshz = "nix-shell --command zsh";
           # Exa aliases
           ll = "exa -l";
           la = "exa -l -a";
+          # Git aliases
+          glogh = "git log --oneline --decorate --graph HEAD";
+          # Kitty aliases
+          sshk = "kitty +kitten ssh";
+          icatk = "kitty +icat";
+          # Homesick/Homeshick aliases
+          dtcd = "homeshick cd dotfiles; cd home;";
         };
+
         oh-my-zsh = {
           enable = true;
           plugins = [
