@@ -66,17 +66,43 @@ in {
         home-manager
         lorri
 
-        lsof
-        inetutils
-        nmap
-        dig
-        pstree
-
         curl
         wget
         rsync
         openssh
         git
+
+        # Terminal / shell tools
+        fzf
+        homesick
+        stow
+        silver-searcher
+        ripgrep
+        diff-so-fancy
+        shellcheck
+        ## File utilities
+        exa
+        tree
+        ncdu
+        nnn
+        broot
+        ranger
+        bat
+        ## Misc
+        httpie
+        jq
+        jc
+        tmux
+        tmate
+
+        # System utilities
+        htop
+        pstree
+        lsof
+        ## Network utilities
+        inetutils
+        nmap
+        dig
 
         # Secrets
         gnupg
@@ -90,21 +116,6 @@ in {
         # starship
         zoxide
         nerdfonts
-
-        # Terminal / shell tools
-        fzf
-        silver-searcher
-        ripgrep
-        homesick
-        stow
-        shellcheck
-        diff-so-fancy
-        exa
-        bat
-        htop
-        jq
-        tmux
-        tmate
 
         # Editors
         vim
