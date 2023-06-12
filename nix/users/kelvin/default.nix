@@ -125,17 +125,18 @@ in {
         pdftk
 
         # Dev
+        ## Git
         tig
+        gh
         ## Package managers
         yarn
         nodejs
         ## Language managers
         rustup
-        # haskellPackages.ghcup
+        #haskellPackages.ghcup
 
         python310
         python310Packages.ipython
-        # ihaskell
       ];
 
       # Zsh
