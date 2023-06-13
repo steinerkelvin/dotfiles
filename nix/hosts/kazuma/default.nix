@@ -43,23 +43,19 @@ in
       };
     };
 
-    environment.systemPackages = [
-      pkgs.arion
-
-      # Do install the docker CLI to talk to podman.
-      # Not needed when virtualisation.docker.enable = true;
-      pkgs.docker-client
+    environment.systemPackages = with pkgs; [
+      arion
+      docker-client
+      docker-compose
     ];
 
-    # Arion works with Docker, but for NixOS-based containers, you need Podman
-    # since NixOS 21.05.
-    virtualisation.docker.enable = false;
+    virtualisation.docker.enable = true;
     virtualisation.podman.enable = true;
-    virtualisation.podman.dockerSocket.enable = true;
+    # virtualisation.podman.dockerSocket.enable = true;
     virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
 
     virtualisation.arion = {
-      backend = "podman-socket";
+      backend = "docker";
       projects = {
         smokeping = {
           settings.services."smokeping".service = {
