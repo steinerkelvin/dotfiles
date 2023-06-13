@@ -7,6 +7,8 @@
 
     home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+
+    arion.url = "github:hercules-ci/arion";
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
