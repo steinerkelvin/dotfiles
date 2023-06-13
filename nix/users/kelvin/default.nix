@@ -99,6 +99,7 @@ in {
         htop
         pstree
         lsof
+        iotop
         ## Network utilities
         inetutils
         nmap
