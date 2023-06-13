@@ -26,8 +26,10 @@
         menu = Local Machine
         title = This host
         host = localhost
-        
+
         + DNS
+        menu = DNS
+        title = DNS
         ++ Cloudflare_DNS_1
         host = 1.1.1.1
         ++ Cloudflare_DNS_2
@@ -36,8 +38,10 @@
         host = 8.8.8.8
         ++ Google_DNS_2
         host = 8.4.4.8
-        
+
         + Sites
+        menu = Sites
+        title = Sites
         ++ Google
         host = google.com
       '';
@@ -50,7 +54,7 @@
 
     # Hardware
     modules.radeon.enable = true;
-    
+
     environment.systemPackages = with pkgs; [
       steam
     ];
