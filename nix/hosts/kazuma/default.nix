@@ -2,8 +2,12 @@
 
 let
   # TODO: move out + check duplicates
-  registeredPorts = {
+  k.ports = {
+    mosquitto_1 = 1883;
+    mosquitto_2 = 9001;
+    home-assistant = 8123;
     headscale = 49001;
+    zigbee2mqtt = 49081;
     smokeping = 49181;
   };
 in
@@ -27,12 +31,19 @@ in
 
     networking.firewall = {
       enable = true;
-      allowedTCPPorts = [ registeredPorts.headscale ];
+      allowedTCPPorts = [
+        k.ports.mosquitto_1
+        k.ports.mosquitto_2
+        k.ports.home-assistant
+        k.ports.headscale
+        k.ports.zigbee2mqtt
+        k.ports.smokeping
+      ];
     };
 
     services.headscale = {
       enable = true;
-      port = registeredPorts.headscale;
+      port = k.ports.headscale;
       address = "0.0.0.0";
       dns = {
         magicDns = true;
@@ -60,11 +71,11 @@ in
       projects = {
 
         smokeping = {
-          settings.services."smokeping".service = {
+          settings.services."smokeping".service = { # Smokeping
             image = "lscr.io/linuxserver/smokeping:latest";
             restart = "unless-stopped";
             ports = [
-              "${toString registeredPorts.smokeping}:80"
+              "${toString k.ports.smokeping}:80"
             ];
           };
         };
@@ -76,7 +87,7 @@ in
         # };
 
         homeassistant = {
-          settings.services.homeassistant.service = {
+          settings.services.homeassistant.service = { # Home Assistant
             image = "ghcr.io/home-assistant/home-assistant:stable";
             restart = "unless-stopped";
             privileged = true;
@@ -85,7 +96,36 @@ in
               TZ = "America/Sao_Paulo";
             };
             volumes = [
-              "/config:/data/home-assistant/config"
+              "/data/home-assistant/config:/config"
+            ];
+          };
+          settings.services.mqtt.service = { # MQTT
+            image = "eclipse-mosquitto:2.0";
+            restart = "unless-stopped";
+            volumes = [
+              "/data/mosquitto/data:/mosquitto"
+            ];
+            ports = [
+              "${toString k.ports.mosquitto_1}:1883"
+              "${toString k.ports.mosquitto_2}:9001"
+            ];
+            command = [ "mosquitto" "-c" "/mosquitto-no-auth.conf" ];
+          };
+          settings.services.zigbee2mqtt.service = { # Zigbee2MQTT
+            image = "koenkk/zigbee2mqtt";
+            restart = "unless-stopped";
+            volumes = [
+              "/data/zigbee2mqtt/data:/app/data"
+              "/run/udev:/run/udev:ro"
+            ];
+            ports = [
+              "${toString k.ports.zigbee2mqtt}:8080"
+            ];
+            environment = {
+              TZ = "America/Sao_Paulo";
+            };
+            devices = [
+              "/dev/ttyUSB0:/dev/ttyUSB0"
             ];
           };
         };
