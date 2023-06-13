@@ -56,7 +56,9 @@ in
 
     virtualisation.arion = {
       backend = "docker";
+
       projects = {
+
         smokeping = {
           settings.services."smokeping".service = {
             image = "lscr.io/linuxserver/smokeping:latest";
@@ -66,11 +68,28 @@ in
             ];
           };
         };
+
         # sticker-bot = {
         #   settings.services."sticker-bot".service = {
         #     image = "telegram-inline-stickers-bot-app";
         #   };
         # };
+
+        homeassistant = {
+          settings.services.homeassistant.service = {
+            image = "ghcr.io/home-assistant/home-assistant:stable";
+            restart = "unless-stopped";
+            privileged = true;
+            network_mode = "host";
+            environment = {
+              TZ = "America/Sao_Paulo";
+            };
+            volumes = [
+              "/config:/data/home-assistant/config"
+            ];
+          };
+        };
+
       };
     };
 
