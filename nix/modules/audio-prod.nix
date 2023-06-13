@@ -10,6 +10,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    environment.systemPackages = with pkgs; [
+      pipewire
+      qpwgraph
+      ardour
+    ];
+
     services.pipewire = {
       enable = true;
       wireplumber.enable = true;
@@ -18,11 +25,16 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      pipewire
-      qpwgraph
-      ardour
+    # TODO: memlock limit not working
+    security.pam.loginLimits = [
+      {
+        domain = "@audio";
+        item = "memlock";
+        type = "soft";
+        value = "65536";
+      }
     ];
+
   };
 
 }

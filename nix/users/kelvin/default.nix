@@ -19,7 +19,7 @@ in {
     users.users."${username}" = {
       isNormalUser = true;
       description = "Kelvin";
-      extraGroups = [ "networkmanager" "wheel" ];
+      extraGroups = [ "wheel" "networkmanager" "audio" ];
       shell = pkgs.zsh;
       packages = with pkgs; [ firefox kate ];
     };

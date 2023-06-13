@@ -33,6 +33,8 @@
         qbittorrent
         ## Music
         spotify
+        ## Audio
+        gnome.gnome-sound-recorder
         ## Image-editing
         gimp
         krita
