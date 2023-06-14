@@ -11,6 +11,10 @@
 
     k.modules.audio-prod.enable = true;
 
+    programs.steam.enable = true;
+    programs.steam.remotePlay.openFirewall = true;
+    hardware.steam-hardware.enable = true;
+
     services.smokeping = {
       enable = true;
       targetConfig = ''
@@ -54,10 +58,6 @@
 
     # Hardware
     modules.radeon.enable = true;
-
-    environment.systemPackages = with pkgs; [
-      steam
-    ];
 
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
