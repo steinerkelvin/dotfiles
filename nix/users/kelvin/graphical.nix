@@ -58,6 +58,11 @@
         pavucontrol
         pulsemixer
 
+        # Screen
+        ## Brightness
+        ddcutil
+        ddcui
+
         # Network
         networkmanagerapplet
         networkmanager_dmenu

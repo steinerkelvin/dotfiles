@@ -65,5 +65,7 @@ in {
       xdg-desktop-portal-wlr
     ];
 
+    # DDC/CI — controling monitor brightness / contrast etc
+    services.ddccontrol.enable = true;
   };
 }
