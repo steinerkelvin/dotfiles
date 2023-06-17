@@ -61,6 +61,7 @@ in {
       } else {
         grub = {
           enable = true;
+          default = "saved";
           device = "nodev";
           efiSupport = true;
           useOSProber = true;
