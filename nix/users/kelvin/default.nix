@@ -6,7 +6,7 @@ let
   unstable = (import inputs.unstable { system = pkgs.system; });
 
 in {
-  imports = [ ./graphical.nix ];
+  imports = [ ./graphical ];
 
   config = {
 

@@ -1,6 +1,10 @@
 { lib, config, pkgs, ... }:
 
 {
+  imports = [
+    ./polybar.nix
+  ];
+
   config = lib.mkIf config.modules.graphical.enable {
 
     home-manager.users.kelvin = { lib, config, pkgs, ... }: {
