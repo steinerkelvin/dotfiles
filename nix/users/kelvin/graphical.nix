@@ -127,6 +127,7 @@
             modifier = "${mod}";
             terminal = "kitty";
             startup = [
+              { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
               { command = "~/.fehbg"; }
               # TODO: redshift
             ];
