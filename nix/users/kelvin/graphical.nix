@@ -35,6 +35,8 @@
         spotify
         ## Audio
         gnome.gnome-sound-recorder
+        ## Screencast
+        peek
         ## Image-editing
         gimp
         krita
