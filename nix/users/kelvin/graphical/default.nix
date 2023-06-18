@@ -137,6 +137,15 @@
               { command = "~/.fehbg"; }
               # TODO: redshift
             ];
+            colors = {
+              focused = {
+                border = "#cf2952";
+                background = "#f82a5d";
+                text = "#000000";
+                indicator = "#ff91a0";
+                childBorder = "#913e53";
+              };
+            };
             # TODO: fix i3blocks
             # bars = [
             #   {
