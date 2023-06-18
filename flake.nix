@@ -9,6 +9,9 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     arion.url = "github:hercules-ci/arion";
+
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    # nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
@@ -50,6 +53,7 @@
       nixosConfigurations = {
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
         kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma ]; };
+        ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 
       # TODO: home / profile configurarions

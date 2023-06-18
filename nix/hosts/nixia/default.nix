@@ -1,7 +1,10 @@
 { lib, config, pkgs, ... }:
 
 {
-  imports = [ ../common.nix ./hardware-configuration.nix ];
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+  ];
 
   config = {
     k.name = "nixia";
@@ -15,6 +18,7 @@
     programs.steam.remotePlay.openFirewall = true;
     hardware.steam-hardware.enable = true;
 
+    # TODO: extract
     services.smokeping = {
       enable = true;
       targetConfig = ''
