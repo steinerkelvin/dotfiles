@@ -168,6 +168,10 @@ in {
           dtcd = "homeshick cd dotfiles; cd home;";
         };
 
+        initExtra = ''
+          function nxr { nix-shell -p $1 --command $1 }
+        '';
+
         oh-my-zsh = {
           enable = true;
           plugins = [
