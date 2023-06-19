@@ -156,6 +156,8 @@ in {
           dusm = "du -hs";
           # Nix aliases
           nxs = "nix-shell --command zsh";
+          nxrb = "nixos-rebuild --flake ${inputs.self}";
+          sunxrb = "sudo nixos-rebuild --flake ${inputs.self}";
           # Exa aliases
           ll = "exa -l";
           la = "exa -l -a";
@@ -166,6 +168,8 @@ in {
           icatk = "kitty +icat";
           # Homesick/Homeshick aliases
           dtcd = "homeshick cd dotfiles; cd home;";
+          # Editor aliases
+          h = "hx .";
         };
 
         initExtra = ''
