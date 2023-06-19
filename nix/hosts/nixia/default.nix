@@ -3,6 +3,7 @@
 {
   imports = [
     ../common.nix
+    ../default-bootloader.nix
     ./hardware-configuration.nix
   ];
 

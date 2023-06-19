@@ -55,20 +55,6 @@ in {
       networking.hostName = config.k.name;
       networking.domain = config.k.domain;
 
-      # Bootloader
-      boot.loader = if !isPC then {
-        systemd-boot.enable = true;
-      } else {
-        grub = {
-          enable = true;
-          default = "saved";
-          device = "nodev";
-          efiSupport = true;
-          useOSProber = true;
-        };
-        timeout = 7;
-      };
-
       # Enable networking
       networking.networkmanager.enable = true;
 
