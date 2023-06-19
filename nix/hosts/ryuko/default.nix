@@ -16,6 +16,8 @@ in
   k.name = "ryuko";
   nixpkgs.hostPlatform = "x86_64-linux";
 
+  modules.graphical.enable = true;
+
   wsl = {
     enable = true;
     wslConf.automount.root = "/mnt";
