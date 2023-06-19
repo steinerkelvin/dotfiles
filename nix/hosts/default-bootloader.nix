@@ -9,7 +9,7 @@ in
 
     # Bootloader
     boot.loader = if !isPC then {
-      systemdboot.enable = true;
+      systemd-boot.enable = true;
     } else {
       grub = {
         enable = true;
