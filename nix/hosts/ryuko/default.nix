@@ -25,7 +25,10 @@ in
     startMenuLaunchers = true;
   };
 
-  services.vscode-server.enable = true;
+  services.vscode-server = {
+    enable = true;
+    installPath = "~/.vscode-server-insiders";
+  };
 
   # # Enable nix flakes
   # nix.package = pkgs.nixFlakes;
