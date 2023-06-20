@@ -1,5 +1,15 @@
 { pkgs, config, lib, ...}:
 
+let
+  c.background = "#282A2E";  # Dark grey
+  c.background-alt = "#373B41";  # Charcoal grey
+  c.foreground = "#C5C8C6";  # Silver
+  #c.primary = "#F0C674";  # Wheat
+  c.primary = "#F82A5D";  # Red pink
+  c.secondary = "#8ABEB7";  # Pale teal
+  c.alert = "#A54242";  # Dusty red
+  c.disabled = "#707880";  # Slate grey
+in
 {
   config = lib.mkIf config.modules.graphical.enable {
     home-manager.users.kelvin = { lib, config, pkgs, ... }: {
@@ -14,13 +24,13 @@
         };
 
         "colors" = {
-          background = "#282A2E";
-          "background-alt" = "#373B41";
-          foreground = "#C5C8C6";
-          primary = "#F0C674";
-          secondary = "#8ABEB7";
-          alert = "#A54242";
-          disabled = "#707880";
+          background = c.background;
+          background-alt = c.background-alt;
+          foreground = c.foreground;
+          primary = c.primary;
+          secondary = c.secondary;
+          alert = c.alert;
+          disabled = c.disabled;
         };
 
         "bar/bar" = {
@@ -71,7 +81,7 @@
           type = "internal/fs";
           interval = 25;
           "mount-0" = "/";
-          "label-mounted" = "%{F#F0C674}%mountpoint%%{F-} %percentage_used%%";
+          "label-mounted" = "%{F${c.primary}}%mountpoint%%{F-} %percentage_used%%";
           "label-unmounted" = "%mountpoint% not mounted";
           "label-unmounted-foreground" = "\${colors.disabled}";
         };
@@ -118,19 +128,19 @@
           interval = 5;
           "format-connected" = "<label-connected>";
           "format-disconnected" = "<label-disconnected>";
-          "label-disconnected" = "%{F#F0C674}%ifname%%{F#707880} disconnected";
+          "label-disconnected" = "%{F${c.primary}}%ifname%%{F${c.disabled}} disconnected";
         };
 
         "module/wlan" = {
           "inherit" = "network-base";
           "interface-type" = "wireless";
-          "label-connected" = "%{F#F0C674}%ifname%%{F-} %essid% %local_ip%";
+          "label-connected" = "%{F${c.primary}}%ifname%%{F-} %essid% %local_ip%";
         };
 
         "module/eth" = {
           "inherit" = "network-base";
           "interface-type" = "wired";
-          "label-connected" = "%{F#F0C674}%ifname%%{F-} %local_ip%";
+          "label-connected" = "%{F${c.primary}}%ifname%%{F-} %local_ip%";
         };
 
         "module/date" = {
