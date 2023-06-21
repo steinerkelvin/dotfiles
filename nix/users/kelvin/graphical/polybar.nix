@@ -1,13 +1,13 @@
 { pkgs, config, lib, ...}:
 
 let
-  c.background = "#282A2E";  # Dark grey
-  c.background-alt = "#373B41";  # Charcoal grey
-  c.foreground = "#C5C8C6";  # Silver
-  #c.primary = "#F0C674";  # Wheat
-  c.primary = "#F82A5D";  # Red pink
-  c.secondary = "#8ABEB7";  # Pale teal
-  c.alert = "#A54242";  # Dusty red
+  c.background = "#282a2e";  # Dark grey
+  c.background-alt = "#373b41";  # Charcoal grey
+  c.foreground = "#c5c8c6";  # Silver
+  #c.primary = "#f0c674";  # Wheat
+  c.primary = "#f82a5d";  # Red pink
+  c.secondary = "#8abeb7";  # Pale teal
+  c.alert = "#a54242";  # Dusty red
   c.disabled = "#707880";  # Slate grey
 in
 {
