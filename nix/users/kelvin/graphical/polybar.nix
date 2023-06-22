@@ -40,7 +40,7 @@ in
           background = "\${colors.background}";
           foreground = "\${colors.foreground}";
           "line-size" = "3pt";
-          "border-bottom-size" = "2pt";
+          "border-bottom-size" = "0pt";
           "border-color" = "#00000000";
           "padding-left" = 0;
           "padding-right" = 1;

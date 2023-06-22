@@ -156,8 +156,8 @@ in {
           dusm = "du -hs";
           # Nix aliases
           nxs = "nix-shell --command zsh";
-          nxrb = "nixos-rebuild --flake '~/home/kelvin/dotfiles'";
-          sunxrb = "sudo nixos-rebuild --flake '~/home/kelvin/dotfiles'";
+          nxrb = "nixos-rebuild --flake $(realpath ~/dotfiles)";
+          sunxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
           # Exa aliases
           ll = "exa -l";
           la = "exa -l -a";
