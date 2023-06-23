@@ -23,15 +23,15 @@
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
       nixosModules = import ./nix/modules;
-      userModules = import ./nix/users;
+      nixosUserModules = builtins.mapAttrs (_: value: value.nixos) (import ./nix/users);
 
       allNixosModules = builtins.attrValues nixosModules;
-      allUserModules = builtins.attrValues userModules;
+      allNixosUserModules = builtins.attrValues nixosUserModules;
 
       mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
           modules = [ inputs.home-manager.nixosModules.home-manager ]
-            ++ allNixosModules ++ allUserModules ++ extraModules;
+            ++ allNixosModules ++ allNixosUserModules ++ extraModules;
           specialArgs = { inherit inputs; };
         });
 

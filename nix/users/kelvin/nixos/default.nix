@@ -7,8 +7,7 @@ let
 
 in {
   imports = [
-    ./nixos-hm/noise-supression.nix
-    ./graphical
+    ./noise-supression.nix
   ];
 
   config = {
@@ -30,6 +29,7 @@ in {
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
 
       imports = [
+        ../hm/graphical.nix
       ];
 
       home.username = username;

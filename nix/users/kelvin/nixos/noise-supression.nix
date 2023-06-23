@@ -8,7 +8,7 @@ in
 {
   config = {
     home-manager.users.kelvin = { ... }: {
-  
+
       home.file.".config/pipewire/pipewire.conf.d/99-input-denoising.conf".text = ''
         context.modules = [
         {   
