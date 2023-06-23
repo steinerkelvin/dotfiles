@@ -28,8 +28,7 @@
       allNixosModules = builtins.attrValues nixosModules;
       allUserModules = builtins.attrValues userModules;
 
-      mkSystem = args@{ hostPlatform ? "x86_64-linux", pkgs ? nixpkgs
-        , extraModules ? [ ], ... }:
+      mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
           modules = [ inputs.home-manager.nixosModules.home-manager ]
             ++ allNixosModules ++ allUserModules ++ extraModules;
@@ -70,7 +69,8 @@
               nixosConfigurations);
           # checkUsers = mapAttrs (_name: user: user.activationPackage)
           #   (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
-        in { }
+        in
+        { }
         # // checkPackages
         // checkHosts
         # // checkUsers
