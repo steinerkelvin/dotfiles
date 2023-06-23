@@ -2,11 +2,14 @@
 
 let
   username = "kelvin";
-  shellScripts = import ./shell {};
+  # shellScripts = import ./shell {};
   # unstable = (import inputs.unstable { system = pkgs.system; });
 
 in {
-  imports = [ ./graphical ];
+  imports = [
+    ./nixos-hm/noise-supression.nix
+    ./graphical
+  ];
 
   config = {
 
@@ -27,7 +30,6 @@ in {
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
 
       imports = [
-        ./hm/noise-supression.nix
       ];
 
       home.username = username;

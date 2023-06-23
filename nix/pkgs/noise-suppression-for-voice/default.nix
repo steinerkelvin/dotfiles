@@ -2,7 +2,7 @@
 
 # TODO: optional dependencies
 
-{ stdenv, lib, pkgs, ... }:
+{ stdenv, pkgs, ... }:
 
 let
   repo = builtins.fetchGit {
