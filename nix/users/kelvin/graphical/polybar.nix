@@ -34,6 +34,7 @@ in
         };
 
         "bar/bar" = {
+          tray-position = "center";
           width = "100%";
           height = "18pt";
           radius-bottom = 4;

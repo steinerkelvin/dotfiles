@@ -146,12 +146,11 @@
                 childBorder = "#913e53";
               };
             };
-            # TODO: fix i3blocks
-            # bars = [
+            bars = [
             #   {
             #     command = "${pkgs.i3blocks}/bin/i3blocks -c \${HOME}/.i3blocks.conf";
             #   }
-            # ];
+            ];
             keybindings = {
               # open terminal
               "${mod}+Return" = "exec kitty";
