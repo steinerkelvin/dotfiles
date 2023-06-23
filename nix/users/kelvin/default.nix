@@ -178,6 +178,8 @@ in {
         };
 
         initExtra = ''
+          PATH="~/bin:$PATH"
+
           function nxr { nix-shell -p $1 --command $1 }
         '';
 
