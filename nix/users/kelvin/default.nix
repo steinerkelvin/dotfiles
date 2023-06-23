@@ -3,7 +3,7 @@
 let
   username = "kelvin";
   shellScripts = import ./shell {};
-  unstable = (import inputs.unstable { system = pkgs.system; });
+  # unstable = (import inputs.unstable { system = pkgs.system; });
 
 in {
   imports = [ ./graphical ];
@@ -25,6 +25,10 @@ in {
     };
 
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
+
+      imports = [
+        ./hm/noise-supression.nix
+      ];
 
       home.username = username;
       home.homeDirectory = "/home/${username}";
@@ -328,6 +332,7 @@ in {
         '';
       };
 
+      # Homeshick Installation
       home.file.".homesick/repos/homeshick".source =
         pkgs.fetchFromGitHub {
           owner = "andsens";
