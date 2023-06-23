@@ -98,6 +98,7 @@ in {
         broot
         ranger
         bat
+        unzip
         ## Misc
         httpie
         jq
