@@ -78,7 +78,6 @@ in {
 
         # Terminal / Shell tools
         fzf
-        homesick
         stow
         silver-searcher
         ripgrep
@@ -178,9 +177,14 @@ in {
         };
 
         initExtra = ''
+          # Homeshick
+          source "$HOME/.homesick/repos/homeshick/homeshick.sh"
+
           PATH="~/bin:$PATH"
 
+          # Utility Shell Functions
           function nxr { nix-shell -p $1 --command $1 }
+          function dusort { du -h $@ | sort -h }
         '';
 
         oh-my-zsh = {
@@ -323,6 +327,14 @@ in {
           XDG_VIDEOS_DIR="$HOME/videos"
         '';
       };
+
+      home.file.".homesick/repos/homeshick".source =
+        pkgs.fetchFromGitHub {
+          owner = "andsens";
+          repo = "homeshick";
+          rev = "d44da86740d88c7612133d4452b2e6bf954c4e66";
+          sha256 = "LsFtuQ2PNGQuxj3WDzR2wG7fadIsqJ/q0nRjUxteT5I=";
+        };
 
     # end home-manager.users.${username}
     };
