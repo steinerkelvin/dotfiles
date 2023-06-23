@@ -2,6 +2,10 @@
 
 {
 
+  imports = [
+    ./polybar.nix
+  ];
+
   home.packages = with pkgs; [
     # X11 / Xorg
     xorg.xmodmap
