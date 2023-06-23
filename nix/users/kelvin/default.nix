@@ -66,9 +66,9 @@ in {
         nix-index
         nixos-option
         nixfmt
+        nixpkgs-fmt
         dhall
         home-manager
-        lorri
 
         ## App Image
         appimage-run
