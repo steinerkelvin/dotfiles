@@ -66,13 +66,17 @@ in {
         home-manager
         lorri
 
+        ## App Image
+        appimage-run
+
+        # Essential
         curl
         wget
         rsync
         openssh
         git
 
-        # Terminal / shell tools
+        # Terminal / Shell tools
         fzf
         homesick
         stow
@@ -81,6 +85,7 @@ in {
         diff-so-fancy
         shellcheck
         ## File utilities
+        file
         exa
         tree
         ncdu
