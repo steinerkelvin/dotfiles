@@ -15,6 +15,7 @@
 
     nix.settings.auto-optimise-store = true;
 
+    k.services.ddns.enable = true;
     k.modules.audio-prod.enable = true;
 
     programs.steam.enable = true;

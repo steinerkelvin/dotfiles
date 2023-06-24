@@ -13,9 +13,9 @@ in
     };
   };
 
-  config = {
-    environment.systemPackages = [ 
-    ];
+  config = lib.mkIf config.k.services.ddns.enable {
+    age.secrets.duckdns-token-kelvin.file =
+      ../../../secrets/duckdns-token-kelvin.age;
 
     systemd.timers."duckdns-script" = {
       wantedBy = [ "timers.target" ];
@@ -27,13 +27,16 @@ in
     };
 
     systemd.services."duckdns-script" = 
-      let domains =
-        builtins.concatStringsSep "," config.k.services.ddns.domains;
+      let 
+        domains =
+          builtins.concatStringsSep "," config.k.services.ddns.domains;
+          tokenPath = config.age.secrets.duckdns-token-kelvin.path;
       in
       {
         script = ''
           set -e
-          ${scriptPackage}/bin/duckdns-script --ipv4-auto --ipv6-auto \
+          TOKEN=$(cat ${tokenPath}) \
+            ${scriptPackage}/bin/duckdns-script --ipv4-auto --ipv6-auto \
             -d ${domains}
         '';
       };

@@ -102,6 +102,8 @@ in {
 
         # Secrets
         gnupg
+        age
+        inputs.agenix.packages.${pkgs.system}.agenix
         git-crypt
         libsecret
 

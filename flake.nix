@@ -10,6 +10,12 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
+    };
+
     arion.url = "github:hercules-ci/arion";
 
     nixos-wsl = {
@@ -28,7 +34,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, ... }:
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
@@ -41,7 +47,11 @@
 
       mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
-          modules = [ inputs.home-manager.nixosModules.home-manager ]
+          modules = 
+            [
+              inputs.home-manager.nixosModules.home-manager
+              inputs.agenix.nixosModules.default
+            ]
             ++ allNixosModules ++ allNixosUserModules ++ extraModules;
           specialArgs = { inherit inputs; };
         });
@@ -70,11 +80,12 @@
       };
 
       homeConfigurations = {
-        "kelvin@megumin.local" = home-manager.lib.homeManagerConfiguration {
-          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
-          extraSpecialArgs = { inherit inputs; };
-          modules = [ ./nix/users/kelvin/hm/mac.nix ];
-        };
+        "kelvin@megumin.local" =
+          inputs.home-manager.lib.homeManagerConfiguration {
+            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+            extraSpecialArgs = { inherit inputs; };
+            modules = [ ./nix/users/kelvin/hm/mac.nix ];
+          };
       };
 
       # TODO: home / profile configurarions
