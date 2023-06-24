@@ -25,6 +25,8 @@ in
 
     system.stateVersion = "22.11";
 
+    k.services.ddns.enable = true;
+
     modules.graphical.enable = true;
 
     modules.services.syncthing.enable = true;
