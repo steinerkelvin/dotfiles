@@ -2,6 +2,6 @@
 
 {
   imports = [
-    ./graphical.nix
+    ./common.nix
   ];
 }

@@ -17,7 +17,7 @@
     vscode-server.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
@@ -56,6 +56,14 @@
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
         kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma ]; };
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
+      };
+
+      homeConfigurations = {
+        "kelvin@megumin.local" = home-manager.lib.homeManagerConfiguration {
+          pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+          extraSpecialArgs = { inherit inputs; };
+          modules = [ ./nix/users/kelvin/hm/mac.nix ];
+        };
       };
 
       # TODO: home / profile configurarions
