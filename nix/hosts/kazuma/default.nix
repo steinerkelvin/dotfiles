@@ -20,8 +20,8 @@ in
   ];
 
   config = {
-    k.name = "kazuma";
-    k.kind = "bare";
+    k.host.name = "kazuma";
+    k.host.kind = "bare";
 
     system.stateVersion = "22.11";
 

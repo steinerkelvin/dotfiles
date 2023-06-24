@@ -1,17 +1,21 @@
 { inputs, lib, config, pkgs, ... }:
 
 let
-  machineKind = config.k.kind;
+  machineKind = config.k.host.kind;
   isPC = lib.elem machineKind [ "pc" ];
 in {
+
+  imports = [
+    ../modules/services/ddns.nix
+  ];
 
   options.k = let
     types = lib.types;
     mkOption = lib.mkOption;
   in {
-    name = mkOption { type = types.str; };
-    domain = mkOption { type = types.str; };
-    kind = mkOption {
+    host.name = mkOption { type = types.str; };
+    host.domain = mkOption { type = types.str; };
+    host.kind = mkOption {
       type = types.enum [ "bare" "pc" ];
       default = "bare";
     };
@@ -20,7 +24,7 @@ in {
   config = lib.mkMerge [
 
     {
-      k.domain = "h.steinerkelvin.dev";
+      k.host.domain = "h.steinerkelvin.dev";
 
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nixpkgs.config.allowUnfree = true;
@@ -52,8 +56,8 @@ in {
       programs.mtr.enable = true;
 
       # Hostname
-      networking.hostName = config.k.name;
-      networking.domain = config.k.domain;
+      networking.hostName = config.k.host.name;
+      networking.domain = config.k.host.domain;
 
       # Enable networking
       networking.networkmanager.enable = true;

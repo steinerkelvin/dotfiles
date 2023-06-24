@@ -11,9 +11,10 @@ in
     ../common.nix
   ];
 
+  k.host.name = "ryuko";
+
   system.stateVersion = "22.11";
 
-  k.name = "ryuko";
   nixpkgs.hostPlatform = "x86_64-linux";
 
   modules.graphical.enable = true;

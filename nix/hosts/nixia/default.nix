@@ -8,8 +8,8 @@
   ];
 
   config = {
-    k.name = "nixia";
-    k.kind = "pc";
+    k.host.name = "nixia";
+    k.host.kind = "pc";
 
     system.stateVersion = "23.05";
 

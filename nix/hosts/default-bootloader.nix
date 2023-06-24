@@ -1,7 +1,7 @@
 { inputs, pkgs, lib, config, ... }:
 
 let
-  machineKind = config.k.kind;
+  machineKind = config.k.host.kind;
   isPC = lib.elem machineKind [ "pc" ];
 in
 {
