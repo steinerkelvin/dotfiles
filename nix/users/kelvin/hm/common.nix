@@ -134,17 +134,17 @@ in
   programs.neovim = {
     enable = true;
     coc = { enable = true; };
-    plugins = with pkgs.vimPlugins; [
-      vim-nix
-      yankring
-      zoxide-vim
-      which-key-nvim
-      vim-easymotion
-      vim-multiple-cursors
-      copilot-vim
-      coc-tabnine
-      vim-monokai-pro
-      # vim-wakatime
+    plugins = let vp = pkgs.vimPlugins; in [
+      vp.vim-nix
+      vp.yankring
+      vp.zoxide-vim
+      vp.which-key-nvim
+      vp.vim-easymotion
+      vp.vim-multiple-cursors
+      vp.copilot-vim
+      vp.coc-tabnine
+      vp.vim-monokai-pro
+      # vp.vim-wakatime
     ];
     extraConfig = ''
       " space key as Leader

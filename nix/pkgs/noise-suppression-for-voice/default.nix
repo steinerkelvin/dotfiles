@@ -1,5 +1,3 @@
-# JUCE Nix package
-
 # TODO: optional dependencies
 
 { stdenv, pkgs, ... }:

@@ -11,10 +11,10 @@ in
 
   config = lib.mkIf cfg.enable {
 
-    environment.systemPackages = with pkgs; [
-      pipewire
-      qpwgraph
-      ardour
+    environment.systemPackages = [
+      pkgs.pipewire
+      pkgs.qpwgraph
+      pkgs.ardour
     ];
 
     services.pipewire = {

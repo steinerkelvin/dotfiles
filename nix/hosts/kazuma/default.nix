@@ -57,10 +57,10 @@ in
       };
     };
 
-    environment.systemPackages = with pkgs; [
-      arion
-      docker-client
-      docker-compose
+    environment.systemPackages = [
+      pkgs.arion
+      pkgs.docker-client
+      pkgs.docker-compose
     ];
 
     virtualisation.docker.enable = true;

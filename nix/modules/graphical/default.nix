@@ -16,14 +16,15 @@ in {
 
   config = lib.mkIf cfg.enable {
 
-    fonts.fonts = with pkgs; [
-      noto-fonts
-      noto-fonts-cjk
-      noto-fonts-emoji
-      roboto
-      liberation_ttf
-      dejavu_fonts
-      ubuntu_font_family
+    fonts.fonts = [
+      pkgs.noto-fonts
+      pkgs.noto-fonts-cjk
+      pkgs.noto-fonts-emoji
+      pkgs.roboto
+      pkgs.liberation_ttf
+      pkgs.dejavu_fonts
+      pkgs.ubuntu_font_family
+      pkgs.nerdfonts
     ];
 
     services.xserver = {
@@ -43,12 +44,12 @@ in {
 
       windowManager.i3 = {
         enable = true;
-        extraPackages = with pkgs; [
-          dmenu
-          rofi
-          i3status
-          i3blocks
-          i3lock
+        extraPackages = [
+          pkgs.dmenu
+          pkgs.rofi
+          pkgs.i3status
+          pkgs.i3blocks
+          pkgs.i3lock
         ];
       };
 
@@ -60,9 +61,9 @@ in {
     programs.xwayland.enable = true;
     programs.sway.enable = true;
 
-    xdg.portal.extraPortals = with pkgs; [
-      gnome3.gnome-keyring
-      xdg-desktop-portal-wlr
+    xdg.portal.extraPortals = [
+      pkgs.gnome3.gnome-keyring
+      pkgs.xdg-desktop-portal-wlr
     ];
 
     # DDC/CI — controling monitor brightness / contrast etc

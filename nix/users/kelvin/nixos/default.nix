@@ -22,7 +22,7 @@ in {
       description = "Kelvin";
       extraGroups = [ "wheel" "networkmanager" "audio" "podman" ];
       shell = pkgs.zsh;
-      packages = with pkgs; [ firefox kate ];
+      packages = [ pkgs.firefox pkgs.kate ];
     };
 
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
@@ -108,12 +108,7 @@ in {
         libsecret
 
         # Shell
-        # zsh
-        # zsh-autosuggestions
-        # zsh-syntax-highlighting
-        # starship
         zoxide
-        nerdfonts
 
         # Editors
         vim

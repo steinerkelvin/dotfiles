@@ -14,7 +14,8 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable { boot.initrd.kernelModules = [ "amdgpu" ];
+  config = lib.mkIf cfg.enable {
+    boot.initrd.kernelModules = [ "amdgpu" ];
     services.xserver.videoDrivers = lib.mkIf config.services.xserver.enable [ "amdgpu" ];
 
     systemd.tmpfiles.rules = [
@@ -22,14 +23,14 @@ in
     ];
 
     # # TODO: flag
-    # hardware.opengl.extraPackages = with pkgs; [
-    #   rocm-opencl-icd
-    #   rocm-opencl-runtime
+    # hardware.opengl.extraPackages = [
+    #   pkgs.rocm-opencl-icd
+    #   pkgs.rocm-opencl-runtime
     # ];
 
-    environment.systemPackages = with pkgs; [
-      radeontop
-      # corectl # TODO: write derivation for `corectl`
+    environment.systemPackages = [
+      pkgs.radeontop
+      pkgs.corectrl
     ];
   };
 }
