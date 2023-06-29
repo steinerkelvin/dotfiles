@@ -17,14 +17,8 @@ in {
   config = lib.mkIf cfg.enable {
 
     fonts.fonts = [
-      pkgs.noto-fonts
-      pkgs.noto-fonts-cjk
-      pkgs.noto-fonts-emoji
-      pkgs.roboto
       pkgs.liberation_ttf
-      pkgs.dejavu_fonts
-      pkgs.ubuntu_font_family
-      pkgs.nerdfonts
+      pkgs.noto-fonts
     ];
 
     services.xserver = {

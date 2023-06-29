@@ -98,12 +98,17 @@
     zathura
 
     # Fonts
-    roboto
-    inconsolata
-    inconsolata-nerdfont
-    iosevka
-    fira-code
-    fira-code-symbols
+    pkgs.liberation_ttf
+    pkgs.noto-fonts
+    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-emoji
+    pkgs.dejavu_fonts
+    pkgs.roboto
+    pkgs.ubuntu_font_family
+    ## Dev
+    pkgs.inconsolata
+    pkgs.iosevka
+    (pkgs.nerdfonts.override { fonts = [ "Inconsolata" "Iosevka" "FiraCode" "DroidSansMono" ];})
     ## Content
     xkcd-font
   ];
