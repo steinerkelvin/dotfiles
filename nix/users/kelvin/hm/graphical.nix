@@ -108,7 +108,7 @@
     ## Dev
     pkgs.inconsolata
     pkgs.iosevka
-    (pkgs.nerdfonts.override { fonts = [ "Inconsolata" "Iosevka" "FiraCode" "DroidSansMono" ];})
+    (pkgs.nerdfonts.override { fonts = [ "Inconsolata" "Iosevka" "FiraCode" "DroidSansMono" "Noto" ];})
     ## Content
     xkcd-font
   ];
@@ -128,6 +128,10 @@
 
     windowManager.i3 = {
       enable = true;
+      extraConfig = ''
+        # for_window [window_role=".*scratchpad.*"] move scratchpad
+        for_window [instance=".*scratchpad.*"] move scratchpad
+      '';
       config = let
         mod = "Mod3";
         cfg = config.xsession.windowManager.i3.config;
@@ -137,8 +141,12 @@
         startup = [
           { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
           { command = "~/.fehbg"; }
+          { command = "kitty --name 'scratchpad-terminal'"; }
           # TODO: redshift
         ];
+        # assigns = {
+        #   "scratchpad" = [ { instance="^scratchpad-terminal$"; } ];
+        # };
         colors = {
           focused = {
             border = "#cf2952";
