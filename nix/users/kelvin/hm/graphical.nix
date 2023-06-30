@@ -141,7 +141,7 @@
         startup = [
           { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
           { command = "~/.fehbg"; }
-          { command = "kitty --name 'scratchpad-terminal'"; }
+          { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
           # TODO: redshift
         ];
         # assigns = {
@@ -312,5 +312,9 @@
   # services.clipman.enable = true;
 
   programs.waybar.enable = true;
+
+  home.file."config/kitty/ssh-add-session.kitty".text = ''
+    launch zsh -c 'ssh-add; $SHELL'
+  '';
 
 }
