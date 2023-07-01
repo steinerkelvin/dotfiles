@@ -83,6 +83,7 @@ in
         "rust"
         "pip"
         "yarn"
+        "httpie"
       ];
       # TODO:
       # - zsh-users/zsh-autosuggestions

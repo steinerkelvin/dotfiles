@@ -9,6 +9,7 @@ let
     headscale = 49001;
     zigbee2mqtt = 49081;
     smokeping = 49181;
+    alfred = 49281;
   };
 in
 {
