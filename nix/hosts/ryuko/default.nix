@@ -14,10 +14,9 @@ in
   k.host.name = "ryuko";
 
   system.stateVersion = "22.11";
-
   nixpkgs.hostPlatform = "x86_64-linux";
 
-  modules.graphical.enable = true;
+  k.modules.graphical.enable = false;
 
   wsl = {
     enable = true;

@@ -5,5 +5,6 @@ let
 in
 
 {
+  discord-krisp-patch = callPackage ./discord-krisp-patch { };
   noise-suppression-for-voice = callPackage ./noise-suppression-for-voice { };
 }
