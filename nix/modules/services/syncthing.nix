@@ -1,12 +1,12 @@
-{ config, lib, pkgs, ... }:
+{ config, lib, ... }:
 
 let
-  cfg = config.modules.services.syncthing;
+  cfg = config.k.services.syncthing;
   user = "kelvin";        # TODO: user from parameters
   home = "/home/kelvin";
 in
 {
-  options.modules.services.syncthing = with lib; {
+  options.k.services.syncthing = with lib; {
     enable = mkEnableOption "syncthing, file syncronization";
   };
 

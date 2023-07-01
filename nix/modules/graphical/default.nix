@@ -1,11 +1,11 @@
 { lib, config, pkgs, ... }:
 
 let
-  cfg = config.modules.graphical;
-  optionals = lib.lists.optionals;
+  cfg = config.k.modules.graphical;
+  # optionals = lib.lists.optionals;
 in {
 
-  options.modules.graphical = with lib; {
+  options.k.modules.graphical = with lib; {
     enable = mkEnableOption "GUI";
     dm = mkOption { # TODO: define only if `cfg.enable`
       description = "Enable Display Manager";

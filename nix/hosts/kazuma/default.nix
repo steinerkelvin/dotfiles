@@ -25,13 +25,20 @@ in
 
     system.stateVersion = "22.11";
 
+    # Modules
+    k.modules.graphical.enable = false;
+
+    # Services
     k.services.ddns.enable = true;
+    k.services.syncthing.enable = true;
 
-    modules.graphical.enable = true;
+    # Docker / Podman
+    virtualisation.docker.enable = true;
+    virtualisation.podman.enable = true;
+    # virtualisation.podman.dockerSocket.enable = true;
+    virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
 
-    modules.services.syncthing.enable = true;
-    # modules.services.n8n.enable = true;
-
+    # Firewall
     networking.firewall = {
       enable = true;
       allowedTCPPorts = [
@@ -62,11 +69,6 @@ in
       pkgs.docker-client
       pkgs.docker-compose
     ];
-
-    virtualisation.docker.enable = true;
-    virtualisation.podman.enable = true;
-    # virtualisation.podman.dockerSocket.enable = true;
-    virtualisation.podman.defaultNetwork.settings.dns_enabled = true;
 
     virtualisation.arion = {
       backend = "docker";
