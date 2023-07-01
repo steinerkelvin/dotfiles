@@ -31,6 +31,9 @@
     programs.steam.remotePlay.openFirewall = true;
     hardware.steam-hardware.enable = true;
 
+    # Docker
+    virtualisation.docker.enable = true;
+
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
