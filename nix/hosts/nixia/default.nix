@@ -43,6 +43,10 @@
     # Hardware
     modules.radeon.enable = true;
 
+    ## Bluetooth
+    hardware.bluetooth.enable = true;
+    services.blueman.enable = true;
+
     # TODO: extract
     # services.smokeping = {
     #   enable = true;
