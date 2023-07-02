@@ -16,6 +16,11 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    musnix = {
+      url = "github:musnix/musnix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     arion.url = "github:hercules-ci/arion";
 
     nixos-wsl = {

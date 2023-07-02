@@ -196,6 +196,26 @@
         "type": "github"
       }
     },
+    "musnix": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1679269409,
+        "narHash": "sha256-f52ph0rV/tn2Gge6WHqO55K/TNTHAOhgp23uZ7QhlSE=",
+        "owner": "musnix",
+        "repo": "musnix",
+        "rev": "79a6cf5a711e7d2dbf0a3ba0df9bae016d6247f8",
+        "type": "github"
+      },
+      "original": {
+        "owner": "musnix",
+        "repo": "musnix",
+        "type": "github"
+      }
+    },
     "nixos-wsl": {
       "inputs": {
         "flake-compat": "flake-compat",
@@ -256,6 +276,7 @@
         "arion": "arion",
         "duckdns-script": "duckdns-script",
         "home-manager": "home-manager",
+        "musnix": "musnix",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_2",
         "vscode-server": "vscode-server"
