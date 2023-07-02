@@ -95,6 +95,8 @@ in {
         pstree
         lsof
         iotop
+        pciutils
+        usbutils
         ## Network utilities
         inetutils
         nmap
