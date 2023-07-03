@@ -2,8 +2,6 @@
 
 let
   username = "kelvin";
-  # unstable = (import inputs.unstable { system = pkgs.system; });
-
 in {
   imports = [
     ./noise-supression.nix
@@ -16,7 +14,7 @@ in {
       description = "Kelvin";
       extraGroups = [ "wheel" "networkmanager" "audio" "podman" ];
       shell = pkgs.zsh;
-      packages = [ pkgs.firefox pkgs.kate ];
+      packages = [ pkgs.git ];
     };
 
     programs.zsh.enable = true;
@@ -30,18 +28,12 @@ in {
         ../hm/graphical.nix
       ];
 
-      home.username = username;
-      home.homeDirectory = "/home/${username}";
-
       home.stateVersion = "22.11";
 
       programs.gpg.enable = true;
 
       services.keybase.enable = true;
-      services.kbfs.enable = true;
-
-      # Enable user fonts
-      fonts.fontconfig.enable = true;
+      # services.kbfs.enable = true;
 
       home.packages = with pkgs; [
         # Nix tools

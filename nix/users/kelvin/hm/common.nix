@@ -1,9 +1,13 @@
 { lib, pkgs, ... }:
 
 let
-  shellScripts = import ../shell {};
+  shellScripts = import ../shell { };
+  username = "kelvin";
 in
 {
+  home.username = username;
+  home.homeDirectory = "/home/${username}";
+
   programs.home-manager.enable = true;
   nixpkgs.config.allowUnfree = true;
 
@@ -70,7 +74,7 @@ in
         function dusort { du -h $@ | sort -h }
       ''
       + lib.strings.concatStrings (lib.attrValues shellScripts)
-      ;
+    ;
 
     oh-my-zsh = {
       enable = true;
