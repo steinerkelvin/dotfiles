@@ -1,11 +1,11 @@
 { lib, config, pkgs, ... }:
 
 let
-  cfg = config.modules.radeon;
+  cfg = config.k.modules.radeon;
 in
 {
   options = {
-    modules.radeon = {
+    k.modules.radeon = {
       enable = lib.mkOption {
         description = "AMD Radeon drivers etc";
         default = false;

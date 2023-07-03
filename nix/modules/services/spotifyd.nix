@@ -1,13 +1,25 @@
-{ lib, config, pkgs, ... }:
+{ lib, config, ... }:
 
 {
   options = with lib; {
-    modules.services.spotifyd = {
+    k.modules.services.spotifyd = {
       enable = mkEnableOption "Spotify daemon";
     };
   };
 
-  config = {
+  config = lib.mkIf config.k.modules.services.spotifyd.enable {
+
+    services.spotifyd = {
+      enable = true;
+      settings = {
+        global = {
+          device_name = config.k.host.name;
+          zeroconf_port = 57621;
+          username = "kelvinsteiner";
+          # password = "<pass>";
+        };
+      };
+    };
 
     networking.firewall.allowedTCPPorts = [
       57621

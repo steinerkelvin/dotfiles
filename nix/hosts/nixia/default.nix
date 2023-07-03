@@ -41,7 +41,7 @@
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
     # Hardware
-    modules.radeon.enable = true;
+    k.modules.radeon.enable = true;
 
     ## Bluetooth
     hardware.bluetooth.enable = true;
