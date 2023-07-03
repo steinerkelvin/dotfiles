@@ -1,6 +1,15 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
+  # Sway
+
+  home.packages = [
+    pkgs.sway
+    pkgs.wofi
+    pkgs.wl-clipboard
+    pkgs.slurp
+    pkgs.grim
+  ];
 
   programs.waybar.enable = true;
 

@@ -83,22 +83,6 @@
     # Input tools
     libinput
 
-    # i3
-    i3
-    i3blocks
-    dmenu
-    rofi
-    dunst
-    maim
-    feh
-
-    # sway
-    sway
-    wofi
-    wl-clipboard
-    slurp
-    grim
-
     # Tiling native apps
     imv
     mpv

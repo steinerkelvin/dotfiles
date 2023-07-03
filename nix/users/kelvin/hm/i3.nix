@@ -1,6 +1,18 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 
 {
+  # i3wm
+
+  home.packages = [
+    pkgs.i3
+    pkgs.i3blocks
+    pkgs.dmenu
+    pkgs.rofi
+    pkgs.dunst
+    pkgs.maim
+    pkgs.feh
+  ];
+
   xsession.windowManager.i3 = {
     enable = true;
     extraConfig = ''
