@@ -18,6 +18,8 @@
     extraConfig = ''
       # for_window [window_role=".*scratchpad.*"] move scratchpad
       for_window [instance=".*scratchpad.*"] move scratchpad
+
+      exec --no-startup-id sh -c "sleep 1; i3-msg 'scratchpad show'"
     '';
     config =
       let
