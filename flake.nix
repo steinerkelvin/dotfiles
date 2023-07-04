@@ -45,19 +45,19 @@
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
       nixosModules = import ./nix/modules;
-      nixosUserModules = builtins.mapAttrs (_: value: value.nixos) (import ./nix/users);
+      nixosUserModules = builtins.mapAttrs (_: value: value.hosts) (import ./nix/users);
+      kelvinNixosModules = nixosUserModules.kelvin;
 
       allNixosModules = builtins.attrValues nixosModules;
-      allNixosUserModules = builtins.attrValues nixosUserModules;
 
       mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
-          modules = 
+          modules =
             [
               inputs.home-manager.nixosModules.home-manager
               inputs.agenix.nixosModules.default
             ]
-            ++ allNixosModules ++ allNixosUserModules ++ extraModules;
+            ++ allNixosModules ++ extraModules;
           specialArgs = { inherit inputs; };
         });
 
@@ -79,8 +79,8 @@
       );
 
       nixosConfigurations = {
-        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
-        kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma ]; };
+        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia kelvinNixosModules.nixia ]; };
+        kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma kelvinNixosModules.kazuma ]; };
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 

@@ -1,6 +1,9 @@
 {
   kelvin = {
     hm = import ./kelvin/hm;
-    nixos = import ./kelvin/nixos;
+    hosts = {
+      nixia = import ./kelvin/nixos/hosts/nixia.nix;
+      kazuma = import ./kelvin/nixos/hosts/kazuma.nix;
+    }; 
   };
 }

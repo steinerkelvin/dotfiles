@@ -5,8 +5,8 @@
 {
 
   imports = [
-    ./polybar.nix
     ./i3.nix
+    ./polybar.nix
     ./sway.nix
   ];
 

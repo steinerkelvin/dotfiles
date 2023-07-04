@@ -6,10 +6,11 @@ in
 {
 
   imports = [
+    ./homeshick.nix
+    ./packages.nix
     ./zsh.nix
     ./git.nix
     ./vim.nix
-    ./homeshick.nix
   ];
 
   home.username = username;
@@ -35,6 +36,12 @@ in
   # Direnv
   programs.direnv.enable = true;
   programs.direnv.nix-direnv.enable = true;
+
+  # Secrets
+  programs.gpg.enable = true;
+
+  # services.keybase.enable = true;
+  # services.kbfs.enable = true;
 
   # Helix
 
