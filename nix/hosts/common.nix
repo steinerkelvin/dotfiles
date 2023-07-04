@@ -1,4 +1,4 @@
-{ inputs, lib, config, pkgs, ... }:
+{ lib, config, pkgs, ... }:
 
 let
   machineKind = config.k.host.kind;
@@ -28,6 +28,9 @@ in {
 
       nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nixpkgs.config.allowUnfree = true;
+
+      programs.zsh.enable = true;
+      users.defaultUserShell = pkgs.zsh;
 
       environment.systemPackages = with pkgs; [
         # Editors
