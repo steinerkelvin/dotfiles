@@ -57,6 +57,9 @@
     tabnine
     wakatime
 
+    ## AppImage
+    appimage-run
+
     # Audio
     ## Pipewire
     pipewire

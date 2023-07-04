@@ -11,9 +11,6 @@
     nixpkgs-fmt
     dhall
 
-    ## App Image
-    appimage-run
-
     # Essential
     curl
     wget
