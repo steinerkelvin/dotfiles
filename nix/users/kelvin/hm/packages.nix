@@ -10,7 +10,6 @@
     nixfmt
     nixpkgs-fmt
     dhall
-    home-manager
 
     ## App Image
     appimage-run
