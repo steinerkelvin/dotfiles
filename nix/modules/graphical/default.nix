@@ -16,6 +16,11 @@ in {
 
   config = lib.mkIf cfg.enable {
 
+    services.printing.enable = true;
+
+    # DDC/CI — controling monitor brightness / contrast etc
+    services.ddccontrol.enable = true;
+
     fonts.fonts = [
       pkgs.liberation_ttf
       pkgs.noto-fonts
@@ -24,6 +29,7 @@ in {
     services.xserver = {
       enable = true;
 
+      # Display Manager / SDDM
       displayManager = lib.mkIf cfg.dm {
         sddm.enable = true;
         defaultSession = "none+i3";
@@ -34,8 +40,10 @@ in {
         '';
       };
 
-      desktopManager.plasma5.enable = true;
+      # # Plasma
+      # desktopManager.plasma5.enable = true;
 
+      # i3wm
       windowManager.i3 = {
         enable = true;
         extraPackages = [
@@ -52,6 +60,7 @@ in {
       xkbOptions = "compose:rctrl";
     };
 
+    # Wayland / Sway
     programs.xwayland.enable = true;
     programs.sway.enable = true;
 
@@ -59,8 +68,5 @@ in {
       pkgs.gnome3.gnome-keyring
       pkgs.xdg-desktop-portal-wlr
     ];
-
-    # DDC/CI — controling monitor brightness / contrast etc
-    services.ddccontrol.enable = true;
   };
 }
