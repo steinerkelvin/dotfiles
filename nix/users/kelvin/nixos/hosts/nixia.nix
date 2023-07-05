@@ -25,6 +25,9 @@ in {
       ];
 
       home.stateVersion = "22.11";
+
+      services.keybase.enable = true;
+      services.kbfs.enable = true;
     };
   };
 
