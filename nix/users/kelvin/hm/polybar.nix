@@ -8,9 +8,25 @@ let
   c.disabled = "#707880";  # Slate grey
 in
 
-{ ... }: 
+{ pkgs, ... }: 
 
 {
+  home.file.".i3/polybar.sh" = {
+    executable = true;
+    text = ''
+      #!${pkgs.bash}/bin/bash
+
+      # Terminate already running bar instances
+      killall -q polybar
+
+      # Wait until the processes have been shut down
+      while pgrep -x polybar >/dev/null; do sleep 1; done
+
+      # Launch polybar
+      polybar bar &
+    '';
+  };
+
   services.polybar.enable = true;
   services.polybar.script = "polybar bar &";
 

@@ -22,7 +22,9 @@
       # Xmodmap
       exec --no-startup-id ${config.home.homeDirectory}/.nix-profile/bin/xmodmap ${config.home.homeDirectory}/.Xmodmap
 
-      exec --no-startup-id polybar &
+      # Polybar
+      # exec --no-startup-id polybar &
+      exec_always --no-startup-id ~/.i3/polybar.sh &
 
       # Show scracthpad on startup
       exec --no-startup-id sh -c "sleep 0.5; i3-msg 'scratchpad show'"

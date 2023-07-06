@@ -43,6 +43,7 @@
     tmate
 
     # System utilities
+    killall
     htop
     pstree
     lsof

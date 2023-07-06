@@ -34,9 +34,7 @@ in {
         sddm.enable = true;
         defaultSession = "none+i3";
         sessionCommands = ''
-          ${
-            lib.getBin pkgs.dbus
-          }/bin/dbus-update-activation-environment --systemd --all
+          ${lib.getBin pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
         '';
       };
 
