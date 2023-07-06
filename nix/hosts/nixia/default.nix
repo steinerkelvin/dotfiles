@@ -18,8 +18,12 @@
     k.modules.graphical.enable = true;
     k.modules.audio-prod.enable = true;
 
+    # Services
     k.services.ddns.enable = true;
     k.services.syncthing.enable = true;
+
+    # services.xserver.desktopManager.gnome.enable = true;
+    services.xserver.desktopManager.plasma5.enable = true;
 
     networking.firewall.allowedTCPPorts = [
       80

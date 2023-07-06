@@ -1,0 +1,8 @@
+default partial modifier_keys
+xkb_symbols "custom" {
+    key <CAPS> { [ Hyper_L ] };
+    modifier_map Mod3 { Hyper_L };
+    modifier_map Mod4 { Super_L, Super_R };
+    replace key <LCTL> { [ Control_L ] };
+    replace key <RCTL> { [ Control_R ] };
+};

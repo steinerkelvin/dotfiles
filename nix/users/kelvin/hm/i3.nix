@@ -19,7 +19,13 @@
       # for_window [window_role=".*scratchpad.*"] move scratchpad
       for_window [instance=".*scratchpad.*"] move scratchpad
 
-      exec --no-startup-id sh -c "sleep 1; i3-msg 'scratchpad show'"
+      # Xmodmap
+      exec --no-startup-id ${config.home.homeDirectory}/.nix-profile/bin/xmodmap ${config.home.homeDirectory}/.Xmodmap
+
+      exec --no-startup-id polybar &
+
+      # Show scracthpad on startup
+      exec --no-startup-id sh -c "sleep 0.5; i3-msg 'scratchpad show'"
     '';
     config =
       let

@@ -108,12 +108,10 @@
   ];
 
   xsession = {
-    enable = true;
+    # enable = true;
 
     profileExtra = ''
-      ${
-        lib.getBin pkgs.dbus
-      }/bin/dbus-update-activation-environment --systemd --all
+      ${lib.getBin pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
     '';
 
     initExtra = ''
