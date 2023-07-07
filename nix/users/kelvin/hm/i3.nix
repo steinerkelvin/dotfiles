@@ -67,8 +67,9 @@
           "Mod1+Return" = "exec xterm";
 
           # commands menu
-          "${mod}+d" = "exec rofi -show run";
+          "${mod}+d" =       "exec rofi -show run";
           "${mod}+Shift+d" = "exec rofi -show drun";
+          "${mod}+x" =       "exec rofi -show window";
           # fallback commands menu
           "Mod1+d" = "exec ${cfg.menu}";
 
