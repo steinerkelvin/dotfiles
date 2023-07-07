@@ -46,7 +46,6 @@ in {
         enable = true;
         extraPackages = [
           pkgs.dmenu
-          pkgs.rofi
           pkgs.i3status
           pkgs.i3blocks
           pkgs.i3lock

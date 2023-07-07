@@ -24,6 +24,7 @@
 
     # Terminal
     kitty
+    alacritty
     viu
 
     # GUI Apps

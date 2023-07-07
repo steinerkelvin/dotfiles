@@ -5,12 +5,16 @@
 
   home.packages = [
     pkgs.i3
+    pkgs.i3status
     pkgs.i3blocks
     pkgs.dmenu
     pkgs.rofi
     pkgs.dunst
     pkgs.maim
     pkgs.feh
+
+    pkgs.xdotool
+    pkgs.rofimoji
   ];
 
   xsession.windowManager.i3 = {
@@ -32,16 +36,17 @@
     config =
       let
         mod = "Mod3";
+        term = "alacritty";
         cfg = config.xsession.windowManager.i3.config;
       in
       {
         modifier = "${mod}";
-        terminal = "kitty";
+        terminal = "${term}";
         startup = [
           { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
           { command = "~/.fehbg"; }
-          { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
-          # TODO: redshift
+          { command = "alactritty --class 'scratchpad-terminal' -e zsh -c 'ssh-add; $SHELL'"; }
+          # { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
         ];
         # assigns = {
         #   "scratchpad" = [ { instance="^scratchpad-terminal$"; } ];
@@ -62,14 +67,15 @@
         ];
         keybindings = {
           # open terminal
-          "${mod}+Return" = "exec kitty";
+          "${mod}+Return" = "exec ${term}";
           # fallback if `mod` is misconfigured
           "Mod1+Return" = "exec xterm";
 
           # commands menu
-          "${mod}+d" =       "exec rofi -show run";
+          "${mod}+d"       = "exec rofi -show run";
           "${mod}+Shift+d" = "exec rofi -show drun";
-          "${mod}+x" =       "exec rofi -show window";
+          "${mod}+x"       = "exec rofi -show window";
+          "${mod}+period"  = "exec rofimoji";
           # fallback commands menu
           "Mod1+d" = "exec ${cfg.menu}";
 
@@ -177,5 +183,12 @@
           # TODO: port rest of custom keybindings
         };
       };
+  };
+
+  # Rofi
+  programs.rofi = {
+    enable = true;
+    theme = "gruvbox-dark-hard";
+    terminal = "${pkgs.alacritty}/bin/alacritty";
   };
 }
