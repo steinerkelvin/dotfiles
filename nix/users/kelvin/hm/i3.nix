@@ -13,6 +13,8 @@
     pkgs.maim
     pkgs.feh
 
+    pkgs.picom
+
     pkgs.xdotool
     pkgs.rofimoji
   ];
