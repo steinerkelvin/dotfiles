@@ -47,7 +47,7 @@
         startup = [
           { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
           { command = "~/.fehbg"; }
-          { command = "alactritty --class 'scratchpad-terminal' -e zsh -c 'ssh-add; $SHELL'"; }
+          { command = "alacritty --class 'scratchpad-terminal' -e zsh -c 'ssh-add; $SHELL'"; }
           # { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
         ];
         # assigns = {
