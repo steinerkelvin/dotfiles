@@ -32,6 +32,9 @@ in
     k.services.ddns.enable = true;
     k.services.syncthing.enable = true;
 
+    # Disable temporary addresses
+    networking.tempAddresses = "disabled";
+
     # Docker / Podman
     virtualisation.docker.enable = true;
     virtualisation.podman.enable = true;
