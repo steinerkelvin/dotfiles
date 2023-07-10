@@ -37,6 +37,10 @@
       url = "github:steinerkelvin/duckdns-script";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    k-ddns = {
+      url = "github:steinerkelvin/k-ddns";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, ... }:
@@ -44,20 +48,22 @@
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
+      inputNixosModules = [
+        inputs.agenix.nixosModules.default
+        inputs.home-manager.nixosModules.home-manager
+        inputs.arion.nixosModules.arion
+        inputs.k-ddns.nixosModules.k-ddns
+      ];
+
       nixosModules = import ./nix/modules;
       nixosUserModules = builtins.mapAttrs (_: value: value.hosts) (import ./nix/users);
       kelvinNixosModules = nixosUserModules.kelvin;
 
-      allNixosModules = builtins.attrValues nixosModules;
+      allNixosModules = inputNixosModules ++ builtins.attrValues nixosModules;
 
       mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
-          modules =
-            [
-              inputs.home-manager.nixosModules.home-manager
-              inputs.agenix.nixosModules.default
-            ]
-            ++ allNixosModules ++ extraModules;
+          modules = allNixosModules ++ extraModules;
           specialArgs = { inherit inputs; };
         });
 

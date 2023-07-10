@@ -1,4 +1,4 @@
-{ inputs, pkgs, lib, config, ... }:
+{ lib, config, ... }:
 
 let
   machineKind = config.k.host.kind;

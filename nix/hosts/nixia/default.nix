@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
@@ -50,6 +50,15 @@
     ## Bluetooth
     hardware.bluetooth.enable = true;
     services.blueman.enable = true;
+
+    # DDNS
+    age.secrets.dynv6-token-kelvin.file = ../../../secrets/dynv6-token-kelvin.age;
+    k.services.k-ddns = {
+      enable = true;
+      tokenFile = config.age.secrets.dynv6-token-kelvin.path;
+      domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
+      ipv6 = true;
+    };
 
     # TODO: extract
     # services.smokeping = {

@@ -1,4 +1,4 @@
-{ lib, config, pkgs, inputs, ... }:
+{ config, pkgs, ... }:
 
 let
   # TODO: move out + check duplicates
@@ -17,7 +17,6 @@ in
     ../common.nix
     ../default-bootloader.nix
     ./hardware-configuration.nix
-    inputs.arion.nixosModules.arion
   ];
 
   config = {
@@ -52,13 +51,23 @@ in
       ];
     };
 
+    # DDNS
+    age.secrets.dynv6-token-kelvin.file = ../../../secrets/dynv6-token-kelvin.age;
+    k.services.k-ddns = {
+      enable = true;
+      tokenFile = config.age.secrets.dynv6-token-kelvin.path;
+      domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
+      ipv6 = true;
+    };
+
     services.headscale = {
       enable = true;
       port = k.ports.headscale;
       address = "0.0.0.0";
-      dns = {
-        magicDns = true;
-        baseDomain = "hs.steinerkelvin.dev";
+      # TODO: refactor deprecated options
+      settings.dns_config = {
+        magic_dns = true;
+        base_domain = "hs.steinerkelvin.dev";
         domains = [];
         nameservers =
           [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
