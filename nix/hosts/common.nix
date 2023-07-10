@@ -68,6 +68,7 @@ in {
       # SSH
       services.openssh.enable = true;
       services.openssh.settings.X11Forwarding = true;
+      services.openssh.settings.PermitRootLogin = "no";
       # SSH agent
       programs.ssh.startAgent = true;
       # Mosh
