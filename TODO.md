@@ -1,5 +1,8 @@
 # TODO
 
+- [x] remove old ddns
+- [x] fix k-ddns timer
+
 - [ ] TLS/HTTPS on Home Assistant
   - [ ] Traefik
 

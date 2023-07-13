@@ -66,26 +66,6 @@
         "type": "github"
       }
     },
-    "duckdns-script": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1687618535,
-        "narHash": "sha256-9U1CEq0QG4LNNji3YY1uRr679a/wlbnhRohdYJBs9bw=",
-        "owner": "steinerkelvin",
-        "repo": "duckdns-script",
-        "rev": "c1b2784c2800cda86dfa82c35f6c9ee3e0ee0328",
-        "type": "github"
-      },
-      "original": {
-        "owner": "steinerkelvin",
-        "repo": "duckdns-script",
-        "type": "github"
-      }
-    },
     "flake-compat": {
       "flake": false,
       "locked": {
@@ -221,11 +201,11 @@
         "nixpkgs": "nixpkgs_3"
       },
       "locked": {
-        "lastModified": 1688998778,
-        "narHash": "sha256-4tPk9P8BMkrHdG5S8/X/g/FoI/AAedkig1JXCEWes/U=",
+        "lastModified": 1689257555,
+        "narHash": "sha256-XLBkKIhNz/qrXQJmzRE3y6LX5CB+EPVXUqTPWVXipk8=",
         "owner": "steinerkelvin",
         "repo": "k-ddns",
-        "rev": "4f05e0b84e13ca8894768de3544e428bab822a12",
+        "rev": "9501f2c9b222513734314124827cf22e63f87b39",
         "type": "github"
       },
       "original": {
@@ -360,7 +340,6 @@
       "inputs": {
         "agenix": "agenix",
         "arion": "arion",
-        "duckdns-script": "duckdns-script",
         "home-manager": "home-manager",
         "k-ddns": "k-ddns",
         "musnix": "musnix",
