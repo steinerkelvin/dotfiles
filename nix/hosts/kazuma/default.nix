@@ -29,7 +29,6 @@ in
     k.modules.graphical.enable = false;
 
     # Services
-    k.services.ddns.enable = true;
     k.services.syncthing.enable = true;
 
     # Disable temporary addresses

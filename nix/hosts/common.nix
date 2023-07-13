@@ -5,9 +5,7 @@ let
   isPC = lib.elem machineKind [ "pc" ];
 in {
 
-  imports = [
-    ../modules/services/ddns.nix
-  ];
+  imports = [ ];
 
   options.k = let
     types = lib.types;

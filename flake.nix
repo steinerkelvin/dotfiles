@@ -33,11 +33,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    duckdns-script = {
-      url = "github:steinerkelvin/duckdns-script";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    
     k-ddns = {
       url = "github:steinerkelvin/k-ddns";
     };

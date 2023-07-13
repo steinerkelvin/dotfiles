@@ -19,7 +19,6 @@
     k.modules.audio-prod.enable = true;
 
     # Services
-    k.services.ddns.enable = true;
     k.services.syncthing.enable = true;
 
     # services.xserver.desktopManager.gnome.enable = true;
