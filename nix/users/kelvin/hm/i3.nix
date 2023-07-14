@@ -19,7 +19,13 @@
     pkgs.rofimoji
   ];
 
-  xsession.windowManager.i3 = {
+  xsession.windowManager.i3 =
+    let
+      mod = "Mod3";
+      term = "alacritty";
+      cfg = config.xsession.windowManager.i3.config;
+    in
+    {
     enable = true;
     extraConfig = ''
       # for_window [window_role=".*scratchpad.*"] move scratchpad
@@ -34,13 +40,15 @@
 
       # Show scracthpad on startup
       exec --no-startup-id sh -c "sleep 0.5; i3-msg 'scratchpad show'"
+
+      # Arrow bindings (buggy)
+      # alternative: https://unix.stackexchange.com/questions/166844/mapping-key-bindings
+      bindsym --release ${mod}+y  exec --no-startup-id "bash -c \\"sleep 0.25; xdotool key Left\\" "
+      bindsym --release ${mod}+u  exec --no-startup-id "bash -c \\"sleep 0.25; xdotool key Down\\" "
+      bindsym --release ${mod}+i  exec --no-startup-id "bash -c \\"sleep 0.25; xdotool key Up\\" "
+      bindsym --release ${mod}+o  exec --no-startup-id "bash -c \\"sleep 0.25; xdotool key Right\\" "
     '';
     config =
-      let
-        mod = "Mod3";
-        term = "alacritty";
-        cfg = config.xsession.windowManager.i3.config;
-      in
       {
         modifier = "${mod}";
         terminal = "${term}";
