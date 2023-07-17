@@ -16,6 +16,11 @@
       inputs.home-manager.follows = "home-manager";
     };
 
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     musnix = {
       url = "github:musnix/musnix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -38,7 +43,7 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
+  outputs = inputs@{ self, nixpkgs, deploy-rs, ... }:
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
@@ -91,8 +96,9 @@
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
             extraSpecialArgs = { inherit inputs; };
             modules = [
-	      ./nix/users/kelvin/hm/common.nix
-              ({...}: { home.stateVersion = "23.05"; })
+              ./nix/users/kelvin/hm/common.nix
+              ./nix/users/kelvin/hm/linux.nix
+              ({ ... }: { home.stateVersion = "23.05"; })
             ];
           };
         "kelvin@megumin.local" =
@@ -103,22 +109,26 @@
           };
       };
 
+      # deploy.nodes.kazuma.profiles.system = {
+      #   path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
+      # };
+
       # TODO: home / profile configurarions
 
       checks = forAllPlatforms (platform:
         let
           inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
-          # checkPackages = packages.${platform};
+          checkPackages = packages.${platform};
           checkHosts = mapAttrs (_name: host: host.config.system.build.toplevel)
             (filterAttrs (_name: host: host.pkgs.hostPlatform == platform)
               nixosConfigurations);
-          # checkUsers = mapAttrs (_name: user: user.activationPackage)
-          #   (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
+          checkUsers = mapAttrs (_name: user: user.activationPackage)
+            (filterAttrs (_name: user: user.pkgs.system == platform) homeConfigurations);
         in
         { }
-        # // checkPackages
+        // checkPackages
         // checkHosts
-        # // checkUsers
+        // checkUsers
       );
 
     };

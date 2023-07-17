@@ -17,6 +17,7 @@ in {
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
       imports = [
         ../../hm/common.nix
+        ../../hm/linux.nix
       ];
 
       home.stateVersion = "22.11";

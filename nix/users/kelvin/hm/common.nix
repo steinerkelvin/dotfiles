@@ -14,7 +14,7 @@ in
   ];
 
   home.username = username;
-  home.homeDirectory = "/home/${username}";
+  # home.homeDirectory = "/home/${username}";
 
   # Nixpkgs
   nixpkgs.config.allowUnfree = true;
