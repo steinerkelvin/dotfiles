@@ -1,6 +1,22 @@
 {
   description = "Kelvin's personal flake";
 
+  nixConfig = {
+    extra-experimental-features = "nix-command flakes";
+    extra-substituters = [
+      "https://steinerkelvin.cachix.org"
+    ];
+    extra-trusted-public-keys = [
+      "steinerkelvin.cachix.org-1:Tc9rkfgpTwKawYGD3uSjjhT+leHhGM5JaH4KHF/BGd0="
+    ];
+    trusted-users = [
+      "@wheel"
+    ];
+    trusted-substituters = [
+      "https://steinerkelvin.cachix.org"
+    ];
+  };
+
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-23.05";
     # unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
