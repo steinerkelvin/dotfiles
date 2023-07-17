@@ -109,26 +109,34 @@
           };
       };
 
-      # deploy.nodes.kazuma.profiles.system = {
-      #   path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
-      # };
+      deploy.nodes.kazuma = {
+        hostname = "kazuma.h.steinerkelvin.dev";
+        user = "root";
+        fastConnection = true;
+        profiles.system = {
+          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
+        };
+      };
 
       # TODO: home / profile configurarions
 
-      checks = forAllPlatforms (platform:
+      checks = forAllPlatforms (system:
         let
           inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
-          checkPackages = packages.${platform};
+          checkPackages = packages.${system};
           checkHosts = mapAttrs (_name: host: host.config.system.build.toplevel)
-            (filterAttrs (_name: host: host.pkgs.hostPlatform == platform)
+            (filterAttrs (_name: host: host.pkgs.hostPlatform == system)
               nixosConfigurations);
           checkUsers = mapAttrs (_name: user: user.activationPackage)
-            (filterAttrs (_name: user: user.pkgs.system == platform) homeConfigurations);
+            (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
+          checkDeploys =
+            deploy-rs.lib.${system}.deployChecks self.deploy;
         in
         { }
         // checkPackages
         // checkHosts
         // checkUsers
+        // checkDeploys
       );
 
     };
