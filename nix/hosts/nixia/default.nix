@@ -12,7 +12,11 @@
     k.host.kind = "pc";
 
     system.stateVersion = "23.05";
+
     nix.settings.auto-optimise-store = true;
+    nix.extraOptions = ''
+      secret-key-files = /etc/nix/private-key
+    '';
 
     # Modules
     k.modules.graphical.enable = true;
