@@ -27,6 +27,7 @@ in {
       nixpkgs.config.allowUnfree = true;
       nix.settings = {
         experimental-features = [ "nix-command" "flakes" ];
+        # TODO: auto generate / https://github.com/NixOS/nix/issues/3023#issuecomment-781131502
         trusted-public-keys = [
           "nixia:XXUjJsyALoE9qJQGbajFwro4kLV2lK2e6ojhFR2BN90=" # nixia-pub-key.pem
         ];
