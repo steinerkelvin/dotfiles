@@ -87,6 +87,7 @@
       nixosConfigurations = {
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia kelvinNixosModules.nixia ]; };
         kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma kelvinNixosModules.kazuma ]; };
+        stratus = mkSystem { extraModules = [ ./nix/hosts/stratus kelvinNixosModules.stratus ]; };
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 
