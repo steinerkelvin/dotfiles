@@ -24,8 +24,13 @@ in {
     {
       k.host.domain = "h.steinerkelvin.dev";
 
-      nix.settings.experimental-features = [ "nix-command" "flakes" ];
       nixpkgs.config.allowUnfree = true;
+      nix.settings = {
+        experimental-features = [ "nix-command" "flakes" ];
+        trusted-public-keys = [
+          "nixia:XXUjJsyALoE9qJQGbajFwro4kLV2lK2e6ojhFR2BN90=" # nixia-pub-key.pem
+        ];
+      };
 
       programs.zsh.enable = true;
       users.defaultUserShell = pkgs.zsh;
