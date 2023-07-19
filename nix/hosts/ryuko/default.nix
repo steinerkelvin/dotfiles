@@ -29,11 +29,4 @@ in
     enable = true;
     installPath = "~/.vscode-server-insiders";
   };
-
-  # # Enable nix flakes
-  # nix.package = pkgs.nixFlakes;
-  # nix.extraOptions = ''
-  #   experimental-features = nix-command flakes
-  # '';
 }
-

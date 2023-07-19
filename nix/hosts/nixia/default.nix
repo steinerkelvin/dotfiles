@@ -3,16 +3,16 @@
 {
   imports = [
     ../common.nix
-    ../default-bootloader.nix
     ./hardware-configuration.nix
   ];
 
   config = {
     k.host.name = "nixia";
-    k.host.kind = "pc";
+    k.host.tags.pc = true;
 
     system.stateVersion = "23.05";
 
+    # Nix
     nix.settings.auto-optimise-store = true;
     nix.extraOptions = ''
       secret-key-files = /etc/nix/private-key
@@ -25,9 +25,10 @@
     # Services
     k.services.syncthing.enable = true;
 
-    # services.xserver.desktopManager.gnome.enable = true;
+    # Desktop Environment
     services.xserver.desktopManager.plasma5.enable = true;
 
+    # Firewall
     networking.firewall.allowedTCPPorts = [
       80
       443
@@ -40,12 +41,11 @@
     programs.steam.remotePlay.openFirewall = true;
     hardware.steam-hardware.enable = true;
 
+    # ADB
+    programs.adb.enable = true;
+
     # Docker
     virtualisation.docker.enable = true;
-
-    # Bootloader
-    boot.loader.efi.canTouchEfiVariables = true;
-    boot.loader.efi.efiSysMountPoint = "/boot/efi";
 
     # Hardware
     k.modules.radeon.enable = true;
@@ -63,42 +63,18 @@
       ipv6 = true;
     };
 
-    # TODO: extract
-    # services.smokeping = {
-    #   enable = true;
-    #   targetConfig = ''
-    #     probe = FPing
-    #     menu = Top
-    #     title = Network Latency Grapher
-    #     remark = Welcome to the SmokePing website of Kelvin's Network.
-
-    #     + Local
-    #     menu = Local
-    #     title = Local Network
-    #     ++ LocalMachine
-    #     menu = Local Machine
-    #     title = This host
-    #     host = localhost
-
-    #     + DNS
-    #     menu = DNS
-    #     title = DNS
-    #     ++ Cloudflare_DNS_1
-    #     host = 1.1.1.1
-    #     ++ Cloudflare_DNS_2
-    #     host = 1.0.0.1
-    #     ++ Google_DNS_1
-    #     host = 8.8.8.8
-    #     ++ Google_DNS_2
-    #     host = 8.4.4.8
-
-    #     + Sites
-    #     menu = Sites
-    #     title = Sites
-    #     ++ Google
-    #     host = google.com
-    #   '';
-    # };
-
+    # Bootloader
+    boot.loader.efi.canTouchEfiVariables = true;
+    boot.loader.efi.efiSysMountPoint = "/boot/efi";
+    boot.loader = {
+      timeout = 7;
+      grub = {
+        enable = true;
+        default = "saved";
+        device = "nodev";
+        efiSupport = true;
+        useOSProber = true;
+      };
+    };
   };
 }

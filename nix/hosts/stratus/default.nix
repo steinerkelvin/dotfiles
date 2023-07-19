@@ -7,7 +7,6 @@
   ];
 
   k.host.name = "stratus";
-  k.host.kind = "bare";
 
   system.stateVersion = "22.11";
 

@@ -6,13 +6,11 @@ in
 {
   imports = [
     ../common.nix
-    ../default-bootloader.nix
     ./hardware-configuration.nix
   ];
 
   config = {
     k.host.name = "kazuma";
-    k.host.kind = "bare";
 
     system.stateVersion = "22.11";
 
@@ -144,5 +142,6 @@ in
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot";
+    boot.loader.systemd-boot.enable = true;
   };
 }
