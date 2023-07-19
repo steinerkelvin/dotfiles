@@ -1,16 +1,7 @@
-{ config, pkgs, ... }:
+{ k-shared, config, pkgs, ... }:
 
 let
-  # TODO: move out + check duplicates
-  k.ports = {
-    mosquitto_1 = 1883;
-    mosquitto_2 = 9001;
-    home-assistant = 8123;
-    headscale = 49001;
-    zigbee2mqtt = 49081;
-    smokeping = 49181;
-    alfred = 49281;
-  };
+  ports = k-shared.ports;
 in
 {
   imports = [
@@ -44,12 +35,12 @@ in
     networking.firewall = {
       enable = true;
       allowedTCPPorts = [
-        k.ports.mosquitto_1
-        k.ports.mosquitto_2
-        k.ports.home-assistant
-        k.ports.headscale
-        k.ports.zigbee2mqtt
-        k.ports.smokeping
+        ports.mosquitto_1
+        ports.mosquitto_2
+        ports.home-assistant
+        ports.headscale
+        ports.zigbee2mqtt
+        ports.smokeping
       ];
     };
 
@@ -64,7 +55,7 @@ in
 
     services.headscale = {
       enable = true;
-      port = k.ports.headscale;
+      port = ports.headscale;
       address = "0.0.0.0";
       # TODO: refactor deprecated options
       settings.dns_config = {
@@ -92,7 +83,7 @@ in
             image = "lscr.io/linuxserver/smokeping:latest";
             restart = "unless-stopped";
             ports = [
-              "${toString k.ports.smokeping}:80"
+              "${toString ports.smokeping}:80"
             ];
           };
         };
@@ -123,8 +114,8 @@ in
               "/data/mosquitto/data:/mosquitto"
             ];
             ports = [
-              "${toString k.ports.mosquitto_1}:1883"
-              "${toString k.ports.mosquitto_2}:9001"
+              "${toString ports.mosquitto_1}:1883"
+              "${toString ports.mosquitto_2}:9001"
             ];
             command = [ "mosquitto" "-c" "/mosquitto-no-auth.conf" ];
           };
@@ -136,7 +127,7 @@ in
               "/run/udev:/run/udev:ro"
             ];
             ports = [
-              "${toString k.ports.zigbee2mqtt}:8080"
+              "${toString ports.zigbee2mqtt}:8080"
             ];
             environment = {
               TZ = "America/Sao_Paulo";

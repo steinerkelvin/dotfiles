@@ -55,22 +55,24 @@
         inputs.k-ddns.nixosModules.k-ddns
       ];
 
-      nixosModules = import ./nix/modules;
-      nixosUserModules = builtins.mapAttrs (_: value: value.hosts) (import ./nix/users);
-      kelvinNixosModules = nixosUserModules.kelvin;
+      localNixosUserModules = builtins.mapAttrs (_: value: value.hosts) (import ./nix/users);
+      kelvinNixosModules = localNixosUserModules.kelvin;
 
-      allNixosModules = inputNixosModules ++ builtins.attrValues nixosModules;
+      localNixosModules = import ./nix/modules;
+      allNixosModules = inputNixosModules ++ builtins.attrValues localNixosModules;
+
+      lib = import ./nix/lib { inherit inputs; };
+
+      shared = import ./nix/shared.nix;
 
       mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
         nixpkgs.lib.nixosSystem (args // {
           modules = allNixosModules ++ extraModules;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs; k-shared = shared; };
         });
-
-      lib = import ./nix/lib { inherit inputs; };
     in
     rec {
-      inherit nixosModules;
+      nixosModules = localNixosModules;
 
       # Export custom packages
       packages = forAllPlatforms (system:
