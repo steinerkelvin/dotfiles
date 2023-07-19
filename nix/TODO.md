@@ -1,9 +1,8 @@
 # Nix TODO
 
-- [ ] `~/.config/user-dirs.{dirs,locale}`
+- [ ] extract common server configs
+- [ ] extract arion config from host configs
+- [ ] share `users.users.kelvin"` between machines
+- [ ] add `~/.config/user-dirs.locale` to hm
 - [ ] SSH login with keys only
-- [ ] services modules
-  - [ ] modularize user services
-  - [ ] delegate services to machines
 - [ ] networking / VPN / DNS etc
-- [ ] pin Nixpkgs
