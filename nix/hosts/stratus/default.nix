@@ -4,6 +4,7 @@
   imports = [
     ./hardware-configuration.nix
     ../common.nix
+    ./arion.nix
   ];
 
   k.host.name = "stratus";
@@ -40,15 +41,6 @@
     pkgs.docker-client
     pkgs.docker-compose
   ];
-
-  virtualisation.arion = {
-    backend = "docker";
-
-    projects = {
-
-    };
-
-  };
 
   # Bootloader
   boot.loader.grub.enable = true;
