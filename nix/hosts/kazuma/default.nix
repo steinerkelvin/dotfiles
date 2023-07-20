@@ -1,4 +1,4 @@
-{ k-shared, config, pkgs, ... }:
+{ k-shared, config, ... }:
 
 let
   ports = k-shared.ports;
