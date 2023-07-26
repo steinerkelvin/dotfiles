@@ -36,10 +36,10 @@
       8080
     ];
 
-    # Steam
-    programs.steam.enable = true;
-    programs.steam.remotePlay.openFirewall = true;
-    hardware.steam-hardware.enable = true;
+    # # Steam
+    # programs.steam.enable = true;
+    # programs.steam.remotePlay.openFirewall = true;
+    # hardware.steam-hardware.enable = true;
 
     # ADB
     programs.adb.enable = true;
