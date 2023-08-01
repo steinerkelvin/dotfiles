@@ -61,6 +61,9 @@
     ## AppImage
     appimage-run
 
+    # Image
+    imagemagick
+
     # Audio
     ## Pipewire
     pipewire
