@@ -31,6 +31,7 @@ in
   ## Path / $PATH
   home.sessionPath = [
     "$HOME/.mix/escripts"
+    "$HOME/.cargo/bin"
   ];
 
   # Direnv
