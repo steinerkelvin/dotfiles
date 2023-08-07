@@ -85,6 +85,7 @@
     #haskellPackages.ghcup
 
     python310
+    python310Packages.pip
     python310Packages.ipython
   ];
 }
