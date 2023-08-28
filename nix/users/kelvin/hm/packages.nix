@@ -73,6 +73,7 @@
     pdftk
 
     # Dev
+    gnumake
     ## Git
     tig
     gh
