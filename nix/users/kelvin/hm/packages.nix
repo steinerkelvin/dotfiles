@@ -74,6 +74,7 @@
 
     # Dev
     gnumake
+    docker-compose
     ## Git
     tig
     gh
