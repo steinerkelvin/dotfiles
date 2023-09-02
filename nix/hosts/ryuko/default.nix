@@ -27,6 +27,7 @@ in
 
   services.vscode-server = {
     enable = true;
-    installPath = "~/.vscode-server-insiders";
+    installPath = "~/.vscode-server";
+    # installPath = "~/.vscode-server-insiders";
   };
 }
