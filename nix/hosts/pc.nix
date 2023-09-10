@@ -1,4 +1,4 @@
-{ config, lib, ... }:
+{ config, lib, pkgs, ... }:
 
 {
   config = lib.mkIf (config.k.host.tags.pc) {
@@ -21,5 +21,8 @@
     # Printer services
     services.printing.enable = true;
 
+    environment.systemPackages = [
+      pkgs.ntfs3g
+    ];
   };
 }
