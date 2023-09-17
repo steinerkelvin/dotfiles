@@ -70,7 +70,7 @@
     helix
 
     # Utilities
-    pdftk
+    # pdftk # big closure, requires openjdk
 
     # Dev
     gnumake

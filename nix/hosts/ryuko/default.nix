@@ -13,10 +13,17 @@ in
 
   k.host.name = "ryuko";
 
-  system.stateVersion = "22.11";
+  system.stateVersion = "23.05";
   nixpkgs.hostPlatform = "x86_64-linux";
 
   k.modules.graphical.enable = false;
+
+  # virtualisation.docker.enable = true;
+
+  # environment.systemPackages = [
+  #   pkgs.docker-client
+  #   pkgs.docker-compose
+  # ];
 
   wsl = {
     enable = true;
