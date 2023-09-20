@@ -21,6 +21,7 @@
     xdotool
     libnotify
     redshift
+    arandr
 
     # Terminal
     kitty
