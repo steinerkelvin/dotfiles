@@ -27,6 +27,7 @@ in
       la = "exa -l -a";
       # Git aliases
       glogh = "git log --oneline --decorate --graph HEAD";
+      tigh = "tig -a HEAD";
       # Kitty aliases
       sshk = "kitty +kitten ssh";
       icatk = "kitty +icat";
