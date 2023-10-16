@@ -9,6 +9,9 @@ in
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      directory.truncate_to_repo = false;
+    };
   };
 
   programs.zsh = {
