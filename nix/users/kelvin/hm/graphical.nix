@@ -16,6 +16,7 @@
   home.packages = with pkgs; [
     # X11 / Xorg
     xorg.xmodmap
+    xorg.xkill
     xorg.xev
     xclip
     xdotool
