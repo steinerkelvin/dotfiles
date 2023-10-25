@@ -59,6 +59,8 @@
     vscode
     tabnine
     wakatime
+    ## BTC
+    electrum
 
     ## AppImage
     appimage-run
