@@ -20,7 +20,7 @@
 
     # Modules
     k.modules.graphical.enable = true;
-    k.modules.audio-prod.enable = true;
+    # k.modules.audio-prod.enable = true;
 
     # Services
     k.services.syncthing.enable = true;
