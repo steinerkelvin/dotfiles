@@ -10,7 +10,7 @@ in
     ./packages.nix
     ./zsh.nix
     ./git.nix
-    ./vim.nix
+    ./nvim.nix
   ];
 
   home.username = username;

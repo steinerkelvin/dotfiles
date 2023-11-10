@@ -7,15 +7,21 @@
     enable = true;
     coc = { enable = true; };
     plugins = let vp = pkgs.vimPlugins; in [
-      vp.vim-nix
-      vp.yankring
-      vp.zoxide-vim
       vp.which-key-nvim
-      vp.vim-easymotion
-      vp.vim-multiple-cursors
-      vp.copilot-vim
-      vp.coc-tabnine
-      vp.vim-monokai-pro
+
+      vp.nvim-tree-lua
+      vp.telescope-zoxide
+
+      vp.nvim-treesitter.withAllGrammars
+      vp.nvim-lspconfig
+
+      vp.copilot-lua
+
+      vp.monokai-pro-nvim
+
+      # vp.yankring
+      # vp.vim-easymotion
+      # vp.vim-multiple-cursors
       # vp.vim-wakatime
     ];
     extraConfig = ''
@@ -37,6 +43,11 @@
       set expandtab
       set tabstop=4
       set shiftwidth=4
+
+      " load lua config
+      lua << EOF
+        ${builtins.readFile ./nvim.lua}
+      EOF
     '';
   };
 
