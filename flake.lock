@@ -76,11 +76,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1695052866,
-        "narHash": "sha256-agn7F9Oww4oU6nPiw+YiYI9Xb4vOOE73w8PAoBRP4AA=",
+        "lastModified": 1698921442,
+        "narHash": "sha256-7KmvhQ7FuXlT/wG4zjTssap6maVqeAMBdtel+VjClSM=",
         "owner": "serokell",
         "repo": "deploy-rs",
-        "rev": "e3f41832680801d0ee9e2ed33eb63af398b090e9",
+        "rev": "660180bbbeae7d60dad5a92b30858306945fd427",
         "type": "github"
       },
       "original": {
@@ -351,26 +351,6 @@
         "type": "github"
       }
     },
-    "musnix": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1695062411,
-        "narHash": "sha256-K2DeDQLXjyV5kZwt0sqzS2J2XWJHIhjlVYshtcbHduI=",
-        "owner": "musnix",
-        "repo": "musnix",
-        "rev": "55b46a6a116f8b6cee17e05e85fadfd23865327a",
-        "type": "github"
-      },
-      "original": {
-        "owner": "musnix",
-        "repo": "musnix",
-        "type": "github"
-      }
-    },
     "naersk": {
       "inputs": {
         "nixpkgs": "nixpkgs_3"
@@ -398,11 +378,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1698222534,
-        "narHash": "sha256-iF9C7C7eT8LVVWx5IOZ/8KKJT8AIw9A5aBA6vqS18l8=",
+        "lastModified": 1699549513,
+        "narHash": "sha256-cfsghOs6Cr61wFsxkWonK8AwPwHaRGZ6QkbasUgygh4=",
         "owner": "nix-community",
         "repo": "NixOS-WSL",
-        "rev": "a058cff4b09b3a398d8caa379b4dc96cfedd98c9",
+        "rev": "0e4c17efebff955471f169fffbb7e8cd62ada498",
         "type": "github"
       },
       "original": {
@@ -493,11 +473,11 @@
     },
     "nixpkgs_5": {
       "locked": {
-        "lastModified": 1698562188,
-        "narHash": "sha256-9nkxGnA/T+jLhHAMFRW157Qi/zfbf5dF1q7HfKROl3o=",
+        "lastModified": 1699291058,
+        "narHash": "sha256-5ggduoaAMPHUy4riL+OrlAZE14Kh7JWX4oLEs22ZqfU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "3e10c80821dedb93592682379f476745f370a58e",
+        "rev": "41de143fda10e33be0f47eab2bfe08a50f234267",
         "type": "github"
       },
       "original": {
@@ -514,7 +494,6 @@
         "deploy-rs": "deploy-rs",
         "home-manager": "home-manager",
         "k-ddns": "k-ddns",
-        "musnix": "musnix",
         "nixos-wsl": "nixos-wsl",
         "nixpkgs": "nixpkgs_5",
         "vscode-server": "vscode-server"

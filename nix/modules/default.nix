@@ -3,5 +3,5 @@
   graphical = import ./graphical;
   radeon = import ./radeon.nix;
   # keyd = import ./keyd.nix;
-  audio-prod = import ./audio-prod.nix;
+  # audio-prod = import ./audio-prod.nix;
 }
