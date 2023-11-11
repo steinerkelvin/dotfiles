@@ -5,7 +5,7 @@
 
   programs.neovim = {
     enable = true;
-    coc = { enable = true; };
+    # coc = { enable = true; };
     plugins = let vp = pkgs.vimPlugins; in [
       vp.which-key-nvim
 
@@ -18,6 +18,8 @@
       vp.copilot-lua
 
       vp.monokai-pro-nvim
+
+      vp.Coqtail
 
       # vp.yankring
       # vp.vim-easymotion
