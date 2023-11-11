@@ -27,17 +27,6 @@
       # vp.vim-wakatime
     ];
     extraConfig = ''
-      " space key as Leader
-      nnoremap <Space> <Nop>
-      let g:mapleader = "\<Space>"
-
-      " non-yank delete
-      nnoremap <leader>d "_d
-      xnoremap <leader>d "_d
-
-      " which-key config
-      "nnoremap <silent> <leader> :WhichKey '<Space>'<CR>
-
       " line numbers
       set number
 
