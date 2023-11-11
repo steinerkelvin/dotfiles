@@ -13,11 +13,11 @@ require("nvim-tree").setup()
 
 -- telescope keymaps
 local tl_builtin = require('telescope.builtin')
-vim.keymap.set('n', '<leader>ff', tl_builtin.find_files, {})
-vim.keymap.set('n', '<leader>fg', tl_builtin.live_grep, {})
-vim.keymap.set('n', '<leader>fb', tl_builtin.buffers, {})
-vim.keymap.set('n', '<leader>fh', tl_builtin.help_tags, {})
-vim.keymap.set('n', '<leader>fd', tl_builtin.treesitter, {})
+vim.keymap.set('n', '<space>ff', tl_builtin.find_files, {})
+vim.keymap.set('n', '<space>fg', tl_builtin.live_grep, {})
+vim.keymap.set('n', '<space>fb', tl_builtin.buffers, {})
+vim.keymap.set('n', '<space>fh', tl_builtin.help_tags, {})
+vim.keymap.set('n', '<space>fd', tl_builtin.treesitter, {})
 
 -- LSP config
 local lspconfig = require('lspconfig')
