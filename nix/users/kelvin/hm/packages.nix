@@ -1,5 +1,8 @@
 { inputs, pkgs, ... }:
 
+let
+  lib = pkgs.lib;
+in
 {
   home.packages = with pkgs; [
     # Nix tools
@@ -47,9 +50,7 @@
     htop
     pstree
     lsof
-    iotop
     pciutils
-    usbutils
     ## Network utilities
     inetutils
     nmap
@@ -89,5 +90,10 @@
     python310
     python310Packages.pip
     python310Packages.ipython
+
+  ] ++ lib.optionals pkgs.stdenv.isLinux [
+    # Linux system utilities
+    pkgs.iotop
+    pkgs.usbutils
   ];
 }
