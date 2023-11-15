@@ -22,6 +22,8 @@ in
           service.useHostStore = true;
           service.command = [ "${pkgs.purpur}/bin/minecraft-server" ];
           service.restart = "unless-stopped";
+          # service.tty = true;
+          # # service.stdin_open = true;
           service.working_dir = "/app";
           service.volumes = [
             "/data/games/minecraft:/app"
