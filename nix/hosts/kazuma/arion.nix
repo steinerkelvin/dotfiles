@@ -15,6 +15,23 @@ in
 
     projects = {
 
+      minecraft = {
+        settings.services."minecraft" = {
+          # Minecraft
+          image.enableRecommendedContents = true;
+          service.useHostStore = true;
+          service.command = [ "${pkgs.purpur}/bin/minecraft-server" ];
+          service.restart = "unless-stopped";
+          service.working_dir = "/app";
+          service.volumes = [
+            "/data/games/minecraft:/app"
+          ];
+          service.ports = [
+            "${toString ports.minecraft}:25565"
+          ];
+        };
+      };
+
       smokeping = {
         settings.services."smokeping".service = {
           # Smokeping
