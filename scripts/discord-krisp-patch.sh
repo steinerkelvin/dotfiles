@@ -17,6 +17,13 @@ shopt -s nullglob
 auto_accept=""
 for arg in "${@}"; do
     case "${arg}" in
+        -h|--help)
+            echo "Usage: $0 [-h|--help] [-y]"
+            echo
+            echo "  -h, --help  Show this help message."
+            echo "  -y          Do not ask for confirmation."
+            exit 0
+            ;;
         -y)
             auto_accept="true"
             ;;
@@ -55,7 +62,6 @@ if [ "${auto_accept}" = true ]; then
 else
     echo
     read -r -p "Proceed (y/[n])? " choice
-    echo
 fi
 
 if [[ ${choice} =~ ^[Yy]$ ]]; then
