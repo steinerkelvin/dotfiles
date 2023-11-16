@@ -67,7 +67,7 @@
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
     boot.loader = {
-      timeout = 7;
+      timeout = 15;
       grub = {
         enable = true;
         default = "saved";
