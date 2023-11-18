@@ -15,6 +15,8 @@
 
     pkgs.picom
 
+    pkgs.autorandr
+
     pkgs.xdotool
     pkgs.rofimoji
   ];

@@ -23,6 +23,7 @@
     libnotify
     redshift
     arandr
+    autorandr
 
     # Terminal
     kitty
