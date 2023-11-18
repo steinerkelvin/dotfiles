@@ -34,12 +34,15 @@
       # Xmodmap
       exec --no-startup-id ${config.home.homeDirectory}/.nix-profile/bin/xmodmap ${config.home.homeDirectory}/.Xmodmap
 
+      # Autorandr
+      exec --no-startup-id autorandr -c
+
       # Polybar
       # exec --no-startup-id polybar &
       exec_always --no-startup-id ~/.i3/polybar.sh &
 
       # Show scracthpad on startup
-      exec --no-startup-id sh -c "sleep 0.5; i3-msg 'scratchpad show'"
+      exec --no-startup-id sh -c "sleep 1; i3-msg 'scratchpad show'"
 
       # Arrow bindings (buggy)
       # alternative: https://unix.stackexchange.com/questions/166844/mapping-key-bindings
