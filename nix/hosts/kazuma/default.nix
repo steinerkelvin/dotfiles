@@ -33,6 +33,7 @@ in
     # Firewall
     networking.firewall = {
       enable = true;
+      trustedInterfaces = [ "enp3s0" ];
       allowedTCPPorts = [
         ports.mosquitto_1
         ports.mosquitto_2
