@@ -45,6 +45,8 @@ in
     tmux
     tmate
 
+    pkgs.yggdrasil
+
     # System utilities
     killall
     htop

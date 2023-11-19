@@ -53,17 +53,16 @@ in
       ipv6 = true;
     };
 
-    services.headscale = {
+    services.yggdrasil = {
       enable = true;
-      port = ports.headscale;
-      address = "0.0.0.0";
-      # TODO: refactor deprecated options
-      settings.dns_config = {
-        magic_dns = true;
-        base_domain = "hs.steinerkelvin.dev";
-        domains = [];
-        nameservers =
-          [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
+      settings = {
+        Listen = [ ];
+        Peers = [
+          "tcp://supergay.network:9002"
+          "tcp://corn.chowder.land:9002"
+          "tls://ygg.jjolly.dev:3443"
+          "tls://ygg.mnpnk.com:443"
+        ];
       };
     };
 
