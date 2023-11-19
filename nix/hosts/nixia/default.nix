@@ -25,6 +25,8 @@
     # Services
     k.services.syncthing.enable = true;
 
+    services.yggdrasil.enable = true;
+
     # Desktop Environment
     services.xserver.desktopManager.plasma5.enable = true;
 
