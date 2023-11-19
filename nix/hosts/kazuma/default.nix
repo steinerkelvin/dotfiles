@@ -40,6 +40,7 @@ in
         ports.headscale
         ports.zigbee2mqtt
         ports.smokeping
+        ports.yggdrasil_tcp
       ];
     };
 
@@ -56,7 +57,9 @@ in
     services.yggdrasil = {
       enable = true;
       settings = {
-        Listen = [ ];
+        Listen = [
+            "tcp://192.168.100.171:${toString ports.yggdrasil_tcp}"
+        ];
         Peers = [
           "tcp://supergay.network:9002"
           "tcp://corn.chowder.land:9002"

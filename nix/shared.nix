@@ -8,5 +8,6 @@
     smokeping = 49181;
     alfred = 49281;
     minecraft = 25565;
+    yggdrasil_tcp = 50000;
   };
 }
