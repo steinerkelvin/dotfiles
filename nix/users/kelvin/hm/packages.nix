@@ -9,6 +9,7 @@ in
     direnv
     nix-direnv
     nix-index
+    nix-tree
     nixos-option
     nixfmt
     nixpkgs-fmt
