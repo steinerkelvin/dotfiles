@@ -45,7 +45,7 @@ in
         # Homeshick
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 
-        PATH="~/bin:$PATH"
+        PATH="$HOME/bin:$PATH"
 
         # Utility Shell Functions
         function nxr { nix-shell -p $1 --command $1 }
