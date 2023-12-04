@@ -39,6 +39,7 @@ in
     ranger
     bat
     unzip
+    croc
     ## Misc
     httpie
     jq
