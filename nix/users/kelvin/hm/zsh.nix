@@ -45,8 +45,6 @@ in
         # Homeshick
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"
 
-        PATH="$HOME/bin:$PATH"
-
         # Utility Shell Functions
         function nxr { nix-shell -p $1 --command $1 }
         function dusort { du -h $@ | sort -h }

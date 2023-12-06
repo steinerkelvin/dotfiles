@@ -30,6 +30,7 @@ in
 
   ## Path / $PATH
   home.sessionPath = [
+    "$HOME/bin"
     "$HOME/.mix/escripts"
     "$HOME/.cargo/bin"
   ];
