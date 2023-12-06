@@ -18,9 +18,9 @@ in
     boot.initrd.kernelModules = [ "amdgpu" ];
     services.xserver.videoDrivers = lib.mkIf config.services.xserver.enable [ "amdgpu" ];
 
-    systemd.tmpfiles.rules = [
-      "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
-    ];
+    # systemd.tmpfiles.rules = [
+    #   "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.hip}"
+    # ];
 
     # # TODO: flag
     # hardware.opengl.extraPackages = [
