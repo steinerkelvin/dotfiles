@@ -46,6 +46,7 @@ in
     jc
     tmux
     tmate
+    pkgs.envsubst
 
     pkgs.yggdrasil
 
