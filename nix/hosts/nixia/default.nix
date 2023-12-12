@@ -4,6 +4,8 @@
   imports = [
     ../common.nix
     ./hardware-configuration.nix
+
+    ../../cachix/agicommies.nix
   ];
 
   config = {
