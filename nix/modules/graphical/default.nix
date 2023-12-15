@@ -21,7 +21,7 @@ in {
     # DDC/CI — controling monitor brightness / contrast etc
     services.ddccontrol.enable = true;
 
-    fonts.fonts = [
+    fonts.packages = [
       pkgs.liberation_ttf
       pkgs.noto-fonts
     ];

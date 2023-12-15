@@ -31,7 +31,7 @@ in
     shellcheck
     ## File utilities
     file
-    exa
+    pkgs.eza
     tree
     ncdu
     nnn
