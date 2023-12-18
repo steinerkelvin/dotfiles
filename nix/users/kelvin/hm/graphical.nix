@@ -34,6 +34,8 @@
     ## Browser
     firefox
     brave
+    # Credentials
+    bitwarden
     ## Note-taking
     logseq
     ## File Manager

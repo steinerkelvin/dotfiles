@@ -63,7 +63,9 @@ in
 
     # Secrets
     gnupg
+    pass
     age
+    bitwarden-cli
     inputs.agenix.packages.${pkgs.system}.agenix
     git-crypt
     libsecret
