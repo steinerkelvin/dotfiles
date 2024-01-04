@@ -69,6 +69,7 @@ in
     inputs.agenix.packages.${pkgs.system}.agenix
     git-crypt
     libsecret
+    pkgs.veracrypt
 
     # Shell
     zoxide
