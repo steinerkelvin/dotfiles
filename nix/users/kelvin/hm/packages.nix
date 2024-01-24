@@ -62,6 +62,7 @@ in
     dig
 
     # Secrets
+    pkgs.openssl
     gnupg
     pass
     age
