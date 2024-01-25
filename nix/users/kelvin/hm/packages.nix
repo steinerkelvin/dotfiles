@@ -44,6 +44,7 @@ in
     httpie
     jq
     jc
+    pkgs.yq
     tmux
     tmate
     pkgs.envsubst
