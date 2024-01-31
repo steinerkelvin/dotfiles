@@ -34,6 +34,7 @@ in
     pkgs.eza
     tree
     ncdu
+    pkgs.dua
     nnn
     broot
     ranger
