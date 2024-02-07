@@ -64,6 +64,7 @@
       enable = true;
       tokenFile = config.age.secrets.dynv6-token-kelvin.path;
       domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
+      ipv4 = true;
       ipv6 = true;
     };
 
