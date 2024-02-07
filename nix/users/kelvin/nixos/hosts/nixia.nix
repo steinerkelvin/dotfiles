@@ -5,7 +5,7 @@ let
 in {
 
   imports = [
-    ../noise-supression.nix
+    # ../noise-supression.nix
   ];
 
   config = {
