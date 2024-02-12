@@ -23,8 +23,7 @@ in
       dusm = "du -hs";
       # Nix aliases
       nxs = "nix-shell --command zsh";
-      nxrb = "nixos-rebuild --flake $(realpath ~/dotfiles)";
-      sunxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
+      nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
       # Exa aliases
       ll = "exa -l";
       la = "exa -l -a";
@@ -38,6 +37,11 @@ in
       dtcd = "homeshick cd dotfiles; cd home;";
       # Editor aliases
       h = "hx .";
+      # Docker aliases
+      dk = "sudo docker";
+      dkr = "sudo docker run --rm -it";
+      # Cargo aliases
+      cgr = "cargo run --";
     };
 
     initExtra =
