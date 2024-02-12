@@ -13,6 +13,7 @@ in
     nixos-option
     nixfmt
     nixpkgs-fmt
+    pkgs.nil
     dhall
 
     # Essential
