@@ -83,6 +83,7 @@ in
     helix
 
     # Utilities
+    pkgs.tldr
     # pdftk # big closure, requires openjdk
 
     # Dev
