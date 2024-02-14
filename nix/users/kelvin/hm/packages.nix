@@ -22,6 +22,7 @@ in
     rsync
     openssh
     git
+    pkgs.moreutils
 
     # Terminal / Shell tools
     fzf
@@ -30,6 +31,8 @@ in
     ripgrep
     diff-so-fancy
     shellcheck
+    pkgs.tmux
+    pkgs.tmate
     ## File utilities
     file
     pkgs.eza
@@ -47,8 +50,6 @@ in
     jq
     jc
     pkgs.yq
-    tmux
-    tmate
     pkgs.envsubst
 
     pkgs.yggdrasil
