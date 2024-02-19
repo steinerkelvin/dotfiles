@@ -40,6 +40,7 @@ in
       h = "hx .";
       # Docker aliases
       dk = "sudo docker";
+      docker = "sudo docker";
       dkr = "sudo docker run --rm -it";
       # Cargo aliases
       cgr = "cargo run --";
