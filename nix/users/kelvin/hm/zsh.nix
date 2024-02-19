@@ -28,6 +28,7 @@ in
       ll = "exa -l";
       la = "exa -l -a";
       # Git aliases
+      gff = "git merge --ff-only";
       glogh = "git log --oneline --decorate --graph HEAD";
       tigh = "tig -a HEAD";
       # Kitty aliases
