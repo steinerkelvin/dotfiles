@@ -85,6 +85,7 @@ in
 
     # Utilities
     pkgs.tldr
+    pkgs.qrencode
     # pdftk # big closure, requires openjdk
 
     # Dev
