@@ -1,6 +1,8 @@
 # Import default rules from the system Compose file
 include "%L"
 
+# <Multi_key> <> # DAGGER
+
 <Multi_key> <v> <v> : "✓" U2713
 <Multi_key> <exclam> <question> : "‽"   U203D  # INTERROBANG
 <Multi_key> <less>    <period>  : "‹"   U2039  # LEFT-POINTING ANGLE QUOTATION MARK
