@@ -37,7 +37,7 @@
     # Credentials
     bitwarden
     ## Note-taking
-    # logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
+    pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
     ## File Manager
     dolphin
     ## Communication
