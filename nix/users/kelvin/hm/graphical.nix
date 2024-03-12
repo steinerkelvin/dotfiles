@@ -43,8 +43,10 @@
     ## File Manager
     dolphin
     ## Communication
-    tdesktop
-    discord
+    pkgs.telegram-desktop
+    pkgs.discord
+    pkgs.session-desktop
+    ## idk
     calibre
     qbittorrent
     ## Music
