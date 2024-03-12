@@ -31,6 +31,8 @@
     viu
 
     # GUI Apps
+    ## Editor
+    pkgs.kate
     ## Browser
     firefox
     brave
