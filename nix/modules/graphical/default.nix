@@ -61,8 +61,11 @@ in {
     programs.xwayland.enable = true;
     programs.sway.enable = true;
 
+    # XDG Desktop Portal
+    xdg.portal.enable = true;
     xdg.portal.extraPortals = [
-      pkgs.gnome3.gnome-keyring
+      # pkgs.gnome3.gnome-keyring
+      pkgs.xdg-desktop-portal-gtk
       pkgs.xdg-desktop-portal-wlr
     ];
   };
