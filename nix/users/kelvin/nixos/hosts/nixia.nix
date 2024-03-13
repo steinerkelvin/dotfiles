@@ -17,6 +17,8 @@ in {
       packages = [ pkgs.git ];
     };
 
+    services.trezord.enable = true;
+
     home-manager.extraSpecialArgs = { inherit inputs; };
     home-manager.users."${username}" = { pkgs, config, lib, ... }: {
       imports = [
