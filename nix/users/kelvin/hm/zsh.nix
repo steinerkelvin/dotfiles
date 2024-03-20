@@ -44,6 +44,8 @@ in
       dkr = "sudo docker run --rm -it";
       # Cargo aliases
       cgr = "cargo run --";
+      # Copilot
+      "??" = "gh copilot explain";
     };
 
     initExtra =

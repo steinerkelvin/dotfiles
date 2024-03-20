@@ -4,5 +4,5 @@ let
   readFile = builtins.readFile;
 in
 {
-  copilot-cli = readFile ./copilot-cli.sh;
+  # copilot-cli = readFile ./copilot-cli.sh;
 }
