@@ -45,7 +45,7 @@ in
       # Cargo aliases
       cgr = "cargo run --";
       # Copilot
-      "??" = "gh copilot explain";
+      "'??'" = "gh copilot explain";
     };
 
     initExtra =
