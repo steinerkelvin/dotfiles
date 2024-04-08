@@ -1,9 +1,12 @@
-{ config, ... }:
-
+{ config, inputs, ... }:
+let
+  vscode-server = inputs.vscode-server;
+in
 {
   imports = [
     ../common.nix
     ./hardware-configuration.nix
+    vscode-server.nixosModules.default
 
     ../../cachix/agicommies.nix
   ];
@@ -67,6 +70,13 @@
       domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
       ipv4 = true;
       ipv6 = true;
+    };
+
+    # VSCode Server Support
+    services.vscode-server = {
+      enable = true;
+      installPath = "~/.vscode-server";
+      # installPath = "~/.vscode-server-insiders";
     };
 
     # Bootloader
