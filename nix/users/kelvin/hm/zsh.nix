@@ -46,6 +46,8 @@ in
       cgr = "cargo run --";
       # Copilot
       "'??'" = "gh copilot explain";
+      # Utils
+      "qrprint" = "qrencode -t utf8";
     };
 
     initExtra =
