@@ -33,6 +33,8 @@ in
     services.mullvad-vpn.enable = true;
     # services.yggdrasil.enable = true;
 
+    services.tailscale.enable = true;
+
     # Desktop Environment
     services.xserver.desktopManager.plasma5.enable = true;
 
