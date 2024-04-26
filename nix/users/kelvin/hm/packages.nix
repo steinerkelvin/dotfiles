@@ -37,7 +37,6 @@ in
     file
     pkgs.eza
     tree
-    ncdu
     pkgs.dua
     nnn
     broot
@@ -110,5 +109,6 @@ in
     # Linux system utilities
     pkgs.iotop
     pkgs.usbutils
+    pkgs.ncdu
   ];
 }
