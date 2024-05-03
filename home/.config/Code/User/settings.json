@@ -2,6 +2,7 @@
   "window.restoreWindows": "none",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
+  "workbench.sideBar.location": "right",
   "workbench.iconTheme": "material-icon-theme",
   // Editor
   "editor.rulers": [80],
@@ -14,7 +15,7 @@
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   // Theme
-  "workbench.colorTheme": "Tomorrow Night",
+  "workbench.colorTheme": "monokai-charcoal (red)",
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
