@@ -90,7 +90,7 @@
           "${mod}+d"       = "exec rofi -show run";
           "${mod}+Shift+d" = "exec rofi -show drun";
           "${mod}+x"       = "exec rofi -show window";
-          "${mod}+c"       = "exec rofi -show ssh";
+          # "${mod}+c"       = "exec rofi -show ssh";
           "${mod}+period"  = "exec rofimoji";
           # fallback commands menu
           "Mod1+d" = "exec ${cfg.menu}";
@@ -195,6 +195,8 @@
           # bringhtness control
           "${mod}+F9" = "exec brightness s 10%-";
           "${mod}+F10" = "exec brightness s +10%";
+
+          "${mod}+c" = "exec k-commander";
 
           # TODO: port rest of custom keybindings
         };
