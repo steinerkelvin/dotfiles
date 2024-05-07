@@ -24,8 +24,9 @@ in
 
   # Enviroment
   home.sessionVariables = {
+    # Default editors
     EDITOR = "vi -e";
-    VISUAL = "hx";
+    VISUAL = "nvim";
   };
 
   ## Path / $PATH
