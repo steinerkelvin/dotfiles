@@ -1,5 +1,6 @@
 {
   "window.restoreWindows": "none",
+  "git.defaultBranchName": "master",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
   "workbench.sideBar.location": "right",
@@ -196,14 +197,20 @@
   "[markdown]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  // lang: Javascript
+  // lang: Javascript / Web
   "[javascript]": {
-    "editor.defaultFormatter": "vscode.typescript-language-features"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // lang: Rust
