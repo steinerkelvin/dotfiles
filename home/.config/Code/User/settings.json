@@ -1,6 +1,9 @@
 {
-  "window.restoreWindows": "none",
+  // Based
   "git.defaultBranchName": "master",
+  // Window
+  "window.restoreWindows": "none",
+  "window.menuBarVisibility": "toggle",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
   "workbench.sideBar.location": "right",
@@ -63,6 +66,7 @@
     "curr",
     "deserializable",
     "deserialization",
+    "direnv",
     "dotfiles",
     "dtach",
     "elems",
@@ -71,6 +75,7 @@
     "funcs",
     "hasher",
     "hashrate",
+    "homoiconicity",
     "incentivized",
     "Iosevka",
     "keccak",
@@ -93,6 +98,7 @@
     "stringifier",
     "struct",
     "succ",
+    "Taleb",
     "traefik",
     "tupl",
     "typecheck",
@@ -102,6 +108,7 @@
     "uuid",
     "uuids",
     "vals",
+    "venv",
     "wouldn"
   ],
   // `TODO`
@@ -190,7 +197,7 @@
   },
   // lang: Yaml
   "[yaml]": {
-    "editor.defaultFormatter": "redhat.vscode-yaml"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   // lang: Markdown
   // "markdown-preview-github-styles.colorTheme": "light",
@@ -219,5 +226,5 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "rust-analyzer.lens.implementations.enable": false,
-  "//": null
+  "//": null,
 }
