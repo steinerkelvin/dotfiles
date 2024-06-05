@@ -1,0 +1,2 @@
+{:logseq-plugin-gpt3-openai {:version "v1.13.2", :repo "briansunter/logseq-plugin-gpt3-openai", :effect true, :theme false}
+ :logseq-tabs {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false}}

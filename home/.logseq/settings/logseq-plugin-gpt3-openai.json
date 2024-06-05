@@ -1,0 +1,13 @@
+{
+  "openAIKey": "",
+  "openAICompletionEngine": "gpt-3.5-turbo",
+  "chatCompletionEndpoint": "http://api.openai.com/v1",
+  "chatPrompt": "Do not refer to yourself in your answers. Do not say as an AI language model...",
+  "openAITemperature": 1,
+  "openAIMaxTokens": 1000,
+  "injectPrefix": "",
+  "dalleImageSize": 1024,
+  "shortcutBlock": "mod+j",
+  "popupShortcut": "mod+g",
+  "disabled": false
+}

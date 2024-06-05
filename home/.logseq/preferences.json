@@ -1,0 +1,18 @@
+{
+  "theme": null,
+  "themes": {
+    "mode": "light",
+    "light": {
+      "name": "Bonofix Theme",
+      "url": "assets:///Users/kelvin/.logseq/plugins/logseq-bonofix-theme/custom.css",
+      "description": "A custom theme focus on UI bug fix and mobile improvement",
+      "pid": "logseq-bonofix-theme",
+      "group-first": true,
+      "group-desc": "light & dark themes",
+      "mode": "light",
+      "selected": true
+    },
+    "dark": null
+  },
+  "externals": []
+}
