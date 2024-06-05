@@ -149,56 +149,66 @@
 
 # ============================================================================ #
 
-# layouts
-cmd + lalt - e : yabai -m space --layout bsp
-cmd + lalt - s : yabai -m space --layout stack
+# hyper key = cmd + ctrl + alt
 
-# focus
-cmd + lalt - j : yabai -m window --focus stack.next || yabai -m window --focus south
-cmd + lalt - k : yabai -m window --focus stack.prev || yabai -m window --focus north
-cmd + lalt - h : yabai -m window --focus west
-cmd + lalt - l : yabai -m window --focus east
+# -> Layouts
+cmd + ctrl + alt - e : yabai -m space --layout bsp
+cmd + ctrl + alt - s : yabai -m space --layout stack
 
-# move managed window
-cmd + lalt + shift - j : yabai -m window --warp south
-cmd + lalt + shift - k : yabai -m window --warp north
-cmd + lalt + shift - h : yabai -m window --warp west
-cmd + lalt + shift - l : yabai -m window --warp east
+# -> Focus window
+cmd + ctrl + alt - j : yabai -m window --focus stack.next || yabai -m window --focus south
+cmd + ctrl + alt - k : yabai -m window --focus stack.prev || yabai -m window --focus north
+cmd + ctrl + alt - h : yabai -m window --focus west
+cmd + ctrl + alt - l : yabai -m window --focus east
 
-cmd + lalt - down : yabai -m window --focus stack.next || yabai -m window --focus south
-cmd + lalt - up : yabai -m window --focus stack.prev || yabai -m window --focus north
-cmd + lalt - left : yabai -m window --focus west
-cmd + lalt - right : yabai -m window --focus east
+# -> Move window
+cmd + ctrl + alt + shift - j : yabai -m window --warp south
+cmd + ctrl + alt + shift - k : yabai -m window --warp north
+cmd + ctrl + alt + shift - h : yabai -m window --warp west
+cmd + ctrl + alt + shift - l : yabai -m window --warp east
 
-# focus space
-cmd + lalt - 1 : yabai -m space --focus 1
-cmd + lalt - 2 : yabai -m space --focus 2
-cmd + lalt - 3 : yabai -m space --focus 3
-cmd + lalt - 4 : yabai -m space --focus 4
-cmd + lalt - 5 : yabai -m space --focus 5
-cmd + lalt - 6 : yabai -m space --focus 6
-cmd + lalt - 7 : yabai -m space --focus 7
-cmd + lalt - 8 : yabai -m space --focus 8
-cmd + lalt - 9 : yabai -m space --focus 9
-cmd + lalt - 0 : yabai -m space --focus 10
+cmd + ctrl + alt - down  : yabai -m window --focus stack.next || yabai -m window --focus south
+cmd + ctrl + alt - up    : yabai -m window --focus stack.prev || yabai -m window --focus north
+cmd + ctrl + alt - left  : yabai -m window --focus west
+cmd + ctrl + alt - right : yabai -m window --focus east
 
-# focus space cardinally
-cmd + lalt + ctrl - h : yabai -m display --focus west
-cmd + lalt + ctrl - l : yabai -m display --focus east
+# -> Focus space by number
+cmd + ctrl + alt - 1 : yabai -m space --focus 01
+cmd + ctrl + alt - 2 : yabai -m space --focus 02
+cmd + ctrl + alt - 3 : yabai -m space --focus 03
+cmd + ctrl + alt - 4 : yabai -m space --focus 04
+cmd + ctrl + alt - 5 : yabai -m space --focus 05
+cmd + ctrl + alt - 6 : yabai -m space --focus 06
+cmd + ctrl + alt - 7 : yabai -m space --focus 07
+cmd + ctrl + alt - 8 : yabai -m space --focus 08
+cmd + ctrl + alt - 9 : yabai -m space --focus 09
+cmd + ctrl + alt - 0 : yabai -m space --focus 10
 
-# move window to space
-cmd + lalt + shift - 1 : yabai -m window --space 1
-cmd + lalt + shift - 2 : yabai -m window --space 2
-cmd + lalt + shift - 3 : yabai -m window --space 3
-cmd + lalt + shift - 4 : yabai -m window --space 4
-cmd + lalt + shift - 5 : yabai -m window --space 5
-cmd + lalt + shift - 6 : yabai -m window --space 6
-cmd + lalt + shift - 7 : yabai -m window --space 7
-cmd + lalt + shift - 8 : yabai -m window --space 8
-cmd + lalt + shift - 9 : yabai -m window --space 9
-cmd + lalt + shift - 0 : yabai -m window --space 10
+# -> Focus space cardinally
+cmd + ctrl + alt - n : yabai -m space --focus next
+cmd + ctrl + alt - p : yabai -m space --focus prev
 
-cmd + lalt - space : yabai -m window --toggle float
+# -> Focus recent space
+cmd + ctrl + alt - tab : yabai -m space --focus recent
 
-# launch kitty on Yabai's kitty instance
-cmd + lalt - return : kitty -1 --instance-group yabai -d ~
+# -> Move Window to Space
+cmd + ctrl + alt + shift - 1 : yabai -m window --space 01
+cmd + ctrl + alt + shift - 2 : yabai -m window --space 02
+cmd + ctrl + alt + shift - 3 : yabai -m window --space 03
+cmd + ctrl + alt + shift - 4 : yabai -m window --space 04
+cmd + ctrl + alt + shift - 5 : yabai -m window --space 05
+cmd + ctrl + alt + shift - 6 : yabai -m window --space 06
+cmd + ctrl + alt + shift - 7 : yabai -m window --space 07
+cmd + ctrl + alt + shift - 8 : yabai -m window --space 08
+cmd + ctrl + alt + shift - 9 : yabai -m window --space 09
+cmd + ctrl + alt + shift - 0 : yabai -m window --space 10
+
+# -> Toggle floating window
+cmd + ctrl + alt + shift - space : yabai -m window --toggle float
+
+# -> Toggle fullscreen
+cmd + ctrl + alt - f : yabai -m window --toggle zoom-fullscreen
+# cmd + ctrl + alt + shift - f : yabai -m window --toggle native-fullscreen
+
+# -> Launch Kitty on Yabai's kitty instance
+cmd + ctrl + alt - return : kitty -1 --instance-group yabai -d ~
