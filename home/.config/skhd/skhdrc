@@ -152,8 +152,9 @@
 # hyper key = cmd + ctrl + alt
 
 # -> Layouts
-cmd + ctrl + alt - e : yabai -m space --layout bsp
-cmd + ctrl + alt - s : yabai -m space --layout stack
+cmd + ctrl + alt - e : yabai -m window --toggle split
+# cmd + ctrl + alt - e : yabai -m space --layout bsp
+# cmd + ctrl + alt - s : yabai -m space --layout stack
 
 # -> Focus window
 cmd + ctrl + alt - j : yabai -m window --focus stack.next || yabai -m window --focus south

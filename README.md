@@ -26,7 +26,11 @@
 
 - [BetterDisplay]
 
-Some Homebrew formulae at [my-brew-formulae.sh].
+Some Homebrew formulae at [my-brew-formulae.sh]:
+
+```sh
+sh ./mac/my-brew-formulae.sh
+```
 
 [Superkey]: https://superkey.app/
 [Yabai]: https://github.com/koekeishiya/yabai
