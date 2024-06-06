@@ -73,7 +73,7 @@
     appimage-run
 
     # Image
-    imagemagick
+    pkgs.imagemagick
 
     # Audio
     ## Pipewire

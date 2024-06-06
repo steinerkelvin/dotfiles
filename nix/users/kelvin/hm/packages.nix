@@ -84,8 +84,11 @@ in
 
     # Utilities
     pkgs.tldr
+
+    # Image utilities
+    pkgs.imagemagick
+    pkgs.zbar
     pkgs.qrencode
-    # pdftk # big closure, requires openjdk
 
     # Dev
     gnumake
