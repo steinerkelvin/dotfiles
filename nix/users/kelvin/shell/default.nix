@@ -4,5 +4,5 @@ let
   readFile = builtins.readFile;
 in
 {
-  # copilot-cli = readFile ./copilot-cli.sh;
+  vscode-remote = readFile ./vscode-remote.sh;
 }

@@ -23,7 +23,7 @@
 - [Yabai]
 - [skhd]
 - [AltTab]
-
+- [Raycast]
 - [BetterDisplay]
 
 Some Homebrew formulae at [my-brew-formulae.sh]:
@@ -36,7 +36,7 @@ sh ./mac/my-brew-formulae.sh
 [Yabai]: https://github.com/koekeishiya/yabai
 [skhd]: https://github.com/koekeishiya/skhd
 [AltTab]: https://alt-tab-macos.netlify.app/
-
+[Raycast]: https://raycast.com/
 [BetterDisplay]: https://github.com/waydabber/BetterDisplay
 
 [my-brew-formulae.sh]: mac/my-brew-formulae.sh

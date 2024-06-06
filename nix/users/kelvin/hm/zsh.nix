@@ -1,7 +1,7 @@
 { lib, ... }:
 
 let
-  shellScripts = import ../shell { };
+  shell_scripts = import ../shell { };
 in
 {
   # Zsh
@@ -59,7 +59,7 @@ in
         function nxr { nix-shell -p $1 --command $1 }
         function dusort { du -h $@ | sort -h }
       ''
-      + lib.strings.concatStrings (lib.attrValues shellScripts)
+      + lib.strings.concatStrings (lib.attrValues shell_scripts)
     ;
 
     oh-my-zsh = {
