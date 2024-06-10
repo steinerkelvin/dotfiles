@@ -10,6 +10,7 @@ brew install --cask superkey
 brew install --cask multitouch
 brew install --cask alt-tab
 brew install --cask betterdisplay
+brew install --cask bartender
 
 # brew install --cask rectangle-pro
 # brew install --cask lunar
