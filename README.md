@@ -57,7 +57,10 @@ sh ./mac/my-brew-formulae.sh
 
 ## Testing
 
+- [LTeX]
+  - Grammar/spell checker using LanguageTool
 - [GhostText]
+  - Use your text editor in the browser
 - [HackMD]
 
 [Rewrap]: https://marketplace.visualstudio.com/items?itemName=stkb.rewrap
@@ -66,5 +69,7 @@ sh ./mac/my-brew-formulae.sh
 [Git Graph]: https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph
 [GitLens]: https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
 [Even Better TOML]: https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml
+
+[LTeX]: https://marketplace.visualstudio.com/items?itemName=valentjn.vscode-ltex
 [GhostText]: https://ghosttext.fregante.com/
 [HackMD]: https://marketplace.visualstudio.com/items?itemName=HackMD.vscode-hackmd
