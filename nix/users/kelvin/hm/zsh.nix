@@ -23,6 +23,8 @@ in
       dusm = "du -hs";
       # Nix aliases
       nxs = "nix-shell --command zsh";
+      nxd = "nix develop --command zsh";
+      nxu = "nix flake update";
       nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
       # Exa aliases
       ll = "exa -l";

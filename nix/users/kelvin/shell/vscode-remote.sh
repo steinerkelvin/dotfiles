@@ -19,7 +19,7 @@ rcode() {
 
 #compdef rcode
 
-_r_code() {
+_rcode() {
   # Complete SSH hosts for the first argument
   if [[ $CURRENT -eq 2 ]]; then
     _ssh_hosts
@@ -41,5 +41,5 @@ _r_code() {
 }
 
 # Load the zsh completion system and register the completion function
-autoload -U compinit && compinit
-compdef _r_code rcode
+#autoload -U compinit && compinit
+compdef _rcode rcode
