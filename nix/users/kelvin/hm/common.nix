@@ -24,6 +24,8 @@ in
 
   # Enviroment
   home.sessionVariables = {
+    # Nix
+    NIXPKGS_ALLOW_UNFREE = "1";
     # Default editors
     EDITOR = "vi -e";
     VISUAL = "nvim";
