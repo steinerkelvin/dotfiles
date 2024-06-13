@@ -117,7 +117,9 @@
     ## Dev
     pkgs.inconsolata
     pkgs.iosevka
-    (pkgs.nerdfonts.override { fonts = [ "Inconsolata" "Iosevka" "FiraCode" "DroidSansMono" "Noto" ]; })
+    pkgs.iosevka-comfy.comfy-duo
+    pkgs.iosevka-comfy.comfy-fixed
+    # (pkgs.nerdfonts.override { fonts = [ "Inconsolata" "Iosevka" "FiraCode" "DroidSansMono" "Noto" ]; })
     ## Content
     xkcd-font
   ];

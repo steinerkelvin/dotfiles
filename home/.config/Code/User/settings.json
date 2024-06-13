@@ -26,7 +26,7 @@
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   // Font
-  "editor.fontFamily": "Iosevka Comfy Duo, Fira Code, monospace",
+  "editor.fontFamily": "Iosevka Comfy Duo, Iosevka Aile, Fira Code, monospace",
   "editor.fontWeight": "300",
   "editor.fontSize": 14,
   "editor.fontLigatures": true, // --> != <==
@@ -54,9 +54,11 @@
   // Spelling
   "cSpell.language": "en,pt-BR",
   "cSpell.userWords": [
+    "alacritty",
     "ascii",
     "bytecode",
     "camelcase",
+    "clippy",
     "concat",
     "deserializable",
     "deserialization",
@@ -69,6 +71,8 @@
     "hashrate",
     "homoiconicity",
     "incentivized",
+    "Inconsolata",
+    "Iosevka",
     "keccak",
     "kindelia",
     "Kindelia",
@@ -79,6 +83,7 @@
     "redex",
     "redexes",
     "roadmap",
+    "screencast",
     "serde",
     "singlepass",
     "stringification",
@@ -91,7 +96,7 @@
     "uuid",
     "uuids",
     "vals",
-    "venv",
+    "venv"
   ],
   // `TODO`
   "todo-tree.general.tags": [
