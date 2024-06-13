@@ -1,4 +1,5 @@
 {
+  "update.mode": "manual",
   // Based
   "git.defaultBranchName": "master",
   // Window
@@ -7,7 +8,6 @@
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
   "workbench.sideBar.location": "right",
-  "workbench.iconTheme": "material-icon-theme",
   // Editor
   "editor.rulers": [80],
   "editor.tabSize": 2,
@@ -18,20 +18,23 @@
   "editor.renderWhitespace": "trailing",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
-  // Theme
-  "workbench.colorTheme": "monokai-charcoal (red)",
+  "workbench.colorTheme": "Monokai Pro (Filter Ristretto)",
+  "workbench.preferredDarkColorTheme": "Monokai Pro (Filter Ristretto)",
+  "workbench.preferredLightColorTheme": "GitHub Light Default",
+  "workbench.iconTheme": "Monokai Pro (Filter Ristretto) Icons",
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   // Font
-  "editor.fontFamily": "'IosevkaNerdFontComplete-Light', 'Iosevka', 'Fira Code', Inconsolata-g, monospace",
-  "editor.fontSize": 16,
-  "editor.fontLigatures": true,
+  "editor.fontFamily": "Iosevka Comfy Duo, Fira Code, monospace",
+  "editor.fontWeight": "300",
+  "editor.fontSize": 14,
+  "editor.fontLigatures": true, // --> != <==
   // Zen Mode
   "zenMode.fullScreen": false,
   "zenMode.hideLineNumbers": false,
   "problems.showCurrentInStatus": true,
-  "terminal.external.linuxExec": "kitty",
+  "terminal.external.linuxExec": "alacritty",
   "terminal.external.osxExec": "kitty.app",
   "terminal.integrated.fontFamily": "Inconsolata, monospace",
   "terminal.integrated.tabs.enabled": false,
@@ -50,34 +53,22 @@
   "redhat.telemetry.enabled": false,
   // Spelling
   "cSpell.language": "en,pt-BR",
-  "cSpell.ignoreWords": ["quleuber", "stricts", "usermod"],
   "cSpell.userWords": [
-    "addrs",
-    "allocs",
-    "arit",
-    "arities",
-    "arity",
     "ascii",
     "bytecode",
     "camelcase",
     "concat",
-    "configfile",
-    "Couldn",
-    "curr",
     "deserializable",
     "deserialization",
     "direnv",
     "dotfiles",
     "dtach",
     "elems",
-    "erasedness",
     "forall",
-    "funcs",
     "hasher",
     "hashrate",
     "homoiconicity",
     "incentivized",
-    "Iosevka",
     "keccak",
     "kindelia",
     "Kindelia",
@@ -85,22 +76,14 @@
     "Nakamoto",
     "newtype",
     "nonblocking",
-    "oper",
-    "quleuber",
     "redex",
     "redexes",
-    "retr",
     "roadmap",
     "serde",
-    "Serializers",
     "singlepass",
     "stringification",
     "stringifier",
     "struct",
-    "succ",
-    "Taleb",
-    "traefik",
-    "tupl",
     "typecheck",
     "typeclass",
     "upsert",
@@ -109,7 +92,6 @@
     "uuids",
     "vals",
     "venv",
-    "wouldn"
   ],
   // `TODO`
   "todo-tree.general.tags": [
@@ -184,14 +166,10 @@
       ]
     }
   ],
-  // Copilot
-  "github.copilot.enable": {
-    "*": true,
-    "yaml": true,
-    "plaintext": true,
-    "markdown": true
+  // lang: JSON
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  // lang: JSONC
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -212,9 +190,6 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
-  },
-  "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[html]": {
