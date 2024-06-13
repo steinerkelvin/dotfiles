@@ -81,6 +81,9 @@ in
       # installPath = "$HOME/.vscode-server-insiders";
     };
 
+    # KDE Connect
+    programs.kdeconnect.enable = true;
+
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
