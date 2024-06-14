@@ -27,16 +27,16 @@ in
     k.modules.graphical.enable = true;
     # k.modules.audio-prod.enable = true;
 
-    # Services
+    # Utility services
     k.services.syncthing.enable = true;
 
+    # Networking services
     services.mullvad-vpn.enable = true;
     # services.yggdrasil.enable = true;
-
     services.tailscale.enable = true;
 
     # Desktop Environment
-    services.xserver.desktopManager.plasma5.enable = true;
+    services.desktopManager.plasma6.enable = true;
 
     # Firewall
     networking.firewall.allowedTCPPorts = [

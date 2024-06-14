@@ -3,8 +3,8 @@
 {
   config = lib.mkIf (config.k.host.tags.pc) {
 
-    # Gnome Keyring
-    services.gnome.gnome-keyring.enable = true;
+    ## Gnome Keyring
+    #services.gnome.gnome-keyring.enable = true;
 
     # Sound with PipeWire
     sound.enable = true;

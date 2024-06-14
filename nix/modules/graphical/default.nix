@@ -3,11 +3,13 @@
 let
   cfg = config.k.modules.graphical;
   # optionals = lib.lists.optionals;
-in {
+in
+{
 
   options.k.modules.graphical = with lib; {
     enable = mkEnableOption "GUI";
-    dm = mkOption { # TODO: define only if `cfg.enable`
+    dm = mkOption {
+      # TODO: define only if `cfg.enable`
       description = "Enable Display Manager";
       type = types.bool;
       default = cfg.enable;
@@ -26,20 +28,18 @@ in {
       pkgs.noto-fonts
     ];
 
+    # Display Manager / SDDM
+    services.displayManager = lib.mkIf cfg.dm {
+      sddm.enable = true;
+      defaultSession = "none+i3";
+    };
+
     services.xserver = {
       enable = true;
 
-      # Display Manager / SDDM
-      displayManager = lib.mkIf cfg.dm {
-        sddm.enable = true;
-        defaultSession = "none+i3";
-        sessionCommands = ''
-          ${lib.getBin pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
-        '';
-      };
-
-      # # Plasma
-      # desktopManager.plasma5.enable = true;
+      displayManager.sessionCommands = ''
+        ${lib.getBin pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
+      '';
 
       # i3wm
       windowManager.i3 = {
@@ -52,14 +52,16 @@ in {
         ];
       };
 
-      layout = "us";
-      xkbVariant = "";
-      xkbOptions = "compose:rctrl";
+      xkb = {
+        layout = "us";
+        variant = "";
+        options = "compose:rctrl";
+      };
     };
 
-    # Wayland / Sway
-    programs.xwayland.enable = true;
-    programs.sway.enable = true;
+    # # Wayland / Sway
+    # programs.xwayland.enable = true;
+    # programs.sway.enable = true;
 
     # XDG Desktop Portal
     xdg.portal.enable = true;

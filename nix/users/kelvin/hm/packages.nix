@@ -11,7 +11,7 @@ in
     nix-index
     nix-tree
     nixos-option
-    nixfmt
+    nixfmt-classic
     nixpkgs-fmt
     pkgs.nil
     dhall
