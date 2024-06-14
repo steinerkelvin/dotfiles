@@ -62,7 +62,7 @@ in
       separator = "|";
       "separator-foreground" = "\${colors.disabled}";
       # "font-0" = "Roboto:size=12;2";
-      "font-0" = "NotoMono Nerd Font:size=10;2";
+      "font-0" = "Inconsolata Nerd Font Propo:size=10;2";
       "modules-left" = "xworkspaces xwindow";
       "modules-right" = "filesystem pulseaudio xkeyboard memory cpu wlan eth date";
       "cursor-click" = "pointer";

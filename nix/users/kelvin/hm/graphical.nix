@@ -108,12 +108,11 @@
 
     # Fonts
     pkgs.liberation_ttf
+    pkgs.dejavu_fonts
+    pkgs.roboto
     pkgs.noto-fonts
     pkgs.noto-fonts-cjk
     pkgs.noto-fonts-emoji
-    pkgs.dejavu_fonts
-    pkgs.roboto
-    pkgs.ubuntu_font_family
     ## Dev
     pkgs.inconsolata
     pkgs.inconsolata-nerdfont
