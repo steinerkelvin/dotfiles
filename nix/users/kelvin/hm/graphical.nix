@@ -116,6 +116,7 @@
     pkgs.ubuntu_font_family
     ## Dev
     pkgs.inconsolata
+    pkgs.inconsolata-nerdfont
     pkgs.iosevka
     pkgs.iosevka-comfy.comfy-duo
     pkgs.iosevka-comfy.comfy-fixed
