@@ -26,26 +26,29 @@
     autorandr
 
     # Terminal
-    kitty
-    alacritty
-    viu
+    pkgs.kitty
+    pkgs.alacritty
+    pkgs.viu
 
     # GUI Apps
     ## Editor
     pkgs.kate
+    pkgs.zed-editor
     ## Browser
-    firefox
-    brave
-    # Credentials
-    bitwarden
+    pkgs.brave
+    # Credentials / Secrets
+    pkgs.bitwarden
+    pkgs.keybase-gui
     ## Note-taking
     pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
+    ## Org
+    pkgs.planify
     ## File Manager
-    dolphin
+    pkgs.dolphin
+    pkgs.krusader
     ## Communication
     pkgs.telegram-desktop
     pkgs.discord
-    pkgs.session-desktop
     ## idk
     calibre
     qbittorrent
@@ -56,24 +59,18 @@
     ## Screencast
     peek
     ## Image-editing
-    gimp
-    krita
+    pkgs.gimp
+    pkgs.krita
     ## Misc
-    keybase-gui
     ## Tools
     speedcrunch
     ## Dev
-    vscode
-    tabnine
-    wakatime
+    pkgs.vscode
     ## BTC
-    electrum
+    pkgs.electrum
 
     ## AppImage
     appimage-run
-
-    # Image
-    pkgs.imagemagick
 
     # Audio
     ## Pipewire

@@ -23,6 +23,11 @@ in
     openssh
     git
     pkgs.moreutils
+    ## Build
+    pkgs.gnumake
+    pkgs.clang
+    pkgs.pkg-config
+    pkgs.openssl
 
     # Terminal / Shell tools
     fzf

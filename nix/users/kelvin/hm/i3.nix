@@ -84,7 +84,7 @@
           # open terminal
           "${mod}+Return" = "exec ${term}";
           # fallback if `mod` is misconfigured
-          "Mod1+Return" = "exec xterm";
+          "Mod1+Return" = "exec xterm -e bash";
 
           # commands menu
           "${mod}+d"       = "exec rofi -show run";
