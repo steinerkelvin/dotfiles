@@ -18,8 +18,9 @@
   "editor.renderWhitespace": "trailing",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
-  "workbench.colorTheme": "Monokai Pro (Filter Ristretto)",
-  "workbench.preferredDarkColorTheme": "Monokai Pro (Filter Ristretto)",
+  "workbench.colorTheme": "monokai-charcoal (red)",
+  // "workbench.preferredDarkColorTheme": "Monokai Pro (Filter Ristretto)",
+  "workbench.preferredDarkColorTheme": "monokai-charcoal (red)",
   "workbench.preferredLightColorTheme": "GitHub Light Default",
   "workbench.iconTheme": "Monokai Pro (Filter Ristretto) Icons",
   "gitlens.currentLine.enabled": false,
@@ -206,5 +207,5 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "rust-analyzer.lens.implementations.enable": false,
-  "//": null,
+  "//": null
 }

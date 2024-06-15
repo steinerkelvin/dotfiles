@@ -84,6 +84,7 @@ in
 
     # Utilities
     pkgs.tldr
+    pkgs.todoist
 
     # Image utilities
     pkgs.imagemagick
