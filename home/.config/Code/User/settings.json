@@ -5,9 +5,11 @@
   // Window
   "window.restoreWindows": "none",
   "window.menuBarVisibility": "toggle",
+  "window.customTitleBarVisibility": "never",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.sideBar.location": "right",
+  "workbench.sideBar.location": "left",
+  "workbench.activityBar.location": "bottom",
   // Editor
   "editor.rulers": [80],
   "editor.tabSize": 2,
@@ -27,7 +29,7 @@
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
   // Font
-  "editor.fontFamily": "Iosevka Comfy Duo, Iosevka Aile, Fira Code, monospace",
+  "editor.fontFamily": "Iosevka Comfy, Iosevka, Fira Code, monospace, monospace",
   "editor.fontWeight": "300",
   "editor.fontSize": 14,
   "editor.fontLigatures": true, // --> != <==
