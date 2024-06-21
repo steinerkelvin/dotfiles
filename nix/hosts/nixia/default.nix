@@ -57,8 +57,8 @@ in
     # Docker
     virtualisation.docker.enable = true;
 
-    # Hardware
-    k.modules.radeon.enable = true;
+    # # Hardware
+    # k.modules.radeon.enable = true;
 
     ## Bluetooth
     hardware.bluetooth.enable = true;
@@ -83,6 +83,31 @@ in
 
     # KDE Connect
     programs.kdeconnect.enable = true;
+
+    # Nvidia
+
+    services.xserver.videoDrivers = [ "nvidia" ];
+
+    hardware.nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.stable;
+      nvidiaSettings = true;
+      modesetting.enable = true;
+
+      # Nvidia power management. Experimental, and can cause sleep/suspend to
+      # fail. Enable this if you have graphical corruption issues or application
+      # crashes after waking up from sleep. This fixes it by saving the entire
+      # VRAM memory to /tmp/ instead of just the bare essentials.
+      powerManagement.enable = false;
+
+      # Use the NVidia open source kernel module (not to be confused with the
+      # independent third-party "nouveau" open source driver).
+      # Support is limited to the Turing and later architectures. Full list of 
+      # supported GPUs is at: 
+      # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
+      # Only available from driver 515.43.04+
+      # Currently alpha-quality/buggy, so false is currently the recommended setting.
+      open = false;
+    };
 
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
