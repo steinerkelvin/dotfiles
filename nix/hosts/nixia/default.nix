@@ -62,14 +62,14 @@ in
     services.blueman.enable = true;
 
     # DDNS
-    age.secrets.dynv6-token-kelvin.file = ../../../secrets/dynv6-token-kelvin.age;
-    k.services.k-ddns = {
-      enable = true;
-      tokenFile = config.age.secrets.dynv6-token-kelvin.path;
-      domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
-      ipv4 = true;
-      ipv6 = true;
-    };
+    #age.secrets.dynv6-token-kelvin.file = ../../../secrets/dynv6-token-kelvin.age;
+    #k.services.k-ddns = {
+    #  enable = true;
+    #  tokenFile = config.age.secrets.dynv6-token-kelvin.path;
+    #  domain = "steinerkelvin-${config.k.host.name}.dynv6.net";
+    #  ipv4 = true;
+    #  ipv6 = true;
+    #};
 
     # VSCode Server Support
     services.vscode-server = {
