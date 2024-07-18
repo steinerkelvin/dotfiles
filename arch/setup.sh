@@ -3,7 +3,7 @@ set -e
 
 username="$USER"
 castle_name="dotfiles"
-castle_repo="https://github.com/quleuber/${castle_name}.git"
+castle_repo="https://github.com/steinerkelvin/${castle_name}.git"
 
 homeshick_path="$HOME/.homesick/repos/homeshick"
 homeshick_repo="https://github.com/andsens/homeshick.git"
@@ -84,4 +84,3 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 
 ask_to_run "homeshick clone $castle_repo" "Y"
 ask_to_run "systemctl --user enable ssh-agent" "Y"
-

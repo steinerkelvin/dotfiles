@@ -11,7 +11,7 @@ pacman -S --needed \
   openssh git rsync curl wget \
   arch-install-scripts
 
-useradd -m -G wheel,adm "${user}"
+useradd -m -G wheel "${user}"
 passwd "${user}"
 
 # =====
