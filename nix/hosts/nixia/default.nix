@@ -19,9 +19,6 @@ in
 
     # Nix
     nix.settings.auto-optimise-store = true;
-    nix.extraOptions = ''
-      secret-key-files = /etc/nix/private-key
-    '';
 
     # Modules
     k.modules.graphical.enable = true;
