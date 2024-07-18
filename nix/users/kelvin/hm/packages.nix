@@ -10,6 +10,7 @@ in
     nix-direnv
     nix-index
     nix-tree
+    nixos-install-tools
     nixos-option
     nixfmt-classic
     nixpkgs-fmt
