@@ -33,14 +33,13 @@
     # GUI Apps
     ## Editor
     pkgs.kate
-    pkgs.zed-editor
     ## Browser
     pkgs.brave
     # Credentials / Secrets
     pkgs.bitwarden
     pkgs.keybase-gui
     ## Note-taking
-    pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
+    # pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
     ## Org
     pkgs.planify
     ## File Manager
