@@ -30,7 +30,7 @@ in
     # Networking services
     # services.mullvad-vpn.enable = true;
     # services.yggdrasil.enable = true;
-    # services.tailscale.enable = true;
+    services.tailscale.enable = true;
 
     # Desktop Environment
     services.desktopManager.plasma6.enable = true;
