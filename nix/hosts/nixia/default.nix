@@ -20,6 +20,9 @@ in
     # Nix
     nix.settings.auto-optimise-store = true;
 
+    # # runs unpatched dynamic binaries
+    # programs.nix-ld.enable = true;
+
     # Modules
     k.modules.graphical.enable = true;
     # k.modules.audio-prod.enable = true;

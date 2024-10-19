@@ -1,12 +1,12 @@
 { pkgs, ... }:
 
 {
-#   # Homeshick
-#   home.file.".homesick/repos/homeshick".source =
-#     pkgs.fetchFromGitHub {
-#       owner = "andsens";
-#       repo = "homeshick";
-#       rev = "d44da86740d88c7612133d4452b2e6bf954c4e66";
-#       sha256 = "LsFtuQ2PNGQuxj3WDzR2wG7fadIsqJ/q0nRjUxteT5I=";
-#     };
+  # Homeshick
+  home.file.".homesick/repos/homeshick".source =
+    pkgs.fetchFromGitHub {
+      owner = "andsens";
+      repo = "homeshick";
+      rev = "9768486e513523b1a3f7d3e44954e65eb2f6b979";
+      sha256 = "6H0NU0gAX452pTcI4PUV6Amwj954kDdKxnFdeOhJqlY=";
+    };
 }
