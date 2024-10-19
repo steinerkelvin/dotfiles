@@ -119,6 +119,7 @@
     "*.hvm": "hvm"
   },
   // Vim mode
+  "vim.disableExtension": true,
   "vim.easymotion": true,
   "vim.useSystemClipboard": true,
   "vim.normalModeKeyBindingsNonRecursive": [
