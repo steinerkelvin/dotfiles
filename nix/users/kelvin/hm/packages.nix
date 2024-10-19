@@ -10,7 +10,6 @@ in
     nix-direnv
     nix-index
     nix-tree
-    nixos-install-tools
     nixos-option
     nixfmt-classic
     nixpkgs-fmt
@@ -120,5 +119,7 @@ in
     pkgs.iotop
     pkgs.usbutils
     pkgs.ncdu
+    # Nix
+    pkgs.nixos-install-tools
   ];
 }
