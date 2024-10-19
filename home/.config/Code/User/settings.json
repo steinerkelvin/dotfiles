@@ -24,7 +24,7 @@
   // "workbench.preferredDarkColorTheme": "Monokai Pro (Filter Ristretto)",
   "workbench.preferredDarkColorTheme": "monokai-charcoal (red)",
   "workbench.preferredLightColorTheme": "GitHub Light Default",
-  "workbench.iconTheme": "Monokai Pro (Filter Ristretto) Icons",
+  "workbench.iconTheme": "material-icon-theme",
   "gitlens.currentLine.enabled": false,
   "gitlens.hovers.currentLine.over": "line",
   "gitlens.codeLens.enabled": false,
