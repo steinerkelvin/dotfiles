@@ -2,18 +2,14 @@
 
 # ==> GUI
 
-# -> Core
+# -> Interface
 brew install --cask karabiner-elements
-brew install yabai
-brew install skhd
-brew install --cask superkey
-brew install --cask multitouch
+brew install koekeishiya/formulae/yabai
+brew install koekeishiya/formulae/skhd
 brew install --cask alt-tab
+brew install --cask superkey
 brew install --cask betterdisplay
-brew install --cask bartender
-
-# brew install --cask rectangle-pro
-# brew install --cask lunar
+brew install --cask jordanbaird-ice
 
 # -> Terminal
 brew install --cask kitty
@@ -37,7 +33,6 @@ brew install --cask qbittorrent
 brew install --cask logseq
 brew install --cask todoist
 brew install --cask typora
-# brew install --cask notion
 
 brew install --cask telegram-desktop
 brew install --cask whatsapp
@@ -56,8 +51,3 @@ brew install --cask gimp
 # -> Screencasting
 brew install --cask keycastr
 brew install --cask obs
-# brew install --cask deskreen
-
-# brew install --cask activitywatch
-# brew install --cask syncplay
-# brew install --cask airdroid
