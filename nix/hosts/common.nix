@@ -81,6 +81,7 @@ in {
       programs.gnupg.agent = {
         enable = true;
         # enableSSHSupport = true;
+        pinentryPackage = pkgs.pinentry-qt;
       };
       security.pam.services.login.gnupg.enable = true;
 
