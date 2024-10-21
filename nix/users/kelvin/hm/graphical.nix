@@ -8,6 +8,7 @@
     ./i3.nix
     ./polybar.nix
     ./sway.nix
+    ./hyprland.nix
   ];
 
   # Enable user fonts
@@ -40,11 +41,8 @@
     pkgs.keybase-gui
     ## Note-taking
     # pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
-    ## Org
-    pkgs.planify
     ## File Manager
     pkgs.dolphin
-    pkgs.krusader
     ## Communication
     pkgs.telegram-desktop
     pkgs.discord
