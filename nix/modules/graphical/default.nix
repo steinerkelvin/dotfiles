@@ -28,6 +28,11 @@ in
       pkgs.noto-fonts
     ];
 
+    environment.systemPackages = [
+      pkgs.kitty
+      pkgs.alacritty
+    ];
+
     # Display Manager / SDDM
     services.displayManager = lib.mkIf cfg.dm {
       sddm.enable = true;
