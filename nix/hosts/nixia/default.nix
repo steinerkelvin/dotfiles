@@ -35,8 +35,8 @@ in
     # services.yggdrasil.enable = true;
     services.tailscale.enable = true;
 
-    # Desktop Environment
-    services.desktopManager.plasma6.enable = true;
+    # # Desktop Environment
+    # services.desktopManager.plasma6.enable = true;
 
     # Firewall
     networking.firewall.allowedTCPPorts = [
