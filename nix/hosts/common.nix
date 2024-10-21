@@ -55,6 +55,7 @@ in {
         inetutils
         dig
         nmap
+        pkgs.ethtool
         # Connectivity
         curl
         wget
