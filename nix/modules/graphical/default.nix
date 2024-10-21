@@ -68,6 +68,8 @@ in
     # programs.xwayland.enable = true;
     # programs.sway.enable = true;
 
+    programs.hyprland.enable = true;
+
     # XDG Desktop Portal
     xdg.portal.enable = true;
     xdg.portal.extraPortals = [
