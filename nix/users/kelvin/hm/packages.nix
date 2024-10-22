@@ -59,15 +59,17 @@ in
     pkgs.yggdrasil
 
     # System utilities
-    killall
-    htop
-    pstree
-    lsof
-    pciutils
+    pkgs.killall
+    pkgs.htop
+    pkgs.pstree
+    pkgs.bottom
+    pkgs.lshw
+    pkgs.lsof
+    pkgs.pciutils
     ## Network utilities
-    inetutils
-    nmap
-    dig
+    pkgs.inetutils
+    pkgs.nmap
+    pkgs.dig
 
     # Secrets
     pkgs.openssl
