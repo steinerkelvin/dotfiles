@@ -38,7 +38,10 @@
 
       # Monitors
       # See https://wiki.hyprland.org/Configuring/Monitors/
-      monitor = ",preferred,auto,auto";
+      monitor = [
+        ", preferred, auto,auto "
+        "Unknown-1, disable"
+      ];
 
       env = [
         "XCURSOR_SIZE,24"
