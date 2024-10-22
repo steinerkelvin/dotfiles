@@ -13,9 +13,9 @@
     # # Clipboard
     # pkgs.wl-clipboard
 
-    # # Screenshot
-    # pkgs.slurp
-    # pkgs.grim
+    # Screenshot
+    pkgs.slurp
+    pkgs.grim
 
     # Wayland event viewer
     pkgs.wev
@@ -33,14 +33,17 @@
 
       # Programs
       "$terminal" = "kitty";
-      "$filemanager" = "dolphin";
       "$menu" = "wofi --show drun";
+
+      exec-once = [
+        "waybar"
+      ];
 
       # Monitors
       # See https://wiki.hyprland.org/Configuring/Monitors/
       monitor = [
         ", preferred, auto,auto "
-        "Unknown-1, disable"
+        "Unknown-1, disable" # buggy driver ghost monitor
       ];
 
       env = [
@@ -102,7 +105,7 @@
         kb_layout = "us";
         kb_variant = "";
         kb_model = "";
-        kb_options = "compose:rctrl,caps:super";  # caps:hyper
+        kb_options = "compose:rctrl,caps:super"; # caps:hyper
         kb_rules = "";
         follow_mouse = 1;
         sensitivity = 0;
@@ -120,13 +123,15 @@
       bind = [
         "ALT, return, exec, $terminal" # fallback terminal
         "$mod, return, exec, $terminal"
-        "$mod, Q, killactive,"
-        "$mod, E, exit,"
         # "$mod, E, exec, $fileManager"
-        "$mod, F, togglefloating,"
         "$mod, D, exec, $menu"
-        "$mod, P, pseudo, # dwindle"
-        "$mod, E, togglesplit, # dwindle"
+
+        "$mod, F, togglefloating,"
+        "$mod SHIFT, F, pseudo,"
+        "$mod, Q, killactive,"
+        "$mod, E, togglesplit," # dwindle
+
+        "$mod SHIFT, E, exit,"
 
         # Move focus
         "bind = $mod, H, movefocus, l"
@@ -171,6 +176,13 @@
         # Scroll through existing workspaces
         "$mod, mouse_down, workspace, e+1"
         "$mod, mouse_up, workspace, e-1"
+
+        # Screenshot
+        "$mod, P, exec,            grim -g \"$(slurp)\" - | wl-copy"
+        "$mod CTRL, P, exec,       grim -g \"$(slurp)\" \"./screenshots/$(date -Iseconds).png\""
+        ## Not working
+        "$mod SHIFT, P, exec,      grim - | wl-copy"
+        "$mod SHIFT CTRL, P, exec, grim \"./screenshots/$(date -Iseconds).png\""
       ];
 
       bindm = [
