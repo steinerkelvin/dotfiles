@@ -109,6 +109,9 @@ in
       open = false;
     };
 
+    # Sysreq
+    boot.kernel.sysctl."kernel.sysrq" = 502;
+
     # Bootloader
     boot.loader.efi.canTouchEfiVariables = true;
     boot.loader.efi.efiSysMountPoint = "/boot/efi";
