@@ -203,6 +203,19 @@
       };
   };
 
+  # Notifications daemon
+  services.dunst = {
+    enable = true;
+    settings = {
+      global = {
+        font = "Noto Sans 10";
+      };
+      experimental = {
+        per_monitor_dpi = true;
+      };
+    };
+  };
+
   # Rofi
   programs.rofi = {
     enable = true;
