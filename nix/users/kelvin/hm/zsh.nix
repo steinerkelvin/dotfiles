@@ -68,7 +68,7 @@ in
       enable = true;
       plugins = [
         "sudo"
-        "command-not-found"
+        # "command-not-found"
         "zoxide"
         "git"
         "fzf"
