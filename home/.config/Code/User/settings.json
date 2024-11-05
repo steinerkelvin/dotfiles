@@ -5,10 +5,10 @@
   // Window
   "window.restoreWindows": "none",
   "window.menuBarVisibility": "toggle",
-  "window.customTitleBarVisibility": "never",
+  "window.customTitleBarVisibility": "auto",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
-  "workbench.sideBar.location": "left",
+  "workbench.sideBar.location": "right",
   "workbench.activityBar.location": "bottom",
   // Editor
   "editor.rulers": [80],
@@ -43,15 +43,13 @@
   "terminal.integrated.tabs.enabled": false,
   // Python
   "python.analysis.typeCheckingMode": "strict",
-  "python.formatting.provider": "black",
-  "python.formatting.autopep8Path": "black",
-  // Auto-complete
-  "tabnine.experimentalAutoImports": true,
+  // Live Share
+  "liveshare.allowGuestDebugControl": true,
+  "liveshare.allowGuestTaskControl": true,
+  "liveshare.languages.allowGuestCommandControl": true,
   // Screencast Mode
   "screencastMode.verticalOffset": 2,
   "screencastMode.fontSize": 32,
-  // bah
-  // "workbench.editor.untitled.hint": "hidden",
   "editor.accessibilitySupport": "off",
   "redhat.telemetry.enabled": false,
   // Spelling
@@ -101,17 +99,6 @@
     "vals",
     "venv"
   ],
-  // `TODO`
-  "todo-tree.general.tags": [
-    "BUG",
-    "HACK",
-    "FIXME",
-    "TODO",
-    "XXX",
-    "[ ]",
-    "[x]"
-  ],
-  "todo-tree.regex.regex": "(//|#|<!--|;|/\\*|^|^\\s*(-|\\d+.))\\s*($TAGS)",
   // File associations
   "files.associations": {
     "*.tf": "tf",
