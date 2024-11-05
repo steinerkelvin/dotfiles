@@ -30,6 +30,8 @@
     pkgs.kitty
     pkgs.alacritty
     pkgs.viu
+    ## Download
+    pkgs.yt-dlp
 
     # GUI Apps
     ## Editor
@@ -42,13 +44,14 @@
     ## Note-taking
     # pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
     ## File Manager
+    pkgs.pcmanfm
     pkgs.dolphin
     ## Communication
     pkgs.telegram-desktop
     pkgs.discord
     ## idk
     calibre
-    qbittorrent
+    # qbittorrent # disable because of the vulnerability
     ## Music
     spotify
     ## Audio
