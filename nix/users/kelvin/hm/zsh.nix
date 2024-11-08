@@ -50,6 +50,9 @@ in
       "'??'" = "gh copilot explain";
       # Utils
       "qrprint" = "qrencode -t utf8";
+      # Dev
+      "pr" = "pnpm run";
+      "px" = "pnpm exec";
     };
 
     initExtra =
