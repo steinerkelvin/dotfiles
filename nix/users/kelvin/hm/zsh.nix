@@ -21,14 +21,15 @@ in
       # Shell aliases
       rmr = "rm -r";
       dusm = "du -hs";
+      bath = "bat --style=header-filename,grid --decorations=always";
       # Nix aliases
       nxs = "nix-shell --command zsh";
       nxd = "nix develop --command zsh";
       nxu = "nix flake update";
       nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
-      # Exa aliases
-      ll = "exa -l";
-      la = "exa -l -a";
+      # Eza aliases
+      ll = "eza -l";
+      la = "eza -l -a";
       # Git aliases
       gff = "git merge --ff-only";
       glogh = "git log --oneline --decorate --graph HEAD";
