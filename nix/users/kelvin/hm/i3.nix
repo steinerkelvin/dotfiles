@@ -24,7 +24,8 @@
   xsession.windowManager.i3 =
     let
       mod = "Mod3";
-      term = "alacritty";
+      # term = "alacritty";
+      term = "kitty";
       cfg = config.xsession.windowManager.i3.config;
     in
     {
@@ -60,8 +61,8 @@
         startup = [
           { command = "redshift -l '-20.31:-40.31' -t 5000:2700"; }
           { command = "~/.fehbg"; }
-          { command = "alacritty --class 'scratchpad-terminal' -e zsh -c 'ssh-add; $SHELL'"; }
-          # { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
+          # { command = "alacritty --class 'scratchpad-terminal' -e zsh -c 'ssh-add; $SHELL'"; }
+          { command = "kitty --name 'scratchpad-terminal' --session ~/config/kitty/ssh-add-session.kitty"; }
         ];
         # assigns = {
         #   "scratchpad" = [ { instance="^scratchpad-terminal$"; } ];
@@ -220,6 +221,7 @@
   programs.rofi = {
     enable = true;
     theme = "gruvbox-dark-hard";
-    terminal = "${pkgs.alacritty}/bin/alacritty";
+    # terminal = "${pkgs.alacritty}/bin/alacritty";
+    terminal = "${pkgs.kitty}/bin/kitty";
   };
 }
