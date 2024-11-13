@@ -158,6 +158,18 @@
           "name": "Cursor undo",
           "type": "command",
           "command": "cursorUndo"
+        },
+        {
+          "key": "f",
+          "name": "Quick find file",
+          "type": "command",
+          "command": "workbench.action.quickOpen"
+        },
+        {
+          "key": "c",
+          "name": "Comment",
+          "type": "command",
+          "command": "editor.action.commentLine"
         }
       ]
     }
@@ -197,5 +209,11 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "rust-analyzer.lens.implementations.enable": false,
-  "//": null
+  "//": null,
+  "github.copilot.enable": {
+    "*": false,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false
+  }
 }
