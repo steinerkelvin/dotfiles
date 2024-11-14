@@ -63,7 +63,6 @@ in
     pkgs.htop
     pkgs.pstree
     pkgs.bottom
-    pkgs.lshw
     pkgs.lsof
     pkgs.pciutils
     ## Network utilities
@@ -117,11 +116,12 @@ in
     python310Packages.ipython
 
   ] ++ lib.optionals pkgs.stdenv.isLinux [
-    # Linux system utilities
-    pkgs.iotop
-    pkgs.usbutils
-    pkgs.ncdu
-    # Nix
+    # NixOS
     pkgs.nixos-install-tools
+    # Linux system utilities
+    pkgs.lshw
+    pkgs.usbutils
+    pkgs.iotop
+    pkgs.ncdu
   ];
 }
