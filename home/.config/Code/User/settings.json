@@ -20,6 +20,7 @@
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.renderWhitespace": "trailing",
   "editor.formatOnSave": true,
+  "editor.autoClosingBrackets": "beforeWhitespace",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.colorTheme": "monokai-charcoal (red)",
