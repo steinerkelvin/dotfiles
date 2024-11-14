@@ -6,6 +6,7 @@
   "window.restoreWindows": "none",
   "window.menuBarVisibility": "toggle",
   "window.customTitleBarVisibility": "auto",
+  "window.dialogStyle": "custom",
   // Workbench
   "workbench.startupEditor": "newUntitledFile",
   "workbench.sideBar.location": "right",
