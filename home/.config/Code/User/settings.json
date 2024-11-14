@@ -19,6 +19,7 @@
   "editor.minimap.enabled": false,
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.renderWhitespace": "trailing",
+  "editor.formatOnSave": true,
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.colorTheme": "monokai-charcoal (red)",
