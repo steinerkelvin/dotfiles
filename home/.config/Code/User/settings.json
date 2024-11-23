@@ -20,7 +20,7 @@
   "editor.inlayHints.enabled": "offUnlessPressed",
   "editor.renderWhitespace": "trailing",
   "editor.formatOnSave": true,
-  "editor.autoClosingBrackets": "beforeWhitespace",
+  "editor.autoClosingBrackets": "never",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.colorTheme": "monokai-charcoal (red)",
@@ -109,8 +109,6 @@
     "*.yml": "yaml",
     "*.hvm": "hvm"
   },
-  // Vim mode
-  "vim.disableExtension": true,
   "vim.easymotion": true,
   "vim.useSystemClipboard": true,
   "vim.normalModeKeyBindingsNonRecursive": [
