@@ -14,7 +14,6 @@ in
     nixfmt-classic
     nixpkgs-fmt
     pkgs.nil
-    dhall
 
     # Essential
     curl
@@ -25,7 +24,7 @@ in
     pkgs.moreutils
     ## Build
     pkgs.gnumake
-    pkgs.clang
+    # pkgs.clang
     pkgs.pkg-config
     pkgs.openssl
 
@@ -45,18 +44,16 @@ in
     pkgs.dua
     nnn
     broot
-    ranger
+    # ranger # NOTE: depends on ghostscript??
     bat
     unzip
     croc
     ## Misc
-    httpie
+    # httpie # NOTE: depends on ghostscript??
     jq
     jc
     pkgs.yq
     pkgs.envsubst
-
-    pkgs.yggdrasil
 
     # System utilities
     pkgs.killall
@@ -75,11 +72,10 @@ in
     gnupg
     pass
     age
-    bitwarden-cli
     inputs.agenix.packages.${pkgs.system}.agenix
+    # bitwarden-cli
     git-crypt
     libsecret
-    # pkgs.veracrypt
 
     # Shell
     zoxide
@@ -94,7 +90,7 @@ in
 
     # Image utilities
     pkgs.imagemagick
-    pkgs.zbar
+    # pkgs.zbar # NOTE: depends on ghostscript??
     pkgs.qrencode
 
     # Dev

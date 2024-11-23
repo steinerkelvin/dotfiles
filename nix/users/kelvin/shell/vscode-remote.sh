@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rcode() {
+rcode() (
   set -e
   host=$1
   shift 1
@@ -11,7 +11,7 @@ rcode() {
   uri="vscode-remote://ssh-remote+$host$abs_path"
   echo >&2 "URI: $uri"
   code --folder-uri="$uri"
-}
+)
 
 # -> ZSH autocompletion for `rcode`
 # First parameter should complete to SSH host
