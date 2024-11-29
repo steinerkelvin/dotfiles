@@ -21,6 +21,7 @@
   "editor.renderWhitespace": "trailing",
   "editor.formatOnSave": true,
   "editor.autoClosingBrackets": "never",
+  "editor.lineNumbers": "relative",
   // Diff Editor
   "diffEditor.ignoreTrimWhitespace": false,
   "workbench.colorTheme": "monokai-charcoal (red)",
@@ -217,5 +218,8 @@
     "plaintext": false,
     "markdown": false,
     "scminput": false
+  },
+  "supermaven.enable": {
+    "*": true
   }
 }
