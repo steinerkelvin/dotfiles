@@ -20,7 +20,8 @@ in
     wget
     rsync
     openssh
-    git
+    pkgs.git
+    pkgs.git-lfs
     pkgs.moreutils
     ## Build
     pkgs.gnumake
