@@ -19,7 +19,7 @@
 
       vp.monokai-pro-nvim
 
-      vp.Coqtail
+      # vp.Coqtail
 
       # vp.yankring
       # vp.vim-easymotion
