@@ -53,9 +53,9 @@
     calibre
     # qbittorrent # disable because of the vulnerability
     ## Music
-    spotify
+    pkgs.spotify
     ## Audio
-    gnome.gnome-sound-recorder
+    pkgs.gnome-sound-recorder
     ## Screencast
     peek
     ## Image-editing
@@ -93,7 +93,7 @@
     networkmanager_dmenu
 
     # Credentials
-    gnome.seahorse
+    pkgs.seahorse
 
     # Input tools
     libinput
@@ -108,11 +108,12 @@
     pkgs.dejavu_fonts
     pkgs.roboto
     pkgs.noto-fonts
-    pkgs.noto-fonts-cjk
+    pkgs.noto-fonts-cjk-sans
     pkgs.noto-fonts-emoji
     ## Dev
     pkgs.inconsolata
     pkgs.inconsolata-nerdfont
+    # pkgs.nerd-fonts.inconsolata
     pkgs.iosevka
     pkgs.iosevka-comfy.comfy
     pkgs.iosevka-comfy.comfy-duo
@@ -134,7 +135,7 @@
     '';
   };
 
-  # Xmodmap: Capslock as Hyper key
+  # Xmodmap: CapsLock as Hyper key
   home.file.".Xmodmap".text = ''
     keycode 66 = Hyper_L
 

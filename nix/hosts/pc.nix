@@ -7,8 +7,7 @@
     #services.gnome.gnome-keyring.enable = true;
 
     # Sound with PipeWire
-    sound.enable = true;
-    hardware.pulseaudio.enable = false;
+    #hardware.pulseaudio.enable = false;
     security.rtkit.enable = true;
     services.pipewire = {
       enable = true;
