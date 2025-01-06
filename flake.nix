@@ -21,7 +21,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    arion.url = "github:hercules-ci/arion";
+    arion = {
+      url = "github:hercules-ci/arion";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -35,6 +38,7 @@
 
     k-ddns = {
       url = "github:steinerkelvin/k-ddns";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 
