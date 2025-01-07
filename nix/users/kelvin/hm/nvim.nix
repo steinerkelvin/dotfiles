@@ -8,6 +8,8 @@
     # coc = { enable = true; };
     plugins = let vp = pkgs.vimPlugins; in [
       vp.which-key-nvim
+      # vp.mini-icons
+      vp.nvim-web-devicons
 
       vp.nvim-tree-lua
       vp.telescope-zoxide

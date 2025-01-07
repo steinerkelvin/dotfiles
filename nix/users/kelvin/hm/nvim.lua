@@ -30,7 +30,7 @@ copilot.setup({})
 
 -- which key config
 local wk = require("which-key")
-wk.register()
+wk.setup()
 
 -- theme config
 require("monokai-pro").setup()
