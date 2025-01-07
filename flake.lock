@@ -226,11 +226,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1736169447,
-        "narHash": "sha256-CHM30b3sny0Gd9Xo+tCtGnP4QwnkywHvPzSecrZRORI=",
+        "lastModified": 1736169855,
+        "narHash": "sha256-xNd9YYEbaZvvFYgEJ4V/dyk2bdjOwCh+ZbymGbPnh94=",
         "owner": "steinerkelvin",
         "repo": "k-ddns",
-        "rev": "dad4564c6d0c5cb65ce4d7836e53febfe32da2ab",
+        "rev": "7ab584adc2ad1391c209a7ac8cf821f8eab48d91",
         "type": "github"
       },
       "original": {

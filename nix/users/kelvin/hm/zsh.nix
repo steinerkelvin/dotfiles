@@ -27,33 +27,39 @@ in
       nxd = "nix develop --command zsh";
       nxu = "nix flake update";
       nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
-      # Eza aliases
-      ll = "eza -l";
-      la = "eza -l -a";
       # Git aliases
       gff = "git merge --ff-only";
       glogh = "git log --oneline --decorate --graph HEAD";
       tigh = "tig -a HEAD";
+      # Dev aliases
+      j = "just";
+      # Editor aliases
+      c = "code .";
+      h = "hx .";
+      zd = "zeditor .";
+      ## Cargo aliases
+      cgr = "cargo run --";
+      ## Pnpm
+      p = "pnpm";
+      pr = "pnpm run";
+      px = "pnpm exec";
+      ## Docker aliases
+      dk = "sudo docker";
+      docker = "sudo docker";
+      dkr = "sudo docker run --rm -it";
+      # Eza aliases
+      ll = "eza -l";
+      la = "eza -l -a";
       # Kitty aliases
       sshk = "kitty +kitten ssh";
       icatk = "kitty +icat";
       # Homesick/Homeshick aliases
       dtcd = "homeshick cd dotfiles; cd home;";
-      # Editor aliases
-      h = "hx .";
-      # Docker aliases
-      dk = "sudo docker";
-      docker = "sudo docker";
-      dkr = "sudo docker run --rm -it";
-      # Cargo aliases
-      cgr = "cargo run --";
       # Copilot
       "'??'" = "gh copilot explain";
       # Utils
       "qrprint" = "qrencode -t utf8";
       # Dev
-      "pr" = "pnpm run";
-      "px" = "pnpm exec";
     };
 
     initExtra =
