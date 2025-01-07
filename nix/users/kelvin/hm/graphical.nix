@@ -14,6 +14,15 @@
   # Enable user fonts
   fonts.fontconfig.enable = true;
 
+  qt = {
+    enable = true;
+    style = {
+      package = [ pkgs.adwaita-qt pkgs.adwaita-qt6 ];
+      name = "adwaita";
+    };
+    # platformTheme = "qt5ct";
+  };
+
   home.packages = with pkgs; [
     # X11 / Xorg
     xorg.xmodmap
