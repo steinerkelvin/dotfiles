@@ -106,6 +106,7 @@
     "Kindelia",
     "libclang",
     "libjemalloc",
+    "libudev",
     "lmao",
     "localnode",
     "mergeable",
@@ -278,5 +279,6 @@
   },
   "supermaven.enable": {
     "*": true
-  }
+  },
+  "tsImportSorter.configuration.autoFormat": "off"
 }
