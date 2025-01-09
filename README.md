@@ -24,15 +24,15 @@
 
 ### Extensions
 
+- [ShellCheck]
+  - Integrates [ShellCheck](https://github.com/koalaman/shellcheck) into VS Code, a linter for Shell scripts.
+- [GitLens]
 - [Rewrap]
   - With the cursor in a comment block, hit this to re-wrap the contents to the specified wrapping column.
 - [Todo Tree]
   - Searches your workspace for comment tags like TODO and FIXME, and displays them in a tree view in the activity bar.
-- [ShellCheck]
-  - Integrates [ShellCheck](https://github.com/koalaman/shellcheck) into VS Code, a linter for Shell scripts.
 - [Git Graph]
   - View a Git graph of your repository, and easily perform Git actions from the graph.
-- [GitLens]
 - [Even Better TOML]
 
 ## Testing
