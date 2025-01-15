@@ -51,6 +51,12 @@ in
     # programs.steam.remotePlay.openFirewall = true;
     # hardware.steam-hardware.enable = true;
 
+    # Bitcoin
+    services.bitcoind.node = {
+      enable = true;
+      rpc.users.kelvin.passwordHMAC = "367015d9094fa9b7660f67382e0ff9cd$b0a3e790f888f353f6c3094163973ce375949e2247ed2ba17f5c1e456bbc07a9";
+    };
+
     # ADB
     programs.adb.enable = true;
 
