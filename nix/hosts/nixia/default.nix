@@ -57,7 +57,7 @@ in
     # Bitcoin
     services.bitcoind.node = {
       enable = true;
-      rpc.users.kelvin.passwordHMAC = "367015d9094fa9b7660f67382e0ff9cd$b0a3e790f888f353f6c3094163973ce375949e2247ed2ba17f5c1e456bbc07a9";
+      rpc.users.kelvin.passwordHMAC = "c880536af7d967bf96b757da514749e6$ddf326ed804b86bb42d2311b633cbe9110521264c0d2f1d421fa3b497665cf1e";
     };
 
     # ADB
