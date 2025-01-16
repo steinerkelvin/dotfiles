@@ -147,6 +147,7 @@
     "stringifier",
     "struct",
     "Supremesource",
+    "torusdk",
     "typecheck",
     "typeclass",
     "upsert",

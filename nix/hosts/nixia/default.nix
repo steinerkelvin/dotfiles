@@ -35,6 +35,9 @@ in
     # services.yggdrasil.enable = true;
     services.tailscale.enable = true;
 
+    # Storage devices management
+    services.udisks2.enable = true;
+
     # # Desktop Environment
     # services.desktopManager.plasma6.enable = true;
 
