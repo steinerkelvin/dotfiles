@@ -14,7 +14,6 @@
   // Editor
   "editor.rulers": [80],
   "editor.tabSize": 2,
-  "editor.inlineSuggest.enabled": true,
   "editor.acceptSuggestionOnEnter": "off",
   "editor.minimap.enabled": false,
   "editor.inlayHints.enabled": "onUnlessPressed",
@@ -148,6 +147,7 @@
     "struct",
     "Supremesource",
     "torusdk",
+    "tsafe",
     "typecheck",
     "typeclass",
     "upsert",
@@ -210,6 +210,12 @@
       "name": "Kelvin's custom stuff",
       "type": "bindings",
       "bindings": [
+        {
+          "key": "s",
+          "name": "Search",
+          "type": "command",
+          "command": "actions.find"
+        },
         {
           "key": "n",
           "name": "Add cursor selection to next match",
