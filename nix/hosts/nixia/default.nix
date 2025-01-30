@@ -1,12 +1,10 @@
 { config, inputs, ... }:
-let
-  vscode-server = inputs.vscode-server;
-in
-{
+let vscode-server = inputs.vscode-server;
+in {
   imports = [
     ../common.nix
     ./hardware-configuration.nix
-    vscode-server.nixosModules.default
+    # vscode-server.nixosModules.default
 
     ../../cachix/agicommies.nix
   ];
@@ -42,12 +40,7 @@ in
     # services.desktopManager.plasma6.enable = true;
 
     # Firewall
-    networking.firewall.allowedTCPPorts = [
-      80
-      443
-      8000
-      8080
-    ];
+    networking.firewall.allowedTCPPorts = [ 80 443 8000 8080 ];
 
     # # Steam
     # programs.steam.enable = true;
@@ -57,7 +50,8 @@ in
     # Bitcoin
     services.bitcoind.node = {
       enable = true;
-      rpc.users.kelvin.passwordHMAC = "c880536af7d967bf96b757da514749e6$ddf326ed804b86bb42d2311b633cbe9110521264c0d2f1d421fa3b497665cf1e";
+      rpc.users.kelvin.passwordHMAC =
+        "c880536af7d967bf96b757da514749e6$ddf326ed804b86bb42d2311b633cbe9110521264c0d2f1d421fa3b497665cf1e";
     };
 
     # ADB
@@ -83,12 +77,12 @@ in
     #  ipv6 = true;
     #};
 
-    # VSCode Server Support
-    services.vscode-server = {
-      enable = true;
-      installPath = "$HOME/.vscode-server";
-      # installPath = "$HOME/.vscode-server-insiders";
-    };
+    # # VSCode Server Support
+    # services.vscode-server = {
+    #   enable = true;
+    #   installPath = "$HOME/.vscode-server";
+    #   # installPath = "$HOME/.vscode-server-insiders";
+    # };
 
     # KDE Connect
     programs.kdeconnect.enable = true;

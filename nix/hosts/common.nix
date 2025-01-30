@@ -1,26 +1,19 @@
 { lib, config, pkgs, ... }:
 
-let
-  isPC = config.k.host.tags.pc;
-in
-{
+let isPC = config.k.host.tags.pc;
+in {
 
-  imports = [
-    ./pc.nix
-    ./server.nix
-  ];
+  imports = [ ./pc.nix ./server.nix ];
 
-  options.k =
-    let
-      types = lib.types;
-      mkOption = lib.mkOption;
-    in
-    {
-      host.name = mkOption { type = types.str; };
-      host.domain = mkOption { type = types.str; };
-      host.tags.pc = lib.mkEnableOption "host is PC";
-      host.tags.server = lib.mkEnableOption "host is server";
-    };
+  options.k = let
+    types = lib.types;
+    mkOption = lib.mkOption;
+  in {
+    host.name = mkOption { type = types.str; };
+    host.domain = mkOption { type = types.str; };
+    host.tags.pc = lib.mkEnableOption "host is PC";
+    host.tags.server = lib.mkEnableOption "host is server";
+  };
 
   config = {
     # lib.mkMerge [
@@ -47,7 +40,6 @@ in
       # Editors
       vim
       neovim
-      helix
       # Nix tools
       nix-index
       nixos-option

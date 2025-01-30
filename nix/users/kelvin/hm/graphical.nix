@@ -7,8 +7,8 @@
   imports = [
     ./i3.nix
     ./polybar.nix
-    ./sway.nix
-    ./hyprland.nix
+    #./sway.nix 
+    #./hyprland.nix 
   ];
 
   # Enable user fonts
@@ -48,8 +48,8 @@
     ## Browser
     pkgs.brave
     # Credentials / Secrets
-    pkgs.bitwarden
-    pkgs.keybase-gui
+    #pkgs.bitwarden
+    #pkgs.keybase-gui
     ## Note-taking
     # pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
     ## File Manager
@@ -59,17 +59,17 @@
     pkgs.telegram-desktop
     pkgs.discord
     ## idk
-    calibre
-    # qbittorrent # disable because of the vulnerability
+    #pkgs.calibre
+    #qbittorrent # disable because of the vulnerability
     ## Music
     pkgs.spotify
     ## Audio
     pkgs.gnome-sound-recorder
     ## Screencast
-    peek
+    pkgs.peek
     ## Image-editing
     pkgs.gimp
-    pkgs.krita
+    #pkgs.krita
     ## Misc
     ## Tools
     speedcrunch
@@ -86,7 +86,7 @@
     pipewire
     wireplumber
     qpwgraph
-    easyeffects
+    #pkgs.easyeffects
     ## Pulseaudio
     pulseaudio
     pavucontrol
@@ -122,8 +122,8 @@
     ## Dev
     pkgs.inconsolata
     pkgs.inconsolata-nerdfont
-    # pkgs.nerd-fonts.inconsolata
-    pkgs.iosevka
+    #pkgs.nerd-fonts.inconsolata
+    #pkgs.iosevka
     pkgs.iosevka-comfy.comfy
     pkgs.iosevka-comfy.comfy-duo
     pkgs.iosevka-comfy.comfy-fixed
@@ -136,7 +136,9 @@
     # enable = true;
 
     profileExtra = ''
-      ${lib.getBin pkgs.dbus}/bin/dbus-update-activation-environment --systemd --all
+      ${
+        lib.getBin pkgs.dbus
+      }/bin/dbus-update-activation-environment --systemd --all
     '';
 
     initExtra = ''
