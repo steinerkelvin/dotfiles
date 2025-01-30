@@ -162,7 +162,7 @@ in { pkgs, ... }:
       type = "internal/date";
       interval = 1;
       # date = "%H:%M";
-      "date" = "%Y/%j  W%W %a  %Y-%m-%d %H:%M";
+      "date" = "%Y/%j  W%V %a  %Y-%m-%d %H:%M";
       "date-alt" = "%Y-%m-%d %H:%M:%S";
       label = "%date%";
       "label-foreground" = "\${colors.primary}";
