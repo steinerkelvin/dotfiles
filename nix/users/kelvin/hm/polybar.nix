@@ -1,14 +1,13 @@
 let
-  c.background = "#282a2e";  # Dark grey
-  c.background-alt = "#373b41";  # Charcoal grey
-  c.foreground = "#c5c8c6";  # Silver
-  c.primary = "#f82a5d";  # Red pink
-  c.secondary = "#8abeb7";  # Pale teal
-  c.alert = "#a54242";  # Dusty red
-  c.disabled = "#707880";  # Slate grey
-in
+  c.background = "#282a2e"; # Dark grey
+  c.background-alt = "#373b41"; # Charcoal grey
+  c.foreground = "#c5c8c6"; # Silver
+  c.primary = "#f82a5d"; # Red pink
+  c.secondary = "#8abeb7"; # Pale teal
+  c.alert = "#a54242"; # Dusty red
+  c.disabled = "#707880"; # Slate grey
 
-{ pkgs, ... }: 
+in { pkgs, ... }:
 
 {
   home.file.".i3/polybar.sh" = {
@@ -64,7 +63,8 @@ in
       # "font-0" = "Roboto:size=12;2";
       "font-0" = "Inconsolata Nerd Font Propo:size=10;2";
       "modules-left" = "xworkspaces xwindow";
-      "modules-right" = "filesystem pulseaudio xkeyboard memory cpu wlan eth date";
+      "modules-right" =
+        "filesystem pulseaudio xkeyboard memory cpu wlan eth date";
       "cursor-click" = "pointer";
       "cursor-scroll" = "ns-resize";
       "enable-ipc" = true;
@@ -142,7 +142,8 @@ in
       interval = 5;
       "format-connected" = "<label-connected>";
       "format-disconnected" = "<label-disconnected>";
-      "label-disconnected" = "%{F${c.primary}}%ifname%%{F${c.disabled}} disconnected";
+      "label-disconnected" =
+        "%{F${c.primary}}%ifname%%{F${c.disabled}} disconnected";
     };
 
     "module/wlan" = {
