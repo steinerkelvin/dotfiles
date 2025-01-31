@@ -52,6 +52,7 @@ in {
       enable = true;
       rpc.users.kelvin.passwordHMAC =
         "c880536af7d967bf96b757da514749e6$ddf326ed804b86bb42d2311b633cbe9110521264c0d2f1d421fa3b497665cf1e";
+      prune = 1024 * 128; # 128 GB
     };
 
     # ADB
