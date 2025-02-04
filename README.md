@@ -18,7 +18,7 @@
 
 ## macOS
 
-[README.md](macos/README.md)
+[README.md](mac/README.md)
 
 ## VSCode
 
