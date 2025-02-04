@@ -1,5 +1,12 @@
 ## macOS
 
+### Nix
+
+- Install Nix with Determinate Installer
+- Run `bootstrap-hm.sh`
+
+### Other Setup
+
 Some Homebrew packages at [my-brew-formulae.sh]:
 ```sh
 sh ./mac/my-brew-formulae.sh
