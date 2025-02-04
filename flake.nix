@@ -92,7 +92,7 @@
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 
-      homeConfigurations = {
+      homeConfigurations = rec {
         "kelvin" =
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -103,12 +103,13 @@
               ({ ... }: { home.stateVersion = "23.05"; })
             ];
           };
-        "kelvin@megumin.local" =
+        mac =
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.aarch64-darwin;
             extraSpecialArgs = { inherit inputs; };
             modules = [ ./nix/users/kelvin/hm/mac.nix ];
           };
+        "kelvin@megumin.local" = mac;
       };
 
       deploy.nodes.kazuma = {
