@@ -48,14 +48,9 @@ in
   # services.keybase.enable = true;
   # services.kbfs.enable = true;
 
-  # Helix
-
-  programs.helix = {
+  # Atuin - command history tool
+  programs.atuin = {
     enable = true;
-    settings = {
-      editor.auto-pairs = false;
-      editor.file-picker.hidden = false;
-    };
+    enableZshIntegration = true;
   };
-
 }
