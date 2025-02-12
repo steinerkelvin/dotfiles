@@ -1,17 +1,9 @@
 { pkgs, ... }:
 
-let
-  username = "kelvin";
-in
-{
+let username = "kelvin";
+in {
 
-  imports = [
-    ./homeshick.nix
-    ./packages.nix
-    ./zsh.nix
-    ./git.nix
-    ./nvim.nix
-  ];
+  imports = [ ./homeshick.nix ./packages.nix ./zsh.nix ./git.nix ./nvim.nix ];
 
   home.username = username;
   # home.homeDirectory = "/home/${username}";
@@ -32,11 +24,7 @@ in
   };
 
   ## Path / $PATH
-  home.sessionPath = [
-    "$HOME/bin"
-    "$HOME/.mix/escripts"
-    "$HOME/.cargo/bin"
-  ];
+  home.sessionPath = [ "$HOME/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" ];
 
   # Direnv
   programs.direnv.enable = true;
@@ -52,5 +40,10 @@ in
   programs.atuin = {
     enable = true;
     enableZshIntegration = true;
+    settings = {
+      style = "compact";
+      inline_height = 20;
+      invert = true;
+    };
   };
 }
