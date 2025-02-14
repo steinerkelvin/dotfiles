@@ -2,14 +2,12 @@
 
 # ==> GUI
 
+
 # -> Interface
-brew install --cask karabiner-elements
-brew install koekeishiya/formulae/yabai
-brew install koekeishiya/formulae/skhd
+brew install --cask nikitabobko/tap/aerospace
 brew install --cask alt-tab
 brew install --cask superkey
 brew install --cask betterdisplay
-brew install --cask jordanbaird-ice
 
 # -> Terminal
 brew install --cask kitty
