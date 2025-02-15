@@ -24,7 +24,8 @@ in {
   };
 
   ## Path / $PATH
-  home.sessionPath = [ "$HOME/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" ];
+  home.sessionPath =
+    [ "$HOME/bin" "$HOME/opt/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" ];
 
   # Direnv
   programs.direnv.enable = true;
