@@ -1,5 +1,15 @@
 #!/bin/sh
 
+# enable 'Use F1, F2, etc. keys as standard function keys' setting
+
+# Why: This allows the function keys to be used as standard function keys
+# without needing to hold the 'Fn' key, which is useful for users who
+# frequently use these keys for shortcuts or other applications.
+
+defaults write -g com.apple.keyboard.fnState -bool true
+
+#
+
 # enable 'Group windows by application' setting
 
 # Why: For some reason, mission control doesn’t like that AeroSpace puts a lot
@@ -8,6 +18,8 @@
 
 defaults write com.apple.dock expose-group-apps -bool true && killall Dock
 
+#
+
 # disable 'Displays have separate Spaces'
 
 # Why: People report all sorts of weird issues related to focus and performance
@@ -15,3 +27,11 @@ defaults write com.apple.dock expose-group-apps -bool true && killall Dock
 # https://nikitabobko.github.io/AeroSpace/guide#a-note-on-displays-have-separate-spaces
 
 defaults write com.apple.spaces spans-displays -bool true && killall SystemUIServer
+
+#
+
+# Move windows by dragging any part of the window, by holding ctrl + cmd
+
+defaults write -g NSWindowShouldDragOnGesture -bool true
+
+#

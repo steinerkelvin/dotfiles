@@ -1,23 +1,37 @@
-## macOS
+# macOS
 
-### Nix
+## Nix
 
 - Install Nix with Determinate Installer
 - Run `bootstrap-hm.sh`
 
-### Other Setup
+## Brew packages
 
-Some Homebrew packages at [my-brew-formulae.sh]:
+Some Homebrew packages are at [my-brew-formulae.sh]:
+
 ```sh
-sh ./mac/my-brew-formulae.sh
+sh mac/my-brew-formulae.sh
 ```
 
+[my-brew-formulae.sh]: my-brew-formulae.sh
+
+## Mac settings
+
+Some macOS settings are at [macos-settings.sh].
+
 - Enable `Use F1, F2, etc. keys as standard function keys`
+- Keyboard layout to disable `Option+<letter>` symbols
+  - Allows biding these combinations to other stuff
+  - https://apple.stackexchange.com/q/388552
+
+[macos-settings.sh]: macos-settings.sh
+
+## Apps
 
 - [Superkey]
   - Disable `Include shift in hyper key`
-  - Hyper key will be `Ctrl + Option + Cmd` (used in skhd)
   - Enable `Launch on login`
+  - Hyper key will be `Ctrl + Option + Cmd` (used in Aerospace etc)
 - [AeroSpace]
 - [AltTab]
 - [Raycast]
@@ -29,7 +43,9 @@ sh ./mac/my-brew-formulae.sh
 [Raycast]: https://raycast.com/
 [BetterDisplay]: https://github.com/waydabber/BetterDisplay
 
-[Yabai]: https://github.com/koekeishiya/yabai
-[skhd]: https://github.com/koekeishiya/skhd
+---
 
-[my-brew-formulae.sh]: mac/my-brew-formulae.sh
+Old tiling window manager setup was done with [yabai] and [skhd].
+
+[yabai]: https://github.com/koekeishiya/yabai
+[skhd]: https://github.com/koekeishiya/skhd

@@ -2,29 +2,39 @@
 
 # ==> GUI
 
+brew install borders
 
 # -> Interface
+
+# Tiling window manager
 brew install --cask nikitabobko/tap/aerospace
+# Windows-like alt-tab
 brew install --cask alt-tab
+# Keyboard enhancement e.g. Capslock remap to "Superckey" etc
 brew install --cask superkey
+# Huge ammount of ooptions for displays/screens
 brew install --cask betterdisplay
+# System monitor in menu bar
+brew install --cask stats
 
 # -> Terminal
+
 brew install --cask kitty
 brew install --cask iterm2
 
 # -> Editors
 brew install --cask visual-studio-code
+brew install --cask zed
 
 # -> Fonts
-brew install --cask font-iosevka-nerd-font
-brew install --cask font-fira-code
+brew install --cask font-iosevka-comfy
+#brew install --cask font-iosevka-nerd-font
+#brew install --cask font-fira-code
 
 # ==> Apps
 
 brew install --cask syncthing
 brew install --cask vlc
-brew install --cask stats
 brew install --cask anydesk
 brew install --cask qbittorrent
 
@@ -47,5 +57,5 @@ brew install --cask ledger-live
 brew install --cask gimp
 
 # -> Screencasting
-brew install --cask keycastr
 brew install --cask obs
+brew install --cask keycastr
