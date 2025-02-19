@@ -9,7 +9,10 @@ after-login-command = []
 # You can use it to add commands that run after AeroSpace startup.
 # 'after-startup-command' is run after 'after-login-command'
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
-after-startup-command = []
+after-startup-command = [
+    # Window borders
+    "exec-and-forget borders active_color=0xfff8295d inactive_color=0xff494d64 width=8",
+]
 
 # Start AeroSpace at login
 start-at-login = false
@@ -234,6 +237,7 @@ shift-down = ['volume set 0', 'mode main']
 
 
 [mode.join-with.binding]
+    esc = ['mode main']
     h = ['join-with left', 'mode main']
     j = ['join-with down', 'mode main']
     k = ['join-with up', 'mode main']
