@@ -1,124 +1,128 @@
 { inputs, pkgs, ... }:
 
-let
-  lib = pkgs.lib;
-in
-{
-  home.packages = with pkgs; [
-    # Nix tools
-    direnv
-    nix-direnv
-    nix-index
-    nix-tree
-    nixos-option
-    nixfmt-classic
-    nixpkgs-fmt
-    pkgs.nil
+let lib = pkgs.lib;
+in {
+  home.packages = with pkgs;
+    [
+      # Nix tools
+      pkgs.direnv
+      pkgs.nix-direnv
+      pkgs.nix-index
+      pkgs.nix-tree
+      pkgs.nixos-option
+      pkgs.nixfmt-classic
+      pkgs.nixpkgs-fmt
+      pkgs.nil
 
-    # Essential
-    curl
-    wget
-    rsync
-    openssh
-    pkgs.git
-    pkgs.git-lfs
-    pkgs.moreutils
-    ## Build
-    pkgs.gnumake
-    # pkgs.clang
-    pkgs.pkg-config
-    pkgs.openssl
+      # Essential
+      pkgs.curl
+      pkgs.wget
+      pkgs.rsync
+      pkgs.openssh
+      pkgs.git
+      pkgs.git-lfs
+      pkgs.moreutils
+      ## Build
+      pkgs.gnumake
+      # pkgs.clang
+      pkgs.pkg-config
+      pkgs.openssl
 
-    # Terminal / Shell tools
-    fzf
-    stow
-    silver-searcher
-    ripgrep
-    diff-so-fancy
-    shellcheck
-    pkgs.tmux
-    pkgs.tmate
-    ## File utilities
-    file
-    pkgs.eza
-    tree
-    pkgs.dua
-    nnn
-    broot
-    # ranger # NOTE: depends on ghostscript??
-    bat
-    unzip
-    croc
-    ## Misc
-    # httpie # NOTE: depends on ghostscript??
-    jq
-    jc
-    pkgs.yq
-    pkgs.envsubst
+      # Terminal / Shell tools
+      pkgs.zoxide
+      pkgs.fzf
+      pkgs.stow
+      pkgs.silver-searcher
+      pkgs.ripgrep
+      pkgs.shellcheck
+      pkgs.tmux
+      pkgs.tmate
 
-    # System utilities
-    pkgs.killall
-    pkgs.htop
-    pkgs.pstree
-    pkgs.bottom
-    pkgs.lsof
-    pkgs.pciutils
-    ## Network utilities
-    pkgs.inetutils
-    pkgs.nmap
-    pkgs.dig
+      ## File utilities
+      pkgs.file
+      pkgs.tree
+      pkgs.eza
+      pkgs.bat
+      pkgs.dua
+      #pkgs.nnn
+      #pkgs.broot
+      pkgs.unzip
+      pkgs.croc
 
-    # Secrets
-    pkgs.openssl
-    gnupg
-    pass
-    age
-    inputs.agenix.packages.${pkgs.system}.agenix
-    # bitwarden-cli
-    git-crypt
-    libsecret
+      ## Misc
+      # httpie # NOTE: depends on ghostscript??
+      pkgs.jq
+      pkgs.jc
+      pkgs.yq
+      pkgs.envsubst
 
-    # Shell
-    zoxide
+      # System utilities
+      pkgs.killall
+      pkgs.htop
+      pkgs.lsof
+      pkgs.pciutils
+      pkgs.pstree
+      pkgs.bottom
 
-    # Editors
-    vim
-    helix
+      ## Network utilities
+      pkgs.inetutils
+      pkgs.nmap
+      pkgs.dig
 
-    # Utilities
-    pkgs.tldr
-    pkgs.todoist
+      # Secrets
+      pkgs.openssl
+      pkgs.gnupg
+      pkgs.pass
+      pkgs.age
+      inputs.agenix.packages.${pkgs.system}.agenix
+      # bitwarden-cli
+      pkgs.git-crypt
+      pkgs.libsecret
 
-    # Image utilities
-    pkgs.imagemagick
-    # pkgs.zbar # NOTE: depends on ghostscript??
-    pkgs.qrencode
+      # Editors
+      pkgs.vim
 
-    # Dev
-    gnumake
-    docker-compose
-    ## Git
-    tig
-    gh
-    gita
-    ## Package managers
-    yarn
-    nodejs
-    ## Language managers
-    rustup
-    #haskellPackages.ghcup
+      # Utilities
+      pkgs.tldr
+      pkgs.todoist
 
-    python310
-    python310Packages.pip
-    python310Packages.ipython
+      # Image utilities
+      pkgs.imagemagick
+      # pkgs.zbar # NOTE: depends on ghostscript??
+      pkgs.qrencode
 
-  ] ++ lib.optionals pkgs.stdenv.isLinux [
-    # NixOS
-    pkgs.nixos-install-tools
-    # Linux system utilities
-    pkgs.lshw
-    pkgs.usbutils
-    pkgs.iotop
-    pkgs.ncdu
-  ];
+      # Dev
+      pkgs.gnumake
+      pkgs.docker-compose
+
+      pkgs.diff-so-fancy
+      pkgs.difftastic
+
+      ## Git
+      pkgs.tig
+      pkgs.gh
+      #pkgs.gita
+
+      ## Package managers
+      pkgs.yarn
+      pkgs.nodejs
+
+      ## Language managers
+      pkgs.rustup
+      #haskellPackages.ghcup
+
+      pkgs.python312
+      pkgs.python312Packages.pip
+      pkgs.python312Packages.ipython
+
+    ] ++ lib.optionals pkgs.stdenv.isLinux [
+      # NixOS
+      pkgs.nixos-install-tools
+
+      # Linux system utilities
+      pkgs.lshw
+      pkgs.usbutils
+      pkgs.iotop
+      pkgs.ncdu
+    ];
 }
