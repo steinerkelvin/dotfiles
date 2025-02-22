@@ -2,7 +2,7 @@
 
 let lib = pkgs.lib;
 in {
-  home.packages = with pkgs;
+  home.packages =
     [
       # Nix tools
       pkgs.direnv

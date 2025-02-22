@@ -4,7 +4,8 @@
   # Git
   programs.git = {
     enable = true;
-    diff-so-fancy.enable = true;
+    # diff-so-fancy.enable = true;
+    difftastic.enable = true;
     extraConfig = {
       user.name = "Kelvin Steiner";
       user.email = "me@steinerkelvin.dev";
