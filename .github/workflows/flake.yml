@@ -1,3 +1,5 @@
+name: Nix flake checks
+
 on:
   pull_request:
   push:
@@ -9,12 +11,16 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v9
 
-      # - name: Install Nix
-      #   uses: DeterminateSystems/nix-installer-action@v3
+      - name: Install Nix
+        uses: DeterminateSystems/nix-installer-action@v4
 
-      # - name: Build default package
-      #   run: nix build
+      - name: Setup Magic-Nix-Cache
+        uses: DeterminateSystems/magic-nix-cache-action@v2
+
+      - name: Check home-manager configurations
+        run: |
+          nix flake check --show-trace

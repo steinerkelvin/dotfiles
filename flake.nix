@@ -3,7 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
-    # unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
 
     home-manager = {
       url = "github:nix-community/home-manager/release-24.11";
@@ -16,15 +15,15 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # deploy-rs = {
+    #   url = "github:serokell/deploy-rs";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
-    arion = {
-      url = "github:hercules-ci/arion";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # arion = {
+    #   url = "github:hercules-ci/arion";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     nixos-wsl = {
       url = "github:nix-community/NixOS-WSL";
@@ -42,15 +41,15 @@
     };
   };
 
-  outputs = inputs@{ self, nixpkgs, deploy-rs, ... }:
+  outputs = inputs@{ self, nixpkgs, ... }:
     let
-      supportedPlatforms = [ "aarch64-linux" "x86_64-linux" ];
+      supportedPlatforms = [ "aarch64-linux" "x86_64-linux" "aarch64-darwin" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
       inputNixosModules = [
         inputs.agenix.nixosModules.default
         inputs.home-manager.nixosModules.home-manager
-        inputs.arion.nixosModules.arion
+        # inputs.arion.nixosModules.arion
         inputs.k-ddns.nixosModules.k-ddns
       ];
 
@@ -85,10 +84,31 @@
           })
       );
 
+      devShells = forAllPlatforms (system:
+        let
+          pkgs = import nixpkgs {
+            inherit system;
+            config.allowUnfree = true;
+          };
+        in
+        {
+          default = pkgs.mkShell {
+            packages = [
+              pkgs.just
+              pkgs.nil
+              pkgs.nixpkgs-fmt
+              pkgs.shellcheck
+              pkgs.home-manager
+              pkgs.act
+            ];
+          };
+        }
+      );
+
       nixosConfigurations = {
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia kelvinNixosModules.nixia ]; };
-        kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma kelvinNixosModules.kazuma ]; };
-        stratus = mkSystem { extraModules = [ ./nix/hosts/stratus kelvinNixosModules.stratus ]; };
+        # kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma kelvinNixosModules.kazuma ]; };
+        # stratus = mkSystem { extraModules = [ ./nix/hosts/stratus kelvinNixosModules.stratus ]; };
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 
@@ -112,14 +132,14 @@
         "kelvin@megumin.local" = mac;
       };
 
-      deploy.nodes.kazuma = {
-        hostname = "kazuma.h.steinerkelvin.dev";
-        user = "root";
-        fastConnection = true;
-        profiles.system = {
-          path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
-        };
-      };
+      # deploy.nodes.kazuma = {
+      #   hostname = "kazuma.h.steinerkelvin.dev";
+      #   user = "root";
+      #   fastConnection = true;
+      #   profiles.system = {
+      #     path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
+      #   };
+      # };
 
       # TODO: home / profile configurarions
 
@@ -132,14 +152,14 @@
               nixosConfigurations);
           checkUsers = mapAttrs (_name: user: user.activationPackage)
             (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
-          checkDeploys =
-            deploy-rs.lib.${system}.deployChecks self.deploy;
+          # checkDeploys =
+          #   deploy-rs.lib.${system}.deployChecks self.deploy;
         in
         { }
         // checkPackages
         // checkHosts
         // checkUsers
-        // checkDeploys
+        # // checkDeploys
       );
 
     };
