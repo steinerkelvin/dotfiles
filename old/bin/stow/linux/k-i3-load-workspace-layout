@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z "${1}" ]; then
-    1>&2 echo "ERROR: Missing workspace number"
-    exit 1
-fi
-
-WP="${1}"
-i3-msg "workspace ${WP}; append_layout ${HOME}/.i3/layouts/workspace-${WP}.json"

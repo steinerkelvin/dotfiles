@@ -1,2 +1,0 @@
-#!/bin/bash
-(dbus-send --session --print-reply=literal --dest=org.freedesktop.Notifications /org/freedesktop/Notifications org.freedesktop.Notifications.ShowNotificationCount 2>/dev/null) | tr -s ' ' | cut -d' ' -f 3

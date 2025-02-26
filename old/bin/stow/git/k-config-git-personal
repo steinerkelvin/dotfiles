@@ -1,3 +1,0 @@
-#!/bin/bash
-git config user.name  "Kelvin Santos"
-git config user.email "kelvinsteinersantos@gmail.com"

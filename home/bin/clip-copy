@@ -1,0 +1,36 @@
+#!/bin/sh
+# Cross-platform clipboard copy utility
+
+case "$(uname -s)" in
+  Darwin)
+    # macOS
+    pbcopy "$@"
+    ;;
+  Linux)
+    # Check if running in WSL
+    if grep -q Microsoft /proc/version 2>/dev/null; then
+      # WSL - use clip.exe
+      if [ -z "$*" ]; then
+        # If no args, read from stdin
+        cat | clip.exe
+      else
+        # Otherwise pass args to clip.exe
+        cat "$@" | clip.exe
+      fi
+    else
+      # Regular Linux - use xclip if available, otherwise try wl-copy for Wayland
+      if command -v xclip >/dev/null 2>&1; then
+        xclip -i -selection clipboard "$@"
+      elif command -v wl-copy >/dev/null 2>&1; then
+        wl-copy "$@"
+      else
+        echo "Error: No clipboard utility found. Install xclip or wl-copy." >&2
+        exit 1
+      fi
+    fi
+    ;;
+  *)
+    echo "Error: Unsupported operating system" >&2
+    exit 1
+    ;;
+esac

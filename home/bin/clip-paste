@@ -1,0 +1,30 @@
+#!/bin/sh
+# Cross-platform clipboard paste utility
+
+case "$(uname -s)" in
+  Darwin)
+    # macOS
+    pbpaste "$@"
+    ;;
+  Linux)
+    # Check if running in WSL
+    if grep -q Microsoft /proc/version 2>/dev/null; then
+      # WSL - use PowerShell's Get-Clipboard
+      powershell.exe -command "Get-Clipboard" 2>/dev/null | tr -d '\r'
+    else
+      # Regular Linux - use xclip if available, otherwise try wl-paste for Wayland
+      if command -v xclip >/dev/null 2>&1; then
+        xclip -o -selection clipboard "$@"
+      elif command -v wl-paste >/dev/null 2>&1; then
+        wl-paste "$@"
+      else
+        echo "Error: No clipboard utility found. Install xclip or wl-paste." >&2
+        exit 1
+      fi
+    fi
+    ;;
+  *)
+    echo "Error: Unsupported operating system" >&2
+    exit 1
+    ;;
+esac

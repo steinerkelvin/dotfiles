@@ -1,4 +1,0 @@
-#!/bin/bash
-
-sudo journalctl --vacuum-time=7d
-yay -Sc

@@ -1,9 +1,0 @@
-#!/bin/bash
-
-if [ -z "${1}" ]; then
-    1>&2 echo "ERROR: Missing workspace number"
-    exit 1
-fi
-
-mkdir -p "${HOME}/.i3/layouts"
-i3-save-tree --workspace="${1}" > "${HOME}/.i3/layouts/workspace-${1}.json"

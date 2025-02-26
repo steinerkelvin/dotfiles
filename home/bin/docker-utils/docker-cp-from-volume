@@ -1,0 +1,36 @@
+#!/bin/bash
+
+function usage {
+    echo "usage: $0 <volume name> <dest>"
+}
+
+VOLUME_NAME="$1"
+DEST="$2"
+
+# TODO add path on source container to copy
+
+if [ -z "$VOLUME_NAME" ]; then
+    1>&2 echo "Missing <volume name> parameter"
+    usage
+    exit 1
+fi
+
+if [ -z "$DEST" ]; then
+    1>&2 echo "Missing <dest> parameter"
+    usage
+    exit 1
+fi
+
+RND=$(date +%s | sha256sum | base64 | head -c 6)
+
+CONTAINER_NAME="copier_$VOLUME_NAME_$RND"
+
+echo "Creating copier container with name '$CONTAINER_NAME'"
+docker create --name "$CONTAINER_NAME" -v "$VOLUME_NAME:/data" busybox true
+
+echo "Copying from '$CONTAINER_NAME:/data/.' to '$DEST'"
+docker cp "$CONTAINER_NAME:/data/." "$DEST"
+
+echo "Removing container"
+docker rm "$CONTAINER_NAME"
+
