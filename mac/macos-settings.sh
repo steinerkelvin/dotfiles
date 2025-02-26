@@ -35,3 +35,13 @@ defaults write com.apple.spaces spans-displays -bool true && killall SystemUISer
 defaults write -g NSWindowShouldDragOnGesture -bool true
 
 #
+
+# enable 'Close windows when quitting an app' setting
+
+# Why: Apps start fresh without restoring previous windows. This provides
+# cleaner startups, reduces initial memory usage, more predictable app behavior
+# and prevents restoration of problematic window states.
+
+defaults write -g NSQuitAlwaysCloseWindows -bool true
+
+#
