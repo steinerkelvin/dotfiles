@@ -1,5 +1,17 @@
 # DOTFILES REPOSITORY GUIDE
 
+## Assistant Directives
+
+- When told to "Remember" something, update this CLAUDE.md file to persist the information
+- This ensures important instructions, workflows, and guidelines persist between sessions
+
+## Homebrew Management
+
+- Check package dependencies: `brew uses <package> --installed`
+- Only add directly installed packages to `mac/my-brew-formulae.sh`, not dependencies
+- Check all installed casks: `brew list --cask`
+- Check all installed formulae: `brew list --formula`
+
 ## Commands
 
 - Check/lint code: `just fmt` or `nixpkgs-fmt path/to/file.nix`

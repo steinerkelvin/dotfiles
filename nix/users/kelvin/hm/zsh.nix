@@ -29,6 +29,7 @@ in
       nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
       # Git aliases
       gff = "git merge --ff-only";
+      glff = "git pull --ff-only";
       glogh = "git log --oneline --decorate --graph HEAD";
       tigh = "tig -a HEAD";
       # Dev aliases
@@ -47,6 +48,7 @@ in
       dk = "sudo docker";
       docker = "sudo docker";
       dkr = "sudo docker run --rm -it";
+      dokrun = "sudo docker run --rm -it";
       # Eza aliases
       ll = "eza -l";
       la = "eza -l -a";

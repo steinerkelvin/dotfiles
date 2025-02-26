@@ -2,6 +2,13 @@
 
 ## Considering
 
+### Theming on Linux
+
+- Implement consistent theming across Nix/i3/Qt/GTK
+- Look into qt5ct for Qt theming configuration
+- Consider Kvantum for advanced Qt styling
+- Ensure consistent dark/light mode switching
+
 ### From Old Scripts Review
 
 #### CLI Tools to Check
