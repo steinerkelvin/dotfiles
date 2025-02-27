@@ -86,3 +86,11 @@ Installed via Nix/home-manager (~/dotfiles/nix/users/kelvin/hm/packages.nix):
 - Prefer - for bullet lists
 - Use numbered lists for sequential items
 - Code blocks with triple backticks
+
+## User Preferences
+
+- Prefers zoxide for directory navigation
+- Shell aliases are configured in zsh.nix and Nix config shell scripts
+- Uses oh-my-zsh for additional shell functionality
+- GUI applications on Mac: Install with Homebrew
+- CLI applications (cross-platform): Install with Nix/home-manager

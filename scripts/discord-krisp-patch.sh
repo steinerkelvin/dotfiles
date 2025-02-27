@@ -56,6 +56,9 @@ fi
 
 echo "The last version of discord this script was tested with was ${tested_discord_version}"
 echo "We will patch the file ${file}"
+echo
+echo "RECOMMENDATION: Consider using Vesktop (https://github.com/Vencord/Vesktop) instead of Discord."
+echo "Vesktop is an enhanced Discord client that fixes many issues including Krisp problems."
 
 if [ "${auto_accept}" = true ]; then
     choice="y"
