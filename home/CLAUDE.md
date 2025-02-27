@@ -6,6 +6,11 @@
 - This ensures important instructions, workflows, and guidelines persist between sessions
 - If working in a directory with its own CLAUDE.md file, update that specific CLAUDE.md instead when appropriate
 - For example, when making changes to dotfiles, update ~/dotfiles/CLAUDE.md
+- After completing tasks, proactively update the relevant CLAUDE.md file with new information
+- Keep information in the most appropriate CLAUDE.md file based on context and relevance
+- Proactively build and maintain directory indexes in CLAUDE.md files or separate INDEX.md files
+- Review and rebuild indexes when repositories/folders change significantly
+- When completing tasks from TODO.md files, remember to update those files to reflect completed work
 
 ## Directory Structure
 
@@ -15,6 +20,12 @@
 - Add more important directories as discovered
 
 ## Available Commands
+
+### Using Nix Shell for Temporary Access
+
+- Access commands without installing: `nix shell nixpkgs#package-name`
+- Run a command once: `nix-shell -p package-name --run "command"`
+- Example: `nix shell nixpkgs#dtach` or `nix-shell -p dtach --run "dtach --help"`
 
 Installed via Nix/home-manager (~/dotfiles/nix/users/kelvin/hm/packages.nix):
 
@@ -44,27 +55,13 @@ Installed via Nix/home-manager (~/dotfiles/nix/users/kelvin/hm/packages.nix):
 - `htop` - Interactive process viewer
 - `bottom` - System monitor (btm command)
 - `pstree` - Display process tree
+- `difft` - Structural diff tool that understands syntax
 
 ## Dotfiles Management
 
 - Dotfiles managed using homeshick (installed via Nix/home-manager)
-- Re-link dotfiles: `homeshick link dotfiles`
-- Check status: `homeshick status`
-- Change to dotfiles repo: `homeshick cd dotfiles`
-
-### Clipboard Utilities
-
-Two sets of clipboard utilities are available:
-
-1. Script-based: `clip-copy` and `clip-paste` (with hyphen)
-   - Located in ~/bin
-   - Cross-platform shell scripts
-   - Usage: `echo "text" | clip-copy` and `clip-paste`
-
-2. Function-based: `clipcopy` and `clippaste` (without hyphen)
-   - Shell functions from Oh My Zsh's clipboard.zsh
-   - Automatically selects appropriate clipboard command based on platform
-   - Usage: `echo "text" | clipcopy` and `clippaste`
+- See ~/dotfiles/CLAUDE.md for detailed dotfiles commands and guidelines
+- Contains documentation for homeshick commands, clipboard utilities, and more
 
 ## Note Organization
 

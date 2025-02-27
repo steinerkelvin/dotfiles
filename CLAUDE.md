@@ -1,9 +1,16 @@
 # DOTFILES REPOSITORY GUIDE
 
+## Repository Structure Index
+
+See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
+
 ## Assistant Directives
 
 - When told to "Remember" something, update this CLAUDE.md file to persist the information
 - This ensures important instructions, workflows, and guidelines persist between sessions
+- This file contains information specific to dotfiles management
+- See ~/CLAUDE.md for general home directory information
+- Maintain the INDEX.md file when the repository structure changes
 
 ## Homebrew Management
 
@@ -23,6 +30,20 @@
   - Files will be tracked in the repo at `home/file-path`
 - Change to dotfiles repo: `homeshick cd dotfiles` or `dt cd`
 - Run `dt` without arguments to see help and usage examples
+
+## Clipboard Utilities
+
+Two sets of clipboard utilities are available:
+
+1. Script-based: `clip-copy` and `clip-paste` (with hyphen)
+   - Located in ~/bin
+   - Cross-platform shell scripts
+   - Usage: `echo "text" | clip-copy` and `clip-paste`
+
+2. Function-based: `clipcopy` and `clippaste` (without hyphen)
+   - Shell functions from Oh My Zsh's clipboard.zsh
+   - Automatically selects appropriate clipboard command based on platform
+   - Usage: `echo "text" | clipcopy` and `clippaste`
 
 ## Commands
 
@@ -55,6 +76,23 @@
 - Follow functional programming patterns
 - Store sensitive data using agenix
 - Use let/in blocks for local variables
+
+### Shell Scripts Organization
+
+- Simple/small shell functions can be defined directly in `nix/users/kelvin/hm/zsh.nix`
+- Larger or more complex shell functions should go in `nix/users/kelvin/shell/` directory:
+  1. Create a new .sh file for each script or related group of functions
+  2. Add the file to `shell/default.nix` using the pattern:
+     ```nix
+     {
+       script-name = readFile ./script-name.sh;
+     }
+     ```
+  3. The scripts will be automatically included in zsh configuration
+- Executable scripts that should be available in $PATH should go in `home/bin/`
+  - Especially scripts that might be used non-interactively or in other scripts
+  - Use proper shebangs (#!/bin/sh, #!/usr/bin/env python3, etc.)
+  - Scripts in home/bin are automatically linked to ~/bin via homeshick
 
 ### Shell Scripts
 

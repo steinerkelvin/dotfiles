@@ -1,7 +1,0 @@
-#!/bin/sh
-set -e
-. "${HOME}/.homesick/repos/homeshick/homeshick.sh"
-castle="dotfiles"
-cmd=$1  
-shift 1
-homeshick "${cmd}" "${castle}" "$@"

@@ -1,5 +1,0 @@
-#!/usr/bin/env python3
-import sys
-import urllib.parse
-input_str = sys.stdin.read()
-print(urllib.parse.unquote(input_str))

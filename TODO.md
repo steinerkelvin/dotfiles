@@ -14,7 +14,6 @@
 #### CLI Tools to Check
 
 - git-extras - additional Git commands
-- dtach - terminal session detachment
 - clac - command-line calculator
 - watch - execute commands periodically
 - imagemagick - image manipulation

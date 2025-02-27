@@ -1,5 +1,0 @@
-#!/usr/bin/env python3
-import os
-import sys
-sep = os.environ.get("SEP", "/")
-print(sep.join(sys.argv[1:]))
