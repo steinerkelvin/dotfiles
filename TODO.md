@@ -19,6 +19,7 @@
 - imagemagick - image manipulation
 - ngrok - localhost tunneling
 - android-platform-tools - ADB and other Android tools
+- dvtm - terminal window manager (pairs well with abduco)
 
 #### Vim/Neovim Plugins
 

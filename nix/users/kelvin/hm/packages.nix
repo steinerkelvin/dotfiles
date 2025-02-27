@@ -37,7 +37,7 @@ in {
       pkgs.shellcheck
       pkgs.tmux
       pkgs.tmate
-      pkgs.dtach
+      pkgs.abduco
 
       ## File utilities
       pkgs.file

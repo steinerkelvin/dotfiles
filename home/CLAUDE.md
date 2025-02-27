@@ -41,6 +41,7 @@ Installed via Nix/home-manager (~/dotfiles/nix/users/kelvin/hm/packages.nix):
 ### Shell & Navigation
 - `zoxide` - Smarter cd command with jump functionality
 - `tmux` - Terminal multiplexer
+- `abduco` - Terminal session manager (lightweight alternative to tmux/screen)
 - `jq` - JSON processor
 - `yq` - YAML processor
 - `stow` - Symlink farm manager
