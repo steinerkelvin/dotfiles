@@ -11,6 +11,7 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 - This file contains information specific to dotfiles management
 - See ~/CLAUDE.md for general home directory information
 - Maintain the INDEX.md file when the repository structure changes
+- Proactively search for inner CLAUDE.md files in subdirectories when working on a project
 
 ## Homebrew Management
 
