@@ -5,4 +5,5 @@ let
 in
 {
   vscode-remote = readFile ./vscode-remote.sh;
+  dt = readFile ./dt.sh;
 }

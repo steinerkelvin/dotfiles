@@ -12,6 +12,18 @@
 - Check all installed casks: `brew list --cask`
 - Check all installed formulae: `brew list --formula`
 
+## Homeshick Commands
+
+- Link dotfiles: `homeshick link dotfiles` or `dt link`
+- Check for updates: `homeshick check dotfiles` or `dt check`
+- Pull updates: `homeshick pull dotfiles` or `dt pull`
+- Add file to dotfiles: `homeshick track dotfiles <file-path>` or `dt track <file-path>`
+  - File paths should be relative to your home directory
+  - Example: `dt track .zshrc` to add .zshrc to dotfiles
+  - Files will be tracked in the repo at `home/file-path`
+- Change to dotfiles repo: `homeshick cd dotfiles` or `dt cd`
+- Run `dt` without arguments to see help and usage examples
+
 ## Commands
 
 - Check/lint code: `just fmt` or `nixpkgs-fmt path/to/file.nix`
