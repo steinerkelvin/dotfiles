@@ -46,6 +46,7 @@ in {
       pkgs.eza
       pkgs.bat
       pkgs.dua
+      pkgs.fd
       #pkgs.nnn
       #pkgs.broot
       pkgs.unzip
@@ -71,6 +72,7 @@ in {
       pkgs.inetutils
       pkgs.nmap
       pkgs.dig
+      pkgs.stc-cli  # Syncthing CLI (`stc` command)
 
       # Secrets
       pkgs.openssl

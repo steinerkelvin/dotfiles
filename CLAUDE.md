@@ -121,6 +121,22 @@ Two sets of clipboard utilities are available:
   - Use proper shebangs (#!/bin/sh, #!/usr/bin/env python3, etc.)
   - Scripts in home/bin are automatically linked to ~/bin via homeshick
 
+### Shell Utility Functions
+
+- `try-echo` - Run a command and print a custom message only if it fails
+  - Example: `try-echo "Build failed!" npm run build`
+  - Located at `~/dotfiles/nix/users/kelvin/shell/try-echo.sh`
+  - Includes completion support for command arguments
+
+### Shell Script Guidelines
+
+- Place utility functions in `nix/users/kelvin/shell/` directory
+- Register in `shell/default.nix` using the pattern: `name = readFile ./name.sh`
+- Use kebab-case for function and file names
+- Include shell completion when appropriate
+- For shell completion, use `_init_completion` and `_command_offset` helpers
+- Documentation should be concise and non-redundant
+
 ### Shell Scripts
 
 - Include shebang (`#!/bin/sh` or `#!/bin/bash`)
