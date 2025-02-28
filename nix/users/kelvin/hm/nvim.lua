@@ -1,5 +1,6 @@
--- non-yank delete
-vim.keymap.set('n', '<space>d', ' "_d', { noremap = true })
+-- non-yank delete (Delete without affecting registers)
+vim.keymap.set('n', '<space>d', '"_d', { noremap = true })
+vim.keymap.set('v', '<space>d', '"_d', { noremap = true })
 
 -- disable netrw (required by nvim-tree)
 vim.g.loaded_netrw = 1
