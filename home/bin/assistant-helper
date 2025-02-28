@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+"""
+Assistant helper script for Claude Code.
+Provides utility commands for the AI assistant.
+"""
+
+import sys
+import datetime
+import argparse
+
+def cmd_date():
+    """Print current date in ISO format (down to minutes)"""
+    now = datetime.datetime.now()
+    print(now.strftime("%Y-%m-%d %H:%M"))
+
+def main():
+    parser = argparse.ArgumentParser(description="Helper utilities for Claude assistant")
+    subparsers = parser.add_subparsers(dest="command", help="Command to run")
+    
+    # Date command
+    date_parser = subparsers.add_parser("date", help="Print current date in ISO format")
+    
+    args = parser.parse_args()
+    
+    if args.command == "date":
+        cmd_date()
+    else:
+        parser.print_help()
+        sys.exit(1)
+
+if __name__ == "__main__":
+    main()
