@@ -60,7 +60,7 @@ in
       # Copilot
       "'??'" = "gh copilot explain";
       # Utils
-      "qrprint" = "qrencode -t utf8";
+      "qrprint" = "qrencode -t utf8 --";
       # Dev
     };
 
