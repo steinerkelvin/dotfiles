@@ -21,11 +21,13 @@ in {
     # Default editors
     EDITOR = "vi -e";
     VISUAL = "nvim";
+    # NPM global installations
+    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
   };
 
   ## Path / $PATH
   home.sessionPath =
-    [ "$HOME/bin" "$HOME/opt/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" ];
+    [ "$HOME/bin" "$HOME/opt/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" "$HOME/.npm-global/bin" ];
 
   # Direnv
   programs.direnv.enable = true;

@@ -15,8 +15,8 @@
 
 - git-extras - additional Git commands
 - clac - command-line calculator
-- watch - execute commands periodically
-- imagemagick - image manipulation
+- ✓ watch - execute commands periodically (added to packages.nix)
+- ✓ imagemagick - image manipulation (already installed in packages.nix)
 - ngrok - localhost tunneling
 - android-platform-tools - ADB and other Android tools
 - dvtm - terminal window manager (pairs well with abduco)
@@ -36,7 +36,35 @@
 
 #### Useful Scripts
 
-- `url-decode` and `url-encode` - URL encoding utilities
-- `join-args` - joins command arguments
-- `ln2null` - converts newlines to null characters
-- `docker-cp-from/to-volume` - docker volume utilities
+- ✓ `url-decode` and `url-encode` - URL encoding utilities (already in ~/bin)
+- ✓ `join-args` - joins command arguments (already in ~/bin)
+- ✓ `ln2null` - converts newlines to null characters (already in ~/bin)
+- ✓ `docker-cp-from/to-volume` - docker volume utilities (already available in ~/bin/docker-utils/)
+
+### Future Considerations
+
+#### Linting and Code Quality
+
+- Consider adding textlint for Markdown linting in the development environment
+
+#### Keyboard Configuration (On Hold)
+
+- Review keyd.nix~ and old/keyd/default.conf
+- Integrate keyboard remapping solution across Linux configurations 
+- Decide whether to implement as a NixOS module or use existing solutions
+
+### Atuin History Management
+
+- Implement suggested improvements from scripts/ATUIN.md:
+  - Enhance similarity detection for better typo identification
+  - Implement command context tracking
+  - Add temporal analysis to identify obsolete commands
+
+### Old Files to Process
+
+- Review and clean up remaining files in old/ directory:
+  - ✓ old/arch/ scripts (removed)
+  - old/keyd/ directory (potentially integrate into newer configs)
+  - old/init.vim (migrate any remaining useful configs)
+  - old/.Xmodmap, old/.gitconfig, old/.xinitrc, old/.zshrc (review and remove if outdated)
+- Review old-brew.sh and make sure all needed packages are in my-brew-formulae.sh

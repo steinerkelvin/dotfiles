@@ -4,6 +4,14 @@
 
 See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
+## System Configuration
+
+### NPM Global Packages
+
+- NPM global packages are installed to ~/.npm-global (configured in home-manager)
+- This setting is defined in dotfiles/nix/users/kelvin/hm/common.nix
+- LOG.md in home directory tracks system configuration changes
+
 ## Assistant Directives
 
 - When told to "Remember" something, update this CLAUDE.md file to persist the information
