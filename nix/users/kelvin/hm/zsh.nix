@@ -44,6 +44,10 @@ in
       p = "pnpm";
       pr = "pnpm run";
       px = "pnpm exec";
+      ## Bun
+      b = "bun";
+      br = "bun run";
+      bx = "bun x";
       ## Docker aliases
       dk = "sudo docker";
       docker = "sudo docker";
@@ -61,6 +65,7 @@ in
       "'??'" = "gh copilot explain";
       # Utils
       "qrprint" = "qrencode -t utf8 --";
+      "colon2line" = "tr ':' '\n'";
       # Dev
     };
 

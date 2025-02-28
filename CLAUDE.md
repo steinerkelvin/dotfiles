@@ -65,6 +65,24 @@ Two sets of clipboard utilities are available:
 - Deploy home-manager: `./bootstrap-hm.sh`
 - Apply macOS settings: `./mac/macos-settings.sh`
 
+## JavaScript Runtime Environments
+
+### Bun.js
+
+- Installed via Nix/home-manager (packages.nix)
+- Shell aliases in zsh.nix:
+  - `b` - Run bun
+  - `br` - Run scripts with bun run
+  - `bx` - Execute packages with bun x
+- Common commands:
+  - `bun init` - Initialize a new project
+  - `bun install` - Install dependencies
+  - `bun add <package>` - Add a package
+  - `bun remove <package>` - Remove a package
+  - `bun run <script>` - Run a script from package.json
+  - `bun test` - Run tests
+  - `bun build` - Bundle source code
+
 ## Style Guidelines
 
 ### General

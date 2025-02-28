@@ -38,6 +38,7 @@ in {
       pkgs.tmux
       pkgs.tmate
       pkgs.abduco
+      pkgs.mosh
 
       ## File utilities
       pkgs.file
@@ -64,6 +65,7 @@ in {
       pkgs.pciutils
       pkgs.pstree
       pkgs.bottom
+      pkgs.watch
 
       ## Network utilities
       pkgs.inetutils
@@ -107,6 +109,7 @@ in {
       ## Package managers
       pkgs.yarn
       pkgs.nodejs
+      pkgs.bun
 
       ## Language managers
       pkgs.rustup
