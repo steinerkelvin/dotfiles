@@ -35,3 +35,9 @@ wk.setup()
 
 -- theme config
 require("monokai-pro").setup()
+
+-- leap.nvim config (modern alternative to EasyMotion)
+require('leap').add_default_mappings()
+
+-- nvim-surround config
+require('nvim-surround').setup()

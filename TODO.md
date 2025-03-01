@@ -30,12 +30,14 @@
 
 #### Vim/Neovim Plugins
 
-- vim-easymotion - fast cursor movement
-- vim-multiple-cursors - multiple selection editing
-- vim-wakatime - time tracking for coding
+- ✓ leap.nvim - modern alternative to vim-easymotion for fast cursor movement
+- vim-multiple-cursors - multiple selection editing (consider alternatives)
+- ✓ vim-wakatime - time tracking for coding
+- ✓ nvim-surround - text object manipulation
 
-#### Tab Completion Behavior
+#### Tab Completion Behavior (Fixed)
 
+- ✓ Fixed non-yank delete mapping in nvim.lua (`<space>d`) for both normal and visual modes
 - Consider adapting smart tab completion logic from old init.vim:
   - Uses Tab to navigate completion menu when open
   - Inserts tab when appropriate (after space)
@@ -72,6 +74,6 @@
 - Review and clean up remaining files in old/ directory:
   - ✓ old/arch/ scripts (removed)
   - old/keyd/ directory (potentially integrate into newer configs)
-  - old/init.vim (migrate any remaining useful configs)
+  - ✓ old/init.vim (useful plugins migrated: leap.nvim, vim-wakatime, nvim-surround)
   - old/.Xmodmap, old/.gitconfig, old/.xinitrc, old/.zshrc (review and remove if outdated)
 - Review old-brew.sh and make sure all needed packages are in my-brew-formulae.sh

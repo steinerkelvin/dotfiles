@@ -1,0 +1,18 @@
+{
+  "name": "k-ai",
+  "version": "0.1.0",
+  "module": "src/index.ts",
+  "type": "module",
+  "bin": {
+    "k-ai": "./src/index.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "@mendable/firecrawl-js": "^1.18.6"
+  }
+}
