@@ -46,6 +46,8 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
     1. Place the file in the appropriate location in dotfiles/home/
     2. Commit the new file to git
     3. Run homeshick link dotfiles to create the symlink
+  - For renaming files: create and commit new file, remove old file, then run homeshick link
+  - Always be comprehensive in commit messages, including all significant changes
 
 ## Homebrew Management
 
