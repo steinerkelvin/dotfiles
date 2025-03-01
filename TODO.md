@@ -1,5 +1,12 @@
 # TODO
 
+## Dotfiles Improvements
+
+- [ ] utility script to move a file to dotfiles/home at the equivalent path and link back to home
+  - Move a file from ~/path/to/file to ~/dotfiles/home/path/to/file
+  - Commit the change to git
+  - Create symlink back to original location using homeshick
+
 ## Considering
 
 ### Theming on Linux

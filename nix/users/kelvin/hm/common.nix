@@ -27,7 +27,7 @@ in {
 
   ## Path / $PATH
   home.sessionPath =
-    [ "$HOME/bin" "$HOME/opt/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" "$HOME/.npm-global/bin" ];
+    [ "$HOME/bin" "$HOME/opt/bin" "$HOME/.mix/escripts" "$HOME/.cargo/bin" "$HOME/.npm-global/bin" "$HOME/node_modules/.bin" ];
 
   # Direnv
   programs.direnv.enable = true;

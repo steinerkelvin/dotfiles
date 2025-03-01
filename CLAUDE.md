@@ -6,11 +6,20 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
 ## System Configuration
 
+### Path Configuration
+
+- PATH entries should be added to `home.sessionPath` array in `nix/users/kelvin/hm/common.nix`
+
 ### NPM Global Packages
 
 - NPM global packages are installed to ~/.npm-global (configured in home-manager)
 - This setting is defined in dotfiles/nix/users/kelvin/hm/common.nix
 - LOG.md in home directory tracks system configuration changes
+
+### Session Restoration
+
+- Try to read NEXT.md to restart a session, then delete the file
+- This helps preserve context between Claude sessions when needed
 
 ## Assistant Directives
 
@@ -20,6 +29,23 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 - See ~/CLAUDE.md for general home directory information
 - Maintain the INDEX.md file when the repository structure changes
 - Proactively search for inner CLAUDE.md files in subdirectories when working on a project
+- Ask clarifying questions when uncertain about file locations or when encountering inconsistencies
+
+## Important Files
+
+- `~/dotfiles/TODO.md`: Main TODO list for dotfiles improvements and pending tasks
+- `~/dotfiles/CLAUDE.md`: This file - dotfiles-specific instructions and documentation
+- `~/dotfiles/INDEX.md`: Repository structure documentation
+- IMPORTANT: Always run `homeshick link dotfiles` (or `dt link`) after adding new files to dotfiles/home
+  - This is necessary to make new scripts and files available in the home directory
+  - Reminder especially important for executable scripts added to home/bin
+  - Never manually create symlinks from dotfiles/home/* to ~/; always use homeshick to manage these symlinks
+  - New executables should be placed in dotfiles/home/bin/ and linked using homeshick
+  - CRITICAL: New files must be committed to git before homeshick will link them
+  - Workflow for adding a new file:
+    1. Place the file in the appropriate location in dotfiles/home/
+    2. Commit the new file to git
+    3. Run homeshick link dotfiles to create the symlink
 
 ## Homebrew Management
 
@@ -136,6 +162,7 @@ Two sets of clipboard utilities are available:
 - Include shell completion when appropriate
 - For shell completion, use `_init_completion` and `_command_offset` helpers
 - Documentation should be concise and non-redundant
+- Don't assume how users manage their configurations (avoid instructions like "add to .zshrc")
 
 ### Shell Scripts
 

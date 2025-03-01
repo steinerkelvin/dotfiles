@@ -1,0 +1,665 @@
+#!/usr/bin/env python3
+"""
+Digital Workspace Housekeeping Tool
+
+A modular tool to check the health of your digital workspace and perform maintenance tasks.
+"""
+
+import os
+import sys
+import json
+import argparse
+import subprocess
+from dataclasses import dataclass
+from typing import List, Optional, Callable, Dict, Any
+from datetime import datetime
+
+
+# Color formatting for terminal output
+class Colors:
+    RESET = "\033[0m"
+    BOLD = "\033[1m"
+    GREEN = "\033[32m"
+    YELLOW = "\033[33m"
+    RED = "\033[31m"
+    BLUE = "\033[34m"
+    CHECK = "✓"
+    CROSS = "✗"
+    WARNING = "!"
+
+
+@dataclass
+class CheckResult:
+    """Result of a system check"""
+    status: str  # 'ok', 'warning', 'error', 'info'
+    message: str
+    details: Optional[List[str]] = None
+    fix_available: bool = False
+    fix_command: Optional[str] = None
+    fix_func: Optional[Callable] = None
+
+
+class ModuleBase:
+    """Base class for all check modules"""
+    
+    def __init__(self, full_check=False):
+        self.full_check = full_check
+        self.name = self.__class__.__name__.replace("Module", "")
+    
+    def check(self) -> List[CheckResult]:
+        """Run all checks for this module"""
+        raise NotImplementedError("Subclasses must implement check()")
+    
+    def run_command(self, cmd, shell=False) -> (int, str, str):
+        """Run a command and return exit code, stdout, stderr"""
+        try:
+            if shell:
+                process = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            else:
+                process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            
+            stdout, stderr = process.communicate()
+            return process.returncode, stdout, stderr
+        except Exception as e:
+            return 1, "", str(e)
+    
+    def command_exists(self, cmd) -> bool:
+        """Check if a command exists in the system path"""
+        return subprocess.call(["which", cmd], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL) == 0
+
+
+class BrewModule(ModuleBase):
+    """Check Homebrew status and packages"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check if Homebrew is installed
+        if not self.command_exists("brew"):
+            return [CheckResult("error", "Homebrew is not installed")]
+        
+        # Check for updates
+        returncode, stdout, stderr = self.run_command(["brew", "update", "--quiet"])
+        if returncode != 0:
+            results.append(CheckResult("warning", "Unable to update Homebrew", [stderr.strip()]))
+        
+        # Check for outdated packages
+        returncode, stdout, stderr = self.run_command(["brew", "outdated"])
+        if returncode != 0:
+            results.append(CheckResult("warning", "Unable to check outdated packages", [stderr.strip()]))
+        elif stdout.strip():
+            outdated = stdout.strip().split("\n")
+            results.append(CheckResult(
+                "warning", 
+                f"{len(outdated)} outdated Homebrew packages found",
+                outdated,
+                fix_available=True,
+                fix_command="brew upgrade",
+                fix_func=self.upgrade_packages if self.full_check else None
+            ))
+        else:
+            results.append(CheckResult("ok", "All Homebrew packages are up to date"))
+        
+        # Check for cleanup opportunities
+        if self.full_check:
+            returncode, stdout, stderr = self.run_command(["brew", "cleanup", "--dry-run"])
+            if stdout.strip():
+                results.append(CheckResult(
+                    "info", 
+                    "Cleaning up Homebrew cache",
+                    fix_available=True,
+                    fix_command="brew cleanup -s",
+                    fix_func=self.cleanup if self.full_check else None
+                ))
+        
+        return results
+    
+    def upgrade_packages(self) -> CheckResult:
+        """Upgrade outdated Homebrew packages"""
+        returncode, stdout, stderr = self.run_command(["brew", "upgrade"])
+        if returncode == 0:
+            return CheckResult("ok", "Homebrew packages upgraded successfully")
+        return CheckResult("error", "Failed to upgrade Homebrew packages", [stderr.strip()])
+    
+    def cleanup(self) -> CheckResult:
+        """Clean up Homebrew cache"""
+        returncode, stdout, stderr = self.run_command(["brew", "cleanup", "-s"])
+        if returncode == 0:
+            return CheckResult("ok", "Homebrew cache cleaned successfully")
+        return CheckResult("error", "Failed to clean Homebrew cache", [stderr.strip()])
+
+
+class NixModule(ModuleBase):
+    """Check Nix status and garbage collection"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check if Nix is installed
+        if not self.command_exists("nix"):
+            return [CheckResult("error", "Nix is not installed")]
+        
+        # Check Nix store size
+        returncode, stdout, stderr = self.run_command(["du", "-sh", "/nix/store"])
+        if returncode == 0:
+            store_size = stdout.strip().split()[0]
+            results.append(CheckResult("ok", f"Current Nix store size: {store_size}"))
+            
+            # Check for garbage collection opportunities
+            results.append(CheckResult(
+                "info", 
+                "Nix garbage collection available",
+                fix_available=True,
+                fix_command="nix-collect-garbage -d",
+                fix_func=self.collect_garbage if self.full_check else None
+            ))
+        else:
+            results.append(CheckResult("warning", "Unable to check Nix store size", [stderr.strip()]))
+        
+        # Check for flake updates if full check
+        if self.full_check and os.path.exists(os.path.expanduser("~/dotfiles/flake.nix")):
+            results.append(CheckResult(
+                "info", 
+                "Checking for flake updates",
+                fix_available=True,
+                fix_command="cd ~/dotfiles && nix flake update",
+                fix_func=self.update_flakes if self.full_check else None
+            ))
+        
+        return results
+    
+    def collect_garbage(self) -> CheckResult:
+        """Run Nix garbage collection"""
+        returncode, stdout, stderr = self.run_command(["nix-collect-garbage", "-d"])
+        if returncode == 0:
+            # Get new store size
+            code, stdout, err = self.run_command(["du", "-sh", "/nix/store"])
+            if code == 0:
+                store_size = stdout.strip().split()[0]
+                return CheckResult("ok", f"Garbage collection complete. New store size: {store_size}")
+            return CheckResult("ok", "Garbage collection complete")
+        return CheckResult("error", "Failed to collect garbage", [stderr.strip()])
+    
+    def update_flakes(self) -> CheckResult:
+        """Update Nix flakes"""
+        returncode, stdout, stderr = self.run_command("cd ~/dotfiles && nix flake update", shell=True)
+        if returncode == 0:
+            return CheckResult("ok", "Flakes updated successfully")
+        return CheckResult("error", "Failed to update flakes", [stderr.strip()])
+
+
+class SyncthingModule(ModuleBase):
+    """Check Syncthing status and synchronization"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check if Syncthing is running
+        returncode, stdout, stderr = self.run_command(["pgrep", "syncthing"])
+        if returncode != 0:
+            return [CheckResult("warning", "Syncthing is not running")]
+        
+        results.append(CheckResult("ok", "Syncthing is running"))
+        
+        # Check if stc is available
+        using_nix_shell = False
+        stc_cmd = ["stc"]
+        
+        if not self.command_exists("stc"):
+            # Try via Nix
+            returncode, stdout, stderr = self.run_command(["nix-locate", "--whole-name", "--top-level", "bin/stc"])
+            if "stc-cli" in stdout:
+                stc_cmd = ["nix", "shell", "nixpkgs#stc-cli", "--command", "stc"]
+                using_nix_shell = True
+                results.append(CheckResult("info", "Using stc via Nix shell"))
+            else:
+                results.append(CheckResult(
+                    "warning", 
+                    "stc tool not available",
+                    details=["Install with 'nix profile install nixpkgs#stc-cli' for better checking"]
+                ))
+                return results
+        
+        # Check if Syncthing API is accessible
+        cmd = stc_cmd + ["-target", "http://localhost:8384", "id"]
+        returncode, stdout, stderr = self.run_command(cmd)
+        if returncode != 0:
+            return results + [CheckResult("error", "Cannot connect to Syncthing API")]
+        
+        # Check for errors
+        cmd = stc_cmd + ["-target", "http://localhost:8384", "errors"]
+        returncode, stdout, stderr = self.run_command(cmd)
+        if returncode == 0:
+            errors = stdout.strip().split("\n") if stdout.strip() else []
+            if not errors or errors == [""]:
+                results.append(CheckResult("ok", "No Syncthing errors reported"))
+            else:
+                results.append(CheckResult(
+                    "warning", 
+                    f"{len(errors)} Syncthing errors found",
+                    details=errors[:3] + (["..."] if len(errors) > 3 else []),
+                    fix_available=True,
+                    fix_command="stc -target http://localhost:8384 clear_errors",
+                    fix_func=self.clear_errors if self.full_check else None
+                ))
+        
+        # Check folder status
+        cmd = stc_cmd + ["-target", "http://localhost:8384", "json_dump"]
+        returncode, stdout, stderr = self.run_command(cmd)
+        if returncode == 0 and stdout.strip():
+            try:
+                data = json.loads(stdout)
+                out_of_sync = []
+                
+                for folder in data.get("folders", []):
+                    if folder.get("syncPercentDone", 100) < 100:
+                        out_of_sync.append(f"{folder['folderName']} ({folder['syncPercentDone']:.1f}% complete)")
+                
+                if out_of_sync:
+                    results.append(CheckResult(
+                        "warning", 
+                        f"{len(out_of_sync)} Syncthing folders are not fully synchronized",
+                        details=out_of_sync,
+                        fix_available=True,
+                        fix_command="stc -target http://localhost:8384 rescan all",
+                        fix_func=self.rescan_all if self.full_check else None
+                    ))
+                else:
+                    results.append(CheckResult("ok", "All Syncthing folders are synchronized"))
+                
+                # Check device connections
+                connected_devices = []
+                offline_devices = []
+                
+                for device in data.get("devices", []):
+                    if device.get("deviceName") == "*satsuki.local" or device.get("status") in ["OK", "Myself"]:
+                        connected_devices.append(device.get("deviceName").replace("*", ""))
+                    else:
+                        offline_devices.append(device.get("deviceName"))
+                
+                if connected_devices:
+                    results.append(CheckResult("ok", f"Connected to {len(connected_devices)} devices", details=connected_devices))
+                
+                if offline_devices:
+                    results.append(CheckResult("info", f"{len(offline_devices)} devices offline", details=offline_devices))
+                
+            except json.JSONDecodeError:
+                results.append(CheckResult("warning", "Could not parse Syncthing status"))
+        
+        return results
+    
+    def clear_errors(self) -> CheckResult:
+        """Clear Syncthing errors"""
+        stc_cmd = ["stc"]
+        if not self.command_exists("stc"):
+            stc_cmd = ["nix", "shell", "nixpkgs#stc-cli", "--command", "stc"]
+        
+        cmd = stc_cmd + ["-target", "http://localhost:8384", "clear_errors"]
+        returncode, stdout, stderr = self.run_command(cmd)
+        if returncode == 0:
+            return CheckResult("ok", "Syncthing errors cleared")
+        return CheckResult("error", "Failed to clear Syncthing errors", [stderr.strip()])
+    
+    def rescan_all(self) -> CheckResult:
+        """Rescan all Syncthing folders"""
+        stc_cmd = ["stc"]
+        if not self.command_exists("stc"):
+            stc_cmd = ["nix", "shell", "nixpkgs#stc-cli", "--command", "stc"]
+        
+        cmd = stc_cmd + ["-target", "http://localhost:8384", "rescan", "all"]
+        returncode, stdout, stderr = self.run_command(cmd)
+        if returncode == 0:
+            return CheckResult("ok", "Rescan triggered for all folders")
+        return CheckResult("error", "Failed to trigger rescan", [stderr.strip()])
+
+
+class DiskSpaceModule(ModuleBase):
+    """Check disk space usage"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check overall disk usage
+        returncode, stdout, stderr = self.run_command(["df", "-h", "/"])
+        if returncode == 0:
+            lines = stdout.strip().split("\n")
+            if len(lines) >= 2:
+                parts = lines[1].split()
+                if len(parts) >= 5:
+                    usage = parts[4].replace("%", "")
+                    try:
+                        usage_int = int(usage)
+                        if usage_int > 90:
+                            results.append(CheckResult("error", f"Root partition is critically low: {usage}% used"))
+                        elif usage_int > 75:
+                            results.append(CheckResult("warning", f"Root partition is getting full: {usage}% used"))
+                        else:
+                            results.append(CheckResult("ok", f"Root partition has adequate space: {usage}% used"))
+                    except ValueError:
+                        results.append(CheckResult("warning", f"Could not parse disk usage percentage: {usage}"))
+        
+        # Check home directory size
+        home_dir = os.path.expanduser("~")
+        returncode, stdout, stderr = self.run_command(["du", "-sh", home_dir])
+        if returncode == 0:
+            size = stdout.strip().split()[0]
+            results.append(CheckResult("info", f"Home directory size: {size}"))
+        
+        # Look for large directories
+        if self.command_exists("dua"):
+            results.append(CheckResult(
+                "info", 
+                "Use dua for interactive disk usage analysis",
+                fix_command="dua i ~"
+            ))
+        else:
+            temp_large_dirs = []
+            dirs_to_check = ["~/Downloads", "~/Documents", "~/.cache"]
+            
+            for dir_path in dirs_to_check:
+                expanded_path = os.path.expanduser(dir_path)
+                if os.path.exists(expanded_path) and os.path.isdir(expanded_path):
+                    returncode, stdout, stderr = self.run_command(["du", "-sh", expanded_path])
+                    if returncode == 0:
+                        size, path = stdout.strip().split()
+                        temp_large_dirs.append(f"{size}\t{path}")
+            
+            if temp_large_dirs:
+                results.append(CheckResult("info", "Large directories found", temp_large_dirs))
+        
+        # Check for cache cleanup
+        cache_dir = os.path.expanduser("~/.cache")
+        if os.path.exists(cache_dir) and os.path.isdir(cache_dir) and self.full_check:
+            returncode, stdout, stderr = self.run_command(["du", "-sh", cache_dir])
+            if returncode == 0:
+                size = stdout.strip().split()[0]
+                results.append(CheckResult(
+                    "info", 
+                    f"Cache directory size: {size}",
+                    fix_available=True,
+                    fix_command="find ~/.cache -type f -atime +30 -delete",
+                    fix_func=self.clean_cache if self.full_check else None
+                ))
+        
+        return results
+    
+    def clean_cache(self) -> CheckResult:
+        """Clean old cache files"""
+        cache_dir = os.path.expanduser("~/.cache")
+        
+        # Get initial size
+        returncode, stdout, stderr = self.run_command(["du", "-sh", cache_dir])
+        initial_size = stdout.strip().split()[0] if returncode == 0 else "unknown"
+        
+        # Remove old files
+        cmd = f"find {cache_dir} -type f -atime +30 -delete 2>/dev/null || true"
+        self.run_command(cmd, shell=True)
+        
+        # Get new size
+        returncode, stdout, stderr = self.run_command(["du", "-sh", cache_dir])
+        new_size = stdout.strip().split()[0] if returncode == 0 else "unknown"
+        
+        return CheckResult("ok", f"Cache cleaned. Size changed from {initial_size} to {new_size}")
+
+
+class PasswordStoreModule(ModuleBase):
+    """Check password store status"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check if pass is installed
+        if not self.command_exists("pass"):
+            return [CheckResult("warning", "Password manager (pass) not installed")]
+        
+        # Check if password store exists
+        pass_dir = os.path.expanduser("~/.password-store")
+        if not os.path.exists(pass_dir):
+            return [CheckResult("error", "Password store directory not found")]
+        
+        # Check if password store is a symlink to data/secrets/pass
+        if os.path.islink(pass_dir):
+            link_target = os.readlink(pass_dir)
+            if "data/secrets/pass" in link_target:
+                results.append(CheckResult("ok", "Password store is properly linked to data/secrets/pass"))
+            else:
+                results.append(CheckResult("warning", f"Password store symlink points to unexpected location: {link_target}"))
+        else:
+            results.append(CheckResult("warning", "Password store is not a symlink"))
+        
+        # Check if GPG is working properly
+        returncode, stdout, stderr = self.run_command(["gpg", "--list-keys"])
+        if returncode != 0:
+            results.append(CheckResult("warning", "GPG is not working properly", [stderr.strip()]))
+        
+        # Check pass command functionality
+        returncode, stdout, stderr = self.run_command(["pass"])
+        if returncode != 0:
+            results.append(CheckResult("warning", "Password store command failing", [stderr.strip()]))
+        
+        # Check password store git status if it's a git repo
+        git_dir = os.path.join(pass_dir, ".git")
+        if os.path.exists(git_dir) and os.path.isdir(git_dir):
+            cmd = f"cd {pass_dir} && git status --porcelain"
+            returncode, stdout, stderr = self.run_command(cmd, shell=True)
+            if returncode == 0:
+                if stdout.strip():
+                    changes = stdout.strip().split("\n")
+                    results.append(CheckResult(
+                        "warning", 
+                        f"Password store has {len(changes)} uncommitted changes",
+                        changes[:5] + (["..."] if len(changes) > 5 else []),
+                        fix_available=True,
+                        fix_command="cd ~/.password-store && git add . && git commit -m 'Auto-commit'",
+                        fix_func=self.commit_changes if self.full_check else None
+                    ))
+                else:
+                    results.append(CheckResult("ok", "Password store is clean (no uncommitted changes)"))
+        
+        return results
+    
+    def commit_changes(self) -> CheckResult:
+        """Commit password store changes"""
+        pass_dir = os.path.expanduser("~/.password-store")
+        cmd = f"cd {pass_dir} && git add . && git commit -m 'Auto-commit from digital-housekeeping script'"
+        returncode, stdout, stderr = self.run_command(cmd, shell=True)
+        if returncode == 0:
+            return CheckResult("ok", "Password store changes committed")
+        return CheckResult("error", "Failed to commit password store changes", [stderr.strip()])
+
+
+class DotfilesModule(ModuleBase):
+    """Check dotfiles status"""
+    
+    def check(self) -> List[CheckResult]:
+        results = []
+        
+        # Check if dotfiles directory exists
+        dotfiles_dir = os.path.expanduser("~/dotfiles")
+        if not os.path.exists(dotfiles_dir):
+            return [CheckResult("warning", "Dotfiles directory not found")]
+        
+        # Check dotfiles git status
+        git_dir = os.path.join(dotfiles_dir, ".git")
+        if os.path.exists(git_dir) and os.path.isdir(git_dir):
+            cmd = f"cd {dotfiles_dir} && git status --porcelain"
+            returncode, stdout, stderr = self.run_command(cmd, shell=True)
+            if returncode == 0:
+                if stdout.strip():
+                    changes = stdout.strip().split("\n")
+                    results.append(CheckResult(
+                        "warning", 
+                        f"Dotfiles have {len(changes)} uncommitted changes",
+                        changes[:5] + (["..."] if len(changes) > 5 else []),
+                        fix_available=True,
+                        fix_command="cd ~/dotfiles && git add . && git commit -m 'Auto-commit'",
+                        fix_func=None  # We don't auto-commit dotfiles
+                    ))
+                else:
+                    results.append(CheckResult("ok", "Dotfiles are clean (no uncommitted changes)"))
+            
+            # Check for unpushed commits
+            cmd = f"cd {dotfiles_dir} && git log @{{u}}..HEAD --pretty=oneline 2>/dev/null || echo ''"
+            returncode, stdout, stderr = self.run_command(cmd, shell=True)
+            if returncode == 0 and stdout.strip():
+                commits = stdout.strip().split("\n")
+                results.append(CheckResult(
+                    "info", 
+                    f"{len(commits)} unpushed commits in dotfiles",
+                    details=commits[:3] + (["..."] if len(commits) > 3 else []),
+                    fix_command="cd ~/dotfiles && git push"
+                ))
+        
+        # Check if homeshick is used and symlinks are up to date
+        if self.command_exists("homeshick"):
+            cmd = f"homeshick check dotfiles"
+            returncode, stdout, stderr = self.run_command(cmd, shell=True)
+            if returncode == 0:
+                if "All symlinks are in place" in stdout:
+                    results.append(CheckResult("ok", "All homeshick symlinks are up to date"))
+                else:
+                    results.append(CheckResult(
+                        "warning", 
+                        "Some homeshick symlinks may be missing",
+                        [stdout.strip()],
+                        fix_available=True,
+                        fix_command="homeshick link dotfiles",
+                        fix_func=self.update_symlinks if self.full_check else None
+                    ))
+        
+        return results
+    
+    def update_symlinks(self) -> CheckResult:
+        """Update homeshick symlinks"""
+        cmd = "homeshick link dotfiles"
+        returncode, stdout, stderr = self.run_command(cmd, shell=True)
+        if returncode == 0:
+            return CheckResult("ok", "Homeshick symlinks updated")
+        return CheckResult("error", "Failed to update homeshick symlinks", [stderr.strip()])
+
+
+class DigitalHousekeeping:
+    """Main housekeeping tool class"""
+    
+    def __init__(self, full_check=False, interactive=False, modules=None):
+        self.full_check = full_check
+        self.interactive = interactive
+        self.modules = modules or [
+            BrewModule(full_check),
+            NixModule(full_check),
+            SyncthingModule(full_check),
+            DiskSpaceModule(full_check),
+            PasswordStoreModule(full_check),
+            DotfilesModule(full_check)
+        ]
+        self.results = []
+        self.issues_count = 0
+        self.fixes_applied = 0
+    
+    def run_checks(self):
+        """Run all module checks"""
+        for module in self.modules:
+            self.results.append((module.name, module.check()))
+    
+    def apply_fixes(self):
+        """Apply fixes for issues that have fix functions"""
+        for module_name, checks in self.results:
+            for check in checks:
+                if check.status in ["warning", "error"] and check.fix_available and check.fix_func:
+                    # If in interactive mode, ask for confirmation
+                    if self.interactive:
+                        print(f"{Colors.BLUE}→{Colors.RESET} Fix available: {check.message} ({check.fix_command})")
+                        response = input("  Apply this fix? [y/N] ")
+                        if response.lower() != 'y':
+                            print("  Skipping fix...")
+                            continue
+                    
+                    print(f"{Colors.BLUE}→{Colors.RESET} Applying fix: {check.message}")
+                    result = check.fix_func()
+                    if result.status == "ok":
+                        print(f"{Colors.GREEN}{Colors.CHECK}{Colors.RESET} {result.message}")
+                        self.fixes_applied += 1
+                    else:
+                        print(f"{Colors.RED}{Colors.CROSS}{Colors.RESET} {result.message}")
+                        if result.details:
+                            for detail in result.details:
+                                print(f"  {detail}")
+    
+    def print_results(self):
+        """Print check results to the console"""
+        total_issues = 0
+        
+        for module_name, checks in self.results:
+            print(f"\n{Colors.BOLD}{module_name}{Colors.RESET}")
+            print(f"{Colors.BLUE}{'-' * len(module_name)}{Colors.RESET}")
+            
+            for check in checks:
+                if check.status == "ok":
+                    print(f"{Colors.GREEN}{Colors.CHECK}{Colors.RESET} {check.message}")
+                elif check.status == "warning":
+                    print(f"{Colors.YELLOW}{Colors.WARNING}{Colors.RESET} {check.message}")
+                    total_issues += 1
+                elif check.status == "error":
+                    print(f"{Colors.RED}{Colors.CROSS}{Colors.RESET} {check.message}")
+                    total_issues += 1
+                elif check.status == "info":
+                    print(f"{Colors.BLUE}i{Colors.RESET} {check.message}")
+                
+                if check.details:
+                    for detail in check.details[:5]:
+                        print(f"  {detail}")
+                    
+                    if len(check.details) > 5 and "..." not in check.details:
+                        print(f"  ... and {len(check.details) - 5} more")
+                
+                if check.fix_available and not self.full_check:
+                    print(f"  {Colors.BLUE}→{Colors.RESET} Run '{check.fix_command}' to fix")
+            
+        self.issues_count = total_issues
+    
+    def print_summary(self):
+        """Print a summary of all checks"""
+        print(f"\n{Colors.BOLD}Summary{Colors.RESET}")
+        print(f"{Colors.BLUE}{'-' * 7}{Colors.RESET}")
+        
+        if self.issues_count == 0:
+            print(f"{Colors.GREEN}No issues found!{Colors.RESET} Your digital workspace is in good shape.")
+        else:
+            print(f"{Colors.YELLOW}Found {self.issues_count} potential issues{Colors.RESET}")
+            
+            if self.fixes_applied > 0:
+                print(f"{Colors.BLUE}Applied {self.fixes_applied} automatic fixes{Colors.RESET}")
+            
+            if not self.full_check:
+                print(f"\nRun with {Colors.BOLD}--fix{Colors.RESET} flag for automatic cleanup: digital-housekeeping --fix")
+
+
+def main():
+    """Main function"""
+    parser = argparse.ArgumentParser(description="Digital Workspace Housekeeping Tool")
+    parser.add_argument("--fix", action="store_true", help="Perform a comprehensive check and apply fixes")
+    parser.add_argument("-i", "--interactive", action="store_true", help="Run in interactive mode, prompting before applying fixes")
+    args = parser.parse_args()
+    
+    # Print header
+    print(f"{Colors.BOLD}Digital Workspace Housekeeping{Colors.RESET}")
+    print(f"{Colors.BLUE}{datetime.now().strftime('%Y-%m-%d %H:%M')}{Colors.RESET}")
+    print(f"Running in {'FIX' if args.fix else 'standard'} mode{' (interactive)' if args.interactive else ''}")
+    
+    # Run housekeeping
+    housekeeping = DigitalHousekeeping(full_check=args.fix, interactive=args.interactive)
+    housekeeping.run_checks()
+    housekeeping.print_results()
+    
+    if args.fix:
+        housekeeping.apply_fixes()
+    
+    housekeeping.print_summary()
+
+
+if __name__ == "__main__":
+    try:
+        main()
+    except KeyboardInterrupt:
+        print("\nOperation cancelled by user.")
+        sys.exit(1)
