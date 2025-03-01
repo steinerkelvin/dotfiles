@@ -72,7 +72,7 @@ in {
       pkgs.inetutils
       pkgs.nmap
       pkgs.dig
-      pkgs.stc-cli  # Syncthing CLI (`stc` command)
+      pkgs.stc-cli # Syncthing CLI (`stc` command)
 
       # Secrets
       pkgs.openssl
@@ -119,6 +119,7 @@ in {
 
       pkgs.python312
       pkgs.python312Packages.pip
+      pkgs.python312Packages.pipx
       pkgs.python312Packages.ipython
 
     ] ++ lib.optionals pkgs.stdenv.isLinux [
