@@ -121,6 +121,7 @@ in {
       pkgs.python312Packages.pip
       pkgs.python312Packages.pipx
       pkgs.python312Packages.ipython
+      pkgs.uv
 
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       # NixOS

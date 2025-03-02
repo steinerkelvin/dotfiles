@@ -1,57 +1,53 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
 """
 Assistant helper script for Claude Code.
 Provides utility commands for the AI assistant.
 """
 
+# /// script
+# requires-python = ">=3.8"
+# dependencies = [
+#   "typer>=0.9.0",
+#   "rich>=13.4.2",
+# ]
+# ///
 import sys
 import datetime
-import argparse
 import subprocess
+import typer
+from typing import Optional
+from rich.console import Console
 
+# Initialize Typer app and Rich console
+app = typer.Typer(help="Helper utilities for Claude assistant")
+console = Console()
+
+@app.command("date")
 def cmd_date():
     """Print current date in ISO format (down to minutes)"""
     now = datetime.datetime.now()
-    print(now.strftime("%Y-%m-%d %H:%M"))
+    console.print(now.strftime("%Y-%m-%d %H:%M"))
 
-def cmd_show_lines(args):
+@app.command("show-lines")
+def cmd_show_lines(
+    file_path: str = typer.Argument(..., help="Path to the file"),
+    start_line: int = typer.Argument(..., help="Starting line number"),
+    count: int = typer.Argument(..., help="Number of lines to show")
+):
     """Show a specific range of lines from a file, with line numbers"""
     try:
         # Execute the command: cat -n file | tail -n +start_line | head -n count
-        cmd = f"cat -n {args.file_path} | tail -n +{args.start_line} | head -n {args.count}"
+        cmd = f"cat -n {file_path} | tail -n +{start_line} | head -n {count}"
         result = subprocess.run(cmd, shell=True, capture_output=True, text=True)
         
         if result.returncode != 0:
-            print(f"Error: {result.stderr}", file=sys.stderr)
+            console.print(f"Error: {result.stderr}", style="bold red", file=sys.stderr)
             sys.exit(1)
             
-        print(result.stdout, end="")
+        console.print(result.stdout, end="")
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
-        sys.exit(1)
-
-def main():
-    parser = argparse.ArgumentParser(description="Helper utilities for Claude assistant")
-    subparsers = parser.add_subparsers(dest="command", help="Command to run")
-    
-    # Date command
-    date_parser = subparsers.add_parser("date", help="Print current date in ISO format")
-    
-    # Show lines command
-    show_lines_parser = subparsers.add_parser("show-lines", help="Show specific lines from a file with line numbers")
-    show_lines_parser.add_argument("file_path", help="Path to the file")
-    show_lines_parser.add_argument("start_line", type=int, help="Starting line number")
-    show_lines_parser.add_argument("count", type=int, help="Number of lines to show")
-    
-    args = parser.parse_args()
-    
-    if args.command == "date":
-        cmd_date()
-    elif args.command == "show-lines":
-        cmd_show_lines(args)
-    else:
-        parser.print_help()
+        console.print(f"Error: {e}", style="bold red", file=sys.stderr)
         sys.exit(1)
 
 if __name__ == "__main__":
-    main()
+    app()

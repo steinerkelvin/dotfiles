@@ -100,6 +100,7 @@
               pkgs.shellcheck
               pkgs.home-manager
               pkgs.act
+              pkgs.ruff
             ];
           };
         }

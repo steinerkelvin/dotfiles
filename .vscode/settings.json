@@ -6,11 +6,13 @@
     "arion",
     "betterdisplay",
     "bitwarden",
+    "displaysleep",
     "HMAC",
     "hyprland",
     "iterm",
     "keybase",
     "logseq",
+    "pmset",
     "shellcheck",
     "superkey",
     "syncthing"

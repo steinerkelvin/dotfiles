@@ -1,31 +1,37 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
 """
 k-housekeep - Digital Workspace Housekeeping Tool
 
 A modular tool to check the health of your digital workspace and perform maintenance tasks.
 """
 
+# /// script
+# requires-python = ">=3.8"
+# dependencies = [
+#   "typer>=0.9.0",
+#   "rich>=13.4.2",
+# ]
+# ///
+
 import os
 import sys
 import json
-import argparse
 import subprocess
+import typer
 from dataclasses import dataclass
-from typing import List, Optional, Callable, Dict, Any
+from typing import List, Optional, Callable, Dict, Any, Tuple
 from datetime import datetime
+from rich.console import Console
+from rich.panel import Panel
+from rich.text import Text
+from rich.table import Table
 
 
-# Color formatting for terminal output
-class Colors:
-    RESET = "\033[0m"
-    BOLD = "\033[1m"
-    GREEN = "\033[32m"
-    YELLOW = "\033[33m"
-    RED = "\033[31m"
-    BLUE = "\033[34m"
-    CHECK = "✓"
-    CROSS = "✗"
-    WARNING = "!"
+# Initialize console
+console = Console()
+
+# Initialize CLI app
+app = typer.Typer(help="Digital Workspace Housekeeping Tool")
 
 
 @dataclass
@@ -37,6 +43,26 @@ class CheckResult:
     fix_available: bool = False
     fix_command: Optional[str] = None
     fix_func: Optional[Callable] = None
+    
+    def get_style(self) -> str:
+        """Get Rich style for the status"""
+        styles = {
+            "ok": "green",
+            "warning": "yellow",
+            "error": "red bold",
+            "info": "blue"
+        }
+        return styles.get(self.status, "")
+        
+    def get_symbol(self) -> str:
+        """Get symbol for the status"""
+        symbols = {
+            "ok": "✓",
+            "warning": "!",
+            "error": "✗",
+            "info": "ℹ"
+        }
+        return symbols.get(self.status, "")
 
 
 class ModuleBase:
@@ -50,7 +76,7 @@ class ModuleBase:
         """Run all checks for this module"""
         raise NotImplementedError("Subclasses must implement check()")
     
-    def run_command(self, cmd, shell=False) -> (int, str, str):
+    def run_command(self, cmd, shell=False) -> Tuple[int, str, str]:
         """Run a command and return exit code, stdout, stderr"""
         try:
             if shell:
@@ -568,90 +594,89 @@ class DigitalHousekeeping:
                 if check.status in ["warning", "error"] and check.fix_available and check.fix_func:
                     # If in interactive mode, ask for confirmation
                     if self.interactive:
-                        print(f"{Colors.BLUE}→{Colors.RESET} Fix available: {check.message} ({check.fix_command})")
+                        console.print(f"[blue]→[/blue] Fix available: {check.message} ({check.fix_command})")
                         response = input("  Apply this fix? [y/N] ")
                         if response.lower() != 'y':
-                            print("  Skipping fix...")
+                            console.print("  [dim]Skipping fix...[/dim]")
                             continue
                     
-                    print(f"{Colors.BLUE}→{Colors.RESET} Applying fix: {check.message}")
+                    console.print(f"[blue]→[/blue] Applying fix: {check.message}")
                     result = check.fix_func()
                     if result.status == "ok":
-                        print(f"{Colors.GREEN}{Colors.CHECK}{Colors.RESET} {result.message}")
+                        console.print(f"[green]{result.get_symbol()}[/green] {result.message}")
                         self.fixes_applied += 1
                     else:
-                        print(f"{Colors.RED}{Colors.CROSS}{Colors.RESET} {result.message}")
+                        console.print(f"[red]{result.get_symbol()}[/red] {result.message}")
                         if result.details:
                             for detail in result.details:
-                                print(f"  {detail}")
+                                console.print(f"  {detail}")
     
     def print_results(self):
         """Print check results to the console"""
         total_issues = 0
         
         for module_name, checks in self.results:
-            print(f"\n{Colors.BOLD}{module_name}{Colors.RESET}")
-            print(f"{Colors.BLUE}{'-' * len(module_name)}{Colors.RESET}")
+            console.print()
+            console.print(f"[bold]{module_name}[/bold]")
+            console.print(f"[blue]{'-' * len(module_name)}[/blue]")
             
             for check in checks:
-                if check.status == "ok":
-                    print(f"{Colors.GREEN}{Colors.CHECK}{Colors.RESET} {check.message}")
-                elif check.status == "warning":
-                    print(f"{Colors.YELLOW}{Colors.WARNING}{Colors.RESET} {check.message}")
+                symbol = check.get_symbol()
+                style = check.get_style()
+                
+                console.print(f"[{style}]{symbol}[/{style}] {check.message}")
+                
+                if check.status in ["warning", "error"]:
                     total_issues += 1
-                elif check.status == "error":
-                    print(f"{Colors.RED}{Colors.CROSS}{Colors.RESET} {check.message}")
-                    total_issues += 1
-                elif check.status == "info":
-                    print(f"{Colors.BLUE}i{Colors.RESET} {check.message}")
                 
                 if check.details:
                     for detail in check.details[:5]:
-                        print(f"  {detail}")
+                        console.print(f"  {detail}")
                     
                     if len(check.details) > 5 and "..." not in check.details:
-                        print(f"  ... and {len(check.details) - 5} more")
+                        console.print(f"  [dim]... and {len(check.details) - 5} more[/dim]")
                 
                 if check.fix_available and not self.full_check:
-                    print(f"  {Colors.BLUE}→{Colors.RESET} Run '{check.fix_command}' to fix")
+                    console.print(f"  [blue]→[/blue] Run '[bold]{check.fix_command}[/bold]' to fix")
             
         self.issues_count = total_issues
     
     def print_summary(self):
         """Print a summary of all checks"""
-        print(f"\n{Colors.BOLD}Summary{Colors.RESET}")
-        print(f"{Colors.BLUE}{'-' * 7}{Colors.RESET}")
+        console.print()
+        console.print("[bold]Summary[/bold]")
+        console.print("[blue]-------[/blue]")
         
         if self.issues_count == 0:
-            print(f"{Colors.GREEN}No issues found!{Colors.RESET} Your digital workspace is in good shape.")
+            console.print("[green]No issues found![/green] Your digital workspace is in good shape.")
         else:
-            print(f"{Colors.YELLOW}Found {self.issues_count} potential issues{Colors.RESET}")
+            console.print(f"[yellow]Found {self.issues_count} potential issues[/yellow]")
             
             if self.fixes_applied > 0:
-                print(f"{Colors.BLUE}Applied {self.fixes_applied} automatic fixes{Colors.RESET}")
+                console.print(f"[blue]Applied {self.fixes_applied} automatic fixes[/blue]")
             
             if not self.full_check:
-                print(f"\nRun with {Colors.BOLD}--fix{Colors.RESET} flag for automatic cleanup: k-housekeep --fix")
+                console.print()
+                console.print(f"Run with [bold]--fix[/bold] flag for automatic cleanup: [bold]k-housekeep --fix[/bold]")
 
 
-def main():
-    """Main function"""
-    parser = argparse.ArgumentParser(description="Digital Workspace Housekeeping Tool")
-    parser.add_argument("--fix", action="store_true", help="Perform a comprehensive check and apply fixes")
-    parser.add_argument("-i", "--interactive", action="store_true", help="Run in interactive mode, prompting before applying fixes")
-    args = parser.parse_args()
-    
+@app.command()
+def main(
+    fix: bool = typer.Option(False, "--fix", help="Perform a comprehensive check and apply fixes"),
+    interactive: bool = typer.Option(False, "-i", "--interactive", help="Run in interactive mode, prompting before applying fixes"),
+):
+    """Run digital workspace housekeeping checks and fixes."""
     # Print header
-    print(f"{Colors.BOLD}Digital Workspace Housekeeping{Colors.RESET}")
-    print(f"{Colors.BLUE}{datetime.now().strftime('%Y-%m-%d %H:%M')}{Colors.RESET}")
-    print(f"Running in {'FIX' if args.fix else 'standard'} mode{' (interactive)' if args.interactive else ''}")
+    console.print("[bold]Digital Workspace Housekeeping[/bold]")
+    console.print(f"[blue]{datetime.now().strftime('%Y-%m-%d %H:%M')}[/blue]")
+    console.print(f"Running in {'FIX' if fix else 'standard'} mode{' (interactive)' if interactive else ''}")
     
     # Run housekeeping
-    housekeeping = DigitalHousekeeping(full_check=args.fix, interactive=args.interactive)
+    housekeeping = DigitalHousekeeping(full_check=fix, interactive=interactive)
     housekeeping.run_checks()
     housekeeping.print_results()
     
-    if args.fix:
+    if fix:
         housekeeping.apply_fixes()
     
     housekeeping.print_summary()
@@ -659,7 +684,7 @@ def main():
 
 if __name__ == "__main__":
     try:
-        main()
+        app()
     except KeyboardInterrupt:
-        print("\nOperation cancelled by user.")
+        console.print("\n[yellow]Operation cancelled by user.[/yellow]")
         sys.exit(1)
