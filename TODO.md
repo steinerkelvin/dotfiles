@@ -64,7 +64,7 @@
 
 ### Atuin History Management
 
-- Implement suggested improvements from scripts/ATUIN.md:
+- Improve k-atuin-clean functionality:
   - Enhance similarity detection for better typo identification
   - Implement command context tracking
   - Add temporal analysis to identify obsolete commands

@@ -1,0 +1,87 @@
+#!/usr/bin/env bash
+#
+# k-term - Launch an interactive terminal and capture its output
+#
+# This script launches a terminal with either a specified command or an 
+# interactive shell. It captures both stdout and stderr output and replays
+# them in the original terminal after the session is closed.
+#
+# Usage:
+#   k-term                     # Launch interactive shell
+#   k-term <command> [args]    # Launch specific command with arguments
+#
+# Examples:
+#   k-term                     # Just launch interactive shell
+#   k-term htop                # Run htop in a new window
+#   k-term vim file.txt        # Edit a file in vim
+#   k-term ssh user@host       # SSH to a remote host
+#   k-term python -i script.py # Run python in interactive mode
+#
+# Terminal support:
+#   Currently supports: kitty
+#   Override with TERMINAL env var
+
+set -e
+
+# Create temporary files for output
+OUTPUT_FILE=$(mktemp)
+ERROR_FILE=$(mktemp)
+
+# Define cleanup function
+cleanup() {
+    rm -f "$OUTPUT_FILE" "$ERROR_FILE"
+}
+
+# Set trap to ensure cleanup happens
+trap cleanup EXIT
+
+# Select terminal emulator in order of preference
+if [ -n "$TERMINAL" ]; then
+    TERM_CMD="$TERMINAL"
+elif command -v kitty >/dev/null 2>&1; then
+    TERM_CMD="kitty"
+else
+    echo "Error: No supported terminal found. Please install kitty or set TERMINAL." >&2
+    exit 1
+fi
+
+# If command is specified, use it; otherwise, use interactive shell
+if [ $# -eq 0 ]; then
+    # No command specified, use default shell
+    CMD="${SHELL:-zsh} -i"
+else
+    # Use the provided command and arguments
+    CMD="$*"
+fi
+
+# Create the command string
+EXEC_CMD="{ echo '=== k-term: starting \"$CMD\" ==='; $CMD; CODE=\$?; echo '=== k-term: finished with exit code '\$CODE' ==='; } > >(tee \"$OUTPUT_FILE\") 2> >(tee \"$ERROR_FILE\" >&2)"
+
+# Launch terminal based on what's available
+case "$TERM_CMD" in
+    kitty)
+        kitty -- bash -c "$EXEC_CMD"
+        ;;
+    # Add support for other terminals here
+    *)
+        echo "Error: Terminal '$TERM_CMD' is currently not supported." >&2
+        exit 1
+        ;;
+esac
+
+# Output separator
+echo -e "\n--- Output from terminal session ---" >&2
+
+# Display captured output (stdout)
+if [ -s "$OUTPUT_FILE" ]; then
+    cat "$OUTPUT_FILE"
+fi
+
+# Display captured errors (stderr)
+if [ -s "$ERROR_FILE" ]; then
+    echo -e "\n--- Error output from terminal session ---" >&2
+    cat "$ERROR_FILE"
+fi
+
+# Exit with success
+exit 0
