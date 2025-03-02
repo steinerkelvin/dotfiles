@@ -172,3 +172,17 @@ Two sets of clipboard utilities are available:
 - Use `set -e` for error handling
 - Document purpose with header comments
 - Add shellcheck directives when needed
+
+### Python Scripts
+
+- Keep documentation close to code (in docstrings) rather than separate files
+- Use PEP 723 with uv run for dependencies:
+  ```python
+  #!/usr/bin/env -S uv run --script
+  # /// script
+  # requires-python = ">=3.8"
+  # dependencies = ["typer>=0.9.0", "rich>=13.4.2"]
+  # ///
+  ```
+- Place executables in `home/bin/` with `k-` prefix
+- Prefer typer+rich for CLI interfaces

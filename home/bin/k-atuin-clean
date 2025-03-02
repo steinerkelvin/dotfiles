@@ -121,8 +121,10 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from rich.text import Text
+from contextlib import nullcontext
 
 app = typer.Typer(help="Atuin History Cleaner")
+# Regular console, but we'll avoid using the status context manager
 console = Console()
 
 
@@ -134,36 +136,37 @@ class AtuinHistoryCleaner:
     def load_history(self) -> None:
         """Load history from atuin"""
         try:
-            with console.status("Loading history from atuin..."):
-                # Use tab-separated format for reliable parsing
-                result = subprocess.run(
-                    ["atuin", "history", "list", "--format", "{exit}\t{command}\t{time}"],
-                    capture_output=True,
-                    text=True,
-                    check=True,
-                )
+            # Print status message instead of using console.status
+            console.print("Loading history from atuin...")
+            # Use tab-separated format for reliable parsing
+            result = subprocess.run(
+                ["atuin", "history", "list", "--format", "{exit}\t{command}\t{time}"],
+                capture_output=True,
+                text=True,
+                check=True,
+            )
+            
+            # Parse history entries
+            self.history = []
+            for line in result.stdout.strip().split("\n"):
+                if not line.strip():
+                    continue
                 
-                # Parse history entries
-                self.history = []
-                for line in result.stdout.strip().split("\n"):
-                    if not line.strip():
-                        continue
+                parts = line.split("\t", 2)
+                if len(parts) < 3:
+                    continue
                     
-                    parts = line.split("\t", 2)
-                    if len(parts) < 3:
-                        continue
-                        
-                    exit_code_str, command, timestamp = parts
-                    try:
-                        exit_code = int(exit_code_str)
-                    except ValueError:
-                        exit_code = -1
-                        
-                    self.history.append({
-                        "exit_code": exit_code,
-                        "command": command,
-                        "timestamp": timestamp
-                    })
+                exit_code_str, command, timestamp = parts
+                try:
+                    exit_code = int(exit_code_str)
+                except ValueError:
+                    exit_code = -1
+                    
+                self.history.append({
+                    "exit_code": exit_code,
+                    "command": command,
+                    "timestamp": timestamp
+                })
                 
             console.print(f"[green]Loaded {len(self.history)} history entries[/green]")
             
@@ -173,77 +176,77 @@ class AtuinHistoryCleaner:
 
     def analyze_history(self) -> Dict:
         """Analyze history and return statistics"""
-        with console.status("Analyzing history..."):
-            stats = {
-                "total_commands": len(self.history),
-                "exit_code_distribution": Counter(),
-                "command_frequencies": Counter(),
-                "command_success_rates": {},
-                "potential_typos": [],
-                "invalid_paths": [],
-                "interrupted_commands": [],
-                "not_found_commands": [],
-            }
+        console.print("Analyzing history...")
+        stats = {
+            "total_commands": len(self.history),
+            "exit_code_distribution": Counter(),
+            "command_frequencies": Counter(),
+            "command_success_rates": {},
+            "potential_typos": [],
+            "invalid_paths": [],
+            "interrupted_commands": [],
+            "not_found_commands": [],
+        }
+        
+        # Command first words
+        command_words = defaultdict(list)
+        
+        # Process history
+        for entry in self.history:
+            exit_code = entry["exit_code"]
+            command = entry["command"]
             
-            # Command first words
-            command_words = defaultdict(list)
+            stats["exit_code_distribution"][exit_code] += 1
             
-            # Process history
-            for entry in self.history:
-                exit_code = entry["exit_code"]
-                command = entry["command"]
-                
-                stats["exit_code_distribution"][exit_code] += 1
-                
-                # Extract first word of command
-                first_word = command.split()[0] if " " in command else command
-                stats["command_frequencies"][first_word] += 1
-                
-                # Track success/failure by command
-                if first_word not in stats["command_success_rates"]:
-                    stats["command_success_rates"][first_word] = {"total": 0, "success": 0}
-                
-                stats["command_success_rates"][first_word]["total"] += 1
-                if exit_code == 0:
-                    stats["command_success_rates"][first_word]["success"] += 1
-                    
-                # Group commands by first word
-                command_words[first_word].append({"exit_code": exit_code, "command": command})
-                
-                # Find "command not found" errors (exit code 127)
-                if exit_code == 127:
-                    stats["not_found_commands"].append(command)
-                    
-                # Find interrupted commands (exit code 130)
-                if exit_code == 130:
-                    stats["interrupted_commands"].append(command)
-                    
-                # Detect invalid path operations
-                if (re.search(r"(mkdir|touch|cd|ls|cat)\s+[^\s/]+/", command) and 
-                    exit_code != 0 and not command.startswith("cd /")):
-                    stats["invalid_paths"].append(command)
+            # Extract first word of command
+            first_word = command.split()[0] if " " in command else command
+            stats["command_frequencies"][first_word] += 1
             
-            # Calculate success rates
-            for cmd, data in stats["command_success_rates"].items():
-                if data["total"] >= 5:  # Only for commands used at least 5 times
-                    data["rate"] = data["success"] / data["total"] * 100
+            # Track success/failure by command
+            if first_word not in stats["command_success_rates"]:
+                stats["command_success_rates"][first_word] = {"total": 0, "success": 0}
             
-            # Find potential typos
-            unique_commands = set(entry["command"] for entry in self.history)
-            for cmd1 in unique_commands:
-                first_word1 = cmd1.split()[0] if " " in cmd1 else cmd1
-                for cmd2 in unique_commands:
-                    if cmd1 == cmd2:
-                        continue
-                    first_word2 = cmd2.split()[0] if " " in cmd2 else cmd2
-                    
-                    # Check if first words are similar but not identical
-                    if (first_word1 != first_word2 and 
-                        len(first_word1) > 2 and len(first_word2) > 2 and
-                        SequenceMatcher(None, first_word1, first_word2).ratio() > 0.7):
-                        stats["potential_typos"].append((first_word1, first_word2))
+            stats["command_success_rates"][first_word]["total"] += 1
+            if exit_code == 0:
+                stats["command_success_rates"][first_word]["success"] += 1
+                
+            # Group commands by first word
+            command_words[first_word].append({"exit_code": exit_code, "command": command})
             
-            return stats
+            # Find "command not found" errors (exit code 127)
+            if exit_code == 127:
+                stats["not_found_commands"].append(command)
+                
+            # Find interrupted commands (exit code 130)
+            if exit_code == 130:
+                stats["interrupted_commands"].append(command)
+                
+            # Detect invalid path operations
+            if (re.search(r"(mkdir|touch|cd|ls|cat)\s+[^\s/]+/", command) and 
+                exit_code != 0 and not command.startswith("cd /")):
+                stats["invalid_paths"].append(command)
+        
+        # Calculate success rates
+        for cmd, data in stats["command_success_rates"].items():
+            if data["total"] >= 5:  # Only for commands used at least 5 times
+                data["rate"] = data["success"] / data["total"] * 100
+        
+        # Find potential typos
+        unique_commands = set(entry["command"] for entry in self.history)
+        for cmd1 in unique_commands:
+            first_word1 = cmd1.split()[0] if " " in cmd1 else cmd1
+            for cmd2 in unique_commands:
+                if cmd1 == cmd2:
+                    continue
+                first_word2 = cmd2.split()[0] if " " in cmd2 else cmd2
+                
+                # Check if first words are similar but not identical
+                if (first_word1 != first_word2 and 
+                    len(first_word1) > 2 and len(first_word2) > 2 and
+                    SequenceMatcher(None, first_word1, first_word2).ratio() > 0.7):
+                    stats["potential_typos"].append((first_word1, first_word2))
+        
+        return stats
 
     def print_analysis(self, stats: Dict) -> None:
         """Print analysis results in a readable format"""
@@ -360,34 +363,34 @@ class AtuinHistoryCleaner:
 
     def get_candidates_for_deletion(self) -> Dict[str, List[str]]:
         """Get candidates for deletion based on different categories"""
-        with console.status("Finding candidates for deletion..."):
-            stats = self.analyze_history()
-            
-            candidates = {
-                "not_found": stats["not_found_commands"],
-                "interrupted": [],  # We don't delete all interrupted commands by default
-                "invalid_paths": stats["invalid_paths"],
-                "typos": [],  # Need further processing
-            }
-            
-            # Process potential typos
-            seen_pairs = set()
-            for cmd1, cmd2 in stats["potential_typos"]:
-                pair = tuple(sorted([cmd1, cmd2]))
-                if pair not in seen_pairs:
-                    seen_pairs.add(pair)
-                    
-                    # Check which one has a higher failure rate
-                    rate1 = stats["command_success_rates"].get(cmd1, {}).get("rate", 100)
-                    rate2 = stats["command_success_rates"].get(cmd2, {}).get("rate", 100)
-                    
-                    # If one is significantly worse than the other, mark it as a typo
-                    if rate1 < 50 and rate2 > 70:
-                        candidates["typos"].append(cmd1)
-                    elif rate2 < 50 and rate1 > 70:
-                        candidates["typos"].append(cmd2)
-            
-            return candidates
+        console.print("Finding candidates for deletion...")
+        stats = self.analyze_history()
+        
+        candidates = {
+            "not_found": stats["not_found_commands"],
+            "interrupted": [],  # We don't delete all interrupted commands by default
+            "invalid_paths": stats["invalid_paths"],
+            "typos": [],  # Need further processing
+        }
+        
+        # Process potential typos
+        seen_pairs = set()
+        for cmd1, cmd2 in stats["potential_typos"]:
+            pair = tuple(sorted([cmd1, cmd2]))
+            if pair not in seen_pairs:
+                seen_pairs.add(pair)
+                
+                # Check which one has a higher failure rate
+                rate1 = stats["command_success_rates"].get(cmd1, {}).get("rate", 100)
+                rate2 = stats["command_success_rates"].get(cmd2, {}).get("rate", 100)
+                
+                # If one is significantly worse than the other, mark it as a typo
+                if rate1 < 50 and rate2 > 70:
+                    candidates["typos"].append(cmd1)
+                elif rate2 < 50 and rate1 > 70:
+                    candidates["typos"].append(cmd2)
+        
+        return candidates
 
     def run_interactive_cleaning(self) -> None:
         """Run interactive cleaning session"""
@@ -488,24 +491,24 @@ class AtuinHistoryCleaner:
 
     def delete_commands(self, commands: List[str], dry_run: bool = False) -> None:
         """Delete commands from atuin history"""
-        with console.status("Deleting commands..."):
-            for cmd in commands:
-                status = "[yellow]Would delete[/yellow]" if dry_run else "[red]Deleting[/red]"
-                console.print(f"{status}: {cmd}")
-                if not dry_run:
-                    try:
-                        result = subprocess.run(
-                            ["atuin", "search", cmd, "--delete"],
-                            capture_output=True,
-                            text=True
-                        )
-                        if result.returncode != 0:
-                            console.print(f"[bold red]Error deleting '{cmd}': {result.stderr}[/bold red]")
-                    except Exception as e:
-                        console.print(f"[bold red]Exception when deleting '{cmd}': {e}[/bold red]")
-            
-            status = "[yellow]Would have deleted[/yellow]" if dry_run else "[green]Deleted[/green]"
-            console.print(f"{status} {len(commands)} commands")
+        console.print("Deleting commands...")
+        for cmd in commands:
+            status = "[yellow]Would delete[/yellow]" if dry_run else "[red]Deleting[/red]"
+            console.print(f"{status}: {cmd}")
+            if not dry_run:
+                try:
+                    result = subprocess.run(
+                        ["atuin", "search", cmd, "--delete"],
+                        capture_output=True,
+                        text=True
+                    )
+                    if result.returncode != 0:
+                        console.print(f"[bold red]Error deleting '{cmd}': {result.stderr}[/bold red]")
+                except Exception as e:
+                    console.print(f"[bold red]Exception when deleting '{cmd}': {e}[/bold red]")
+        
+        status = "[yellow]Would have deleted[/yellow]" if dry_run else "[green]Deleted[/green]"
+        console.print(f"{status} {len(commands)} commands")
 
     def automatic_cleaning(self, dry_run: bool = False, confirm: bool = True) -> None:
         """Run automatic cleaning based on predefined rules"""

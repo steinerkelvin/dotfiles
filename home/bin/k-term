@@ -2,38 +2,69 @@
 #
 # k-term - Launch an interactive terminal and capture its output
 #
-# This script launches a terminal with either a specified command or an 
+# This script launches a terminal with either a specified command or an
 # interactive shell. It captures both stdout and stderr output and replays
 # them in the original terminal after the session is closed.
 #
 # Usage:
-#   k-term                     # Launch interactive shell
-#   k-term <command> [args]    # Launch specific command with arguments
+#   k-term [options] [command] [args]    # Launch specific command with arguments
+#   k-term [options]                     # Launch interactive shell
+#
+# Options:
+#   --transcript                         # Capture full terminal transcript
 #
 # Examples:
-#   k-term                     # Just launch interactive shell
-#   k-term htop                # Run htop in a new window
-#   k-term vim file.txt        # Edit a file in vim
-#   k-term ssh user@host       # SSH to a remote host
-#   k-term python -i script.py # Run python in interactive mode
+#   k-term                               # Just launch interactive shell
+#   k-term htop                          # Run htop in a new window
+#   k-term vim file.txt                  # Edit a file in vim
+#   k-term ssh user@host                 # SSH to a remote host
+#   k-term --transcript ipython -i       # Run Python with full transcript capture
 #
 # Terminal support:
-#   Currently supports: kitty
-#   Override with TERMINAL env var
+#   Currently supports, in order of precedence:
+#   - kitty
+#
+# TODO: Enhance with named pipes for real-time output streaming
+#   - Use mkfifo to create named pipes for stdout/stderr
+#   - Stream output back to original process in real-time instead of waiting
+#   - Consider bidirectional communication options
+#
+# Override with $TERMINAL env var
 
 set -e
 
 # Create temporary files for output
 OUTPUT_FILE=$(mktemp)
 ERROR_FILE=$(mktemp)
+SCRIPT_FILE=""
 
 # Define cleanup function
 cleanup() {
     rm -f "$OUTPUT_FILE" "$ERROR_FILE"
+    if [ -n "$SCRIPT_FILE" ]; then
+        rm -f "$SCRIPT_FILE"
+    fi
 }
 
 # Set trap to ensure cleanup happens
 trap cleanup EXIT
+
+# Parse command line arguments
+TRANSCRIPT_MODE=false
+CMD_ARGS=()
+
+while [[ $# -gt 0 ]]; do
+    case "$1" in
+    --transcript)
+        TRANSCRIPT_MODE=true
+        shift
+        ;;
+    *)
+        CMD_ARGS+=("$1")
+        shift
+        ;;
+    esac
+done
 
 # Select terminal emulator in order of preference
 if [ -n "$TERMINAL" ]; then
@@ -46,27 +77,34 @@ else
 fi
 
 # If command is specified, use it; otherwise, use interactive shell
-if [ $# -eq 0 ]; then
+if [ ${#CMD_ARGS[@]} -eq 0 ]; then
     # No command specified, use default shell
     CMD="${SHELL:-zsh} -i"
 else
     # Use the provided command and arguments
-    CMD="$*"
+    CMD="${CMD_ARGS[*]}"
 fi
 
-# Create the command string
-EXEC_CMD="{ echo '=== k-term: starting \"$CMD\" ==='; $CMD; CODE=\$?; echo '=== k-term: finished with exit code '\$CODE' ==='; } > >(tee \"$OUTPUT_FILE\") 2> >(tee \"$ERROR_FILE\" >&2)"
+# Create the command string based on transcript mode
+if [ "$TRANSCRIPT_MODE" = true ]; then
+    # Use script to capture the entire terminal session, including interactive input/output
+    SCRIPT_FILE=$(mktemp)
+    EXEC_CMD="{ echo '=== k-term: starting \"$CMD\" ==='; echo; script -q $SCRIPT_FILE $CMD || true; CODE=\$?; echo; echo '=== k-term: finished with exit code '\$CODE' ==='; cat $SCRIPT_FILE > \"$OUTPUT_FILE\"; } 2> >(tee \"$ERROR_FILE\" >&2)"
+else
+    # Standard mode: only capture stdout and stderr
+    EXEC_CMD="{ echo '=== k-term: starting \"$CMD\" ==='; echo; $CMD; CODE=\$?; echo; echo '=== k-term: finished with exit code '\$CODE' ==='; } > >(tee \"$OUTPUT_FILE\") 2> >(tee \"$ERROR_FILE\" >&2)"
+fi
 
 # Launch terminal based on what's available
 case "$TERM_CMD" in
-    kitty)
-        kitty -- bash -c "$EXEC_CMD"
-        ;;
-    # Add support for other terminals here
-    *)
-        echo "Error: Terminal '$TERM_CMD' is currently not supported." >&2
-        exit 1
-        ;;
+kitty)
+    kitty -- bash -c "$EXEC_CMD"
+    ;;
+# Add support for other terminals here
+*)
+    echo "Error: Terminal '$TERM_CMD' is currently not supported." >&2
+    exit 1
+    ;;
 esac
 
 # Output separator
