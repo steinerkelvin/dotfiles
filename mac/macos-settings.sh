@@ -1,4 +1,5 @@
 #!/bin/sh
+set -x # print commands
 
 # enable 'Use F1, F2, etc. keys as standard function keys' setting
 
@@ -45,3 +46,17 @@ defaults write -g NSWindowShouldDragOnGesture -bool true
 defaults write -g NSQuitAlwaysCloseWindows -bool true
 
 #
+
+# == Power Management ==
+
+# Set display turn off to 2 minutes on battery
+sudo pmset -b displaysleep 2
+
+# Set system sleep to 10 minutes on battery
+sudo pmset -b sleep 10
+
+# Set display turn off to 10 minutes on charger
+sudo pmset -c displaysleep 10
+
+# Set system sleep to never on charger
+sudo pmset -c sleep 0
