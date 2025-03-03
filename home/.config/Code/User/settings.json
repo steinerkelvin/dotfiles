@@ -97,11 +97,13 @@
     "incentivized",
     "Inconsolata",
     "Iosevka",
+    "IPFS",
     "jemalloc",
     "jsonrpsee",
     "justfile",
     "keccak",
     "keymap",
+    "killall",
     "kindelia",
     "Kindelia",
     "libclang",
@@ -110,6 +112,7 @@
     "lmao",
     "localnode",
     "mergeable",
+    "modelcontextprotocol",
     "monokai",
     "naersk",
     "Nakamoto",
@@ -126,7 +129,9 @@
     "pkgs",
     "polkadot",
     "protoc",
+    "pydantic",
     "pyright",
+    "pytest",
     "redex",
     "redexes",
     "renlabs",
@@ -244,6 +249,16 @@
       ]
     }
   ],
+  // lang: Nix
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "nix.serverSettings": {
+    "nil": {
+      "formatting": {
+        "command": ["nixpkgs-fmt"]
+      }
+    }
+  },
   // lang: JSON
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -279,14 +294,14 @@
     "editor.defaultFormatter": "rust-lang.rust-analyzer"
   },
   "//": null,
-  "github.copilot.enable": {
-    "*": false,
-    "plaintext": false,
-    "markdown": false,
-    "scminput": false
-  },
+  "github.copilot.enable": false,
   "supermaven.enable": {
     "*": true
+  },
+  "markdownlint.config": {
+    "no-duplicate-heading": {
+      "siblings_only": true
+    }
   },
   "tsImportSorter.configuration.autoFormat": "off"
 }
