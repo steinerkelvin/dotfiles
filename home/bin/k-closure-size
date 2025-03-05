@@ -1,0 +1,161 @@
+#!/usr/bin/env -S uv run --script
+"""
+k-closure-size: A utility to generate Nix closure size reports
+"""
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = [
+#   "typer>=0.9.0",
+#   "rich>=13.4.2",
+# ]
+# ///
+
+import typer
+import subprocess
+import json
+from pathlib import Path
+from typing import List, Dict, Any, Optional, Tuple
+from rich.console import Console
+from rich.table import Table
+from rich.text import Text
+import math
+
+app = typer.Typer(help="A utility to generate Nix closure size reports")
+console = Console()
+
+def bytes_to_human_readable(size_bytes: int) -> str:
+    """Convert bytes to human-readable format"""
+    if size_bytes == 0:
+        return "0 B"
+    size_name = ("B", "KB", "MB", "GB", "TB")
+    i = int(math.floor(math.log(size_bytes, 1024)))
+    p = math.pow(1024, i)
+    s = round(size_bytes / p, 2)
+    return f"{s} {size_name[i]}"
+
+def run_command(cmd: List[str]) -> Tuple[bool, str]:
+    """Run a command and return its output"""
+    try:
+        result = subprocess.run(cmd, capture_output=True, text=True, check=True)
+        return True, result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        return False, e.stderr.strip()
+
+def get_store_path(package: str) -> Tuple[bool, str]:
+    """Get the Nix store path for a package"""
+    cmd = ["nix-build", "<nixpkgs>", "-A", package, "--no-out-link"]
+    return run_command(cmd)
+
+def get_closure_size(store_path: str) -> int:
+    """Calculate the total closure size of a package"""
+    success, output = run_command(["nix", "path-info", "-S", "-r", store_path])
+    if not success:
+        return 0
+    
+    total = 0
+    for line in output.splitlines():
+        parts = line.split()
+        if len(parts) >= 2:
+            try:
+                total += int(parts[1])
+            except ValueError:
+                pass
+    return total
+
+def count_dependencies(store_path: str) -> int:
+    """Count the number of dependencies"""
+    success, output = run_command(["nix", "path-info", "-r", store_path])
+    if not success:
+        return 0
+    return len(output.splitlines())
+
+def get_top_dependencies(store_path: str, count: int, desc: bool = True) -> List[Dict[str, Any]]:
+    """Get the top N dependencies by size"""
+    success, output = run_command(["nix", "path-info", "-S", "-r", store_path])
+    if not success:
+        return []
+    
+    deps = []
+    for line in output.splitlines():
+        parts = line.split()
+        if len(parts) >= 2:
+            path = parts[0]
+            try:
+                size = int(parts[1])
+                deps.append({
+                    "path": path,
+                    "name": Path(path).name,
+                    "size": size,
+                    "human_size": bytes_to_human_readable(size)
+                })
+            except ValueError:
+                pass
+    
+    # Sort by size
+    deps.sort(key=lambda x: x["size"], reverse=desc)
+    return deps[:count]
+
+@app.command()
+def main(
+    packages: List[str] = typer.Argument(..., help="Packages to analyze"),
+    top: int = typer.Option(10, "--top", "-t", help="Show top N largest dependencies"),
+    sort_desc: bool = typer.Option(True, "--desc/--asc", "-d/-a", help="Sort order (descending/ascending)"),
+    raw: bool = typer.Option(False, "--raw", "-r", help="Display raw numbers instead of human-readable sizes"),
+    json_output: bool = typer.Option(False, "--json", "-j", help="Output in JSON format"),
+):
+    """Generate Nix closure size reports for packages"""
+    
+    if not packages:
+        console.print("[bold red]Error:[/] No packages specified")
+        raise typer.Exit(1)
+    
+    results = []
+    
+    for package in packages:
+        success, store_path = get_store_path(package)
+        if not success:
+            console.print(f"[bold red]Error:[/] Package '{package}' not found")
+            continue
+        
+        size = get_closure_size(store_path)
+        deps_count = count_dependencies(store_path)
+        top_deps = get_top_dependencies(store_path, top, sort_desc)
+        
+        result = {
+            "name": package,
+            "store_path": store_path,
+            "closure_size": size,
+            "human_size": bytes_to_human_readable(size),
+            "dependencies_count": deps_count,
+            "top_dependencies": top_deps
+        }
+        
+        results.append(result)
+    
+    if json_output:
+        print(json.dumps(results, indent=2))
+    else:
+        for result in results:
+            # Create a nice table with rich
+            console.print(f"\n[bold]Closure size report for[/] [bold green]{result['name']}[/]")
+            
+            size_text = str(result['closure_size']) if raw else result['human_size']
+            console.print(f"[bold]Total closure size:[/] [blue]{size_text}[/]")
+            console.print(f"[bold]Dependencies count:[/] [blue]{result['dependencies_count']}[/]")
+            
+            console.print(f"\n[bold]Top {top} dependencies by size:[/]")
+            
+            table = Table(show_header=True)
+            table.add_column("Name", style="yellow")
+            table.add_column("Size", justify="right", style="cyan")
+            
+            for dep in result['top_dependencies']:
+                size_value = str(dep['size']) if raw else dep['human_size']
+                table.add_row(dep['name'], size_value)
+            
+            console.print(table)
+            console.print("-" * 50)
+
+if __name__ == "__main__":
+    app()
