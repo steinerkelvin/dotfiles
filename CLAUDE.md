@@ -1,5 +1,18 @@
 # DOTFILES REPOSITORY GUIDE
 
+## Essential Directives
+
+- When you see "RMB" in a message, the information is meant to be persisted to this CLAUDE.md file or equivalent persistent method/file specific for that kind of information
+- "RMB" is a clear signal that the associated information must be remembered
+- Always check for NEXT.md at the beginning of sessions and delete after reading
+- Critical abbreviations: RMB (Remember), MK (Missclick), DUMP (Create transcript summary)
+- Proactively search for context-specific CLAUDE.md files in the current directory and subdirectories
+- CRITICAL: NEVER reference private files in public-facing content like PR descriptions or commit messages
+
+## File Relationships
+- This file contains dotfiles-specific information and guidelines
+- See ~/CLAUDE.md for system-wide instructions and guidelines
+
 ## Repository Structure Index
 
 See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
