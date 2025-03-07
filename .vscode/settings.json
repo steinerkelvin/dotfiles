@@ -14,6 +14,7 @@
     "logseq",
     "pmset",
     "shellcheck",
+    "spctl",
     "superkey",
     "syncthing"
   ]

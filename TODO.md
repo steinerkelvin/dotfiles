@@ -7,6 +7,10 @@
   - Commit the change to git
   - Create symlink back to original location using homeshick
 
+## MacOS
+
+- Swap Ctrl <-> Fn on built-in keyboard
+
 ## Considering
 
 ### Theming on Linux
@@ -43,13 +47,6 @@
   - Inserts tab when appropriate (after space)
   - Opens completion menu otherwise
 
-#### Useful Scripts
-
-- ✓ `url-decode` and `url-encode` - URL encoding utilities (already in ~/bin)
-- ✓ `join-args` - joins command arguments (already in ~/bin)
-- ✓ `ln2null` - converts newlines to null characters (already in ~/bin)
-- ✓ `docker-cp-from/to-volume` - docker volume utilities (already available in ~/bin/docker-utils/)
-
 ### Future Considerations
 
 #### Linting and Code Quality
@@ -59,7 +56,7 @@
 #### Keyboard Configuration (On Hold)
 
 - Review keyd.nix~ and old/keyd/default.conf
-- Integrate keyboard remapping solution across Linux configurations 
+- Integrate keyboard remapping solution across Linux configurations
 - Decide whether to implement as a NixOS module or use existing solutions
 
 ### Atuin History Management
