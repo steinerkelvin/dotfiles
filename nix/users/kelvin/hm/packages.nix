@@ -79,7 +79,7 @@ in {
       pkgs.gnupg
       pkgs.pass
       pkgs.age
-      inputs.agenix.packages.${pkgs.system}.agenix
+      # inputs.agenix.packages.${pkgs.system}.agenix
       # bitwarden-cli
       pkgs.git-crypt
       pkgs.libsecret

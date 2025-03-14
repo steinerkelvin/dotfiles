@@ -4,50 +4,36 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
 
-    home-manager = {
-      url = "github:nix-community/home-manager/release-24.11";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    home-manager.url = "github:nix-community/home-manager/release-24.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
-    };
+    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # deploy-rs = {
-    #   url = "github:serokell/deploy-rs";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    # agenix.url = "github:ryantm/agenix";
+    # agenix.inputs.nixpkgs.follows = "nixpkgs";
+    # agenix.inputs.home-manager.follows = "home-manager";
 
-    # arion = {
-    #   url = "github:hercules-ci/arion";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    # arion.url = "github:hercules-ci/arion";
+    # arion.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixos-wsl.url = "github:nix-community/NixOS-WSL";
+    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-    vscode-server = {
-      url = "github:nix-community/nixos-vscode-server";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    vscode-server.url = "github:nix-community/nixos-vscode-server";
+    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
-    k-ddns = {
-      url = "github:steinerkelvin/k-ddns";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    k-ddns.url = "github:steinerkelvin/k-ddns";
+    k-ddns.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nixpkgs, ... }:
+  outputs = inputs@{ self, nixpkgs, nix-darwin, ... }:
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" "aarch64-darwin" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
 
       inputNixosModules = [
-        inputs.agenix.nixosModules.default
+        # inputs.agenix.nixosModules.default
         inputs.home-manager.nixosModules.home-manager
         # inputs.arion.nixosModules.arion
         inputs.k-ddns.nixosModules.k-ddns
@@ -113,7 +99,13 @@
         ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
       };
 
-      homeConfigurations = rec {
+      darwinConfigurations = {
+        satsuki = nix-darwin.lib.darwinSystem {
+          specialArgs = { inherit inputs; };
+        };
+      };
+
+      homeConfigurations = {
         "kelvin" =
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
@@ -130,20 +122,9 @@
             extraSpecialArgs = { inherit inputs; };
             modules = [ ./nix/users/kelvin/hm/mac.nix ];
           };
-        "kelvin@megumin.local" = mac;
       };
 
-      # deploy.nodes.kazuma = {
-      #   hostname = "kazuma.h.steinerkelvin.dev";
-      #   user = "root";
-      #   fastConnection = true;
-      #   profiles.system = {
-      #     path = deploy-rs.lib.x86_64-linux.activate.nixos self.nixosConfigurations.kazuma;
-      #   };
-      # };
-
       # TODO: home / profile configurarions
-
       checks = forAllPlatforms (system:
         let
           inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
