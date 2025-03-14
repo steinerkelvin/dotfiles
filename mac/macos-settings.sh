@@ -6,7 +6,7 @@ show_and_run() {
   "$@"
 }
 
-# enable "Use F1, F2, etc. keys as standard function keys" setting
+# Enable "Use F1, F2, etc. keys as standard function keys" setting
 
 # Why: This allows the function keys to be used as standard function keys
 # without needing to hold the 'Fn' key, which is useful for users who
@@ -24,7 +24,15 @@ show_and_run defaults write -g com.apple.keyboard.fnState -bool true
 
 show_and_run defaults write -g ApplePressAndHoldEnabled -bool false
 
-# enable 'Group windows by application' setting
+#
+
+# Disable Auto Save, Versions and Resume
+
+show_and_run defaults write -g ApplePersistence -bool no
+
+#
+
+# Enable 'Group windows by application' setting
 
 # Why: For some reason, mission control doesn’t like that AeroSpace puts a lot
 # of windows in the bottom right corner of the screen. Mission control shows
@@ -34,7 +42,7 @@ show_and_run defaults write com.apple.dock expose-group-apps -bool true && killa
 
 #
 
-# disable 'Displays have separate Spaces'
+# Disable 'Displays have separate Spaces'
 
 # Why: People report all sorts of weird issues related to focus and performance
 # when this setting is enabled.
@@ -51,7 +59,7 @@ show_and_run defaults write com.apple.spaces spans-displays -bool true && killal
 
 #
 
-# enable 'Close windows when quitting an app' setting
+# Enable 'Close windows when quitting an app' setting
 
 # Why: Apps start fresh without restoring previous windows. This provides
 # cleaner startups, reduces initial memory usage, more predictable app behavior
@@ -88,11 +96,12 @@ show_names() {
   echo "Computer name: $(scutil --get ComputerName)"
 }
 
+echo
 show_names
 
 # If on interactive mode, ask for confirmation
 if [ -t 0 ]; then
-  read -r -p "Are the hot names correct? [y/n] " correct
+  read -r -p "Are the hot names correct? [y/N] " correct
   if [ "$correct" != "y" ]; then
     read -r -p "Enter new hostname: " new_hostname
     show_and_run scutil --set LocalHostName "$new_hostname"
@@ -108,7 +117,7 @@ else
   echo "sudo scutil --set ComputerName 'new-hostname'"
 fi
 
-#
+# == Security ==
 
 # Disable Gatekeeper, allowing to run applications from anywhere
 
@@ -116,7 +125,12 @@ fi
 # Disabling Gatekeeper allows to run these apps without needing to confirm.
 # Note: It my need to be confirmed in System Settings > Security & Privacy.
 
-show_and_run sudo spctl --master-disable
+echo
+if ! [[ "$(spctl --status)" = *"disabled"* ]]; then
+  show_and_run sudo spctl --master-disable
+else
+  echo "Gatekeeper is already disabled"
+fi
 
 #
 
@@ -125,8 +139,11 @@ show_and_run sudo spctl --master-disable
 # Apparently there's no simple way to do this through the CLI, so we'll just
 # instruct the user to do it manually.
 
+echo
 echo "To allow accessories to connect automatically, please go to:"
 echo "System Preferences > Security & Privacy > Allow accessories to connect"
 echo "Set it to 'Automatically When Unlocked'"
 
 #
+
+echo
