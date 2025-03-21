@@ -1,6 +1,7 @@
 #!/usr/bin/env bun
 
 import * as firecrawl from './tools/firecrawl';
+import * as context from './tools/context';
 
 // Main function
 async function main() {
@@ -17,6 +18,9 @@ async function main() {
     switch (command) {
       case 'firecrawl':
         await firecrawl.run(args.slice(1));
+        break;
+      case 'context':
+        await context.run(args.slice(1));
         break;
       // Other tools can be added here in the future
       default:
@@ -40,13 +44,15 @@ Usage:
 
 Commands:
   firecrawl   Web scraping and crawling utilities
+  context     Display CLAUDE.md files from home to current directory
 
 Options:
   --help, -h  Show this help message
 
 Examples:
   k-ai firecrawl scrape https://example.com
-  k-ai firecrawl --help
+  k-ai context
+  k-ai --help
   `);
 }
 
