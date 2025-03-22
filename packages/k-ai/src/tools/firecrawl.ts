@@ -1,169 +1,174 @@
-import FirecrawlApp from '@mendable/firecrawl-js';
+import FirecrawlApp from "@mendable/firecrawl-js";
+import { command, option, positional, subcommands } from "cmd-ts";
+import { z } from "zod";
+import { helpFlag, positiveIntType, urlType, zodType } from "../utils/cmd";
+import { hasProperty } from "../utils/errors";
 
-export async function run(args: string[]) {
-  if (args.length === 0 || args[0] === '--help' || args[0] === '-h') {
-    showHelp();
-    return;
-  }
+// Create format type here for Firecrawl-specific formats
+export const formatSchema = z.enum(["markdown", "html"], {
+  errorMap: () => ({ message: "Must be one of: markdown, html" }),
+});
+export const formatType = zodType(formatSchema);
 
+// Check for API key and get FirecrawlApp instance
+function getFirecrawlApp() {
   const apiKey = process.env.FIRECRAWL_API_KEY;
-  
+
   if (!apiKey) {
-    console.error("\n❌ Error: FIRECRAWL_API_KEY environment variable is not set");
+    console.error(
+      "\n❌ Error: FIRECRAWL_API_KEY environment variable is not set",
+    );
     console.error("\nTo get an API key:");
     console.error("1. Visit https://firecrawl.dev and sign up");
     console.error("2. Go to your dashboard and create an API key");
     console.error("\nTo set the API key for this session:");
     console.error("export FIRECRAWL_API_KEY='your-api-key'");
-    console.error("\nFor persistent configuration, add to your preferred environment setup");
+    console.error(
+      "\nFor persistent configuration, add to your preferred environment setup",
+    );
     process.exit(1);
   }
 
-  const app = new FirecrawlApp({ apiKey });
-  const command = args[0];
-
-  try {
-    switch (command) {
-      case 'scrape':
-        await handleScrape(app, args.slice(1));
-        break;
-      case 'crawl':
-        await handleCrawl(app, args.slice(1));
-        break;
-      case 'map':
-        await handleMap(app, args.slice(1));
-        break;
-      default:
-        console.error(`Error: Unknown subcommand '${command}'`);
-        showHelp();
-        process.exit(1);
-    }
-  } catch (error) {
-    console.error(`Error: ${error.message}`);
-    process.exit(1);
-  }
+  return new FirecrawlApp({ apiKey });
 }
 
-// Command handlers
-export async function handleScrape(app: any, args: string[]) {
-  if (args.length === 0) {
-    console.error("Error: URL is required for scrape command");
-    showHelp();
-    process.exit(1);
-  }
+// Scrape command - Extract content from a single URL
+const scrapeCmd = command({
+  name: "scrape",
+  description: "Extract content from a single URL",
+  args: {
+    help: helpFlag,
+    url: positional({
+      type: urlType,
+      displayName: "url",
+      description: "URL to scrape",
+    }),
+    format: option({
+      type: formatType,
+      long: "format",
+      description: "Output format (markdown, html etc.)",
+      defaultValue: () => formatSchema.enum.markdown,
+    }),
+  },
+  handler: async (args) => {
+    const app = getFirecrawlApp();
 
-  const url = args[0];
-  const format = getFormat(args);
-  const options = format ? { formats: [format] } : undefined;
+    console.log(`Scraping ${args.url}...`);
+    const options = { formats: [args.format] };
 
-  console.log(`Scraping ${url}...`);
-  const result = await app.scrapeUrl(url, options);
-  
-  if (result?.data) {
-    if (format && result.data[format]) {
-      console.log(result.data[format]);
-    } else {
-      console.log(JSON.stringify(result, null, 2));
-    }
-  } else {
-    console.log(result);
-  }
-}
+    const result = await app.scrapeUrl(args.url, options);
 
-export async function handleCrawl(app: any, args: string[]) {
-  if (args.length === 0) {
-    console.error("Error: URL is required for crawl command");
-    showHelp();
-    process.exit(1);
-  }
-
-  const url = args[0];
-  const limit = getLimit(args);
-  const format = getFormat(args);
-  
-  const options: any = {};
-  if (limit) options.limit = limit;
-  if (format) options.scrapeOptions = { formats: [format] };
-
-  console.log(`Crawling ${url} with limit ${limit || 'default'}...`);
-  const result = await app.crawlUrl(url, options);
-  
-  if (result?.results) {
-    console.log(`Crawled ${result.results.length} pages`);
-    
-    if (format) {
-      for (const page of result.results) {
-        console.log(`\n--- ${page.url} ---`);
-        if (page.data && page.data[format]) {
-          console.log(page.data[format]);
-        } else {
-          console.log('[No data in specified format]');
-        }
+    if (hasProperty(result, "data") && result.data) {
+      if (args.format && hasProperty(result.data, args.format)) {
+        console.log(result.data[args.format]);
+      } else {
+        console.log(JSON.stringify(result, null, 2));
       }
     } else {
-      console.log(JSON.stringify(result, null, 2));
+      console.log(result);
     }
-  } else {
-    console.log(result);
-  }
-}
+  },
+});
 
-export async function handleMap(app: any, args: string[]) {
-  if (args.length === 0) {
-    console.error("Error: URL is required for map command");
-    showHelp();
-    process.exit(1);
-  }
+// Crawl command - Crawl multiple pages from a starting URL
+const crawlCmd = command({
+  name: "crawl",
+  description: "Crawl multiple pages from a starting URL",
+  args: {
+    help: helpFlag,
+    url: positional({
+      type: urlType,
+      displayName: "url",
+      description: "Starting URL to crawl from",
+    }),
+    limit: option({
+      type: positiveIntType,
+      long: "limit",
+      description: "Maximum number of pages to crawl",
+      defaultValue: () => 8,
+    }),
+    format: option({
+      type: formatType,
+      long: "format",
+      description: "Output format (markdown, html, etc.)",
+      defaultValue: () => formatSchema.enum.markdown,
+    }),
+  },
+  handler: async (args) => {
+    const app = getFirecrawlApp();
 
-  const url = args[0];
-  
-  console.log(`Mapping ${url}...`);
-  const result = await app.mapUrl(url);
-  
-  if (result?.urls) {
-    console.log(`Found ${result.urls.length} URLs:`);
-    for (const mapUrl of result.urls) {
-      console.log(mapUrl);
+    const options: Record<string, unknown> = {};
+    if (args.limit) options.limit = args.limit;
+    if (args.format) options.scrapeOptions = { formats: [args.format] };
+
+    console.log(
+      `Crawling ${args.url} with limit ${args.limit || "default"}...`,
+    );
+    const result = await app.crawlUrl(args.url, options);
+
+    if (hasProperty(result, "results") && Array.isArray(result.results)) {
+      console.log(`Crawled ${result.results.length} pages`);
+
+      if (args.format) {
+        for (const page of result.results) {
+          if (hasProperty(page, "url")) {
+            console.log(`\n--- ${page.url} ---`);
+            if (
+              hasProperty(page, "data") &&
+              page.data &&
+              hasProperty(page.data, args.format)
+            ) {
+              console.log(page.data[args.format]);
+            } else {
+              console.log("[No data in specified format]");
+            }
+          }
+        }
+      } else {
+        console.log(JSON.stringify(result, null, 2));
+      }
+    } else {
+      console.log(result);
     }
-  } else {
-    console.log(result);
-  }
-}
+  },
+});
 
-// Helper functions
-export function showHelp() {
-  console.log(`
-Firecrawl - Web scraping and crawling utility
+// Map command - Generate a list of URLs from a website
+const mapCmd = command({
+  name: "map",
+  description: "Generate a list of URLs from a website",
+  args: {
+    help: helpFlag,
+    url: positional({
+      type: urlType,
+      displayName: "url",
+      description: "URL of the website to map",
+    }),
+  },
+  handler: async (args) => {
+    const app = getFirecrawlApp();
 
-Usage:
-  k-ai firecrawl <command> <url> [options]
+    console.log(`Mapping ${args.url}...`);
+    const result = await app.mapUrl(args.url);
 
-Commands:
-  scrape        Extract content from a single URL
-  crawl         Crawl multiple pages from a starting URL
-  map           Generate a list of URLs from a website
+    if (hasProperty(result, "urls") && Array.isArray(result.urls)) {
+      console.log(`Found ${result.urls.length} URLs:`);
+      for (const mapUrl of result.urls) {
+        console.log(mapUrl);
+      }
+    } else {
+      console.log(result);
+    }
+  },
+});
 
-Options:
-  --format=<format>   Output format (markdown, html, text)
-  --limit=<number>    Maximum number of pages to crawl (for crawl command)
-  --help, -h          Show this help message
-
-Examples:
-  k-ai firecrawl scrape https://example.com --format=markdown
-  k-ai firecrawl crawl https://example.com --limit=10 --format=text
-  k-ai firecrawl map https://example.com
-
-Environment:
-  FIRECRAWL_API_KEY   API key from https://firecrawl.dev (required)
-  `);
-}
-
-export function getFormat(args: string[]) {
-  const formatArg = args.find(arg => arg.startsWith('--format='));
-  return formatArg ? formatArg.split('=')[1] : null;
-}
-
-export function getLimit(args: string[]) {
-  const limitArg = args.find(arg => arg.startsWith('--limit='));
-  return limitArg ? parseInt(limitArg.split('=')[1], 10) : null;
-}
+// Main firecrawl command with subcommands
+export const firecrawlCmd = subcommands({
+  name: "firecrawl",
+  description: "Web scraping and crawling utilities using Firecrawl API",
+  cmds: {
+    scrape: scrapeCmd,
+    crawl: crawlCmd,
+    map: mapCmd,
+  },
+});
