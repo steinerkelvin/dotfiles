@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+# k-claude - Run Claude Code with k-ai context and append arguments
+# This script calls Claude Code with instructions to first run k-ai context,
+# then process any additional instructions provided.
+# Supports passing flags to the claude command.
+
+# Ensure script fails if any command fails
+set -e
+
+# Check if Claude Code CLI is available
+if ! command -v claude &> /dev/null; then
+    echo "Error: Claude Code CLI is not installed or not in PATH"
+    exit 1
+fi
+
+# Parse arguments
+CLAUDE_FLAGS=()
+INSTRUCTIONS=""
+PARSING_FLAGS=true
+
+for arg in "$@"; do
+    # If we see -- stop parsing flags
+    if [[ "$arg" == "--" && "$PARSING_FLAGS" == "true" ]]; then
+        PARSING_FLAGS=false
+        continue
+    fi
+    
+    # If the argument starts with - and we're still parsing flags, add it to CLAUDE_FLAGS
+    if [[ "$arg" == -* && "$PARSING_FLAGS" == "true" ]]; then
+        CLAUDE_FLAGS+=("$arg")
+    else
+        # Otherwise, it's part of the instructions
+        PARSING_FLAGS=false
+        if [[ -z "$INSTRUCTIONS" ]]; then
+            INSTRUCTIONS="$arg"
+        else
+            INSTRUCTIONS="$INSTRUCTIONS $arg"
+        fi
+    fi
+done
+
+# Construct the prompt - put k-ai context in quotes and separate additional instructions
+if [[ -z "$INSTRUCTIONS" ]]; then
+    # No additional instructions provided
+    PROMPT="run \"k-ai context\""
+else
+    # Additional instructions provided, separate with semicolon and space
+    PROMPT="run \"k-ai context\"; $INSTRUCTIONS"
+fi
+
+# Run Claude Code with the constructed prompt and any flags
+claude "${CLAUDE_FLAGS[@]}" "$PROMPT"
