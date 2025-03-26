@@ -45,9 +45,10 @@ export const helpFlag = flag({
 });
 
 // Execute a command and handle errors
-export async function executeCommand<R extends Runner<unknown, unknown>>(
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export async function executeCommand<R extends Runner<any, any>>(
   cmd: R,
-  args: string[],
+  args: string[]
 ) {
   try {
     await run(cmd, args);

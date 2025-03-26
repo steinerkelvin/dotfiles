@@ -20,5 +20,8 @@
     "spctl",
     "superkey",
     "syncthing"
-  ]
+  ],
+  "[javascript]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  }
 }
