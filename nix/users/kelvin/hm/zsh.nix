@@ -54,8 +54,8 @@ in
       dkr = "sudo docker run --rm -it";
       dokrun = "sudo docker run --rm -it";
       # Eza aliases
-      ll = "eza -l";
-      la = "eza -l -a";
+      ll = "eza -l --group-directories-first";
+      la = "eza -l -a --group-directories-first";
       # Kitty aliases
       sshk = "kitty +kitten ssh";
       icatk = "kitty +icat";
