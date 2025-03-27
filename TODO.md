@@ -1,5 +1,10 @@
 # TODO
 
+## MacOS
+
+- [ ] nix-darwin
+- [ ] lorri
+
 ## Dotfiles Improvements
 
 - [ ] utility script to move a file to dotfiles/home at the equivalent path and link back to home
