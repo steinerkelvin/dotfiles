@@ -39,6 +39,8 @@ in {
       pkgs.tmate
       pkgs.abduco
       pkgs.mosh
+      pkgs.yazi
+      pkgs.lazygit
 
       ## File utilities
       pkgs.file

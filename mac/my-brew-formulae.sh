@@ -12,14 +12,16 @@ brew install borders
 brew install --cask alt-tab
 # Keyboard enhancement e.g. CapsLock remap to "Cmd+Ctrl+Option" etc
 brew install --cask superkey
+# Mouse utility
+brew install --cask linearmouse
 # Huge amount of options for displays/screens
 brew install --cask betterdisplay
-# System monitor in menu bar
-brew install --cask stats
 # Launcher and productivity tool
 brew install --cask raycast
 # VPN service
 brew install --cask tailscale
+# System monitor in menu bar
+brew install --cask stats
 
 # -> Terminal
 brew install --cask kitty
@@ -28,10 +30,9 @@ brew install --cask iterm2
 # -> Editors and Development
 brew install --cask visual-studio-code
 brew install --cask zed
-brew install --cask cursor
+brew install --cask orbstack
 brew install --cask gitkraken
 brew install --cask devutils
-brew install --cask orbstack
 
 # -> Fonts
 brew install --cask font-iosevka-comfy
@@ -64,14 +65,9 @@ brew install --cask discord
 # -> Web Browsers
 brew install --cask brave-browser
 
-# -> Media
-brew install --cask vlc
-brew install --cask spotify
-brew install --cask stremio
-brew install --cask steam
-
 # -> Utilities
 brew install --cask speedcrunch
+brew install --cask numi
 brew install --cask setapp
 
 # -> Secrets and wallets
@@ -82,15 +78,23 @@ brew install --cask ledger-live
 brew install --cask electrum
 brew install --cask sparrow
 
-# -> Creative
+# -> Media
+brew install --cask vlc
+brew install --cask spotify
+brew install --cask stremio
+brew install --cask steam
+
+# -> Image editing
 brew install --cask gimp
 
 # -> Screencasting
 brew install --cask obs
 brew install --cask keycastr
 
-# -> System Utilities
-brew install neofetch
-
 # -> Misc
 brew install --cask calibre
+
+# -> System Maintenance
+brew install --cask aldente
+brew install --cask onyx
+brew install --cask launchcontrol
