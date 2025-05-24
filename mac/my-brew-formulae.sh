@@ -68,7 +68,7 @@ brew install --cask brave-browser
 # -> Utilities
 brew install --cask speedcrunch
 brew install --cask numi
-brew install --cask setapp
+brew install --cask cleanshot
 
 # -> Secrets and wallets
 brew install --cask bitwarden
@@ -98,3 +98,4 @@ brew install --cask calibre
 brew install --cask aldente
 brew install --cask onyx
 brew install --cask launchcontrol
+brew install --cask pingplotter

@@ -104,6 +104,7 @@ if [ -t 0 ]; then
   read -r -p "Are the hot names correct? [y/N] " correct
   if [ "$correct" != "y" ]; then
     read -r -p "Enter new hostname: " new_hostname
+    show_and_run scutil --set HostName "$new_hostname"
     show_and_run scutil --set LocalHostName "$new_hostname"
     show_and_run scutil --set ComputerName "$new_hostname"
     show_names
