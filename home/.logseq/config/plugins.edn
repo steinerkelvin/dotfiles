@@ -1,2 +1,5 @@
 {:logseq-plugin-gpt3-openai {:version "v1.13.2", :repo "briansunter/logseq-plugin-gpt3-openai", :effect true, :theme false}
- :logseq-tabs {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false}}
+ :logseq-tabs {:version "v1.19.4", :repo "pengx17/logseq-plugin-tabs", :effect true, :theme false}
+ :logseq-bullet-threading {:version "v1.1.4", :repo "pengx17/logseq-plugin-bullet-threading", :effect false, :theme false}
+ :logseq-interstitial {:version "0.1.7", :repo "Mikilio/logseq-interstitial-heading-plugin", :effect false, :theme false}
+ :logseq-awesome-props {:version "v1.10.0", :repo "yoyurec/logseq-awesome-props", :effect true, :theme false}}
