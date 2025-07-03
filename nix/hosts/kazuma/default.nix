@@ -59,7 +59,7 @@ in
       enable = true;
       settings = {
         Listen = [
-            "tcp://192.168.100.171:${toString ports.yggdrasil_tcp}"
+          "tcp://192.168.100.171:${toString ports.yggdrasil_tcp}"
         ];
         Peers = [
           "tcp://supergay.network:9002"

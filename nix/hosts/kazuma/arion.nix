@@ -4,11 +4,11 @@ let
   ports = k-shared.ports;
 in
 {
-   environment.systemPackages = [
-     pkgs.arion
-     pkgs.docker-client
-     pkgs.docker-compose
-   ];
+  environment.systemPackages = [
+    pkgs.arion
+    pkgs.docker-client
+    pkgs.docker-compose
+  ];
 
   virtualisation.arion = {
     backend = "docker";

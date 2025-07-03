@@ -20,15 +20,15 @@
       vp.copilot-lua
 
       vp.monokai-pro-nvim
-      
+
       # Motion plugins (modern alternatives to EasyMotion)
-      vp.leap-nvim  # Modern alternative to EasyMotion
-      
+      vp.leap-nvim # Modern alternative to EasyMotion
+
       # Time tracking
       vp.vim-wakatime
-      
+
       # Text manipulation
-      vp.nvim-surround  # For surrounding text objects
+      vp.nvim-surround # For surrounding text objects
 
       # vp.Coqtail
       # vp.yankring

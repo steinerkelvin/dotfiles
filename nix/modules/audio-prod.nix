@@ -1,7 +1,8 @@
 { inputs, config, lib, pkgs, ... }:
 
-let cfg =
-  config.k.modules.audio-prod;
+let
+  cfg =
+    config.k.modules.audio-prod;
 in
 {
 

@@ -2,7 +2,7 @@
 
 let
   cfg = config.k.services.syncthing;
-  user = "kelvin";        # TODO: user from parameters
+  user = "kelvin"; # TODO: user from parameters
   home = "/home/kelvin";
 in
 {

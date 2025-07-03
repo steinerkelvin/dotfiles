@@ -2,7 +2,8 @@
 
 let
   username = "kelvin";
-in {
+in
+{
 
   config = {
     # TODO: extract

@@ -7,7 +7,8 @@ let
   c.alert = "#a54242"; # Dusty red
   c.disabled = "#707880"; # Slate grey
 
-in { pkgs, ... }:
+in
+{ pkgs, ... }:
 
 {
   home.file.".i3/polybar.sh" = {

@@ -18,7 +18,7 @@ in
 
     config.settings = mkOption {
       type = format_json.type;
-      default = {};
+      default = { };
       description = ''
         Configuration for n8n, see <https://docs.n8n.io/reference/configuration.html>
         for supported values.
