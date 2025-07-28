@@ -11,6 +11,8 @@ in
     enableZshIntegration = true;
     settings = {
       directory.truncate_to_repo = false;
+      docker_context.disabled = true;
+      nix_shell.disabled = true;
     };
   };
 
