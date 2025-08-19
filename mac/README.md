@@ -3,7 +3,7 @@
 ## Nix
 
 - Install Nix with Determinate Installer
-- Run `bootstrap-hm.sh`
+- Run `deploy-hm.sh`
 
 ## Brew packages
 

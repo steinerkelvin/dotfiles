@@ -10,6 +10,7 @@
 - CRITICAL: NEVER reference private files in public-facing content like PR descriptions or commit messages
 
 ## File Relationships
+
 - This file contains dotfiles-specific information and guidelines
 - See ~/CLAUDE.md for system-wide instructions and guidelines
 
@@ -83,17 +84,11 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
 ## Clipboard Utilities
 
-Two sets of clipboard utilities are available:
+Script-based clipboard utilities: `clip-copy` and `clip-paste`
 
-1. Script-based: `clip-copy` and `clip-paste` (with hyphen)
-   - Located in ~/bin
-   - Cross-platform shell scripts
-   - Usage: `echo "text" | clip-copy` and `clip-paste`
-
-2. Function-based: `clipcopy` and `clippaste` (without hyphen)
-   - Shell functions from Oh My Zsh's clipboard.zsh
-   - Automatically selects appropriate clipboard command based on platform
-   - Usage: `echo "text" | clipcopy` and `clippaste`
+- Located in ~/bin
+- Cross-platform shell scripts
+- Usage: `echo "text" | clip-copy` and `clip-paste`
 
 ## Commands
 
@@ -103,7 +98,7 @@ Two sets of clipboard utilities are available:
 - Test workflows locally: `just test-workflow` or `just test-pr`
 - Update Nix flake: `just update` or `nix flake update`
 - Deploy NixOS: `sudo nixos-rebuild switch --flake .#hostname`
-- Deploy home-manager: `./bootstrap-hm.sh`
+- Deploy home-manager: `./deploy-hm.sh`
 - Apply macOS settings: `./mac/macos-settings.sh`
 
 ## JavaScript Runtime Environments
@@ -131,7 +126,7 @@ Two sets of clipboard utilities are available:
 - Always add a newline at the end of a file
 - Use 2-space indentation for all files
 - Maximum line length: 100 characters
-- Use kebab-case for filenames (`bootstrap-hm.sh`)
+- Use kebab-case for filenames (`deploy-hm.sh`)
 - Prefix personal utility scripts with `k-`
 - Use descriptive variable/attribute names
 - Annotate TODOs in comments
@@ -151,11 +146,13 @@ Two sets of clipboard utilities are available:
 - Larger or more complex shell functions should go in `nix/users/kelvin/shell/` directory:
   1. Create a new .sh file for each script or related group of functions
   2. Add the file to `shell/default.nix` using the pattern:
+
      ```nix
      {
        script-name = readFile ./script-name.sh;
      }
      ```
+
   3. The scripts will be automatically included in zsh configuration
 - Executable scripts that should be available in $PATH should go in `home/bin/`
   - Especially scripts that might be used non-interactively or in other scripts
@@ -190,6 +187,7 @@ Two sets of clipboard utilities are available:
 
 - Keep documentation close to code (in docstrings) rather than separate files
 - Use PEP 723 with uv run for dependencies:
+
   ```python
   #!/usr/bin/env -S uv run --script
   # /// script
@@ -197,5 +195,6 @@ Two sets of clipboard utilities are available:
   # dependencies = ["typer>=0.9.0", "rich>=13.4.2"]
   # ///
   ```
+
 - Place executables in `home/bin/` with `k-` prefix
 - Prefer typer+rich for CLI interfaces

@@ -8,6 +8,7 @@
     "bitwarden",
     "displaysleep",
     "HMAC",
+    "homeshick",
     "hyprland",
     "iterm",
     "keybase",
@@ -19,6 +20,7 @@
     "shellcheck",
     "spctl",
     "superkey",
-    "syncthing"
+    "syncthing",
+    "typer"
   ]
 }
