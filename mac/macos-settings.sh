@@ -6,6 +6,16 @@ show_and_run() {
   "$@"
 }
 
+#
+
+# Disable Spotlight indexing for any volume
+
+# Why: Spotlight indexing is not needed for most users, as it's slow and
+# consumes a lot of memory. Spotlight indexing can be re-enabled for any volume
+# by running `mdutil -i on /Volumes/MyVolume`
+
+show_and_run sudo mdutil -a -i off
+
 # Enable "Use F1, F2, etc. keys as standard function keys" setting
 
 # Why: This allows the function keys to be used as standard function keys
