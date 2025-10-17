@@ -52,7 +52,6 @@ in
       bx = "bun x";
       ## Docker aliases
       dk = "sudo docker";
-      docker = "sudo docker";
       dkr = "sudo docker run --rm -it";
       dokrun = "sudo docker run --rm -it";
       # Eza aliases
