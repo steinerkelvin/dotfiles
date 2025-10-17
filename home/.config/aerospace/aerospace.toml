@@ -114,10 +114,10 @@ cmd-ctrl-alt-f = 'fullscreen'
 # cmd-ctrl-alt-v = 'split vertical'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#focus
-cmd-ctrl-alt-h = 'focus left'
-cmd-ctrl-alt-j = 'focus down'
-cmd-ctrl-alt-k = 'focus up'
-cmd-ctrl-alt-l = 'focus right'
+cmd-ctrl-alt-h = 'focus --boundaries all-monitors-outer-frame left'
+cmd-ctrl-alt-j = 'focus --boundaries all-monitors-outer-frame down'
+cmd-ctrl-alt-k = 'focus --boundaries all-monitors-outer-frame up'
+cmd-ctrl-alt-l = 'focus --boundaries all-monitors-outer-frame right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move
 cmd-ctrl-alt-shift-h = 'move left'
