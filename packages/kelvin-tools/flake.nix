@@ -1,5 +1,5 @@
 {
-  description = "k-ai tools";
+  description = "kelvin-tools";
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";

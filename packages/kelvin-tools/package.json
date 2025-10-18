@@ -1,10 +1,10 @@
 {
-  "name": "k-ai",
+  "name": "kelvin-tools",
   "version": "0.1.0",
   "module": "src/index.ts",
   "type": "module",
   "bin": {
-    "k-ai": "./src/index.ts"
+    "kelvin-tools": "./src/index.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",

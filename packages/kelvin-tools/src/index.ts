@@ -8,7 +8,7 @@ import { coerceError } from "./utils/errors";
 
 // Main CLI command with subcommands
 const cli = subcommands({
-  name: "k-ai",
+  name: "kelvin-tools",
   description: "Kelvin's AI tools collection",
   cmds: {
     firecrawl: firecrawlCmd,

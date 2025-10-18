@@ -1,4 +1,4 @@
-# k-ai
+# kelvin-tools
 
 Kelvin's AI tools collection. A set of utilities for working with AI APIs and tools.
 
@@ -6,21 +6,21 @@ Kelvin's AI tools collection. A set of utilities for working with AI APIs and to
 
 ```bash
 # Install dependencies
-cd ~/dotfiles/packages/k-ai
+cd ~/dotfiles/packages/kelvin-tools
 bun install
 ```
 
 ## Available Commands
 
-### k-ai context
+### kelvin-tools context
 
 Display CLAUDE.md files from home directory to the current directory. This helps set up the context for a Claude Code session by showing relevant configuration files.
 
 ```bash
-k-ai context
+kelvin-tools context
 ```
 
-### k-ai firecrawl
+### kelvin-tools firecrawl
 
 Web scraping and crawling utilities using the Firecrawl API. Requires the `FIRECRAWL_API_KEY` environment variable to be set.
 
@@ -29,15 +29,15 @@ Web scraping and crawling utilities using the Firecrawl API. Requires the `FIREC
 export FIRECRAWL_API_KEY="your-api-key"
 
 # Scrape a single URL
-k-ai firecrawl scrape https://example.com
-k-ai firecrawl scrape https://example.com --format=markdown
+kelvin-tools firecrawl scrape https://example.com
+kelvin-tools firecrawl scrape https://example.com --format=markdown
 
 # Crawl multiple pages from a URL
-k-ai firecrawl crawl https://example.com --limit=10
-k-ai firecrawl crawl https://example.com --format=text
+kelvin-tools firecrawl crawl https://example.com --limit=10
+kelvin-tools firecrawl crawl https://example.com --format=text
 
 # Generate a map of URLs from a website
-k-ai firecrawl map https://example.com
+kelvin-tools firecrawl map https://example.com
 ```
 
 ## Development
@@ -78,7 +78,7 @@ export const exampleCmd = command({
 import { exampleCmd } from './tools/example';
 
 const cli = subcommands({
-  name: 'k-ai',
+  name: 'kelvin-tools',
   description: "Kelvin's AI tools collection",
   cmds: {
     firecrawl: firecrawlCmd,
