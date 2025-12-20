@@ -229,3 +229,7 @@ brew install fastfetch
 brew install asciinema
 # Metadata reader EXIF image info photo data
 brew install exiftool
+# Archive compression 7zip file archiver 7z
+brew install p7zip
+# Notification push alerts desktop mobile ntfy.sh
+brew install ntfy
