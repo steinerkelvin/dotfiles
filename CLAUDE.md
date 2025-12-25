@@ -20,6 +20,20 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
 ## System Configuration
 
+### SSH Keys
+
+- SSH keys should always have a passphrase for security
+- Use `ssh-keygen -p -f ~/.ssh/id_ed25519` to add/change passphrase on existing key
+- Public keys are centralized in `nix/shared.nix` under `keys`
+- Agenix encryption keys are in `secrets/secrets.nix` (different purpose)
+
+### NixOS Host Structure
+
+- Each host has its own directory in `nix/hosts/{name}/`
+- `default.nix` - System configuration (services, hardware)
+- `user.nix` - User account + home-manager setup
+- See `nix/hosts/README.md` for full documentation
+
 ### Path Configuration
 
 - PATH entries should be added to `home.sessionPath` array in `nix/users/kelvin/hm/common.nix`

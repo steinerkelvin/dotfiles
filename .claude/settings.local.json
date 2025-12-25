@@ -3,7 +3,8 @@
     "allow": [
       "Bash(brew list:*)",
       "Bash(brew leaves:*)",
-      "WebFetch(domain:nikitabobko.github.io)"
+      "WebFetch(domain:nikitabobko.github.io)",
+      "Bash(just check:*)"
     ],
     "deny": [],
     "ask": []

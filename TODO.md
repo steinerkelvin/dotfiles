@@ -1,6 +1,14 @@
 # TODO
 
-= [ ] lorri (Nix)
+## Momo Server
+
+- [ ] Setup Linux machine
+- [ ] Configure Home Assistant
+- [ ] Configure Smokeping
+
+# Nix
+
+- [ ] test `lorri` (https://github.com/nix-community/lorri)
 
 ## Dotfiles Improvements
 

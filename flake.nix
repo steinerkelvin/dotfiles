@@ -20,8 +20,8 @@
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
 
-    vscode-server.url = "github:nix-community/nixos-vscode-server";
-    vscode-server.inputs.nixpkgs.follows = "nixpkgs";
+    # vscode-server.url = "github:nix-community/nixos-vscode-server";
+    # vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     k-ddns.url = "github:steinerkelvin/k-ddns";
     k-ddns.inputs.nixpkgs.follows = "nixpkgs";
@@ -38,9 +38,6 @@
         # inputs.arion.nixosModules.arion
         inputs.k-ddns.nixosModules.k-ddns
       ];
-
-      localNixosUserModules = builtins.mapAttrs (_: value: value.hosts) (import ./nix/users);
-      kelvinNixosModules = localNixosUserModules.kelvin;
 
       localNixosModules = import ./nix/modules;
       allNixosModules = inputNixosModules ++ builtins.attrValues localNixosModules;
@@ -81,7 +78,7 @@
           default = pkgs.mkShell {
             packages = [
               pkgs.just
-              pkgs.nil
+              pkgs.nixd
               pkgs.nixpkgs-fmt
               pkgs.shellcheck
               pkgs.home-manager
@@ -93,10 +90,8 @@
       );
 
       nixosConfigurations = {
-        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia kelvinNixosModules.nixia ]; };
-        # kazuma = mkSystem { extraModules = [ ./nix/hosts/kazuma kelvinNixosModules.kazuma ]; };
-        # stratus = mkSystem { extraModules = [ ./nix/hosts/stratus kelvinNixosModules.stratus ]; };
-        ryuko = mkSystem { extraModules = [ ./nix/hosts/ryuko ]; };
+        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
+        mako-wsl = mkSystem { extraModules = [ ./nix/hosts/mako-wsl ]; };
       };
 
       darwinConfigurations = {

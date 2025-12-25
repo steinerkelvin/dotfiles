@@ -1,12 +1,11 @@
+# Nixia - Desktop PC with Nvidia GPU
+
 { config, inputs, ... }:
-let vscode-server = inputs.vscode-server;
-in {
+{
   imports = [
     ../common.nix
     ./hardware-configuration.nix
-    # vscode-server.nixosModules.default
-
-    ../../cachix/agicommies.nix
+    ./user.nix
   ];
 
   config = {
