@@ -19,7 +19,7 @@ in {
     # Nix
     NIXPKGS_ALLOW_UNFREE = "1";
     # Default editors
-    EDITOR = "vi -e";
+    EDITOR = "nvim";
     VISUAL = "nvim";
     # NPM global installations
     NPM_CONFIG_PREFIX = "$HOME/.npm-global";
