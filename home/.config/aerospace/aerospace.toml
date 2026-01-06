@@ -11,7 +11,7 @@ after-login-command = []
 # Available commands : https://nikitabobko.github.io/AeroSpace/commands
 after-startup-command = [
     # Window borders
-    "exec-and-forget borders active_color=0xfff8295d inactive_color=0xff494d64 width=8",
+    'exec-and-forget borders active_color=0xfff8295d inactive_color=0xff494d64 width=8 blacklist="BetterDisplay"',
 ]
 
 # Start AeroSpace at login
@@ -203,6 +203,11 @@ down = 'volume down'
 up = 'volume up'
 shift-down = ['volume set 0', 'mode main']
 
+
+[[on-window-detected]]
+if.app-id = 'pro.betterdisplay.BetterDisplay'
+if.window-title-regex-substring = '^PIP'
+run = 'layout floating'
 
 [mode.join-with.binding]
     esc = ['mode main']

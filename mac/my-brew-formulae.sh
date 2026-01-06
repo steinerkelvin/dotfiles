@@ -220,9 +220,11 @@ brew install mtr
 # HTTP benchmarking load testing performance stress
 brew install wrk
 
-# -> System Info
+# -> System Info & Control
 # System information fetch hardware specs neofetch
 brew install fastfetch
+# Display monitor settings brightness control CLI BetterDisplay
+brew install waydabber/betterdisplay/betterdisplaycli
 
 # -> Utilities
 # Terminal recording session recorder demo asciinema
