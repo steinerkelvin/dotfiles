@@ -2,8 +2,7 @@
 
 ## Nix
 
-- Install Nix with Determinate Installer
-- Run `deploy-home-manager.sh`
+Run `./deploy-home-manager.sh` to set up home-manager. The script will offer to install Nix via the Determinate Installer if not already present.
 
 ## Brew packages
 
