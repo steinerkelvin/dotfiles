@@ -13,7 +13,7 @@
 ### Configuration Files
 
 - `flake.nix` - Nix flake entry point
-- `deploy-hm.sh` - Script to deploy home-manager configuration
+- `deploy-home-manager.sh` - Script to deploy home-manager configuration
 - `justfile` - Task definitions for the `just` command runner
 
 ## Nix Configuration

@@ -3,7 +3,7 @@
 ## Nix
 
 - Install Nix with Determinate Installer
-- Run `deploy-hm.sh`
+- Run `deploy-home-manager.sh`
 
 ## Brew packages
 

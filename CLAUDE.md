@@ -112,7 +112,7 @@ Script-based clipboard utilities: `clip-copy` and `clip-paste`
 - Test workflows locally: `just test-workflow` or `just test-pr`
 - Update Nix flake: `just update` or `nix flake update`
 - Deploy NixOS: `sudo nixos-rebuild switch --flake .#hostname`
-- Deploy home-manager: `./deploy-hm.sh`
+- Deploy home-manager: `./deploy-home-manager.sh`
 - Apply macOS settings: `./mac/macos-settings.sh`
 
 ## JavaScript Runtime Environments
@@ -140,7 +140,7 @@ Script-based clipboard utilities: `clip-copy` and `clip-paste`
 - Always add a newline at the end of a file
 - Use 2-space indentation for all files
 - Maximum line length: 100 characters
-- Use kebab-case for filenames (`deploy-hm.sh`)
+- Use kebab-case for filenames (`deploy-home-manager.sh`)
 - Prefix personal utility scripts with `k-`
 - Use descriptive variable/attribute names
 - Annotate TODOs in comments
