@@ -18,7 +18,7 @@ rec {
   # NOTE: secrets/secrets.nix has keys for agenix encryption (different purpose)
   keys = {
     users.kelvin = {
-      nixia = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAINlD7buD+WXmzv0HW6Ns/LKPbHfqh7Va8JIxNzTY1zsV kelvin@nixia";
+      satsuki = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAII/p/ZbOkA/Wv4dTYbT/CJ+vndMS7xN/8J8SAnVroK0T kelvin@satsuki.local";
       mako = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDYf1GTjqmCH89LG0v1zMWL6detrFjYCaL9+A5qmIqNM kelvin@mako-wsl";
     };
 
