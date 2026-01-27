@@ -22,7 +22,7 @@ in {
   config = {
     # lib.mkMerge [
 
-    k.host.domain = "h.steinerkelvin.dev";
+    k.host.domain = "nyala-komodo.ts.net";
 
     # Nix
     nixpkgs.config.allowUnfree = true;
@@ -95,7 +95,7 @@ in {
     ## Local network name resolution
     services.resolved = lib.mkIf (isPC) {
       enable = true;
-      domains = [ "h.steinerkelvin.dev" ];
+      domains = [ "nyala-komodo.ts.net" ];
       fallbackDns =
         [ "1.1.1.1" "1.0.0.1" "2606:4700:4700::1111" "2606:4700:4700::1001" ];
     };

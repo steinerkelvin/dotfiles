@@ -46,7 +46,7 @@ Each active host directory contains:
 Defined in `common.nix`:
 
 - `k.host.name` - Hostname
-- `k.host.domain` - Domain (default: h.steinerkelvin.dev)
+- `k.host.domain` - Domain (default: nyala-komodo.ts.net)
 - `k.host.tags.pc` - Enable PC-specific config (audio, printing)
 - `k.host.tags.server` - Enable server-specific config
 
