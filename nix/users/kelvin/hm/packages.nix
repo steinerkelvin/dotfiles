@@ -13,6 +13,26 @@ heavyPkgs = [
   # Git tools
   pkgs.lazygit
   pkgs.diff-so-fancy
+  pkgs.difftastic
+
+  # Language managers
+  pkgs.rustup
+  #haskellPackages.ghcup
+
+  ## JS
+  pkgs.yarn
+  pkgs.nodejs
+  pkgs.bun
+
+  ## Python
+  pkgs.python312
+  pkgs.python312Packages.pip
+  pkgs.python312Packages.pipx
+  pkgs.python312Packages.ipython
+  pkgs.uv
+
+  # Python-based tools
+  pkgs.jc  # JSON converter for command output (depends on Python)
 ];
 
 heavyLinuxPkgs = [
@@ -75,7 +95,6 @@ in {
       ## Misc
       # httpie # NOTE: depends on ghostscript??
       pkgs.jq
-      pkgs.jc
       pkgs.yq
       pkgs.envsubst
 
@@ -115,29 +134,16 @@ in {
 
       # Dev
       pkgs.gnumake
-      pkgs.docker-compose
-
-      pkgs.difftastic
+      # pkgs.docker-compose
 
       ## Git
       pkgs.tig
       pkgs.gh
       #pkgs.gita
 
-      ## Package managers
-      pkgs.yarn
-      pkgs.nodejs
-      pkgs.bun
 
-      ## Language managers
-      pkgs.rustup
-      #haskellPackages.ghcup
 
-      pkgs.python312
-      pkgs.python312Packages.pip
-      pkgs.python312Packages.pipx
-      pkgs.python312Packages.ipython
-      pkgs.uv
+
 
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       # Linux system utilities

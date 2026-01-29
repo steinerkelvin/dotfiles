@@ -1,9 +1,10 @@
-{ pkgs, ... }:
+{ pkgs, heavy ? false, ... }:
 
 let username = "kelvin";
 in {
 
-  imports = [ ./homeshick.nix ./packages.nix ./zsh.nix ./git.nix ./nvim.nix ];
+  imports = [ ./homeshick.nix ./packages.nix ./zsh.nix ./git.nix ]
+    ++ (if heavy then [ ./nvim.nix ] else [ ]);
 
   home.username = username;
   # home.homeDirectory = "/home/${username}";
