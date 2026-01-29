@@ -70,7 +70,7 @@ in
       # Dev
     };
 
-    initExtra =
+    initContent =
       ''
         # Homeshick
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"

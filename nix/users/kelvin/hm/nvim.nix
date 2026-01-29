@@ -14,7 +14,7 @@
       vp.nvim-tree-lua
       vp.telescope-zoxide
 
-      vp.nvim-treesitter.withAllGrammars
+      # vp.nvim-treesitter.withAllGrammars
       vp.nvim-lspconfig
 
       vp.copilot-lua

@@ -1,8 +1,28 @@
-{ inputs, pkgs, ... }:
+{ pkgs, heavy ? false, ... }:
 
 let lib = pkgs.lib;
+
+heavyPkgs = [
+  # Secrets
+  pkgs.pass
+  # Image utilities
+  pkgs.imagemagick
+  # pkgs.zbar # NOTE: depends on ghostscript??
+  # Terminal file explorer
+  pkgs.yazi
+  # Git tools
+  pkgs.lazygit
+  pkgs.diff-so-fancy
+];
+
+heavyLinuxPkgs = [
+  # NixOS
+  pkgs.nixos-install-tools
+];
+
 in {
   home.packages =
+    (if heavy then heavyPkgs else []) ++
     [
       # Nix tools
       pkgs.direnv
@@ -39,8 +59,6 @@ in {
       pkgs.tmate
       pkgs.abduco
       pkgs.mosh
-      pkgs.yazi
-      pkgs.lazygit
 
       ## File utilities
       pkgs.file
@@ -79,11 +97,10 @@ in {
       # Secrets
       pkgs.openssl
       pkgs.gnupg
-      pkgs.pass
       pkgs.age
       # inputs.agenix.packages.${pkgs.system}.agenix
       # bitwarden-cli
-      pkgs.git-crypt
+      # pkgs.git-crypt
       pkgs.libsecret
 
       # Editors
@@ -94,15 +111,12 @@ in {
       pkgs.todoist
 
       # Image utilities
-      pkgs.imagemagick
-      # pkgs.zbar # NOTE: depends on ghostscript??
       pkgs.qrencode
 
       # Dev
       pkgs.gnumake
       pkgs.docker-compose
 
-      pkgs.diff-so-fancy
       pkgs.difftastic
 
       ## Git
@@ -126,13 +140,10 @@ in {
       pkgs.uv
 
     ] ++ lib.optionals pkgs.stdenv.isLinux [
-      # NixOS
-      pkgs.nixos-install-tools
-
       # Linux system utilities
       pkgs.lshw
       pkgs.usbutils
       pkgs.iotop
       pkgs.ncdu
-    ];
+    ] ++ lib.optionals (heavy && pkgs.stdenv.isLinux) heavyLinuxPkgs;
 }

@@ -104,7 +104,7 @@
         "kelvin" =
           inputs.home-manager.lib.homeManagerConfiguration {
             pkgs = nixpkgs.legacyPackages.x86_64-linux;
-            extraSpecialArgs = { inherit inputs; };
+            extraSpecialArgs = { inherit inputs; heavy = false; };
             modules = [
               ./nix/users/kelvin/hm/common.nix
               ./nix/users/kelvin/hm/linux.nix
