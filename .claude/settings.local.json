@@ -3,11 +3,12 @@
     "allow": [
       "Bash(brew list:*)",
       "Bash(brew leaves:*)",
-      "WebFetch(domain:nikitabobko.github.io)",
       "Bash(just check:*)",
       "Bash(nix path-info:*)",
       "Bash(nix why-depends:*)",
-      "Bash(nix-store --query --requisites:*)"
+      "Bash(nix-store --query --requisites:*)",
+      "mcp__plugin_context7_context7__resolve-library-id",
+      "mcp__plugin_context7_context7__query-docs"
     ],
     "deny": [],
     "ask": []
