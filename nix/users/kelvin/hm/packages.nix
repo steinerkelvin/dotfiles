@@ -1,6 +1,6 @@
-{ pkgs, heavy ? false, ... }:
+{ pkgs, lib, config, ... }:
 
-let lib = pkgs.lib;
+let
 
 heavyPkgs = [
   # Secrets
@@ -42,7 +42,7 @@ heavyLinuxPkgs = [
 
 in {
   home.packages =
-    (if heavy then heavyPkgs else []) ++
+    (if config.k.heavy then heavyPkgs else []) ++
     [
       # Nix tools
       pkgs.direnv
@@ -151,5 +151,5 @@ in {
       pkgs.usbutils
       pkgs.iotop
       pkgs.ncdu
-    ] ++ lib.optionals (heavy && pkgs.stdenv.isLinux) heavyLinuxPkgs;
+    ] ++ lib.optionals (config.k.heavy && pkgs.stdenv.isLinux) heavyLinuxPkgs;
 }

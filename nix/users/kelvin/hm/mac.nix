@@ -13,6 +13,8 @@ in
 
   home.stateVersion = "23.05";
 
+  k.heavy = true;
+
   nixpkgs.config.allowUnfree = true;
 
   programs.zsh.initContent = ''

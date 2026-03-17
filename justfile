@@ -7,6 +7,12 @@ update:
 check:
     nix flake check
 
+check-hm-mac:
+    nix build .#homeConfigurations.mac.activationPackage
+
+check-hm-linux:
+    nix build .#homeConfigurations.kelvin.activationPackage
+
 fmt:
     find . -name "*.nix" -exec nixpkgs-fmt {} \;
 
