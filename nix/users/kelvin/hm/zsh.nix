@@ -36,6 +36,7 @@ in
       tigh = "tig -a HEAD";
       # Dev aliases
       j = "just";
+      jl = "just --list";
       # Editor aliases
       c = "code .";
       h = "hx .";
