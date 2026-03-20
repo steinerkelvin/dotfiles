@@ -26,6 +26,15 @@ show_and_run defaults write -g com.apple.keyboard.fnState -bool true
 
 #
 
+# Remap 'Minimize' to Cmd+Option+M in all applications
+
+# Why: The default Cmd+M shortcut is too easy to hit accidentally.
+# Cmd+Option+M is harder to trigger unintentionally.
+
+show_and_run defaults write -g NSUserKeyEquivalents -dict-add "Minimize" "@~m"
+
+#
+
 # Disable "Press and hold keys"
 
 # Why: By default, pressing and holding a key will result in a menu of
