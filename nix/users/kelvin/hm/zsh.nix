@@ -68,6 +68,9 @@ in
       # Utils
       "qrprint" = "qrencode -t utf8 --";
       "colon2line" = "tr ':' '\n'";
+      # Claude
+      cc = "claude";
+      ccmo = "claude --model";
       # Dev
     };
 
