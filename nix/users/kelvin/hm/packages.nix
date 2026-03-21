@@ -2,47 +2,48 @@
 
 let
 
-heavyPkgs = [
-  # Secrets
-  pkgs.pass
-  # Image utilities
-  pkgs.imagemagick
-  # pkgs.zbar # NOTE: depends on ghostscript??
-  # Terminal file explorer
-  pkgs.yazi
-  # Git tools
-  pkgs.lazygit
-  pkgs.diff-so-fancy
-  pkgs.difftastic
+  heavyPkgs = [
+    # Secrets
+    pkgs.pass
+    # Image utilities
+    pkgs.imagemagick
+    # pkgs.zbar # NOTE: depends on ghostscript??
+    # Terminal file explorer
+    pkgs.yazi
+    # Git tools
+    pkgs.lazygit
+    pkgs.diff-so-fancy
+    pkgs.difftastic
 
-  # Language managers
-  pkgs.rustup
-  #haskellPackages.ghcup
+    # Language managers
+    pkgs.rustup
+    #haskellPackages.ghcup
 
-  ## JS
-  pkgs.yarn
-  pkgs.nodejs
-  pkgs.bun
+    ## JS
+    pkgs.yarn
+    pkgs.nodejs
+    pkgs.bun
 
-  ## Python
-  pkgs.python312
-  pkgs.python312Packages.pip
-  pkgs.python312Packages.pipx
-  pkgs.python312Packages.ipython
-  pkgs.uv
+    ## Python
+    pkgs.python312
+    pkgs.python312Packages.pip
+    pkgs.python312Packages.pipx
+    pkgs.python312Packages.ipython
+    pkgs.uv
 
-  # Python-based tools
-  pkgs.jc  # JSON converter for command output (depends on Python)
-];
+    # Python-based tools
+    pkgs.jc # JSON converter for command output (depends on Python)
+  ];
 
-heavyLinuxPkgs = [
-  # NixOS
-  pkgs.nixos-install-tools
-];
+  heavyLinuxPkgs = [
+    # NixOS
+    pkgs.nixos-install-tools
+  ];
 
-in {
+in
+{
   home.packages =
-    (if config.k.heavy then heavyPkgs else []) ++
+    (if config.k.heavy then heavyPkgs else [ ]) ++
     [
       # Nix tools
       pkgs.direnv
