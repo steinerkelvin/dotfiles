@@ -44,6 +44,11 @@
 - `mac/macos-settings.sh` - macOS system preferences
 - `mac/my-brew-formulae.sh` - Homebrew packages
 
+## Raycast
+
+- `/raycast/` - Script commands (standalone shell scripts with Raycast metadata)
+- `/packages/raycast-kelvin/` - Raycast extension (TypeScript, `@raycast/api`)
+
 ## Utility Scripts (`home/bin/`)
 
 - `clip-copy` - Copy to clipboard
