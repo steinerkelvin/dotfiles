@@ -8,7 +8,10 @@
       "Bash(nix why-depends:*)",
       "Bash(nix-store --query --requisites:*)",
       "mcp__plugin_context7_context7__resolve-library-id",
-      "mcp__plugin_context7_context7__query-docs"
+      "mcp__plugin_context7_context7__query-docs",
+      "Bash(just check-hm-mac:*)",
+      "WebSearch",
+      "WebFetch(domain:developers.raycast.com)"
     ],
     "deny": [],
     "ask": []
