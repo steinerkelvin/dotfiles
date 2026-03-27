@@ -2,12 +2,12 @@
   description = "Kelvin's personal flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.05";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-25.11";
 
-    home-manager.url = "github:nix-community/home-manager/release-25.05";
+    home-manager.url = "github:nix-community/home-manager/release-25.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
-    nix-darwin.url = "github:LnL7/nix-darwin";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # agenix.url = "github:ryantm/agenix";
@@ -96,6 +96,8 @@
 
       darwinConfigurations = {
         satsuki = nix-darwin.lib.darwinSystem {
+          system = "aarch64-darwin";
+          modules = [ ./nix/hosts/satsuki ];
           specialArgs = { inherit inputs; };
         };
       };
@@ -103,7 +105,7 @@
       homeConfigurations = {
         "kelvin" =
           inputs.home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.x86_64-linux;
+            pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
             extraSpecialArgs = { inherit inputs; };
             modules = [
               ./nix/users/kelvin/hm/common.nix
@@ -113,7 +115,7 @@
           };
         mac =
           inputs.home-manager.lib.homeManagerConfiguration {
-            pkgs = nixpkgs.legacyPackages.aarch64-darwin;
+            pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
             extraSpecialArgs = { inherit inputs; };
             modules = [ ./nix/users/kelvin/hm/mac.nix ];
           };

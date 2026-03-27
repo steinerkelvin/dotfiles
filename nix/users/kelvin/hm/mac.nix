@@ -15,8 +15,6 @@ in
 
   k.heavy = true;
 
-  nixpkgs.config.allowUnfree = true;
-
   programs.zsh.initContent = ''
     test -e "/opt/homebrew/bin/brew" && eval "$(/opt/homebrew/bin/brew shellenv)"
   '';

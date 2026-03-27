@@ -5,8 +5,7 @@
   programs.git = {
     enable = true;
     # diff-so-fancy.enable = true;
-    difftastic.enable = true;
-    extraConfig = {
+    settings = {
       user.name = "Kelvin Steiner";
       user.email = "me@steinerkelvin.dev";
       push.default = "simple";
@@ -19,5 +18,10 @@
       "~*"
       "*~"
     ];
+  };
+
+  programs.difftastic = {
+    enable = true;
+    git.enable = true;
   };
 }
