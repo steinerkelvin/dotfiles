@@ -26,6 +26,13 @@ in {
 
     # Nix
     nixpkgs.config.allowUnfree = true;
+    # ecdsa is a dependency of electrum; marked insecure due to CVE-2024-23342 (Minerva timing
+    # attack). Upstream is largely unmaintained and hasn't released a fix. Permitted explicitly.
+    nixpkgs.config.permittedInsecurePackages = [ "python3.12-ecdsa-0.19.1" ];
+
+    # Home-manager
+    home-manager.useGlobalPkgs = true;
+    home-manager.useUserPackages = true;
     nix.settings = {
       experimental-features = [ "nix-command" "flakes" ];
       # TODO: auto generate / https://github.com/NixOS/nix/issues/3023#issuecomment-781131502
