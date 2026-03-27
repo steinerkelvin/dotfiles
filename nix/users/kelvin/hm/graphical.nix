@@ -43,8 +43,6 @@
     pkgs.yt-dlp
 
     # GUI Apps
-    ## Editor
-    pkgs.kate
     ## Browser
     pkgs.brave
     # Credentials / Secrets
@@ -54,7 +52,6 @@
     # pkgs.logseq  # bug https://github.com/NixOS/nixpkgs/pull/274180
     ## File Manager
     pkgs.pcmanfm
-    pkgs.dolphin
     ## Communication
     pkgs.telegram-desktop
     pkgs.discord
