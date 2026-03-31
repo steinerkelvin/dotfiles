@@ -78,9 +78,8 @@ brew install --cask superwhisper
 
 # -> Fonts
 # Monospace font programming coding
-brew install --cask font-iosevka-comfy
-#brew install --cask font-iosevka-nerd-font
-#brew install --cask font-fira-code
+brew install --cask font-iosevka-comfy # discontinued in favor or aporetic
+brew install --cask font-aporetic
 
 # ==> Applications
 
