@@ -105,7 +105,6 @@ in
       pkgs.dig
 
       # Secrets
-      pkgs.openssl
       pkgs.gnupg
       pkgs.age
       pkgs.libsecret
@@ -115,9 +114,6 @@ in
 
       # Utilities
       pkgs.tldr
-
-      # Dev
-      pkgs.gnumake
 
       ## Git
       pkgs.tig

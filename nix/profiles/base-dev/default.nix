@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ../../users/kelvin/hm/options.nix
+    ./options.nix
     ./packages.nix
     ./zsh.nix
     ./git.nix
