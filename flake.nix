@@ -119,6 +119,18 @@
             extraSpecialArgs = { inherit inputs; };
             modules = [ ./nix/users/kelvin/hm/mac.nix ];
           };
+        dev =
+          inputs.home-manager.lib.homeManagerConfiguration {
+            pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
+            modules = [
+              ./nix/profiles/dev
+              ({ ... }: {
+                home.username = "dev";
+                home.homeDirectory = "/home/dev";
+                home.stateVersion = "25.05";
+              })
+            ];
+          };
       };
 
       # TODO: home / profile configurarions

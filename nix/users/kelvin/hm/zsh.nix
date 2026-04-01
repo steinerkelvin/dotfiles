@@ -4,108 +4,24 @@ let
   shell_scripts = import ../shell { };
 in
 {
-  # Zsh
-
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
-    settings = {
-      directory.truncate_to_repo = false;
-      docker_context.disabled = true;
-      nix_shell.disabled = true;
-    };
-  };
-
   programs.zsh = {
-    # vim mode?
-    enable = true;
     shellAliases = {
-      # Shell aliases
-      rmr = "rm -r";
-      dusm = "du -hs";
-      bath = "bat --style=header-filename,grid --decorations=always";
-      # Nix aliases
-      nxs = "nix-shell --command zsh";
-      nxd = "nix develop --command zsh";
-      nxu = "nix flake update";
+      # Personal aliases
       nxrb = "sudo nixos-rebuild --flake $(realpath ~/dotfiles)";
-      # Git aliases
-      gff = "git merge --ff-only";
-      glff = "git pull --ff-only";
-      glogh = "git log --oneline --decorate --graph HEAD";
-      tigh = "tig -a HEAD";
-      # Dev aliases
-      j = "just";
-      jl = "just --list";
-      # Editor aliases
-      c = "code .";
-      h = "hx .";
-      zd = "zeditor .";
-      ## Cargo aliases
-      cgr = "cargo run --";
-      ## Pnpm
-      p = "pnpm";
-      pr = "pnpm run";
-      px = "pnpm exec";
-      ## Bun
-      b = "bun";
-      br = "bun run";
-      bx = "bun x";
-      ## Docker aliases
-      dk = "sudo docker";
-      dkr = "sudo docker run --rm -it";
-      dokrun = "sudo docker run --rm -it";
-      # Eza aliases
-      ll = "eza -l --group-directories-first";
-      la = "eza -l -a --group-directories-first";
-      # Kitty aliases
-      sshk = "kitty +kitten ssh";
-      icatk = "kitty +icat";
       # Homesick/Homeshick aliases
       dtcd = "homeshick cd dotfiles; cd home;";
-      # Copilot
-      "'??'" = "gh copilot explain";
       # Utils
       "qrprint" = "qrencode -t utf8 --";
-      "colon2line" = "tr ':' '\n'";
-      # Claude
-      cc = "claude";
-      ccmo = "claude --model";
-      # Dev
+      # Copilot
+      "'??'" = "gh copilot explain";
     };
 
     initContent =
       ''
         # Homeshick
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"
-
-        # Utility Shell Functions
-        function nxr { nix-shell -p $1 --command $1 }
-        function dusort { du -h $@ | sort -h }
-
-        # Unalias commands
-        unalias gk 2>/dev/null || true
-        unalias gke 2>/dev/null || true
       ''
-      + lib.strings.concatStrings (lib.attrValues shell_scripts)
+      + (shell_scripts.dt or "")
     ;
-
-    oh-my-zsh = {
-      enable = true;
-      plugins = [
-        "sudo"
-        # "command-not-found"
-        "zoxide"
-        "git"
-        "fzf"
-        "rust"
-        "pip"
-        "yarn"
-        "httpie"
-      ];
-      # TODO:
-      # - zsh-users/zsh-autosuggestions
-      # - zsh-users/zsh-syntax-highlighting
-    };
   };
 }

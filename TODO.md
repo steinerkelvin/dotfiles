@@ -1,5 +1,10 @@
 # TODO
 
+## Nix
+
+- [ ] Migrate to nixos/nixpkgs 25.11
+- [ ] Measure eval / build times for `dev` closure
+
 ## Momo Server
 
 - [ ] Setup Linux machine
