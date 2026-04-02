@@ -21,9 +21,7 @@ vim.keymap.set('n', '<space>fh', tl_builtin.help_tags, {})
 vim.keymap.set('n', '<space>fd', tl_builtin.treesitter, {})
 
 -- LSP config
-local lspconfig = require('lspconfig')
-lspconfig.pyright.setup {}
-lspconfig.nil_ls.setup {}
+vim.lsp.enable({'pyright', 'nil_ls'})
 
 -- copilot config
 local copilot = require("copilot")
@@ -37,7 +35,8 @@ wk.setup()
 require("monokai-pro").setup()
 
 -- leap.nvim config (modern alternative to EasyMotion)
-require('leap').add_default_mappings()
+vim.keymap.set({'n', 'x', 'o'}, 's',  '<Plug>(leap)')
+vim.keymap.set('n',             'S',  '<Plug>(leap-from-window)')
 
 -- nvim-surround config
 require('nvim-surround').setup()
