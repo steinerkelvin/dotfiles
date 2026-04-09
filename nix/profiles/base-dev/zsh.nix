@@ -88,9 +88,9 @@ in
         "zoxide"
         "git"
         "fzf"
+        "just"
         "rust"
         "pip"
-        "yarn"
         "httpie"
       ];
     };
