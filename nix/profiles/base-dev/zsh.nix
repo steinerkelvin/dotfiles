@@ -104,7 +104,6 @@ in
         "zoxide"
         "git"
         "fzf"
-        "just"
         "rust"
         "pip"
         "httpie"
