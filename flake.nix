@@ -20,7 +20,6 @@
     inputs.flake-parts.lib.mkFlake { inherit inputs; } {
       imports = [
         inputs.home-manager.flakeModules.default
-        ./modules/_transition.nix
         (inputs.import-tree ./modules)
       ];
     };
