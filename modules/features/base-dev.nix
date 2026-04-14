@@ -14,6 +14,11 @@
   flake.homeModules.base-dev = {
     imports = [
       config.flake.homeModules.nix
+      config.flake.homeModules.secrets
+      config.flake.homeModules.sysmon
+      config.flake.homeModules.build-tools
+      config.flake.homeModules.net
+      config.flake.homeModules.shell
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship
