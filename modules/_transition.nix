@@ -10,15 +10,8 @@
 
 let
   nixpkgs = inputs.nixpkgs;
-  nix-darwin = inputs.nix-darwin;
 in
 {
-  flake.darwinConfigurations.satsuki = nix-darwin.lib.darwinSystem {
-    system = "aarch64-darwin";
-    modules = [ ../nix/hosts/satsuki ];
-    specialArgs = { inherit inputs; };
-  };
-
   flake.homeConfigurations = {
     "kelvin" =
       inputs.home-manager.lib.homeManagerConfiguration {
