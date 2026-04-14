@@ -1,32 +1,18 @@
 # Transitional module for the dendritic migration.
 #
-# Every flake output currently lives here, wrapped in flake-parts shape
-# but otherwise identical to what the monolithic flake.nix used to
-# produce. Subsequent commits peel individual outputs out into their
-# own auto-loaded module files, shrinking this file until it's empty
-# and can be deleted.
+# Holds the outputs that have not yet been peeled out into dedicated
+# auto-loaded module files. Shrinks with each subsequent commit.
 #
-# The leading `_` in the filename makes vic/import-tree skip it during
-# auto-loading; it's imported explicitly from flake.nix instead.
+# The leading `_` in the filename makes vic/import-tree skip it; it's
+# imported explicitly from flake.nix.
 
-{ inputs, config, ... }:
+{ inputs, config, overlays, ... }:
 
 let
-  supportedPlatforms = [ "aarch64-linux" "x86_64-linux" "aarch64-darwin" ];
   nixpkgs = inputs.nixpkgs;
   nix-darwin = inputs.nix-darwin;
-
-  darwinDirenvWorkaround = final: prev: {
-    direnv = prev.direnv.overrideAttrs (_: {
-      # Temporary workaround for Darwin test-fish failures:
-      # https://github.com/NixOS/nixpkgs/issues/507531
-      doCheck = false;
-    });
-  };
 in
 {
-  systems = supportedPlatforms;
-
   flake.darwinConfigurations.satsuki = nix-darwin.lib.darwinSystem {
     system = "aarch64-darwin";
     modules = [ ../nix/hosts/satsuki ];
@@ -49,7 +35,7 @@ in
         pkgs = import nixpkgs {
           system = "aarch64-darwin";
           config.allowUnfree = true;
-          overlays = [ darwinDirenvWorkaround ];
+          overlays = [ overlays.darwinDirenv ];
         };
         extraSpecialArgs = { inherit inputs; };
         modules = [ ../nix/users/kelvin/hm/mac.nix ];
@@ -69,25 +55,6 @@ in
   };
 
   perSystem = { system, ... }: {
-    devShells.default =
-      let
-        pkgs = import nixpkgs {
-          inherit system;
-          config.allowUnfree = true;
-        };
-      in
-      pkgs.mkShell {
-        packages = [
-          pkgs.just
-          pkgs.nixd
-          pkgs.nixpkgs-fmt
-          pkgs.shellcheck
-          pkgs.home-manager
-          pkgs.act
-          pkgs.ruff
-        ];
-      };
-
     checks =
       let
         inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
