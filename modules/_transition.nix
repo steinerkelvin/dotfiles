@@ -1,20 +1,13 @@
 # Transitional module for the dendritic migration.
 #
-# Holds the outputs that have not yet been peeled out into dedicated
-# auto-loaded module files. Shrinks with each subsequent commit.
+# All outputs have been peeled into dedicated auto-loaded module files.
+# This file is now empty and is removed in the next commit.
 #
-# The leading `_` in the filename makes vic/import-tree skip it; it's
-# imported explicitly from flake.nix.
+# Kept for one commit so the peel-off of the checks output can be
+# reviewed in isolation, with a followup commit deleting the file and
+# dropping the explicit import from flake.nix.
 
-{ inputs, config, ... }:
+{ ... }:
 
 {
-  perSystem = { system, ... }: {
-    checks =
-      let
-        inherit (inputs.nixpkgs.lib.attrsets) filterAttrs mapAttrs;
-      in
-      mapAttrs (_name: user: user.activationPackage)
-        (filterAttrs (_name: user: user.pkgs.system == system) config.flake.homeConfigurations);
-  };
 }
