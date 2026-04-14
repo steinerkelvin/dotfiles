@@ -1,14 +1,12 @@
 _: {
-  flake.homeModules.npm = { pkgs, lib, config, ... }: {
-    home.packages = lib.optionals config.k.heavy [
+  flake.homeModules.npm = { pkgs, ... }: {
+    home.packages = [
       pkgs.nodejs
       pkgs.bun
     ];
     home.sessionVariables = {
       NPM_CONFIG_PREFIX = "$HOME/.npm-global";
     };
-    home.sessionPath = [
-      "$HOME/.npm-global/bin"
-    ];
+    home.sessionPath = [ "$HOME/.npm-global/bin" ];
   };
 }

@@ -22,7 +22,7 @@ _: {
       # Directory tree viewer
       pkgs.tree
       # Community man pages
-      pkgs.tldr
+      pkgs.tlrc
     ];
   };
 }

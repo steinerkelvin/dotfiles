@@ -1,6 +1,5 @@
 # Reusable home-manager meta-module: base developer kernel.
-# Composes all tool features (direnv, atuin, starship, zsh, git, difftastic,
-# rust, npm, python) plus personal package selections and env vars.
+# Composes all tool features plus a minimal env baseline.
 # Team-neutral by design -- personal layers (AI tooling etc.) live in
 # sibling features (see ai-skills.nix).
 #
@@ -32,9 +31,8 @@
       config.flake.homeModules.rust
       config.flake.homeModules.npm
       config.flake.homeModules.python
-      ./_base-dev/options.nix
-      ./_base-dev/env-var.nix
     ];
+    home.sessionPath = [ "$HOME/.local/bin" ];
     programs.home-manager.enable = true;
   };
 }

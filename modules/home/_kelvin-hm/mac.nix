@@ -13,8 +13,6 @@ in
 
   home.stateVersion = "23.05";
 
-  k.heavy = true;
-
   programs.zsh.initContent = ''
     test -e "/opt/homebrew/bin/brew" && eval "$(/opt/homebrew/bin/brew shellenv)"
   '';

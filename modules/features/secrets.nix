@@ -1,10 +1,9 @@
 _: {
-  flake.homeModules.secrets = { pkgs, lib, config, ... }: {
+  flake.homeModules.secrets = { pkgs, ... }: {
     home.packages = [
       pkgs.gnupg
       pkgs.age
       pkgs.libsecret
-    ] ++ lib.optionals config.k.heavy [
       pkgs.pass
     ];
   };

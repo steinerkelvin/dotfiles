@@ -1,5 +1,5 @@
 _: {
-  flake.homeModules.nix = { pkgs, lib, config, ... }: {
+  flake.homeModules.nix = { pkgs, ... }: {
     home.sessionVariables = {
       NIXPKGS_ALLOW_UNFREE = "1";
     };
@@ -16,8 +16,6 @@ _: {
       # Explorers / tools
       pkgs.nix-index
       pkgs.nix-tree
-    ] ++ lib.optionals (config.k.heavy && pkgs.stdenv.isLinux) [
-      pkgs.nixos-install-tools
     ];
   };
 }
