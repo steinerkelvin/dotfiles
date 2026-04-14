@@ -22,7 +22,6 @@ in
       # Shell tools
       pkgs.stow
       pkgs.shellcheck
-      pkgs.tmux
       pkgs.tmate
       pkgs.abduco
 
@@ -34,12 +33,8 @@ in
       pkgs.croc
 
       # Misc
-      pkgs.jq
       pkgs.yq
       pkgs.envsubst
-
-      # Editors
-      pkgs.vim
 
       # Utilities
       pkgs.tldr

@@ -19,6 +19,7 @@
       config.flake.homeModules.build-tools
       config.flake.homeModules.net
       config.flake.homeModules.shell
+      config.flake.homeModules.editors
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship
