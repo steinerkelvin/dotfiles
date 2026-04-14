@@ -1,8 +1,5 @@
 { lib, ... }:
 
-let
-  shell_scripts = import ../_kelvin-shell { };
-in
 {
   programs.zsh = {
     shellAliases = {
@@ -21,7 +18,7 @@ in
         # Homeshick
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"
       ''
-      + (shell_scripts.dt or "")
+      + builtins.readFile ./dt.sh
     ;
   };
 }
