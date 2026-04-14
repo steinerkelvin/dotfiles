@@ -33,7 +33,6 @@
       config.flake.homeModules.npm
       config.flake.homeModules.python
       ./_base-dev/options.nix
-      ./_base-dev/packages.nix
       ./_base-dev/env-var.nix
     ];
     programs.home-manager.enable = true;
