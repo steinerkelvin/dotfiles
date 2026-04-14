@@ -4,8 +4,8 @@ let username = "kelvin";
 in {
 
   imports = [
-    ../../../../home-modules/base-dev
-    ../../../../home-modules/dev/ai-skills.nix
+    ../../../home/base-dev
+    ../../../home/dev/ai-skills.nix
     ./homeshick.nix
     ./packages.nix
     ./zsh.nix

@@ -8,7 +8,7 @@
         config.allowUnfree = true;
       };
       modules = [
-        ../../home-modules/dev
+        ../../nix/home/dev
         ({ ... }: {
           home.username = "dev";
           home.homeDirectory = "/home/dev";
