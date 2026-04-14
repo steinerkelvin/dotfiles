@@ -8,11 +8,16 @@
         config.allowUnfree = true;
       };
       modules = [
-        ../../nix/home/dev
+        ../../nix/home/base-dev
         ({ ... }: {
           home.username = "dev";
           home.homeDirectory = "/home/dev";
           home.stateVersion = "25.05";
+          programs.claude-code = {
+            enable = true;
+            enableStructuralSearch = true;
+            enableCodeStats = true;
+          };
         })
       ];
     };

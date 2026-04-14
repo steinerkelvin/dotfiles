@@ -1,4 +1,5 @@
-# Reusable home-manager module: base developer setup (shell, git, packages).
+# Reusable home-manager module: base developer setup
+# (shell, git, packages, AI skills).
 # Exposed so external consumers can import it via
 # `inputs.kelvin-dotfiles.homeModules.base-dev`.
 #

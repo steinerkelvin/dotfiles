@@ -6,6 +6,7 @@
     ./packages.nix
     ./zsh.nix
     ./git.nix
+    ./ai-skills.nix
   ];
 
   # Homemanager
