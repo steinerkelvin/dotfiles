@@ -10,28 +10,18 @@ let
     # Terminal file explorer
     pkgs.yazi
     # Git tools
+    # MOVE: git.nix
     pkgs.lazygit
     pkgs.diff-so-fancy
     pkgs.difftastic
 
-    # Language managers
-    pkgs.rustup
-
-    ## JS
-    pkgs.nodejs
-    pkgs.bun
-
-    ## Python
-    # pkgs.python313Packages.pip
-    # pkgs.python313Packages.pipx
-    # pkgs.python313Packages.ipython
-
-    # Python-based tools
-    pkgs.jc # JSON converter for command output (depends on Python)
+    # Language managers and runtimes live in per-tool files:
+    # rust.nix, npm.nix, python.nix
   ];
 
   heavyLinuxPkgs = [
     # NixOS
+    # MOVE: nix.nix
     pkgs.nixos-install-tools
   ];
 
@@ -40,14 +30,17 @@ in
   home.packages =
     (if config.k.heavy then heavyPkgs else [ ]) ++
     [
+      # MOVE: nix.nix
       # Nix tools
-      pkgs.direnv
       pkgs.nix-direnv
       pkgs.nix-index
       pkgs.nix-tree
       pkgs.nixfmt-classic
       pkgs.nixpkgs-fmt
       pkgs.nil
+
+      # INS: move to direnv.nix
+      pkgs.direnv
 
       # Essential
       pkgs.curl
@@ -63,9 +56,6 @@ in
       pkgs.gnumake
       pkgs.pkg-config
       pkgs.openssl
-      ## Scripting
-      pkgs.python3
-      pkgs.uv
 
       # Terminal / Shell tools
       pkgs.zoxide

@@ -2,16 +2,11 @@
 
 {
   home.sessionVariables = {
-    NIXPKGS_ALLOW_UNFREE = "1";
-    NPM_CONFIG_PREFIX = "$HOME/.npm-global";
+    NIXPKGS_ALLOW_UNFREE = "1"; # move to nix.nix
   };
 
   home.sessionPath = [
-    "$HOME/bin"
-    "$HOME/opt/bin"
-    "$HOME/.cargo/bin"
-    "$HOME/.npm-global/bin"
-    "$HOME/node_modules/.bin"
-    "$HOME/.local/bin"
+    "$HOME/bin" # move to kelvin-specific
+    "$HOME/.local/bin" # not sure what to do with this
   ];
 }
