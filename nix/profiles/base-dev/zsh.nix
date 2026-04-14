@@ -93,6 +93,11 @@ in
         # Unalias commands
         unalias gk 2>/dev/null || true
         unalias gke 2>/dev/null || true
+
+        # just completions
+        if command -v just &>/dev/null; then
+          source <(just --completions zsh)
+        fi
       ''
       + builtins.concatStringsSep "" (builtins.attrValues shellScripts)
     ;

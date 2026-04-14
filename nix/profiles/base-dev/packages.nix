@@ -18,16 +18,13 @@ let
     pkgs.rustup
 
     ## JS
-    pkgs.yarn
     pkgs.nodejs
     pkgs.bun
 
     ## Python
-    pkgs.python312
-    pkgs.python312Packages.pip
-    pkgs.python312Packages.pipx
-    pkgs.python312Packages.ipython
-    pkgs.uv
+    # pkgs.python313Packages.pip
+    # pkgs.python313Packages.pipx
+    # pkgs.python313Packages.ipython
 
     # Python-based tools
     pkgs.jc # JSON converter for command output (depends on Python)
@@ -57,6 +54,7 @@ in
       pkgs.wget
       pkgs.rsync
       pkgs.openssh
+      pkgs.mosh
       pkgs.git
       pkgs.git-lfs
       pkgs.moreutils
@@ -64,6 +62,9 @@ in
       pkgs.gnumake
       pkgs.pkg-config
       pkgs.openssl
+      ## Scripting
+      pkgs.python3
+      pkgs.uv
 
       # Terminal / Shell tools
       pkgs.zoxide
@@ -74,7 +75,6 @@ in
       pkgs.tmux
       pkgs.tmate
       pkgs.abduco
-      pkgs.mosh
 
       ## File utilities
       pkgs.file
@@ -94,6 +94,7 @@ in
       # System utilities
       pkgs.killall
       pkgs.htop
+      pkgs.btop
       pkgs.lsof
       pkgs.pstree
       pkgs.bottom
@@ -118,13 +119,6 @@ in
       ## Git
       pkgs.tig
       pkgs.gh
-
-      # Structural code tools
-      pkgs.ast-grep
-      # pkgs.comby # broken in current nixpkgs
-      pkgs.tree-sitter
-      pkgs.tokei
-      pkgs.scc
 
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       # Linux system utilities

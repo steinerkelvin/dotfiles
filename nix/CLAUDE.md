@@ -29,7 +29,7 @@ sudo nixos-rebuild switch --flake .#hostname
 ### Flake Structure
 
 The flake (`dotfiles/flake.nix`) exports:
-- **nixosConfigurations**: NixOS systems (nixia, mako-wsl)
+- **nixosConfigurations**: NixOS systems (nixia)
 - **darwinConfigurations**: macOS systems (satsuki)
 - **homeConfigurations**: Standalone home-manager (kelvin for Linux, mac for macOS)
 - **packages**: Custom packages from `nix/pkgs/`
@@ -40,9 +40,7 @@ The flake (`dotfiles/flake.nix`) exports:
 ```
 nix/
 ├── hosts/           # Host-specific system configurations
-│   ├── common.nix   # Shared NixOS settings (SSH, locale, networking)
-│   ├── pc.nix       # Desktop-specific (audio, printing)
-│   ├── server.nix   # Server-specific settings
+│   ├── common.nix   # Shared NixOS settings (SSH, locale, networking, PC settings)
 │   └── {name}/      # Per-host: default.nix, user.nix, hardware-configuration.nix
 ├── modules/         # Reusable NixOS modules (graphical, services, radeon)
 ├── users/kelvin/    # User configurations
@@ -62,7 +60,6 @@ Custom options defined in `hosts/common.nix`:
 - `k.host.name` - Hostname
 - `k.host.domain` - Domain (default: nyala-komodo.ts.net)
 - `k.host.tags.pc` - Enable desktop features
-- `k.host.tags.server` - Enable server features
 
 ### Home-Manager Modules
 

@@ -98,7 +98,6 @@
 
       nixosConfigurations = {
         nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
-        mako-wsl = mkSystem { extraModules = [ ./nix/hosts/mako-wsl ]; };
       };
 
       darwinConfigurations = {

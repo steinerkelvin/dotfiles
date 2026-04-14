@@ -33,11 +33,9 @@
 
 ### NixOS Host Configurations (`nix/hosts/`)
 
-- `common.nix` - Shared configuration
+- `common.nix` - Shared configuration (includes PC-specific settings)
 - `nixia/` - Configuration for 'nixia' host
-- `ryuko/` - Configuration for 'ryuko' host
-- `kazuma/` - Configuration for 'kazuma' host
-- `stratus/` - Configuration for 'stratus' host
+- `satsuki/` - Configuration for 'satsuki' macOS host
 
 ## macOS Configuration
 

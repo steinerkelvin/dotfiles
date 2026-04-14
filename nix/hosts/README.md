@@ -6,9 +6,7 @@ This directory contains NixOS system configurations for each machine.
 
 ```
 nix/hosts/
-├── common.nix      # Shared settings for all hosts (SSH, locale, networking)
-├── pc.nix          # Settings for desktop/PC hosts (audio, printing)
-├── server.nix      # Settings for server hosts
+├── common.nix      # Shared settings (SSH, locale, networking, PC audio/printing)
 ├── default.nix     # Exports all active hosts
 ├── README.md       # This file
 │
@@ -17,20 +15,8 @@ nix/hosts/
 │   ├── hardware-configuration.nix
 │   └── user.nix
 │
-├── ryuko/          # WSL2 instance
-│   ├── default.nix
-│   └── user.nix
-│
-├── mako-wsl/       # WSL2 server with CUDA
-│   ├── default.nix
-│   └── user.nix
-│
-├── satsuki/        # macOS (nix-darwin)
-│   └── default.nix
-│
-└── old/            # Archived/disabled host configs
-    ├── kazuma/
-    └── stratus/
+└── satsuki/        # macOS (nix-darwin)
+    └── default.nix
 ```
 
 ## Host Configuration Files
@@ -48,7 +34,6 @@ Defined in `common.nix`:
 - `k.host.name` - Hostname
 - `k.host.domain` - Domain (default: nyala-komodo.ts.net)
 - `k.host.tags.pc` - Enable PC-specific config (audio, printing)
-- `k.host.tags.server` - Enable server-specific config
 
 ## Adding a New Host
 
@@ -62,7 +47,6 @@ Defined in `common.nix`:
 
      k.host.name = "{name}";
      # k.host.tags.pc = true;      # For desktops
-     # k.host.tags.server = true;  # For servers
 
      system.stateVersion = "25.05";
      # ... host-specific config
