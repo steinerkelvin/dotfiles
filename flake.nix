@@ -31,6 +31,13 @@
     let
       supportedPlatforms = [ "aarch64-linux" "x86_64-linux" "aarch64-darwin" ];
       forAllPlatforms = nixpkgs.lib.genAttrs supportedPlatforms;
+      darwinDirenvWorkaround = final: prev: {
+        direnv = prev.direnv.overrideAttrs (_: {
+          # Temporary workaround for Darwin test-fish failures:
+          # https://github.com/NixOS/nixpkgs/issues/507531
+          doCheck = false;
+        });
+      };
 
       inputNixosModules = [
         # inputs.agenix.nixosModules.default
@@ -115,7 +122,11 @@
           };
         mac =
           inputs.home-manager.lib.homeManagerConfiguration {
-            pkgs = import nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; };
+            pkgs = import nixpkgs {
+              system = "aarch64-darwin";
+              config.allowUnfree = true;
+              overlays = [ darwinDirenvWorkaround ];
+            };
             extraSpecialArgs = { inherit inputs; };
             modules = [ ./nix/users/kelvin/hm/mac.nix ];
           };
