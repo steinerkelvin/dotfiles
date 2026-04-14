@@ -1,9 +1,7 @@
-{ pkgs, lib, config, ... }:
+{ pkgs, ... }:
 
 {
-  # Vim
-
-  programs.neovim = lib.mkIf config.k.heavy {
+  programs.neovim = {
     enable = true;
     # coc = { enable = true; };
     plugins = let vp = pkgs.vimPlugins; in [
