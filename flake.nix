@@ -10,18 +10,8 @@
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
-    # agenix.url = "github:ryantm/agenix";
-    # agenix.inputs.nixpkgs.follows = "nixpkgs";
-    # agenix.inputs.home-manager.follows = "home-manager";
-
-    # arion.url = "github:hercules-ci/arion";
-    # arion.inputs.nixpkgs.follows = "nixpkgs";
-
     nixos-wsl.url = "github:nix-community/NixOS-WSL";
     nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-
-    # vscode-server.url = "github:nix-community/nixos-vscode-server";
-    # vscode-server.inputs.nixpkgs.follows = "nixpkgs";
 
     k-ddns.url = "github:steinerkelvin/k-ddns";
     k-ddns.inputs.nixpkgs.follows = "nixpkgs";
@@ -39,29 +29,9 @@
         });
       };
 
-      inputNixosModules = [
-        # inputs.agenix.nixosModules.default
-        inputs.home-manager.nixosModules.home-manager
-        # inputs.arion.nixosModules.arion
-        inputs.k-ddns.nixosModules.k-ddns
-      ];
-
-      localNixosModules = import ./nix/modules;
-      allNixosModules = inputNixosModules ++ builtins.attrValues localNixosModules;
-
       lib = import ./nix/lib { inherit inputs; };
-
-      shared = import ./nix/shared.nix;
-
-      mkSystem = args@{ hostPlatform ? "x86_64-linux", extraModules ? [ ], ... }:
-        nixpkgs.lib.nixosSystem (args // {
-          modules = allNixosModules ++ extraModules;
-          specialArgs = { inherit inputs; k-shared = shared; };
-        });
     in
     rec {
-      nixosModules = localNixosModules;
-
       # Export custom packages
       packages = forAllPlatforms (system:
         lib.filterSupportedPkgs system
@@ -95,10 +65,6 @@
           };
         }
       );
-
-      nixosConfigurations = {
-        nixia = mkSystem { extraModules = [ ./nix/hosts/nixia ]; };
-      };
 
       darwinConfigurations = {
         satsuki = nix-darwin.lib.darwinSystem {
@@ -143,25 +109,16 @@
           };
       };
 
-      # TODO: home / profile configurarions
       checks = forAllPlatforms (system:
         let
           inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
           checkPackages = packages.${system};
-          checkHosts = mapAttrs (_name: host: host.config.system.build.toplevel)
-            (filterAttrs (_name: host: host.pkgs.hostPlatform == system)
-              nixosConfigurations);
           checkUsers = mapAttrs (_name: user: user.activationPackage)
             (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
-          # checkDeploys =
-          #   deploy-rs.lib.${system}.deployChecks self.deploy;
         in
         { }
         // checkPackages
-        // checkHosts
         // checkUsers
-        # // checkDeploys
       );
-
     };
 }
