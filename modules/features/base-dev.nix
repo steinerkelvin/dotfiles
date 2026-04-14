@@ -22,6 +22,8 @@
       config.flake.homeModules.editors
       config.flake.homeModules.scripting
       config.flake.homeModules.remote
+      config.flake.homeModules.net-utils
+      config.flake.homeModules.file-utils
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship
