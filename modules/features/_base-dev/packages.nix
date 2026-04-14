@@ -9,14 +9,9 @@ let
     pkgs.imagemagick
     # Terminal file explorer
     pkgs.yazi
-    # Git tools
-    # MOVE: git.nix
-    pkgs.lazygit
-    pkgs.diff-so-fancy
-    pkgs.difftastic
 
-    # Language managers and runtimes live in per-tool files:
-    # rust.nix, npm.nix, python.nix
+    # Language managers, runtimes, and git tools live in per-tool features:
+    # rust.nix, npm.nix, python.nix, git.nix
   ];
 
   heavyLinuxPkgs = [
@@ -38,9 +33,6 @@ in
       pkgs.nixfmt-classic
       pkgs.nixpkgs-fmt
       pkgs.nil
-
-      # INS: move to direnv.nix
-      pkgs.direnv
 
       # Essential
       pkgs.curl

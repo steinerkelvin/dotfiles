@@ -19,6 +19,7 @@
         source "$HOME/.homesick/repos/homeshick/homeshick.sh"
       ''
       + builtins.readFile ./dt.sh
+      + builtins.readFile ./vscode-remote.sh
     ;
   };
 }

@@ -1,4 +1,4 @@
-{ inputs, ... }:
+{ inputs, config, ... }:
 
 {
   flake.homeConfigurations.dev =
@@ -8,8 +8,8 @@
         config.allowUnfree = true;
       };
       modules = [
-        ../features/_base-dev
-        ../features/_ai-skills
+        config.flake.homeModules.base-dev
+        config.flake.homeModules.ai-skills
         ({ ... }: {
           home.username = "dev";
           home.homeDirectory = "/home/dev";

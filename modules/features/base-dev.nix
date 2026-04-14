@@ -1,16 +1,31 @@
-# Reusable home-manager module: base developer kernel
-# (zsh, git, direnv, atuin, packages, common sessionPath/Variables).
-# Team-neutral and Kelvin-neutral by design -- personal layers like
-# AI tooling live in sibling features (see ai-skills.nix).
+# Reusable home-manager meta-module: base developer kernel.
+# Composes all tool features (direnv, atuin, starship, zsh, git, difftastic,
+# rust, npm, python) plus personal package selections and env vars.
+# Team-neutral by design -- personal layers (AI tooling etc.) live in
+# sibling features (see ai-skills.nix).
 #
-# Exposed so external consumers can import it via
-# `inputs.kelvin-dotfiles.homeModules.base-dev`.
-#
-# The option is declared by home-manager.flakeModules.default which is
-# imported in the root flake.nix.
+# External consumers can pull individual tools:
+#   inputs.kelvin-dotfiles.homeModules.direnv
+#   inputs.kelvin-dotfiles.homeModules.zsh
+# or take the full kernel:
+#   inputs.kelvin-dotfiles.homeModules.base-dev
 
-{ ... }:
-
-{
-  flake.homeModules.base-dev = ./_base-dev;
+{ config, ... }: {
+  flake.homeModules.base-dev = {
+    imports = [
+      config.flake.homeModules.direnv
+      config.flake.homeModules.atuin
+      config.flake.homeModules.starship
+      config.flake.homeModules.zsh
+      config.flake.homeModules.git
+      config.flake.homeModules.difftastic
+      config.flake.homeModules.rust
+      config.flake.homeModules.npm
+      config.flake.homeModules.python
+      ./_base-dev/options.nix
+      ./_base-dev/packages.nix
+      ./_base-dev/env-var.nix
+    ];
+    programs.home-manager.enable = true;
+  };
 }

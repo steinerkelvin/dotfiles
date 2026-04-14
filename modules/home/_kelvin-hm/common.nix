@@ -1,11 +1,11 @@
-{ pkgs, config, ... }:
+{ pkgs, config, inputs, ... }:
 
 let username = "kelvin";
 in {
 
   imports = [
-    ../../features/_base-dev
-    ../../features/_ai-skills
+    inputs.self.homeModules.base-dev
+    inputs.self.homeModules.ai-skills
     ./homeshick.nix
     ./packages.nix
     ./zsh.nix
