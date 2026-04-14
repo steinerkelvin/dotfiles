@@ -13,14 +13,13 @@ in {
     ./nvim.nix
   ];
 
-  home.username = username;
-  home.sessionPath = [ "$HOME/bin" ];
-
-  # Environment
-  home.sessionVariables = {
-    # Default editors
-    EDITOR = "nvim";
-    VISUAL = "nvim";
+  home = {
+    username = username;
+    sessionPath = [ "$HOME/bin" ];
+    sessionVariables = {
+      EDITOR = "nvim";
+      VISUAL = "nvim";
+    };
   };
 
   # Secrets

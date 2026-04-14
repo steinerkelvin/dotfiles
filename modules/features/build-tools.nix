@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.build-tools = { pkgs, ... }: {
     home.packages = [
       pkgs.just

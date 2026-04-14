@@ -11,7 +11,7 @@
       modules = [
         ./_kelvin-hm/common.nix
         ./_kelvin-hm/linux.nix
-        ({ ... }: { home.stateVersion = "23.05"; })
+        (_: { home.stateVersion = "23.05"; })
       ];
     };
 }

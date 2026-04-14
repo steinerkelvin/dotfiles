@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.file-utils = { pkgs, ... }: {
     home.packages = [
       pkgs.unzip

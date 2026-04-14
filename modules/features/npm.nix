@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.npm = { pkgs, lib, config, ... }: {
     home.packages = lib.optionals config.k.heavy [
       pkgs.nodejs

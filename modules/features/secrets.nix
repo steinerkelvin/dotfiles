@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.secrets = { pkgs, lib, config, ... }: {
     home.packages = [
       pkgs.gnupg

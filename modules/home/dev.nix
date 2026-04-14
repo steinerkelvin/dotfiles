@@ -10,10 +10,12 @@
       modules = [
         config.flake.homeModules.base-dev
         config.flake.homeModules.ai-skills
-        ({ ... }: {
-          home.username = "dev";
-          home.homeDirectory = "/home/dev";
-          home.stateVersion = "25.05";
+        (_: {
+          home = {
+            username = "dev";
+            homeDirectory = "/home/dev";
+            stateVersion = "25.05";
+          };
           programs.claude-code = {
             enable = true;
             enableStructuralSearch = true;

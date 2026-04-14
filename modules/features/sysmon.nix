@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.sysmon = { pkgs, lib, ... }: {
     home.packages = [
       pkgs.killall

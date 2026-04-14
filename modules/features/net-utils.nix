@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.net-utils = { pkgs, ... }: {
     home.packages = [
       pkgs.openssh

@@ -1,4 +1,4 @@
-{ ... }: {
+_: {
   flake.homeModules.net = { pkgs, ... }: {
     home.packages = [
       pkgs.mosh

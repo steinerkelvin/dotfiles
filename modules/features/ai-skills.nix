@@ -11,7 +11,7 @@
 # The option is declared by home-manager.flakeModules.default which is
 # imported in the root flake.nix.
 
-{ ... }:
+_:
 
 {
   flake.homeModules.ai-skills = ./_ai-skills;

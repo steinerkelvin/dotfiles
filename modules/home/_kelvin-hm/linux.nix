@@ -1,9 +1,11 @@
-{ ... }:
+_:
 
 let
   username = "kelvin";
 in
 {
-  home.username = username;
-  home.homeDirectory = "/home/${username}";
+  home = {
+    username = username;
+    homeDirectory = "/home/${username}";
+  };
 }

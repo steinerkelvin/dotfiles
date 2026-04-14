@@ -1,10 +1,10 @@
-{ ... }: {
+_: {
   flake.homeModules.shell = { pkgs, ... }: {
     home.packages = [
-      # Modern ls replacement
-      pkgs.eza
       # Fuzzy finder
       pkgs.fzf
+      # Modern ls replacement
+      pkgs.eza
       # Fast grep replacement
       pkgs.ripgrep
       # Smart cd

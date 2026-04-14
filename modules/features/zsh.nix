@@ -1,5 +1,5 @@
-{ ... }: {
-  flake.homeModules.zsh = { ... }: {
+_: {
+  flake.homeModules.zsh = _: {
     programs.zsh = {
       enable = true;
       shellAliases = {

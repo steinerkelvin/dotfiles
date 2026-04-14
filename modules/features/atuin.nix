@@ -1,5 +1,5 @@
-{ ... }: {
-  flake.homeModules.atuin = { ... }: {
+_: {
+  flake.homeModules.atuin = _: {
     programs.atuin = {
       enable = true;
       enableZshIntegration = true;
