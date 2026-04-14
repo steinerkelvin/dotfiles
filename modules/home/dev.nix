@@ -8,8 +8,8 @@
         config.allowUnfree = true;
       };
       modules = [
-        ../../nix/home/base-dev
-        ../../nix/home/ai-skills
+        ../features/_base-dev
+        ../features/_ai-skills
         ({ ... }: {
           home.username = "dev";
           home.homeDirectory = "/home/dev";

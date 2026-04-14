@@ -3,7 +3,7 @@
 {
   flake.darwinConfigurations.satsuki = inputs.nix-darwin.lib.darwinSystem {
     system = "aarch64-darwin";
-    modules = [ ../../nix/hosts/satsuki ];
+    modules = [ ./_satsuki ];
     specialArgs = { inherit inputs; };
   };
 }

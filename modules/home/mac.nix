@@ -10,7 +10,7 @@
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        ../../nix/users/kelvin/hm/mac.nix
+        ./_kelvin-hm/mac.nix
       ];
     };
 }

@@ -14,5 +14,5 @@
 { ... }:
 
 {
-  flake.homeModules.ai-skills = ../../nix/home/ai-skills;
+  flake.homeModules.ai-skills = ./_ai-skills;
 }

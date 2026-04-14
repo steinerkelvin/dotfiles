@@ -12,5 +12,5 @@
 { ... }:
 
 {
-  flake.homeModules.base-dev = ../../nix/home/base-dev;
+  flake.homeModules.base-dev = ./_base-dev;
 }

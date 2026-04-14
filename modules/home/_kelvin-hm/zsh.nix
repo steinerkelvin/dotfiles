@@ -1,7 +1,7 @@
 { lib, ... }:
 
 let
-  shell_scripts = import ../shell { };
+  shell_scripts = import ../_kelvin-shell { };
 in
 {
   programs.zsh = {
