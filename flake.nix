@@ -9,12 +9,6 @@
 
     nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.11";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
-
-    nixos-wsl.url = "github:nix-community/NixOS-WSL";
-    nixos-wsl.inputs.nixpkgs.follows = "nixpkgs";
-
-    k-ddns.url = "github:steinerkelvin/k-ddns";
-    k-ddns.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs@{ self, nixpkgs, nix-darwin, ... }:
