@@ -13,7 +13,8 @@
       "WebSearch",
       "WebFetch(domain:developers.raycast.com)",
       "WebFetch(domain:sw.kovidgoyal.net)",
-      "WebFetch(domain:man.archlinux.org)"
+      "WebFetch(domain:man.archlinux.org)",
+      "WebFetch(domain:flake.parts)"
     ],
     "deny": [],
     "ask": []

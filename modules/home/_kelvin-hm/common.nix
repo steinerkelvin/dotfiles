@@ -14,6 +14,7 @@ in {
   ];
 
   home.username = username;
+  home.sessionPath = [ "$HOME/bin" ];
 
   # Environment
   home.sessionVariables = {

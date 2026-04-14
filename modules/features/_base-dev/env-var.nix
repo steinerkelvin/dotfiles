@@ -6,7 +6,6 @@
   };
 
   home.sessionPath = [
-    "$HOME/bin" # move to kelvin-specific
-    "$HOME/.local/bin" # not sure what to do with this
+    "$HOME/.local/bin"
   ];
 }

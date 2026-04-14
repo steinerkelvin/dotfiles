@@ -13,12 +13,12 @@
 { config, ... }: {
   flake.homeModules.base-dev = {
     imports = [
+      config.flake.homeModules.nix
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship
       config.flake.homeModules.zsh
       config.flake.homeModules.git
-      config.flake.homeModules.difftastic
       config.flake.homeModules.rust
       config.flake.homeModules.npm
       config.flake.homeModules.python

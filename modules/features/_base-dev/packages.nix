@@ -15,9 +15,6 @@ let
   ];
 
   heavyLinuxPkgs = [
-    # NixOS
-    # MOVE: nix.nix
-    pkgs.nixos-install-tools
   ];
 
 in
@@ -25,23 +22,12 @@ in
   home.packages =
     (if config.k.heavy then heavyPkgs else [ ]) ++
     [
-      # MOVE: nix.nix
-      # Nix tools
-      pkgs.nix-direnv
-      pkgs.nix-index
-      pkgs.nix-tree
-      pkgs.nixfmt-classic
-      pkgs.nixpkgs-fmt
-      pkgs.nil
-
       # Essential
       pkgs.curl
       pkgs.wget
       pkgs.rsync
       pkgs.openssh
       pkgs.mosh
-      pkgs.git
-      pkgs.git-lfs
       pkgs.moreutils
       ## Build
       pkgs.just
@@ -98,11 +84,6 @@ in
 
       # Utilities
       pkgs.tldr
-
-      ## Git
-      pkgs.tig
-      pkgs.gh
-
     ] ++ lib.optionals pkgs.stdenv.isLinux [
       # Linux system utilities
       pkgs.lshw
