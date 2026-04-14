@@ -9,6 +9,7 @@
       };
       modules = [
         ../../nix/home/base-dev
+        ../../nix/home/ai-skills
         ({ ... }: {
           home.username = "dev";
           home.homeDirectory = "/home/dev";

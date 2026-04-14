@@ -5,6 +5,7 @@ in {
 
   imports = [
     ../../../home/base-dev
+    ../../../home/ai-skills
     ./homeshick.nix
     ./packages.nix
     ./zsh.nix

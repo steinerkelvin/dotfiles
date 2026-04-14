@@ -2,7 +2,7 @@
 
 let
   cfg = config.programs.claude-code;
-  skillRoot = ./ai-skills;
+  skillRoot = ./skills;
   sharedSkills = {
     uv-scripts = skillRoot + "/uv-scripts";
     structural-search = skillRoot + "/structural-search";
