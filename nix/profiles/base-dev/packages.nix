@@ -59,6 +59,7 @@ in
       pkgs.git-lfs
       pkgs.moreutils
       ## Build
+      pkgs.just
       pkgs.gnumake
       pkgs.pkg-config
       pkgs.openssl
