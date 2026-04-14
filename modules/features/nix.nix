@@ -7,6 +7,9 @@
     home.packages = [
       # Language server
       pkgs.nil
+      # Linters
+      pkgs.statix
+      pkgs.deadnix
       # Formatters
       pkgs.nixfmt-classic
       pkgs.nixpkgs-fmt
