@@ -20,6 +20,8 @@
       config.flake.homeModules.net
       config.flake.homeModules.shell
       config.flake.homeModules.editors
+      config.flake.homeModules.scripting
+      config.flake.homeModules.remote
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship

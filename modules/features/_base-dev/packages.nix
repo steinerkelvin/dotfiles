@@ -12,31 +12,15 @@ in
   home.packages =
     (if config.k.heavy then heavyPkgs else [ ]) ++
     [
-      # Essential
+      # Network essentials
+      pkgs.openssh
       pkgs.curl
       pkgs.wget
       pkgs.rsync
-      pkgs.openssh
-      pkgs.moreutils
-
-      # Shell tools
-      pkgs.stow
-      pkgs.shellcheck
-      pkgs.tmate
-      pkgs.abduco
 
       # File utilities
-      pkgs.file
-      pkgs.tree
-      pkgs.dua
       pkgs.unzip
+      pkgs.dua
       pkgs.croc
-
-      # Misc
-      pkgs.yq
-      pkgs.envsubst
-
-      # Utilities
-      pkgs.tldr
     ];
 }

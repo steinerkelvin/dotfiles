@@ -15,8 +15,14 @@
       pkgs.fd
       # JSON processor
       pkgs.jq
+      # YAML processor
+      pkgs.yq
       # Terminal multiplexer
       pkgs.tmux
+      # Directory tree viewer
+      pkgs.tree
+      # Community man pages
+      pkgs.tldr
     ];
   };
 }
