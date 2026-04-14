@@ -1,0 +1,52 @@
+{ pkgs, lib, config, ... }:
+
+let
+  cfg = config.programs.claude-code;
+  skillRoot = ./ai-skills;
+  sharedSkills = {
+    uv-scripts = skillRoot + "/uv-scripts";
+    structural-search = skillRoot + "/structural-search";
+    code-stats = skillRoot + "/code-stats";
+  };
+  enabledSharedSkills =
+    { uv-scripts = sharedSkills.uv-scripts; }
+    // lib.optionalAttrs cfg.enableStructuralSearch {
+      structural-search = sharedSkills.structural-search;
+    }
+    // lib.optionalAttrs cfg.enableCodeStats {
+      code-stats = sharedSkills.code-stats;
+    };
+  codexSkillFiles = lib.mapAttrs'
+    (name: source: {
+      name = ".codex/skills/${name}";
+      value.source = source;
+    })
+    enabledSharedSkills;
+in
+{
+  options.programs.claude-code = {
+    enableStructuralSearch = lib.mkEnableOption "structural code search skill and tools (ast-grep, comby, tree-sitter)";
+    enableCodeStats = lib.mkEnableOption "code statistics skill and tools (tokei, scc)";
+  };
+
+  config = lib.mkIf cfg.enable {
+    # Claude Code currently loads skills from directory-backed entries such as
+    # .claude/skills/<name>/SKILL.md. Using path values here makes Home Manager
+    # emit that layout instead of standalone .md files.
+    programs.claude-code.skills = enabledSharedSkills;
+
+    # Codex also loads skills from directory-backed entries with SKILL.md.
+    # Link the same repo-backed skill definitions into ~/.codex/skills.
+    home.file = codexSkillFiles;
+
+    home.packages =
+      lib.optionals cfg.enableStructuralSearch [
+        pkgs.ast-grep
+        # pkgs.comby # broken in current nixpkgs
+        pkgs.tree-sitter
+      ] ++ lib.optionals cfg.enableCodeStats [
+        pkgs.tokei
+        pkgs.scc
+      ];
+  };
+}

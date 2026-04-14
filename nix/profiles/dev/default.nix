@@ -3,7 +3,7 @@
 {
   imports = [
     ../base-dev
-    ./claude-code.nix
+    ./ai-skills.nix
   ];
 
   programs.claude-code = {

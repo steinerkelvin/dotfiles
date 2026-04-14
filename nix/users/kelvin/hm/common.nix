@@ -5,7 +5,7 @@ in {
 
   imports = [
     ../../../profiles/base-dev
-    ../../../profiles/dev/claude-code.nix
+    ../../../profiles/dev/ai-skills.nix
     ./homeshick.nix
     ./packages.nix
     ./zsh.nix
