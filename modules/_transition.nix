@@ -6,51 +6,13 @@
 # The leading `_` in the filename makes vic/import-tree skip it; it's
 # imported explicitly from flake.nix.
 
-{ inputs, config, overlays, ... }:
+{ inputs, config, ... }:
 
-let
-  nixpkgs = inputs.nixpkgs;
-in
 {
-  flake.homeConfigurations = {
-    "kelvin" =
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
-        extraSpecialArgs = { inherit inputs; };
-        modules = [
-          ../nix/users/kelvin/hm/common.nix
-          ../nix/users/kelvin/hm/linux.nix
-          ({ ... }: { home.stateVersion = "23.05"; })
-        ];
-      };
-    mac =
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs {
-          system = "aarch64-darwin";
-          config.allowUnfree = true;
-          overlays = [ overlays.darwinDirenv ];
-        };
-        extraSpecialArgs = { inherit inputs; };
-        modules = [ ../nix/users/kelvin/hm/mac.nix ];
-      };
-    dev =
-      inputs.home-manager.lib.homeManagerConfiguration {
-        pkgs = import nixpkgs { system = "x86_64-linux"; config.allowUnfree = true; };
-        modules = [
-          ../nix/profiles/dev
-          ({ ... }: {
-            home.username = "dev";
-            home.homeDirectory = "/home/dev";
-            home.stateVersion = "25.05";
-          })
-        ];
-      };
-  };
-
   perSystem = { system, ... }: {
     checks =
       let
-        inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
+        inherit (inputs.nixpkgs.lib.attrsets) filterAttrs mapAttrs;
       in
       mapAttrs (_name: user: user.activationPackage)
         (filterAttrs (_name: user: user.pkgs.system == system) config.flake.homeConfigurations);
