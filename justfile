@@ -13,6 +13,10 @@ check-hm-mac:
 check-hm-linux:
     nix build .#homeConfigurations.kelvin.activationPackage
 
+lint:
+    statix check .
+    deadnix .
+
 fmt:
     find . -name "*.nix" -exec nixpkgs-fmt {} \;
 
