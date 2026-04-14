@@ -2,7 +2,6 @@
 
 let
   shellScripts = {
-    try-echo = builtins.readFile ./shell/try-echo.sh;
     vscode-remote = builtins.readFile ./shell/vscode-remote.sh;
   };
 in

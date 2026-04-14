@@ -127,7 +127,6 @@ dotfiles/
       options.nix
       packages.nix
       shell/
-        try-echo.sh
         vscode-remote.sh
       zsh.nix
     dev/                     # (moved from nix/profiles/dev/)
