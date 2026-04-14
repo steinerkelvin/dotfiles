@@ -28,22 +28,8 @@
           doCheck = false;
         });
       };
-
-      lib = import ./nix/lib { inherit inputs; };
     in
     rec {
-      # Export custom packages
-      packages = forAllPlatforms (system:
-        lib.filterSupportedPkgs system
-          (import ./nix/pkgs {
-            pkgs = import nixpkgs {
-              inherit system;
-              overlays = [ ];
-              config.allowUnfree = true;
-            };
-          })
-      );
-
       devShells = forAllPlatforms (system:
         let
           pkgs = import nixpkgs {
@@ -112,13 +98,9 @@
       checks = forAllPlatforms (system:
         let
           inherit (nixpkgs.lib.attrsets) filterAttrs mapAttrs;
-          checkPackages = packages.${system};
-          checkUsers = mapAttrs (_name: user: user.activationPackage)
-            (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations);
         in
-        { }
-        // checkPackages
-        // checkUsers
+        mapAttrs (_name: user: user.activationPackage)
+          (filterAttrs (_name: user: user.pkgs.system == system) homeConfigurations)
       );
     };
 }
