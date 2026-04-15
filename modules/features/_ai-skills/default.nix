@@ -5,11 +5,15 @@ let
   skillRoot = ./skills;
   sharedSkills = {
     uv-scripts = skillRoot + "/uv-scripts";
+    direnv-layout-uv = skillRoot + "/direnv-layout-uv";
     structural-search = skillRoot + "/structural-search";
     code-stats = skillRoot + "/code-stats";
   };
   enabledSharedSkills =
-    { uv-scripts = sharedSkills.uv-scripts; }
+    {
+      uv-scripts = sharedSkills.uv-scripts;
+      direnv-layout-uv = sharedSkills.direnv-layout-uv;
+    }
     // lib.optionalAttrs cfg.enableStructuralSearch {
       structural-search = sharedSkills.structural-search;
     }
