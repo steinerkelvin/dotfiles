@@ -3,16 +3,15 @@
 ---
 
 - [.XCompose](home/.XCompose)
-- [.vimrc](home/.vimrc)
 - on Nix
-  - [zsh.nix](nix/users/kelvin/hm/zsh.nix)
-  - [nvim.nix](nix/users/kelvin/hm/nvim.nix)
-  - [nvim.lua](nix/users/kelvin/hm/nvim.lua)
-  - [i3.nix](nix/users/kelvin/hm/i3.nix)
-  - [packages.nix](nix/users/kelvin/hm/packages.nix)
-  - ·
-  - [nix/hosts/common.nix](nix/hosts/common.nix)
-  - [nix/users/kelvin/hm/](nix/users/kelvin/hm/)
+  - [modules/features/zsh.nix](modules/features/zsh.nix)
+  - [modules/home/\_kelvin-hm/nvim.nix](modules/home/_kelvin-hm/nvim.nix)
+  - [modules/home/\_kelvin-hm/nvim.lua](modules/home/_kelvin-hm/nvim.lua)
+  - [modules/features/](modules/features/)
+  - [modules/home/](modules/home/)
+  - [modules/hosts/satsuki.nix](modules/hosts/satsuki.nix)
+
+<!-- - [.vimrc](home/.vimrc) -->
 
 ---
 
@@ -34,22 +33,3 @@
 - [Git Graph]
   - View a Git graph of your repository, and easily perform Git actions from the graph.
 - [Even Better TOML]
-
-## Testing
-
-- [LTeX]
-  - Grammar/spell checker using LanguageTool
-- [GhostText]
-  - Use your text editor in the browser
-- [HackMD]
-
-[Rewrap]: https://marketplace.visualstudio.com/items?itemName=stkb.rewrap
-[Todo Tree]: https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree
-[ShellCheck]: https://marketplace.visualstudio.com/items?itemName=timonwong.shellcheck
-[Git Graph]: https://marketplace.visualstudio.com/items?itemName=mhutchie.git-graph
-[GitLens]: https://marketplace.visualstudio.com/items?itemName=eamodio.gitlens
-[Even Better TOML]: https://marketplace.visualstudio.com/items?itemName=tamasfe.even-better-toml
-
-[LTeX]: https://marketplace.visualstudio.com/items?itemName=valentjn.vscode-ltex
-[GhostText]: https://ghosttext.fregante.com/
-[HackMD]: https://marketplace.visualstudio.com/items?itemName=HackMD.vscode-hackmd

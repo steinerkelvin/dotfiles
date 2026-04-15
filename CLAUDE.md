@@ -108,11 +108,12 @@ Script-based clipboard utilities: `clip-copy` and `clip-paste`
 
 - Check/lint code: `just fmt` or `nixpkgs-fmt path/to/file.nix`
 - Check configurations: `just check` or `nix flake check`
+- Evaluate all exported systems: `just check-all-systems`
 - Run specific home-manager check: `just check-hm-linux` or `just check-hm-mac`
 - Test workflows locally: `just test-workflow` or `just test-pr`
 - Update Nix flake: `just update` or `nix flake update`
 - Deploy NixOS: `sudo nixos-rebuild switch --flake .#hostname`
-- Deploy home-manager: `./deploy-home-manager.sh`
+- Bootstrap/deploy home-manager: `just deploy-hm` or `./bootstrap-home-manager.sh`
 - Apply macOS settings: `./mac/macos-settings.sh`
 
 ## JavaScript Runtime Environments
@@ -140,7 +141,7 @@ Script-based clipboard utilities: `clip-copy` and `clip-paste`
 - Always add a newline at the end of a file
 - Use 2-space indentation for all files
 - Maximum line length: 100 characters
-- Use kebab-case for filenames (`deploy-home-manager.sh`)
+- Use kebab-case for filenames (`bootstrap-home-manager.sh`)
 - Prefix personal utility scripts with `k-`
 - Use descriptive variable/attribute names
 - Annotate TODOs in comments

@@ -6,7 +6,7 @@ in {
   imports = [
     inputs.self.homeModules.base-dev
     inputs.self.homeModules.ai-skills
-    ./homeshick.nix
+    inputs.self.homeModules.homeshick
     ./packages.nix
     ./zsh.nix
     ./git.nix

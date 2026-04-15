@@ -7,6 +7,6 @@
         inherit (inputs.nixpkgs.lib.attrsets) filterAttrs mapAttrs;
       in
       mapAttrs (_name: user: user.activationPackage)
-        (filterAttrs (_name: user: user.pkgs.system == system) config.flake.homeConfigurations);
+        (filterAttrs (_name: user: user.pkgs.stdenv.hostPlatform.system == system) config.flake.homeConfigurations);
   };
 }

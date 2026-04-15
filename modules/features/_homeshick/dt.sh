@@ -21,6 +21,7 @@ function dt {
 
 # completion for dt command
 function _dt_completion {
+  # shellcheck disable=SC2034,SC2154
   local -a dt_commands
   dt_commands=(
     "check:Check dotfiles for updates"
@@ -30,7 +31,7 @@ function _dt_completion {
     "cd:Change to dotfiles directory"
     "refresh:Refresh dotfiles (check after specified days)"
   )
-  
+
   if (( CURRENT == 2 )); then
     _describe -t commands "dt commands" dt_commands
   elif (( CURRENT > 2 )) && [[ "${words[2]}" == "track" ]]; then

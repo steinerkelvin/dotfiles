@@ -4,38 +4,49 @@
 
 ### Core Directories
 
-- `/home/` - Dotfiles to be symlinked to home directory
-- `/nix/` - Nix configuration files for NixOS and home-manager
-- `/mac/` - macOS-specific configurations
-- `/scripts/` - Utility scripts
-- `/old/` - Legacy configurations (archived)
+- `/home/` - Dotfiles mirrored into the home directory
+- `/modules/` - Flake-parts modules loaded automatically from the root flake
+- `/modules/features/` - Reusable `flake.homeModules.*` building blocks
+- `/modules/home/` - Concrete Home Manager configurations
+- `/modules/hosts/` - Host-level system configurations
+- `/mac/` - macOS-specific configuration and setup notes
+- `/packages/` - Related package workspaces
+- `/old/` - Legacy configurations and archived reference material
 
 ### Configuration Files
 
 - `flake.nix` - Nix flake entry point
-- `deploy-home-manager.sh` - Script to deploy home-manager configuration
+- `bootstrap-home-manager.sh` - Bootstraps Nix if needed, then activates the repo-pinned Home Manager config
 - `justfile` - Task definitions for the `just` command runner
 
 ## Nix Configuration
 
-### Home Manager Modules (`nix/users/kelvin/hm/`)
+### Reusable Feature Modules (`modules/features/`)
 
-- `zsh.nix` - ZSH shell configuration
-- `nvim.nix` - Neovim configuration
-- `packages.nix` - User packages
-- `i3.nix` - i3 window manager config
-- `direnv.nix` - direnv configuration
-- `git.nix` - Git configuration
+- `base-dev.nix` - Shared developer baseline
+- `ai-skills.nix` - AI tooling skill layer
+- `shell.nix`, `git.nix`, `nix.nix`, etc. - Feature-scoped Home Manager modules
 
-### Shell Scripts (`nix/users/kelvin/shell/`)
+### Home Manager Configurations (`modules/home/`)
 
-- `dt.sh` - Dotfiles management utility
+- `kelvin.nix` - Linux Home Manager entrypoint for Kelvin
+- `mac.nix` - macOS Home Manager entrypoint
+- `dev.nix` - Minimal dev/container-oriented profile
 
-### NixOS Host Configurations (`nix/hosts/`)
+### Kelvin-Specific Layer (`modules/home/_kelvin-hm/`)
 
-- `common.nix` - Shared configuration (includes PC-specific settings)
-- `nixia/` - Configuration for 'nixia' host
-- `satsuki/` - Configuration for 'satsuki' macOS host
+- `common.nix` - Shared personal composition
+- `linux.nix` / `mac.nix` - Platform-specific user settings
+- `zsh.nix`, `git.nix`, `nvim.nix`, `packages.nix` - Personal overlays on top of reusable modules
+
+### Host Configurations (`modules/hosts/`)
+
+- `satsuki.nix` - nix-darwin host configuration
+
+### Shell Scripts (`home/bin/`)
+
+- `k-*` scripts - Personal utilities
+- `clip-copy`, `clip-paste` - Cross-platform clipboard helpers
 
 ## macOS Configuration
 
@@ -57,4 +68,6 @@
 
 - `README.md` - Main repository documentation
 - `CLAUDE.md` - Dotfiles management guidelines
+- `kelvin-profile-plan.md` - Proposed reorganization plan for the Kelvin-specific HM profile layer
+- `MIGRATION.md` - Historical notes from the flake-parts migration
 - `TODO.md` - Planned improvements

@@ -4,6 +4,7 @@
 
 - [ ] Migrate to nixos/nixpkgs 25.11
 - [ ] Measure eval / build times for `dev` closure
+- [ ] Add real Darwin CI coverage; current GitHub Actions `--all-systems` pass is eval-only
 
 ## Momo Server
 

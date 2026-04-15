@@ -12,7 +12,7 @@ _: {
         init.defaultBranch = "master";
         color.ui = true;
         alias = {
-          # On-demand structural diff via difftastic
+          # Explicit difftastic diff shortcut
           difft = "!git -c diff.external=difft diff";
         };
       };
@@ -21,13 +21,13 @@ _: {
     # Delta: syntax-highlighting pager for git output
     programs.delta = {
       enable = true;
-      enableGitIntegration = true;
+      enableGitIntegration = false;
     };
 
-    # Difftastic: structural word-level diffs (use via `git difft`)
+    # Difftastic: structural diffs for regular `git diff`
     programs.difftastic = {
       enable = true;
-      git.enable = false;
+      git.enable = true;
     };
 
     home.packages = [
