@@ -71,6 +71,6 @@
 
 - `README.md` - High-level entrypoints and common commands
 - `INDEX.md` - This structure map
-- `CLAUDE.md` - Repo-wide structure and style guidance
-- `AGENTS.md` - Concise agent-facing invariants
+- `AGENTS.md` - Repo-wide instructions for coding agents
+- `CLAUDE.md` - Minimal Claude Code-specific pointer file
 - `TODO.md` - Current backlog and longer-lived cleanup ideas

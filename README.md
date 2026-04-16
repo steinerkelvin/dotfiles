@@ -24,6 +24,6 @@ The repo keeps the flake-parts dendritic tree in [`modules/`](modules/) and the 
 ## More Docs
 
 - [`INDEX.md`](INDEX.md) - Current structure map
-- [`CLAUDE.md`](CLAUDE.md) - Repo-wide structure and style guidance
-- [`AGENTS.md`](AGENTS.md) - Concise automation-facing invariants
+- [`AGENTS.md`](AGENTS.md) - Repo-wide instructions for coding agents
+- [`CLAUDE.md`](CLAUDE.md) - Claude Code-specific notes and pointer to `AGENTS.md`
 - [`mac/README.md`](mac/README.md) - macOS-specific notes
