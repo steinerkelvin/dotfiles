@@ -56,7 +56,7 @@
 
 #### Tab Completion Behavior (Fixed)
 
-- ✓ Fixed non-yank delete mapping in nvim.lua (`<space>d`) for both normal and visual modes
+- ✓ Fixed non-yank delete mapping in `profiles/kelvin/apps/nvim/config.lua` (`<space>d`) for both normal and visual modes
 - Consider adapting smart tab completion logic from old init.vim:
   - Uses Tab to navigate completion menu when open
   - Inserts tab when appropriate (after space)

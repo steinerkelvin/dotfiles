@@ -42,9 +42,8 @@
 
       " load lua config
       lua << EOF
-        ${builtins.readFile ./nvim.lua}
+        ${builtins.readFile ./config.lua}
       EOF
     '';
   };
-
 }

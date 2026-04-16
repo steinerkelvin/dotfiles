@@ -9,7 +9,7 @@ The repo keeps the flake-parts dendritic tree in [`modules/`](modules/) and the 
 - [`flake.nix`](flake.nix) - Flake entry point with the plain `import-tree` loader
 - [`modules/features/`](modules/features/) - Reusable `flake.homeModules.*` building blocks
 - [`modules/home/targets/`](modules/home/targets/) - Concrete Home Manager activation targets
-- [`profiles/kelvin/`](profiles/kelvin/) - Kelvin-owned profile composition and app config
+- [`profiles/kelvin/`](profiles/kelvin/) - Kelvin-owned profile composition, with app modules under `apps/`
 - [`modules/hosts/satsuki.nix`](modules/hosts/satsuki.nix) - nix-darwin host config
 - [`bootstrap-home-manager.sh`](bootstrap-home-manager.sh) - Bootstrap and deploy script
 

@@ -5,9 +5,9 @@
     inputs.self.homeModules.base-dev
     inputs.self.homeModules.ai-skills
     inputs.self.homeModules.homeshick
+    ./apps
     ./packages.nix
     ./zsh.nix
-    ./nvim.nix
   ];
 
   home = {
@@ -20,11 +20,4 @@
 
   # Secrets
   programs.gpg.enable = true;
-
-  # Claude Code
-  programs.claude-code = {
-    enable = true;
-    enableStructuralSearch = true;
-    enableCodeStats = true;
-  };
 }

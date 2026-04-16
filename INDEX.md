@@ -38,9 +38,11 @@
 
 - `default.nix` - Shared personal composition entrypoint
 - `identity.nix` - Username, Git identity, and profile-wide identity defaults
+- `apps/` - App-specific Kelvin-owned modules and adjacent assets
+- `apps/claude-code.nix` - Claude Code enablement and local feature toggles
+- `apps/nvim/` - Neovim module and adjacent Lua config
 - `platform/` - Platform-only profile settings
-- `zsh.nix`, `nvim.nix`, `packages.nix` - Personal overlays on top of reusable modules
-- `nvim.lua` - Neovim Lua config owned by the Kelvin profile
+- `zsh.nix`, `packages.nix` - Personal overlays on top of reusable modules
 - `vscode-remote.sh` - Helper script referenced by the Kelvin profile layer
 
 ### Host Configurations (`modules/hosts/`)
