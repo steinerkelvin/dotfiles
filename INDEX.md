@@ -39,6 +39,8 @@
 - `common.nix` - Shared personal composition
 - `linux.nix` / `mac.nix` - Platform-specific user settings
 - `zsh.nix`, `git.nix`, `nvim.nix`, `packages.nix` - Personal overlays on top of reusable modules
+- `nvim.lua` - Neovim Lua config owned by the Kelvin profile
+- `vscode-remote.sh` - Helper script referenced by the Kelvin profile layer
 
 ### Host Configurations (`modules/hosts/`)
 
@@ -67,8 +69,8 @@
 
 ## Documentation
 
-- `README.md` - Main repository documentation
-- `CLAUDE.md` - Dotfiles management guidelines
-- `kelvin-profile-plan.md` - Proposed reorganization plan for the Kelvin-specific HM profile layer
-- `MIGRATION.md` - Historical notes from the flake-parts migration
-- `TODO.md` - Planned improvements
+- `README.md` - High-level entrypoints and common commands
+- `INDEX.md` - This structure map
+- `CLAUDE.md` - Repo-wide structure and style guidance
+- `AGENTS.md` - Concise agent-facing invariants
+- `TODO.md` - Current backlog and longer-lived cleanup ideas

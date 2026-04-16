@@ -4,6 +4,12 @@
 
 See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
+## Documentation Roles
+
+- `README.md` is the human-facing entrypoint and quick command reference.
+- `INDEX.md` is the current structure map.
+- `AGENTS.md` is the concise agent-facing invariant sheet.
+
 ## Dendritic Pattern
 
 - This repo uses the Dendritic pattern via `import-tree` with flake-parts.
@@ -28,8 +34,6 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 - Use `import-tree.withLib ... .leafs` or `.files` only when you explicitly want file discovery outside module evaluation; do not use that as a workaround for mixed responsibilities in `modules/`.
 
 ## Style Guidelines
-
-### General
 
 ### Nix Configuration
 

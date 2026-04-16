@@ -2,7 +2,6 @@
 
 ## Nix
 
-- [ ] Migrate to nixos/nixpkgs 25.11
 - [ ] Measure eval / build times for `dev` closure
 - [ ] Add real Darwin CI coverage; current GitHub Actions `--all-systems` pass is eval-only
 
@@ -12,7 +11,7 @@
 - [ ] Configure Home Assistant
 - [ ] Configure Smokeping
 
-# Nix
+## Nix Experiments
 
 - [ ] test `lorri` (https://github.com/nix-community/lorri)
 
