@@ -9,9 +9,9 @@
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        ../../../profiles/kelvin/common.nix
-        ../../../profiles/kelvin/linux.nix
-        (_: { home.stateVersion = "23.05"; })
+        ../../../profiles/kelvin/default.nix
+        ../../../profiles/kelvin/identity.nix
+        ../../../profiles/kelvin/platform/linux.nix
       ];
     };
 }

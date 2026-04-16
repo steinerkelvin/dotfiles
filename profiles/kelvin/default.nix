@@ -1,8 +1,6 @@
-{ pkgs, config, inputs, ... }:
+{ inputs, ... }:
 
-let username = "kelvin";
-in {
-
+{
   imports = [
     inputs.self.homeModules.base-dev
     inputs.self.homeModules.ai-skills
@@ -14,7 +12,6 @@ in {
   ];
 
   home = {
-    username = username;
     sessionPath = [ "$HOME/bin" ];
     sessionVariables = {
       EDITOR = "nvim";

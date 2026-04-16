@@ -10,7 +10,9 @@
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        ../../../profiles/kelvin/mac.nix
+        ../../../profiles/kelvin/default.nix
+        ../../../profiles/kelvin/identity.nix
+        ../../../profiles/kelvin/platform/mac.nix
       ];
     };
 }
