@@ -2,7 +2,7 @@
 
 ## Nix
 
-Run `./bootstrap-home-manager.sh` in root of this repo to set up home-manager. The script will offer to install Nix via the Determinate Installer if not already present, then build and activate the pinned `.#homeConfigurations.mac` profile.
+Run `./bootstrap-home-manager.sh` in root of this repo to set up home-manager. The script will offer to install Nix via the Determinate Installer if not already present, then build and activate the pinned home-manager profile.
 
 ## Brew packages
 

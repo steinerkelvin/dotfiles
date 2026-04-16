@@ -42,10 +42,10 @@ fi
 
 case "$(uname -s)" in
   Darwin)
-    target="mac"
+    target="satsuki"
     ;;
   Linux)
-    target="kelvin"
+    target="linux"
     ;;
   *)
     echo "Error: unsupported operating system: $(uname -s)"

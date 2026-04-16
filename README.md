@@ -5,10 +5,11 @@
 - [.XCompose](home/.XCompose)
 - on Nix
   - [modules/features/zsh.nix](modules/features/zsh.nix)
-  - [modules/home/\_kelvin-hm/nvim.nix](modules/home/_kelvin-hm/nvim.nix)
-  - [modules/home/\_kelvin-hm/nvim.lua](modules/home/_kelvin-hm/nvim.lua)
+  - [profiles/kelvin/nvim.nix](profiles/kelvin/nvim.nix)
+  - [profiles/kelvin/nvim.lua](profiles/kelvin/nvim.lua)
   - [modules/features/](modules/features/)
   - [modules/home/](modules/home/)
+  - [profiles/](profiles/)
   - [modules/hosts/satsuki.nix](modules/hosts/satsuki.nix)
 
 <!-- - [.vimrc](home/.vimrc) -->

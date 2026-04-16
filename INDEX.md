@@ -7,8 +7,9 @@
 - `/home/` - Dotfiles mirrored into the home directory
 - `/modules/` - Flake-parts modules loaded automatically from the root flake
 - `/modules/features/` - Reusable `flake.homeModules.*` building blocks
-- `/modules/home/` - Concrete Home Manager configurations
+- `/modules/home/` - Concrete Home Manager configuration entrypoints
 - `/modules/hosts/` - Host-level system configurations
+- `/profiles/` - Kelvin-specific Home Manager profile composition kept outside the dendritic part tree
 - `/mac/` - macOS-specific configuration and setup notes
 - `/packages/` - Related package workspaces
 - `/old/` - Legacy configurations and archived reference material
@@ -29,11 +30,11 @@
 
 ### Home Manager Configurations (`modules/home/`)
 
-- `kelvin.nix` - Linux Home Manager entrypoint for Kelvin
-- `mac.nix` - macOS Home Manager entrypoint
+- `targets/linux.nix` - Linux Home Manager activation target
+- `targets/satsuki.nix` - macOS Home Manager activation target
 - `dev.nix` - Minimal dev/container-oriented profile
 
-### Kelvin-Specific Layer (`modules/home/_kelvin-hm/`)
+### Kelvin-Specific Layer (`profiles/kelvin/`)
 
 - `common.nix` - Shared personal composition
 - `linux.nix` / `mac.nix` - Platform-specific user settings

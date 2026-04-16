@@ -11,10 +11,10 @@ check-all-systems:
     nix flake check "path:$PWD" --all-systems --no-build --keep-going
 
 check-hm-mac:
-    nix build "path:$PWD#homeConfigurations.mac.activationPackage"
+    nix build "path:$PWD#homeConfigurations.satsuki.activationPackage"
 
 check-hm-linux:
-    nix build "path:$PWD#homeConfigurations.kelvin.activationPackage"
+    nix build "path:$PWD#homeConfigurations.linux.activationPackage"
 
 deploy-hm:
     ./bootstrap-home-manager.sh

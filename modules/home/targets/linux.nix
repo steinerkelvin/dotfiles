@@ -1,7 +1,7 @@
 { inputs, ... }:
 
 {
-  flake.homeConfigurations.kelvin =
+  flake.homeConfigurations.linux =
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "x86_64-linux";
@@ -9,8 +9,8 @@
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        ./_kelvin-hm/common.nix
-        ./_kelvin-hm/linux.nix
+        ../../../profiles/kelvin/common.nix
+        ../../../profiles/kelvin/linux.nix
         (_: { home.stateVersion = "23.05"; })
       ];
     };

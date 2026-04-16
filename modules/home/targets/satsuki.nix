@@ -1,7 +1,7 @@
 { inputs, overlays, ... }:
 
 {
-  flake.homeConfigurations.mac =
+  flake.homeConfigurations.satsuki =
     inputs.home-manager.lib.homeManagerConfiguration {
       pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
@@ -10,7 +10,7 @@
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
-        ./_kelvin-hm/mac.nix
+        ../../../profiles/kelvin/mac.nix
       ];
     };
 }
