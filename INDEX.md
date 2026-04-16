@@ -37,9 +37,9 @@
 ### Kelvin-Specific Layer (`profiles/kelvin/`)
 
 - `default.nix` - Shared personal composition entrypoint
-- `identity.nix` - Username, home directory, and profile-wide identity defaults
+- `identity.nix` - Username, Git identity, and profile-wide identity defaults
 - `platform/` - Platform-only profile settings
-- `zsh.nix`, `git.nix`, `nvim.nix`, `packages.nix` - Personal overlays on top of reusable modules
+- `zsh.nix`, `nvim.nix`, `packages.nix` - Personal overlays on top of reusable modules
 - `nvim.lua` - Neovim Lua config owned by the Kelvin profile
 - `vscode-remote.sh` - Helper script referenced by the Kelvin profile layer
 

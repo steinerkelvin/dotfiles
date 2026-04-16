@@ -7,7 +7,6 @@
     inputs.self.homeModules.homeshick
     ./packages.nix
     ./zsh.nix
-    ./git.nix
     ./nvim.nix
   ];
 

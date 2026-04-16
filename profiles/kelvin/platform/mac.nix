@@ -1,6 +1,8 @@
-{ pkgs, ... }:
+{ config, lib, pkgs, ... }:
 
 {
+  home.homeDirectory = lib.mkDefault "/Users/${config.home.username}";
+
   programs.zsh.initContent = ''
     test -e "/opt/homebrew/bin/brew" && eval "$(/opt/homebrew/bin/brew shellenv)"
   '';
