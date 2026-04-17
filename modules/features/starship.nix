@@ -7,7 +7,7 @@ _: {
         directory.truncate_to_repo = false;
 
         # Explicit format -- only these modules render
-        format = "$username$hostname$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
+        format = "\${custom.ssh}$username$hostname$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
 
         # Username + hostname: SSH sessions only
         username = {
@@ -26,6 +26,14 @@ _: {
         git_status = {
           format = "([$all_status$ahead_behind]($style) )";
           style = "yellow";
+        };
+
+        # SSH indicator
+        custom.ssh = {
+          when = "test -n \"$SSH_CONNECTION\"";
+          format = "[$symbol]($style) ";
+          symbol = "⇄";
+          style = "bold blue";
         };
 
         # Python: venv only, no version, not bold
