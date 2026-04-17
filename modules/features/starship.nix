@@ -7,7 +7,17 @@ _: {
         directory.truncate_to_repo = false;
 
         # Explicit format -- only these modules render
-        format = "$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
+        format = "$username$hostname$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
+
+        # Username + hostname: SSH sessions only
+        username = {
+          show_always = false;
+          format = "[$user]($style)@";
+        };
+        hostname = {
+          ssh_only = true;
+          format = "[$hostname]($style) ";
+        };
 
         # Git branch: not bold
         git_branch.style = "purple";
