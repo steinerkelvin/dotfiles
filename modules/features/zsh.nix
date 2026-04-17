@@ -17,6 +17,8 @@ _: {
         glff = "git pull --ff-only";
         glogh = "git log --oneline --decorate --graph HEAD";
         tigh = "tig -a HEAD";
+        gno = "git add --intent-to-add";
+        gnoa = "git add --intent-to-add .";
         # Dev aliases
         j = "just";
         jl = "just --list";
