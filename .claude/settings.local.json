@@ -14,7 +14,8 @@
       "WebFetch(domain:developers.raycast.com)",
       "WebFetch(domain:sw.kovidgoyal.net)",
       "WebFetch(domain:man.archlinux.org)",
-      "WebFetch(domain:flake.parts)"
+      "WebFetch(domain:flake.parts)",
+      "WebFetch(domain:docs.determinate.systems)"
     ],
     "deny": [],
     "ask": []

@@ -19,6 +19,20 @@ check-hm-linux:
 deploy-hm:
     ./bootstrap-home-manager.sh
 
+deploy-darwin:
+    ./bootstrap-darwin.sh
+
+# Create and provision the OrbStack NixOS builder VM.
+# Run deploy-darwin afterwards to register the builder on the host.
+deploy-orbstack-builder:
+    #!/bin/sh
+    set -e
+    if ! orb list | grep -q nixos-builder; then
+        echo "Creating OrbStack VM: nixos-builder"
+        orb create nixos:25.11 nixos-builder
+    fi
+    ./modules/hosts/_satsuki/setup-orbstack-builder.sh
+
 lint:
     statix check .
     deadnix .
