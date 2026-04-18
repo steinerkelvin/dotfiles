@@ -1,8 +1,8 @@
 #!/bin/sh
 # Bootstrap or apply the nix-darwin configuration for this machine.
 #
-# On first run, uses `nix run nix-darwin` to bootstrap.
-# On subsequent runs, uses `darwin-rebuild` directly.
+# Uses the flake-locked darwin-rebuild to avoid version skew
+# between the flake.lock and whatever is on PATH.
 set -eu
 
 repo_dir=$(
@@ -10,17 +10,11 @@ repo_dir=$(
   pwd
 )
 
-if ! command -v nix >/dev/null 2>&1; then
-  echo "Error: nix is not installed. Run ./bootstrap-home-manager.sh first." >&2
-  exit 1
-fi
+# Ensure Nix is installed.
+# shellcheck source=bootstrap-nix.sh
+. "$repo_dir/bootstrap-nix.sh"
 
 cd "$repo_dir"
 
-if command -v darwin-rebuild >/dev/null 2>&1; then
-  echo "Applying nix-darwin configuration..."
-  darwin-rebuild switch --flake .
-else
-  echo "Bootstrapping nix-darwin..."
-  nix run nix-darwin -- switch --flake .
-fi
+echo "Applying nix-darwin configuration..."
+nix run "path:$repo_dir#darwin-rebuild" -- switch --flake "$repo_dir"
