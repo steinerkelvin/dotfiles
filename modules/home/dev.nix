@@ -16,8 +16,8 @@
             homeDirectory = "/home/dev";
             stateVersion = "25.05";
           };
-          programs.claude-code = {
-            enable = true;
+          programs.claude-code.enable = true;
+          programs.ai-skills = {
             enableStructuralSearch = true;
             enableCodeStats = true;
           };
