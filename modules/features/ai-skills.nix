@@ -1,18 +1,39 @@
 # Reusable home-manager module: AI tooling skills.
-# Wires structural-search / code-stats / uv-scripts skill files into
-# Claude Code and Codex via path-backed home.file entries, and pulls in
-# the corresponding CLI tools when the relevant enableXxx options are set.
 #
-# This is a personal-tooling layer, not part of the base-dev kernel.
+# Wires skill primers into Claude Code and Codex, and pulls in the CLI
+# tools paired with each skill. Per-skill configuration lives alongside
+# each skill in `_ai-skills/<skill>.nix`.
+#
 # Consumers opt in alongside base-dev:
 #   imports = [ inputs.kelvin-dotfiles.homeModules.base-dev
 #               inputs.kelvin-dotfiles.homeModules.ai-skills ];
 #
-# The option is declared by home-manager.flakeModules.default which is
-# imported in the root flake.nix.
+# Downstream HM modules can contribute their own skills; the attrset
+# merge flows through to both Claude and Codex:
+#   programs.claude-code.skills.<name> = <path>;
+#
+# Toggles for optional built-ins live under `programs.ai-skills.*`.
 
 _:
 
 {
-  flake.homeModules.ai-skills = ./_ai-skills;
+  flake.homeModules.ai-skills = { config, lib, ... }: {
+    imports = [
+      ./_ai-skills/uv-scripts.nix
+      ./_ai-skills/direnv-layout-uv.nix
+      ./_ai-skills/structural-search.nix
+      ./_ai-skills/code-stats.nix
+    ];
+
+    config = lib.mkIf config.programs.claude-code.enable {
+      # Codex loads skills the same way as Claude Code. Mirror the final
+      # merged set (built-ins + downstream contributions) into ~/.codex/skills.
+      home.file = lib.mapAttrs'
+        (name: source: {
+          name = ".codex/skills/${name}";
+          value.source = source;
+        })
+        config.programs.claude-code.skills;
+    };
+  };
 }
