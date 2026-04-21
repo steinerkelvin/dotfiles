@@ -71,11 +71,11 @@ def handle_result(
     target_window_id: int,
     boss: Boss,
 ) -> None:
-    # Per kitty's custom-kitten protocol, ``args`` is the list of user-supplied
-    # arguments as-is: args[0] is our first real argument (the launch type),
-    # NOT the script path. See
-    # https://sw.kovidgoyal.net/kitty/kittens/custom/#passing-arguments-to-kittens
-    extra = list(args)
+    # kitty passes the kitten script path as args[0], then user-supplied
+    # arguments from args[1:]. Contrary to a naive reading of the custom-
+    # kitten docs, args[0] is NOT the first real argument.
+    # https://sw.kovidgoyal.net/kitty/kittens/custom/
+    extra = list(args[1:])
     launch_type = "tab"
     if extra and not extra[0].startswith("-"):
         launch_type = extra.pop(0)
