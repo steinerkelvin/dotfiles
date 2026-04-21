@@ -1,6 +1,10 @@
 { config, lib, pkgs, ... }:
 
 {
+  imports = [
+    ./mac-launch-path.nix
+  ];
+
   home.homeDirectory = lib.mkDefault "/Users/${config.home.username}";
 
   programs.zsh.initContent = ''
