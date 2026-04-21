@@ -52,7 +52,16 @@
 ### Shell Scripts (`home/bin/`)
 
 - `k-*` scripts - Personal utilities
+- `k-shell-helper` - Shell wrapper re-entry for kitty (see
+  `home/.config/kitty/shell-reentry.md` for the protocol)
 - `clip-copy`, `clip-paste` - Cross-platform clipboard helpers
+
+### Kitty
+
+- `home/.config/kitty/kitty.conf` - Kitty config
+- `home/.config/kitty/shell_reentry.py` - Custom kitten that re-enters wrapped
+  shells on new-tab / new-window keybinds
+- `home/.config/kitty/shell-reentry.md` - `K_SHELL_REENTRY` protocol doc
 
 ## macOS Configuration
 

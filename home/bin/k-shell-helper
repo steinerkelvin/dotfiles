@@ -1,0 +1,502 @@
+#!/usr/bin/env -S uv run --script
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["typer>=0.9.0", "rich>=13.4.2"]
+# ///
+"""
+k-shell-helper - Shell wrapper re-entry for kitty (and other terminals later).
+
+Lets any shell wrapper (docker run, ssh, nix develop, ...) advertise a command
+that kitty's new-tab / new-window keybinds should run instead of a fresh host
+shell, so the new window lands inside the same wrapped context.
+
+Protocol summary
+----------------
+
+A host-side wrapper publishes a re-entry command to its kitty window:
+
+    k-shell-helper publish "docker exec -it my-sandbox zsh -l"
+
+That stores the command in two places:
+
+  1. The env var ``K_SHELL_REENTRY`` in the current process (informational;
+     not strictly required but useful for nested wrappers and for manual
+     inspection).
+  2. The kitty user variable ``k_shell_reentry`` on the current window, via
+     ``kitten @ set-user-vars --match state:self`` (requires kitty remote
+     control, i.e. ``allow_remote_control`` being at least ``socket-only``
+     and the process running inside a kitty window so ``KITTY_LISTEN_ON``
+     is populated).
+
+kitty's shell-reentry kitten (see ``~/.config/kitty/shell_reentry.py``) reads
+that user variable and substitutes it in place of the default shell when a
+new-tab / new-window keybind fires.
+
+Handles
+-------
+
+For convenience, wrappers may publish a structured handle instead of a raw
+command. The helper understands:
+
+  docker:<container-name-or-id>[#<shell>]   docker exec into a running container
+  ssh:<target>[#<shell>]                    ssh into a target (uses plain ssh,
+                                             not kitty's ssh kitten)
+  nix-develop:<absolute-path>[#<shell>]     nix develop -c <shell> in a dir
+  nix-shell:<absolute-path>[#<shell>]       legacy nix-shell --run <shell>
+  cmd:<shell-command>                       arbitrary command line, run as-is
+
+The ``enter <handle>`` subcommand dispatches to the matching transport.
+
+Examples
+--------
+
+::
+
+    # From a host-side docker wrapper before it exec's into the container:
+    k-shell-helper publish-handle docker:kaether-sandbox
+
+    # Equivalent manual form:
+    k-shell-helper publish "k-shell-helper enter docker:kaether-sandbox"
+
+    # Invoked later by kitty's kitten when user hits cmd+t:
+    k-shell-helper enter docker:kaether-sandbox
+
+    # Wrap an invocation end-to-end (publishes, then execs):
+    k-shell-helper wrap docker:kaether-sandbox -- \\
+        docker run --rm -it --name kaether-sandbox kaether-sandbox:latest
+"""
+
+from __future__ import annotations
+
+import json
+import os
+import shlex
+import shutil
+import signal
+import subprocess
+import sys
+from typing import Optional
+
+import typer
+from rich.console import Console
+
+app = typer.Typer(
+    help="Shell wrapper re-entry for kitty and friends.",
+    add_completion=False,
+    no_args_is_help=True,
+)
+console = Console()
+err = Console(stderr=True)
+
+USER_VAR = "k_shell_reentry"
+ENV_VAR = "K_SHELL_REENTRY"
+
+
+# ---- kitty plumbing ---------------------------------------------------------
+
+
+def _kitten_binary() -> Optional[str]:
+    """Find kitty's ``kitten`` binary (or legacy ``kitty``)."""
+    for name in ("kitten", "kitty"):
+        path = shutil.which(name)
+        if path:
+            return path
+    return None
+
+
+def _set_user_var_on_self(name: str, value: str) -> None:
+    """Set a user variable on the current kitty window via remote control."""
+    kitten = _kitten_binary()
+    if kitten is None:
+        raise RuntimeError("no kitten/kitty binary on PATH")
+    listen = os.environ.get("KITTY_LISTEN_ON")
+    if not listen:
+        raise RuntimeError(
+            "KITTY_LISTEN_ON is not set; are we running inside a kitty window "
+            "with remote control enabled?"
+        )
+    # ``state:self`` matches the window that is running this very process.
+    # Using --to the listen socket keeps us working under allow_remote_control
+    # socket-only. Both ``kitten`` and ``kitty`` binaries accept ``@ ...``.
+    cmd = [
+        kitten,
+        "@",
+        "--to",
+        listen,
+        "set-user-vars",
+        "--match",
+        "state:self",
+        f"{name}={value}",
+    ]
+    subprocess.run(cmd, check=True)
+
+
+def _clear_user_var_on_self(name: str) -> None:
+    """Clear a user variable on the current window (set to empty)."""
+    _set_user_var_on_self(name, "")
+
+
+def _get_user_var_on_self(name: str) -> str | None:
+    """Read a user variable from the current kitty window."""
+    kitten = _kitten_binary()
+    if kitten is None:
+        raise RuntimeError("no kitten/kitty binary on PATH")
+    listen = os.environ.get("KITTY_LISTEN_ON")
+    if not listen:
+        raise RuntimeError(
+            "KITTY_LISTEN_ON is not set; are we running inside a kitty window "
+            "with remote control enabled?"
+        )
+
+    out = subprocess.run(
+        [
+            kitten,
+            "@",
+            "--to",
+            listen,
+            "ls",
+            "--match",
+            "state:self",
+        ],
+        capture_output=True,
+        text=True,
+        check=True,
+    ).stdout
+    data = json.loads(out)
+    for os_window in data:
+        for tab in os_window.get("tabs", []):
+            for window in tab.get("windows", []):
+                uvars = window.get("user_vars") or {}
+                value = uvars.get(name)
+                if value:
+                    return str(value)
+    return None
+
+
+def _restore_user_var_on_self(name: str, previous: str | None) -> None:
+    """Restore a user variable to its previous value, or clear it."""
+    if previous:
+        _set_user_var_on_self(name, previous)
+    else:
+        _clear_user_var_on_self(name)
+
+
+# ---- handle dispatch --------------------------------------------------------
+
+
+def _split_shell(handle_body: str, default_shell: str) -> tuple[str, str]:
+    """Split ``target[#shell]`` into ``(target, shell)``."""
+    if "#" in handle_body:
+        target, shell = handle_body.split("#", 1)
+        return target, shell or default_shell
+    return handle_body, default_shell
+
+
+def _exec(argv: list[str]) -> None:
+    """Replace the current process with ``argv``."""
+    if not argv:
+        err.print("[red]empty command[/red]")
+        sys.exit(2)
+    try:
+        os.execvp(argv[0], argv)
+    except OSError as exc:
+        err.print(f"[red]exec failed:[/red] {exc}")
+        sys.exit(127)
+
+
+def _split_argv_vector(command: str) -> list[str]:
+    """Validate and split a shell-quoted argv vector."""
+    try:
+        argv = shlex.split(command)
+    except ValueError as exc:
+        raise typer.BadParameter(
+            f"invalid shell-quoted argv vector: {exc}"
+        ) from exc
+    if not argv:
+        raise typer.BadParameter("empty re-entry command")
+    return argv
+
+
+def _dispatch(handle: str) -> list[str]:
+    """Turn a handle into an argv to exec."""
+    if ":" not in handle:
+        raise typer.BadParameter(
+            f"handle {handle!r} missing scheme (e.g. docker:<name>)"
+        )
+    scheme, body = handle.split(":", 1)
+    scheme = scheme.lower()
+
+    if scheme == "docker":
+        target, shell = _split_shell(body, "zsh")
+        # ``-l`` keeps login-shell semantics for zsh/bash; harmless otherwise.
+        return ["docker", "exec", "-it", target, shell, "-l"]
+
+    if scheme == "ssh":
+        target, shell = _split_shell(body, "")
+        argv = ["ssh", "-t", target]
+        if shell:
+            argv.append(shell)
+            argv.append("-l")
+        return argv
+
+    if scheme == "nix-develop":
+        target, shell = _split_shell(body, "zsh")
+        return ["nix", "develop", target, "-c", shell]
+
+    if scheme == "nix-shell":
+        target, shell = _split_shell(body, "zsh")
+        return ["nix-shell", target, "--run", shell]
+
+    if scheme == "cmd":
+        # Caller-supplied command line, tokenised with shell quoting rules.
+        return _split_argv_vector(body)
+
+    raise typer.BadParameter(f"unknown handle scheme {scheme!r}")
+
+
+# ---- commands ---------------------------------------------------------------
+
+
+@app.command()
+def enter(
+    handle: str = typer.Argument(..., help="Handle like docker:<name>, ssh:<target>..."),
+) -> None:
+    """Re-enter a wrapped context by dispatching on a handle.
+
+    Execs into the appropriate transport. This is the command you would
+    store in ``K_SHELL_REENTRY`` / ``k_shell_reentry`` when using handles.
+    """
+    _exec(_dispatch(handle))
+
+
+def _do_publish(command: str, quiet: bool, emit_export: bool = True) -> None:
+    """Shared impl for publish / publish-handle / wrap.
+
+    stdout is kept strictly shell-safe (only the ``export`` line) so callers
+    can ``eval "$(k-shell-helper publish ...)"`` without needing ``--quiet``.
+    Human confirmation goes to stderr.
+    """
+    _split_argv_vector(command)
+    try:
+        _set_user_var_on_self(USER_VAR, command)
+    except Exception as exc:  # noqa: BLE001
+        err.print(f"[yellow]publish warning:[/yellow] {exc}")
+    if not quiet:
+        err.print(f"[green]published[/green] {USER_VAR}={command!r}")
+    # Emit an export line; a shell wrapper can `eval` our output if it wants
+    # to propagate the value into the next exec'd process. Only this line
+    # ever reaches stdout.
+    if emit_export:
+        print(f"export {ENV_VAR}={shlex.quote(command)}")
+
+
+@app.command()
+def publish(
+    command: str = typer.Argument(
+        ...,
+        help="Shell-quoted argv vector to advertise (not a shell command line).",
+    ),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress confirmation."),
+) -> None:
+    """Publish a raw re-entry argv vector to the current kitty window.
+
+    The value is a shell-quoted argv vector (parsed by ``shlex.split`` on
+    the consumer side and exec'd directly -- no shell in between). Shell
+    syntax like pipes, redirects, ``&&``, ``$(...)``, env-prefix (``FOO=bar
+    zsh``), and ``cd`` chaining will NOT work; wrap in ``sh -lc '...'``
+    explicitly if you need them. See ``shell-reentry.md`` for the full
+    contract.
+
+    Sets kitty user variable ``k_shell_reentry`` and prints an ``export``
+    line on stdout so callers can ``eval`` it to propagate the var into the
+    wrapped shell. stdout is always a single shell-safe ``export`` line;
+    human confirmation goes to stderr. ``--quiet`` silences the confirmation.
+
+    Example::
+
+        eval "$(k-shell-helper publish 'docker exec -it my-sandbox zsh -l')"
+    """
+    _do_publish(command, quiet)
+
+
+@app.command("publish-handle")
+def publish_handle(
+    handle: str = typer.Argument(..., help="docker:<name>, ssh:<target>, ..."),
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress confirmation."),
+) -> None:
+    """Publish a handle-based re-entry command for the current window."""
+    self_path = shutil.which("k-shell-helper") or "k-shell-helper"
+    command = f"{shlex.quote(self_path)} enter {shlex.quote(handle)}"
+    _do_publish(command, quiet)
+
+
+@app.command()
+def clear(
+    quiet: bool = typer.Option(False, "--quiet", "-q", help="Suppress confirmation."),
+) -> None:
+    """Clear the re-entry advertisement on the current window."""
+    try:
+        _clear_user_var_on_self(USER_VAR)
+    except Exception as exc:  # noqa: BLE001
+        err.print(f"[yellow]clear warning:[/yellow] {exc}")
+    if not quiet:
+        console.print(f"[green]cleared[/green] {USER_VAR}")
+
+
+@app.command()
+def show() -> None:
+    """Print the re-entry command advertised by the current window, if any.
+
+    Reads from the local ``K_SHELL_REENTRY`` env var first, then falls back
+    to querying kitty. Useful for debugging.
+    """
+    env_value = os.environ.get(ENV_VAR)
+    if env_value:
+        console.print(f"[bold]env[/bold] {ENV_VAR}={env_value}")
+
+    kitten = _kitten_binary()
+    listen = os.environ.get("KITTY_LISTEN_ON")
+    if kitten is None or not listen:
+        err.print("[dim]kitty remote control unavailable; showing env only[/dim]")
+        return
+    try:
+        out = subprocess.run(
+            [
+                kitten,
+                "@",
+                "--to",
+                listen,
+                "ls",
+                "--match",
+                "state:self",
+            ],
+            capture_output=True,
+            text=True,
+            check=True,
+        ).stdout
+    except subprocess.CalledProcessError as exc:
+        err.print(f"[yellow]kitty ls failed:[/yellow] {exc.stderr.strip()}")
+        return
+    try:
+        data = json.loads(out)
+    except json.JSONDecodeError:
+        err.print("[red]could not parse kitty @ ls output[/red]")
+        return
+    found = None
+    for os_window in data:
+        for tab in os_window.get("tabs", []):
+            for window in tab.get("windows", []):
+                uvars = window.get("user_vars") or {}
+                if USER_VAR in uvars:
+                    found = uvars[USER_VAR]
+                    break
+    if found is not None:
+        console.print(f"[bold]kitty[/bold] {USER_VAR}={found!r}")
+    else:
+        console.print(f"[dim]no {USER_VAR} set on current window[/dim]")
+
+
+@app.command()
+def wrap(
+    handle: str = typer.Argument(
+        ...,
+        help="Handle for the wrapped context (docker:<name>, ssh:<target>, ...).",
+    ),
+    argv: list[str] = typer.Argument(
+        ...,
+        help="Command to run after publishing the handle. Use `--` to separate.",
+    ),
+) -> None:
+    """Publish a handle, run the given wrapper command, then clear on exit.
+
+    Convenience for one-shot wrappers. Example::
+
+        k-shell-helper wrap docker:my-sandbox -- \\
+            docker run --rm -it --name my-sandbox my-image:latest
+
+    Unlike a plain ``exec``, we fork the wrapped command and wait for it so
+    we can always clear the stale ``k_shell_reentry`` user variable on exit
+    (normal completion, non-zero status, SIGINT, SIGTERM, or SIGHUP).
+    Installed signal handlers forward to the child and then run the
+    cleanup path. Costs one extra process hop; worth it for cleanup
+    correctness.
+
+    Also injects ``K_SHELL_REENTRY=<handle-entry-command>`` into the child
+    process's environment so nested wrappers and manual inspection inside
+    the wrapped context can read the re-entry value directly. For docker
+    specifically, use ``-e K_SHELL_REENTRY=...`` on ``docker run`` because
+    docker does not inherit the parent env into the container by default.
+    """
+    if not argv:
+        err.print("[red]empty wrapped command[/red]")
+        raise typer.Exit(code=2)
+
+    self_path = shutil.which("k-shell-helper") or "k-shell-helper"
+    command = f"{shlex.quote(self_path)} enter {shlex.quote(handle)}"
+    try:
+        previous = _get_user_var_on_self(USER_VAR)
+    except Exception as exc:  # noqa: BLE001
+        previous = None
+        err.print(f"[yellow]snapshot warning:[/yellow] {exc}")
+    _do_publish(command, quiet=True, emit_export=False)
+
+    # Propagate the re-entry value into the wrapped child's env so nested
+    # wrappers and manual inspection inside the wrapped context can see it.
+    # The kitty user var (set above) is still the primary channel consumed
+    # by the kitten; this env var is the self-describing wire format.
+    child_env = {**os.environ, ENV_VAR: command}
+
+    # Spawn the child so we can forward signals and guarantee cleanup on
+    # SIGTERM / SIGHUP / SIGINT paths, not just on normal return.
+    rc = 1
+    try:
+        child = subprocess.Popen(list(argv), env=child_env)
+    except OSError as exc:
+        err.print(f"[red]exec failed:[/red] {exc}")
+        try:
+            _restore_user_var_on_self(USER_VAR, previous)
+        except Exception as clear_exc:  # noqa: BLE001
+            err.print(f"[yellow]restore warning:[/yellow] {clear_exc}")
+        code = 127 if isinstance(exc, FileNotFoundError) else 126
+        raise typer.Exit(code=code)
+
+    def _forward(signum: int, _frame) -> None:
+        try:
+            child.send_signal(signum)
+        except ProcessLookupError:
+            pass
+
+    # SIGINT would otherwise raise KeyboardInterrupt mid-wait; installing
+    # an explicit handler makes all three signals behave uniformly
+    # (forward, wait, clean up, re-exit).
+    installed: list[tuple[int, object]] = []
+    for sig in (signal.SIGTERM, signal.SIGHUP, signal.SIGINT):
+        try:
+            prev = signal.signal(sig, _forward)
+            installed.append((sig, prev))
+        except (OSError, ValueError):
+            # Signal not available on this platform (e.g. SIGHUP on Windows).
+            pass
+
+    try:
+        rc = child.wait()
+    finally:
+        for sig, prev in installed:
+            try:
+                signal.signal(sig, prev)
+            except (OSError, ValueError):
+                pass
+        try:
+            _restore_user_var_on_self(USER_VAR, previous)
+        except Exception as exc:  # noqa: BLE001
+            err.print(f"[yellow]restore warning:[/yellow] {exc}")
+
+    # Convention: if the child was killed by signal N, Popen.wait returns
+    # -N; translate to the shell-standard 128+N exit code.
+    if rc is not None and rc < 0:
+        rc = 128 + (-rc)
+    raise typer.Exit(code=rc)
+
+
+if __name__ == "__main__":
+    app()
