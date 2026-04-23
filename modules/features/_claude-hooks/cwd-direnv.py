@@ -38,10 +38,9 @@ def log(msg: str) -> None:
 
 
 def emit_system_reminder(text: str) -> None:
-    json.dump(
-        {"systemReminder": text, "suppressOutput": True},
-        sys.stdout,
-    )
+    # Claude Code reads structured hook output line-by-line; emit a
+    # newline-terminated JSON object on stdout.
+    sys.stdout.write(json.dumps({"systemReminder": text, "suppressOutput": True}) + "\n")
 
 
 def load_payload() -> dict:
@@ -105,8 +104,13 @@ def write_exports(env_file: Path, delta: dict) -> tuple[int, int]:
             added += 1
     if lines:
         env_file.parent.mkdir(parents=True, exist_ok=True)
+        # Additive only: we never undo exports applied in a prior cwd. If
+        # two dirs set the same key, the later cd wins via bash's last-
+        # assignment-wins semantics. Prepend a newline so that if a prior
+        # writer left the file without a trailing newline our first export
+        # isn't concatenated onto their last line.
         with env_file.open("a", encoding="utf-8") as f:
-            f.write("\n".join(lines) + "\n")
+            f.write("\n" + "\n".join(lines) + "\n")
     return added, removed
 
 
