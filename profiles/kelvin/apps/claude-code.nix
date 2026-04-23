@@ -6,4 +6,5 @@
     enableStructuralSearch = true;
     enableCodeStats = true;
   };
+  programs.claude-hooks.enableCwdDirenv = true;
 }

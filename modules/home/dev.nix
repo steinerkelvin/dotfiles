@@ -10,6 +10,7 @@
       modules = [
         config.flake.homeModules.base-dev
         config.flake.homeModules.ai-skills
+        config.flake.homeModules.claude-hooks
         (_: {
           home = {
             username = "dev";
@@ -21,6 +22,7 @@
             enableStructuralSearch = true;
             enableCodeStats = true;
           };
+          programs.claude-hooks.enableCwdDirenv = true;
         })
       ];
     };
