@@ -11,6 +11,11 @@ in
   };
   programs.claude-hooks.enableCwdDirenv = true;
 
+  home.file.".claude/statusline-command.sh" = {
+    source = ./statusline-command.sh;
+    executable = true;
+  };
+
   # User-level ~/.claude/settings.json. Claude Code's live runtime state
   # (sessions, onboarding, model usage) lives in ~/.claude.json, so HM
   # can own this file without fighting the app's internal writes.
@@ -57,8 +62,6 @@ in
       ];
     };
 
-    # TODO: statusline-command.sh is maintained out-of-band (Claude Code
-    # writes it on first run). Consider vendoring into dotfiles.
     statusLine = {
       type = "command";
       command = "bash ${home}/.claude/statusline-command.sh";
