@@ -16,11 +16,11 @@ check-hm-mac:
 check-hm-linux:
     nix build "path:$PWD#homeConfigurations.linux.activationPackage"
 
-deploy-hm:
-    ./bootstrap-home-manager.sh
+deploy-hm *args:
+    ./bootstrap-home-manager.sh {{args}}
 
-deploy-darwin:
-    ./bootstrap-darwin.sh
+deploy-darwin *args:
+    ./bootstrap-darwin.sh {{args}}
 
 # Create and provision the OrbStack NixOS builder VM.
 # Run deploy-darwin afterwards to register the builder on the host.
