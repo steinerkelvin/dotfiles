@@ -56,11 +56,23 @@ _:
       # Emit when either ecosystem is enabled, not just npm — otherwise
       # a pnpm-only setup loses its global cooldown + ignoreScripts.
       npmrcWanted = cfg.npm.enable || cfg.pnpm.enable;
+      # pnpm's minutes-based knob is the authoritative cooldown source
+      # for pnpm; convert to days (ceil) when npm is off so a pnpm-only
+      # user customizing `pnpm.minimumReleaseAgeMinutes` actually moves
+      # the global gate written to .npmrc, not just the per-project
+      # snippet. When npm is on, npm.releaseAgeDays wins.
+      pnpmMinReleaseAgeDaysCeil =
+        let
+          m = cfg.pnpm.minimumReleaseAgeMinutes;
+          d = m / 1440;
+        in d + (if (m - d * 1440) > 0 then 1 else 0);
+      npmrcMinReleaseAgeDays =
+        if cfg.npm.enable then cfg.npm.releaseAgeDays else pnpmMinReleaseAgeDaysCeil;
       npmrcText =
         let
           minReleaseAgeLine =
             lib.optionalString npmrcWanted
-              "${kv "min-release-age" cfg.npm.releaseAgeDays}\n";
+              "${kv "min-release-age" npmrcMinReleaseAgeDays}\n";
           excludeLine =
             lib.optionalString (cfg.npm.enable && cfg.npm.exclude != [ ])
               "minimum-release-age-exclude = ${lib.concatStringsSep "," cfg.npm.exclude}\n";
