@@ -14,6 +14,9 @@
     imports = [
       config.flake.homeModules.nix
       config.flake.homeModules.secrets
+      config.flake.homeModules.passage
+      config.flake.homeModules.age-plugin-se
+      config.flake.homeModules.age-plugin-yubikey
       config.flake.homeModules.sysmon
       config.flake.homeModules.build-tools
       config.flake.homeModules.net
