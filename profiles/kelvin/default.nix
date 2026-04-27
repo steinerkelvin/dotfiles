@@ -19,7 +19,4 @@
       VISUAL = "nvim";
     };
   };
-
-  # Secrets
-  programs.gpg.enable = true;
 }
