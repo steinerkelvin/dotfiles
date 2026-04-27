@@ -26,6 +26,13 @@ fi
 
 user=$(whoami)
 host=$(hostname -s)
+now=$(date +%H:%M)
+
+# Compact model: "Opus 4.7 (1M context)" -> "opus[1m]"; "Sonnet 4.6" -> "sonnet".
+short_model=$(echo "$model_name" | awk '{print tolower($1)}')
+if echo "$model_name" | grep -q "1M context"; then
+    short_model="${short_model}[1m]"
+fi
 
 cost=$(echo "$input" | jq -r '.cost.total_cost_usd // empty')
 cost_str=""
@@ -33,5 +40,5 @@ if [[ -n "$cost" && "$cost" != "null" ]]; then
     cost_str=$(printf " | \$%.4f" "$cost")
 fi
 
-printf "%s@%s:\033[36m%s\033[0m%s%s | %s%s" \
-    "$user" "$host" "$dir_name" "$git_info" "$kae_info" "$model_name" "$cost_str"
+printf "%s | %s@%s:\033[36m%s\033[0m%s%s | %s%s" \
+    "$now" "$user" "$host" "$dir_name" "$git_info" "$kae_info" "$short_model" "$cost_str"
