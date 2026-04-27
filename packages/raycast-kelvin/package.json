@@ -20,8 +20,14 @@
           "placeholder": "Format Style",
           "required": false,
           "data": [
-            { "title": "Grouped", "value": "grouped" },
-            { "title": "Flat", "value": "flat" }
+            {
+              "title": "Grouped",
+              "value": "grouped"
+            },
+            {
+              "title": "Flat",
+              "value": "flat"
+            }
           ]
         }
       ]
@@ -31,7 +37,7 @@
     "@raycast/api": "^1.93.0"
   },
   "devDependencies": {
-    "@raycast/eslint-config": "^1.0.11",
+    "@raycast/eslint-config": "^2.1.1",
     "@types/node": "22.13.14",
     "eslint": "^8.57.0",
     "prettier": "^3.5.3",
