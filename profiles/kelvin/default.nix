@@ -5,6 +5,7 @@
     inputs.self.homeModules.base-dev
     inputs.self.homeModules.ai-skills
     inputs.self.homeModules.claude-hooks
+    inputs.self.homeModules.email
     inputs.self.homeModules.homeshick
     ./apps
     ./packages.nix
