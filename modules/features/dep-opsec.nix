@@ -51,23 +51,26 @@ _:
       # Render an .npmrc-style ini line.
       kv = key: value: "${key} = ${toString value}";
 
+      # ~/.npmrc is shared between npm and pnpm: pnpm reads it for
+      # almost all install-time config (min-release-age, ignore-scripts).
+      # Emit when either ecosystem is enabled, not just npm — otherwise
+      # a pnpm-only setup loses its global cooldown + ignoreScripts.
+      npmrcWanted = cfg.npm.enable || cfg.pnpm.enable;
       npmrcText =
         let
+          minReleaseAgeLine =
+            lib.optionalString npmrcWanted
+              "${kv "min-release-age" cfg.npm.releaseAgeDays}\n";
           excludeLine =
-            if cfg.npm.exclude == [ ]
-            then ""
-            else "minimum-release-age-exclude = ${lib.concatStringsSep "," cfg.npm.exclude}\n";
-          # pnpm reads ~/.npmrc for almost all install-time config; if
-          # pnpm.ignoreScripts is on we land it here so it covers both
-          # `npm install` and `pnpm install` without a second file.
+            lib.optionalString (cfg.npm.enable && cfg.npm.exclude != [ ])
+              "minimum-release-age-exclude = ${lib.concatStringsSep "," cfg.npm.exclude}\n";
           ignoreScriptsLine =
             lib.optionalString cfg.pnpm.ignoreScripts "ignore-scripts = true\n";
         in
-        lib.optionalString cfg.npm.enable ''
-          # Managed by features.dep-opsec — do not edit by hand.
-          ${kv "min-release-age" cfg.npm.releaseAgeDays}
-        '' + lib.optionalString (cfg.npm.enable && cfg.npm.exclude != [ ]) excludeLine
-        + lib.optionalString cfg.npm.enable ignoreScriptsLine;
+        lib.optionalString npmrcWanted "# Managed by features.dep-opsec — do not edit by hand.\n"
+        + minReleaseAgeLine
+        + excludeLine
+        + ignoreScriptsLine;
 
       bunfigText = lib.optionalString cfg.bun.enable (''
         # Managed by features.dep-opsec — do not edit by hand.
@@ -99,7 +102,7 @@ _:
         minimumReleaseAge: ${toString cfg.pnpm.minimumReleaseAgeMinutes}
       '';
 
-      anyNpmrcWriter = cfg.enable && cfg.npm.enable;
+      anyNpmrcWriter = cfg.enable && npmrcWanted;
       anyBunWriter = cfg.enable && cfg.bun.enable;
       anyYarnWriter = cfg.enable && cfg.yarn.enable;
       anyUvWriter = cfg.enable && cfg.uv.enable;
@@ -277,19 +280,40 @@ _:
 
         programs.zsh.initContent = lib.mkIf anyDenoWriter (lib.mkAfter ''
           # features.dep-opsec: inject --minimum-dependency-age into the
-          # deno subcommands that documented it as of 2026-04. Other
-          # subcommands (run, fmt, lint, cache, add, ...) pass through
-          # untouched — flag support on those is unverified upstream.
+          # deno subcommands that documented it as of 2026-04 (install,
+          # outdated, update). Walk past leading global flags so
+          # invocations like `deno --quiet install …` or
+          # `deno --config foo.json update …` still get the gate.
+          # --log-level / --config / --seed take a separate value arg,
+          # so we skip one extra token after them. Other subcommands
+          # (run, fmt, lint, cache, add, …) pass through untouched.
           deno() {
-            case "$1" in
-              install|outdated|update)
-                local sub="$1"; shift
-                command deno "$sub" --minimum-dependency-age=${cfg.deno.minimumDependencyAge} "$@"
-                ;;
-              *)
-                command deno "$@"
-                ;;
-            esac
+            local pre=() rest=() skip_next=0 hit=0
+            local arg
+            for arg in "$@"; do
+              if [ $hit -ne 0 ]; then
+                rest+=("$arg")
+                continue
+              fi
+              pre+=("$arg")
+              if [ $skip_next -eq 1 ]; then
+                skip_next=0
+                continue
+              fi
+              case "$arg" in
+                --log-level|--config|--seed) skip_next=1 ;;
+                -*) ;;
+                install|outdated|update) hit=1 ;;
+                *) hit=2 ;;
+              esac
+            done
+            if [ $hit -eq 1 ]; then
+              command deno "''${pre[@]}" \
+                --minimum-dependency-age=${cfg.deno.minimumDependencyAge} \
+                "''${rest[@]}"
+            else
+              command deno "$@"
+            fi
           }
         '');
       };
