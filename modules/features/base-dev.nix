@@ -34,8 +34,10 @@
       config.flake.homeModules.rust
       config.flake.homeModules.npm
       config.flake.homeModules.python
+      config.flake.homeModules.dep-opsec
     ];
     home.sessionPath = [ "$HOME/.local/bin" ];
     programs.home-manager.enable = true;
+    features.dep-opsec.enable = true;
   };
 }
