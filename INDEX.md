@@ -26,6 +26,7 @@
 
 - `base-dev.nix` - Shared developer baseline
 - `ai-skills.nix` - AI tooling skill layer
+- `dep-opsec.nix` - Supply-chain cooldown defaults across package managers (`features.dep-opsec.*`)
 - `shell.nix`, `git.nix`, `nix.nix`, etc. - Feature-scoped Home Manager modules
 
 ### Home Manager Configurations (`modules/home/`)
