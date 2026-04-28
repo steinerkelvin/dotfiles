@@ -5,6 +5,24 @@
 - [ ] Measure eval / build times for `dev` closure
 - [ ] Add real Darwin CI coverage; current GitHub Actions `--all-systems` pass is eval-only
 
+## Supply-chain (dep-opsec follow-ups)
+
+- [ ] SHA-pin third-party GitHub Actions in `.github/workflows/flake.yml`
+      (`actions/checkout`, `DeterminateSystems/{flake-checker,nix-installer,magic-nix-cache}-action`).
+      Mutable `@vN` tags are the analog of npm cooldown gaps for CI.
+- [ ] Re-verify npm cooldown enforcement after the next nixpkgs node bump.
+      As of nixpkgs 25.11 npm ships at `10.9.7`; the `min-release-age` key is
+      written to `~/.npmrc` and recognised (`npm config get` reads it) but
+      enforcement only landed in npm `11.10+`. No module change needed once
+      nixpkgs catches up.
+- [ ] Revisit `features.dep-opsec.bun.ignoreScripts` and `pnpm.ignoreScripts`
+      once the trustedDependencies / onlyBuiltDependencies allowlists for our
+      projects are enumerated.
+- [ ] Track upstream cargo `-Z minimum-update-age` stabilisation and wire a
+      `features.dep-opsec.cargo` knob when it lands on stable.
+- [ ] Audit Nix flake input pinning (separate decision from cooldown — track
+      whether an age-gate primitive ever materialises upstream).
+
 ## Momo Server
 
 - [ ] Setup Linux machine
