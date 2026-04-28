@@ -1,6 +1,6 @@
 # dep-opsec
 
-Supply-chain release-age cooldown defaults for the package managers in `base-dev` (bun, npm, pnpm, yarn, uv, deno). Default 7 days. Refuses installs of versions younger than the threshold; falls back to the next-oldest in ranges.
+Supply-chain release-age cooldown defaults across bun, npm, pnpm, yarn, uv, and deno. The module writes the configs whether or not these binaries are present. Default 7 days. Refuses installs of versions younger than the threshold; falls back to the next-oldest in ranges. (`base-dev` only installs `nodejs`, `bun`, and `uv` itself; pnpm/yarn/deno are out of its scope. The configs still apply if you bring them in by other means.)
 
 ## Threat model
 
@@ -22,7 +22,7 @@ imports = [ inputs.kelvin-dotfiles.homeModules.dep-opsec ];
 features.dep-opsec.enable = true;
 ```
 
-`base-dev` already imports this and sets `features.dep-opsec.enable = true`, so the meta-module ships hardened by default. If you import `dep-opsec` directly without `base-dev` you have to enable it yourself.
+`base-dev` already imports this and sets `features.dep-opsec.enable = true`, so importing `base-dev` is enough. If you import `dep-opsec` directly without `base-dev`, set `enable = true` yourself.
 
 ## Options
 
@@ -53,7 +53,7 @@ features.dep-opsec.enable = true;
 - `~/.yarnrc.yml` -- `npmMinimalAgeGate: "<duration>"`
 - `~/.config/uv/uv.toml` -- `exclude-newer = "<value>"`
 - `~/.config/pnpm/dep-opsec.snippet.yaml` -- snippet for per-project use; see below
-- `programs.zsh.initContent` -- a `deno()` shell function injecting `--minimum-dependency-age` into `deno install/add/cache/outdated/update`
+- `programs.zsh.initContent` -- a `deno()` shell function injecting `--minimum-dependency-age` into `deno install`, `deno outdated`, and `deno update` (other subcommands pass through unchanged)
 
 ## pnpm caveat
 
@@ -87,11 +87,11 @@ Documented gap, no config written:
 - go, maven, gradle, composer -- nothing upstream
 - nix flake -- nothing upstream (flake.lock pins, but no age gate)
 
-GitHub Actions: the analogous control is SHA-pinning third-party actions instead of `@vN` tags. Audited per repo.
+GitHub Actions: the analogous control is SHA-pinning third-party actions instead of `@vN` tags. This repo's own `.github/workflows/flake.yml` still uses mutable `@v<N>` tags; an inventory + pinning pass is tracked in issue #6.
 
 ## Verify
 
-After `home-manager switch`, the four global config files should exist with the cooldown values rendered. Smoke-test with a freshly published package:
+After `home-manager switch`, the five files listed above should exist with the cooldown values rendered (the `pnpm` snippet is the fifth, alongside the four binary-shipping configs). Smoke-test with a freshly published package:
 
 ```sh
 tmp=$(mktemp -d) && cd $tmp

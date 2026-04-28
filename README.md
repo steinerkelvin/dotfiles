@@ -11,7 +11,7 @@ Personal Nix flake for Home Manager and nix-darwin. The home-manager modules in 
 - `claude-hooks` and `ai-skills`: Claude Code configuration.
 - `age-plugin-se` and `age-plugin-yubikey`: hardware identities `passage` consumes.
 
-One meta-module, `base-dev`, composes the team-neutral features (no AI tooling, no personal layers) into a default dev environment. It pulls in `dep-opsec` and enables it; the rest of the security-leaning features are opt-in.
+One meta-module, `base-dev`, composes the team-neutral features (no AI tooling, no personal layers) into a default dev environment. It also pulls in `dep-opsec` (enabled), `secrets`, `passage`, `age-plugin-se`, `age-plugin-yubikey`, and `sysmon`.
 
 The flake tracks nixpkgs `nixos-25.11` and `home-manager release-25.11`. macOS is the primary target; the Linux modules get less testing.
 
