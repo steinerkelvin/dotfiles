@@ -8,6 +8,7 @@ in
   programs.ai-skills = {
     enableStructuralSearch = true;
     enableCodeStats = true;
+    enableDiagramTools = true;
   };
   programs.claude-hooks.enableCwdDirenv = true;
 

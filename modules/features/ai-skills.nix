@@ -23,6 +23,7 @@ _:
       ./_ai-skills/direnv-layout-uv.nix
       ./_ai-skills/structural-search.nix
       ./_ai-skills/code-stats.nix
+      ./_ai-skills/diagram-tools.nix
     ];
 
     config = lib.mkIf config.programs.claude-code.enable {
