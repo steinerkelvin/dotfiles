@@ -7,12 +7,7 @@ export default async function command() {
     return;
   }
 
-  const cleaned = text
-    .replace(/\r\n?/g, "\n")
-    .split("\n")
-    .map((line) => line.replace(/[ \t]+$/, ""))
-    .join("\n")
-    .replace(/\n+$/, "\n");
+  const cleaned = text.replace(/[^\S\r\n]+(?=\r?\n|$)/g, "");
 
   if (cleaned === text) {
     await showHUD("✅ Clipboard already clean");
