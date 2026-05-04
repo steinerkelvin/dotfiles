@@ -13,11 +13,15 @@ type ExtensionPreferences = {}
 declare type Preferences = ExtensionPreferences
 
 declare namespace Preferences {
+  /** Preferences accessible in the `clean-terminal-paste` command */
+  export type CleanTerminalPaste = ExtensionPreferences & {}
   /** Preferences accessible in the `simplify-chat-transcript` command */
   export type SimplifyChatTranscript = ExtensionPreferences & {}
 }
 
 declare namespace Arguments {
+  /** Arguments passed to the `clean-terminal-paste` command */
+  export type CleanTerminalPaste = {}
   /** Arguments passed to the `simplify-chat-transcript` command */
   export type SimplifyChatTranscript = {
   /** Format Style */

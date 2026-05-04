@@ -9,6 +9,12 @@
   "license": "MIT",
   "commands": [
     {
+      "name": "clean-terminal-paste",
+      "title": "Clean Terminal Paste",
+      "description": "Strip trailing whitespace from each line of clipboard text (e.g. commands copied from a terminal)",
+      "mode": "no-view"
+    },
+    {
       "name": "simplify-chat-transcript",
       "title": "Simplify Chat Transcript",
       "description": "Clean up and simplify chat transcripts from any platform",
