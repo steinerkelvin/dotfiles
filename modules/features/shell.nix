@@ -23,6 +23,8 @@ _: {
       pkgs.tree
       # Community man pages
       pkgs.tlrc
+      # Pager (used by git, man, etc; missing in minimal containers like k-sandbox)
+      pkgs.less
     ];
   };
 }
