@@ -47,15 +47,34 @@ _: {
         sshk = "kitty +kitten ssh";
         icatk = "kitty +icat";
         # Claude
-        cc = "claude";
-        ccc = "claude --continue";
-        ccmo = "claude --model";
+        # `cl` is defined as a function below (initContent) so it can
+        # branch on $KSPACE_PROJECT_ROOT and route into `kstart` inside
+        # the kspace devshell. `clc` and `clm` stay as plain aliases --
+        # --continue is a resume-past-session use case (legitimate
+        # kstart bypass), and --model is a one-shot tweak that doesn't
+        # care about kstart's orient gating.
+        clc = "claude --continue";
+        clm = "claude --model";
       };
 
       initContent = ''
         # Utility Shell Functions
         function nxr { nix-shell -p $1 --command $1 }
         function dusort { du -h $@ | sort -h }
+
+        # `cl` -- Claude shortcut with kspace-aware routing.
+        # When $KSPACE_PROJECT_ROOT is set (i.e. inside the kspace
+        # direnv-loaded devshell), route through `kstart` so the
+        # orient-friction picker fires. Otherwise fall through to
+        # plain `claude`. Implements the gradient documented in
+        # vault/pages/kspace/session-entry.md.
+        cl() {
+          if [[ -n "$KSPACE_PROJECT_ROOT" ]]; then
+            kstart "$@"
+          else
+            command claude "$@"
+          fi
+        }
 
         # Unalias commands
         unalias gk 2>/dev/null || true
