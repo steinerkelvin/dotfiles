@@ -22,7 +22,7 @@ in
   # can own this file without fighting the app's internal writes.
   programs.claude-code.settings = {
     theme = "dark";
-    verbose = true;
+    verbose = false;
     editorMode = "vim";
     autoUpdaterStatus = "enabled";
     preferredNotifChannel = "kitty";
