@@ -28,6 +28,7 @@ in
     preferredNotifChannel = "kitty";
     effortLevel = "high";
     useAutoModeDuringPlan = true;
+    prefersReducedMotion = true;
 
     # Deliberate permission-prompt bypasses. Accepting the blast radius
     # in exchange for not breaking flow on every auto/dangerous action.

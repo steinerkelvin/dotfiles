@@ -34,6 +34,14 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 - In this repo, target entrypoints under `modules/home/targets/` are parts; deeper Home Manager profile composition should either live under an ignored `/_...` path or outside `modules/`.
 - Use `import-tree.withLib ... .leafs` or `.files` only when you explicitly want file discovery outside module evaluation; do not use that as a workaround for mixed responsibilities in `modules/`.
 
+## Deploy
+
+- Apply this repo's home-manager config to the current machine: `just deploy-hm`.
+- Wraps `./bootstrap-home-manager.sh`, which builds `homeConfigurations.<target>.activationPackage` (`satsuki` on Darwin, `linux` on Linux) and runs `./result/activate`.
+- For nix-darwin system config (not home-manager): `just deploy-darwin`.
+- Dry-check before deploying: `just check-hm-mac` / `just check-hm-linux`.
+- Pass through to activate with `--`, e.g. `just deploy-hm -- --backup bak` to keep existing dotfiles aside.
+
 ## Style Guidelines
 
 ### Nix Configuration
