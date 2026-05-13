@@ -4,18 +4,6 @@ default:
 update:
     nix flake update
 
-check:
-    nix flake check "path:$PWD"
-
-check-all-systems:
-    nix flake check "path:$PWD" --all-systems --no-build --keep-going
-
-check-hm-mac:
-    nix build "path:$PWD#homeConfigurations.satsuki.activationPackage"
-
-check-hm-linux:
-    nix build "path:$PWD#homeConfigurations.linux.activationPackage"
-
 deploy-hm *args:
     ./bootstrap-home-manager.sh {{args}}
 
@@ -33,15 +21,27 @@ deploy-orbstack-builder:
     fi
     ./modules/hosts/_satsuki/setup-orbstack-builder.sh
 
+fmt:
+    find . -name "*.nix" -exec nixpkgs-fmt {} \;
+
 lint:
     statix check .
     deadnix .
 
-fmt:
-    find . -name "*.nix" -exec nixpkgs-fmt {} \;
-
 check-py:
     ruff check .
+
+check:
+    nix flake check "path:$PWD"
+
+check-all-systems:
+    nix flake check "path:$PWD" --all-systems --no-build --keep-going
+
+check-hm-mac:
+    nix build "path:$PWD#homeConfigurations.satsuki.activationPackage"
+
+check-hm-linux:
+    nix build "path:$PWD#homeConfigurations.linux.activationPackage"
 
 test-workflow:
     act -j build --container-architecture linux/amd64
