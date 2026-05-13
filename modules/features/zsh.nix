@@ -2,6 +2,19 @@ _: {
   flake.homeModules.zsh = _: {
     programs.zsh = {
       enable = true;
+      # oh-my-zsh's default compinit path calls `compinit -i` and runs
+      # a synchronous compaudit on every interactive shell start (~40ms
+      # in profile, plus a slower compinit body that re-scans fpath
+      # rather than trusting the cached dump). Setting
+      # ZSH_DISABLE_COMPFIX=true switches omz to `compinit -u`, which
+      # skips the security audit entirely. Trade-off: we lose omz's
+      # warning about world-writable directories in $fpath. On a
+      # single-user macOS where $fpath only contains nix-store and
+      # home-manager paths, that warning has no signal -- the audit
+      # has never fired in practice.
+      sessionVariables = {
+        ZSH_DISABLE_COMPFIX = "true";
+      };
       shellAliases = {
         # Shell aliases
         rmr = "rm -r";
