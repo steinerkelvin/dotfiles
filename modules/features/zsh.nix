@@ -46,13 +46,8 @@ _: {
         # Kitty aliases
         sshk = "kitty +kitten ssh";
         icatk = "kitty +icat";
-        # Claude
-        # `cl` is defined as a function below (initContent) so it can
-        # branch on $KSPACE_PROJECT_ROOT and route into `kstart` inside
-        # the kspace devshell. `clc` and `clm` stay as plain aliases --
-        # --continue is a resume-past-session use case (legitimate
-        # kstart bypass), and --model is a one-shot tweak that doesn't
-        # care about kstart's orient gating.
+        # Claude shortcuts 
+        cl = "claude";
         clc = "claude --continue";
         clm = "claude --model";
       };
@@ -61,63 +56,6 @@ _: {
         # Utility Shell Functions
         function nxr { nix-shell -p $1 --command $1 }
         function dusort { du -h $@ | sort -h }
-
-        # `cl` -- Claude shortcut with kspace-aware routing.
-        # When $KSPACE_PROJECT_ROOT is set (i.e. inside the kspace
-        # direnv-loaded devshell), route through `kstart` so the
-        # orient-friction picker fires. Otherwise fall through to
-        # plain `claude`. Implements the gradient documented in
-        # vault/pages/kspace/session-entry.md.
-        cl() {
-          if [[ -n "$KSPACE_PROJECT_ROOT" ]]; then
-            kstart "$@"
-          else
-            command claude "$@"
-          fi
-        }
-
-        # `claude` -- bypass-gate wrapper for bare `claude` invocations
-        # inside the kspace devshell. The orient-reminder hook fires on
-        # every session regardless, but typing `claude` instead of `cl`
-        # /`kstart` skips the orient-friction picker (mode preamble,
-        # BYPASS_MODES gate). Make that an explicit choice rather than
-        # a slip. Outside kspace -- nothing to bypass, pass through.
-        # Non-interactive (piped, scripted, --print) -- pass through.
-        # The gate is intentionally narrow: interactive + inside kspace
-        # + no positional/-c (which mean a deliberate command shape).
-        claude() {
-          # Non-TTY -> scripted use, pass through. Also covers the
-          # case where `claude` is called from kstart's os.execvp
-          # (which goes through PATH, not zsh functions, so this
-          # branch wouldn't fire anyway -- belt and suspenders).
-          if [[ ! -t 0 || ! -t 1 ]]; then
-            command claude "$@"
-            return
-          fi
-          # Outside kspace -> nothing to bypass.
-          if [[ -z "$KSPACE_PROJECT_ROOT" ]]; then
-            command claude "$@"
-            return
-          fi
-          # Flagged invocations (--continue, --print, --resume, etc.)
-          # are deliberate command shapes -- typing them already counts
-          # as intent. Only bare interactive `claude` in kspace gates.
-          if [[ $# -gt 0 ]]; then
-            command claude "$@"
-            return
-          fi
-          print -P "%B%F{red}Bare \`claude\` inside kspace bypasses kstart's orient-friction picker.%f%b"
-          print -P "%F{red}The orient hook still fires, but you skip Mode.next/work/free gates.%f"
-          printf "Type 'bypass' to confirm, anything else runs kstart instead: "
-          local confirm
-          read confirm
-          if [[ "$confirm" == "bypass" ]]; then
-            command claude
-          else
-            echo "running kstart"
-            kstart
-          fi
-        }
 
         # Unalias commands
         unalias gk 2>/dev/null || true
