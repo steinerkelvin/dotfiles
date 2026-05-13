@@ -87,9 +87,11 @@ _: {
           "zoxide"
           "git"
           "fzf"
-          "rust"
-          "pip"
-          "httpie"
+          # Dropped 2026-05-13 after atuin-history audit:
+          # - rust (cargo×55, rustup×3 -- cargo ships its own zsh
+          #   completion in nixpkgs)
+          # - pip (pip×9 -- rare; tab-complete works without)
+          # - httpie (http/https/httpie×0 -- never used)
         ];
       };
     };
