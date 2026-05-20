@@ -83,9 +83,16 @@ in
 
     sandbox = {
       filesystem.allowWrite = [ "${home}/.codex" ];
+      # Each codex-spawning companion subcommand must be excluded from Claude's
+      # sandbox: on macOS Codex applies its own seatbelt per shell command, which
+      # fails when nested inside Claude's seatbelt (shell dies -> falls back to a
+      # broken qmd MCP and hangs). Keep in sync with the runtime's subcommands
+      # (`just codex-check` in kspace verifies this). `rescue` was renamed to
+      # `task`; `adversarial-review` is a distinct subcommand.
       excludedCommands = [
         ''node "${home}/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs" review *''
-        ''node "${home}/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs" rescue *''
+        ''node "${home}/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs" adversarial-review *''
+        ''node "${home}/.claude/plugins/cache/openai-codex/codex/*/scripts/codex-companion.mjs" task *''
       ];
     };
   };
