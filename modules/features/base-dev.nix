@@ -31,6 +31,7 @@
       config.flake.homeModules.starship
       config.flake.homeModules.zsh
       config.flake.homeModules.git
+      config.flake.homeModules.worktree
       config.flake.homeModules.rust
       config.flake.homeModules.npm
       config.flake.homeModules.python

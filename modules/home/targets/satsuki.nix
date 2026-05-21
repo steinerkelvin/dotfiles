@@ -6,7 +6,7 @@
       pkgs = import inputs.nixpkgs {
         system = "aarch64-darwin";
         config.allowUnfree = true;
-        overlays = [ overlays.darwinDirenv ];
+        overlays = [ overlays.darwinDirenv overlays.unstable ];
       };
       extraSpecialArgs = { inherit inputs; };
       modules = [
