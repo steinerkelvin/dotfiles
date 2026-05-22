@@ -8,7 +8,7 @@ deploy-hm *args:
     ./bootstrap-home-manager.sh {{args}}
 
 deploy-darwin *args:
-    ./bootstrap-darwin.sh {{args}}
+    sudo ./bootstrap-darwin.sh {{args}}
 
 # Create and provision the OrbStack NixOS builder VM.
 # Run deploy-darwin afterwards to register the builder on the host.
