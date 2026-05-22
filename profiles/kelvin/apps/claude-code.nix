@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, lib, pkgs, ... }:
 
 let
   home = config.home.homeDirectory;
@@ -19,7 +19,16 @@ in
 
   # User-level ~/.claude/settings.json. Claude Code's live runtime state
   # (sessions, onboarding, model usage) lives in ~/.claude.json, so HM
-  # can own this file without fighting the app's internal writes.
+  # can own this file. BUT: Claude Code still writes plugin/marketplace
+  # state (enabledPlugins, extraKnownMarketplaces) directly into
+  # settings.json at runtime, which dereferences HM's symlink into a real
+  # file and makes the next `deploy-hm` fail with "would be clobbered".
+  # force = true makes HM authoritative: it overwrites on every activation.
+  # Tradeoff: plugins installed interactively via /plugin do NOT survive a
+  # deploy -- declare them in `enabledPlugins`/`extraKnownMarketplaces`
+  # below to persist them. This is the declarative model on purpose.
+  home.file.".claude/settings.json".force = true;
+
   programs.claude-code.settings = {
     theme = "dark";
     verbose = false;
@@ -68,6 +77,21 @@ in
       type = "command";
       command = "bash ${home}/.claude/statusline-command.sh";
     };
+
+    # Play a sound when Claude finishes a turn. macOS-only (afplay); the
+    # CwdChanged hook is set separately by the claude-hooks module and
+    # merges with this under settings.hooks.
+    hooks.Stop = lib.optionals pkgs.stdenv.hostPlatform.isDarwin [
+      {
+        matcher = "";
+        hooks = [
+          {
+            type = "command";
+            command = "afplay /System/Library/Sounds/Glass.aiff";
+          }
+        ];
+      }
+    ];
 
     enabledPlugins = {
       "rust-analyzer-lsp@claude-plugins-official" = true;
