@@ -121,6 +121,51 @@
             action = "<cmd>ClaudeCodeDiffDeny<cr>";
             options.desc = "Reject Claude diff";
           }
+
+          # flash.nvim keymaps. NOTE: s/S take over vim's substitute -- this is
+          # intentional and redundant (s == cl, S == cc). __raw lua-function
+          # form because <cmd>...<cr> doesn't work in cmdline mode (<c-s>).
+          {
+            mode = [
+              "n"
+              "x"
+              "o"
+            ];
+            key = "s";
+            action.__raw = "function() require('flash').jump() end";
+            options.desc = "Flash jump";
+          }
+          {
+            mode = [
+              "n"
+              "x"
+              "o"
+            ];
+            key = "S";
+            action.__raw = "function() require('flash').treesitter() end";
+            options.desc = "Flash treesitter";
+          }
+          {
+            mode = "o";
+            key = "r";
+            action.__raw = "function() require('flash').remote() end";
+            options.desc = "Flash remote";
+          }
+          {
+            mode = [
+              "o"
+              "x"
+            ];
+            key = "R";
+            action.__raw = "function() require('flash').treesitter_search() end";
+            options.desc = "Flash treesitter search";
+          }
+          {
+            mode = "c";
+            key = "<c-s>";
+            action.__raw = "function() require('flash').toggle() end";
+            options.desc = "Toggle flash in search";
+          }
         ];
 
         plugins.treesitter = {
@@ -162,6 +207,10 @@
 
         plugins.which-key.enable = true;
         plugins.web-devicons.enable = true;
+
+        # flash.nvim: jump-anywhere motion. Defaults call setup() and enable
+        # the f/t/F/T multi-line enhancement. Jump keymaps are added below.
+        plugins.flash.enable = true;
 
         plugins.telescope = {
           enable = true;
@@ -229,6 +278,7 @@
         # floating-window providers).
         extraPlugins = with pkgs.vimPlugins; [
           claudecode-nvim
+          kitty-scrollback-nvim
         ];
 
         extraConfigLua = ''
@@ -239,5 +289,19 @@
           })
         '';
       };
+
+      # Bridge for kitty-scrollback.nvim: kitty.conf references the plugin's
+      # python kitten by absolute path, but the plugin lives at a versioned nix
+      # store path. Generate an include file with the interpolated path (kept
+      # version-coherent with the kitty-scrollback-nvim extraPlugins entry
+      # above); the static homeshick kitty.conf just `include`s this. Safe to
+      # drop here: ~/.config/kitty is a real dir with file-level homeshick
+      # symlinks, so a nix-managed sibling file does not collide with kitty.conf.
+      home.file.".config/kitty/kitty-scrollback.conf".text = ''
+        action_alias kitty_scrollback_nvim kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py
+        map kitty_mod+h kitty_scrollback_nvim
+        map kitty_mod+g kitty_scrollback_nvim --config ksb_builtin_last_cmd_output
+        mouse_map ctrl+shift+right press ungrabbed combine : mouse_select_command_output : kitty_scrollback_nvim --config ksb_builtin_last_visited_cmd_output
+      '';
     };
 }
