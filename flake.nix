@@ -20,6 +20,18 @@
     nixvim.inputs.nixpkgs.follows = "nixpkgs";
 
     determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3";
+
+    # Wayland desktop rice (homeModules.graphical): niri scrolling compositor,
+    # DankMaterialShell (Quickshell desktop shell), declarative Discord.
+    niri.url = "github:sodiboo/niri-flake";
+    niri.inputs.nixpkgs.follows = "nixpkgs";
+
+    dms.url = "github:AvengeMedia/DankMaterialShell/stable";
+    dms.inputs.nixpkgs.follows = "nixpkgs";
+
+    nixcord.url = "github:kaylorben/nixcord";
+    nixcord.inputs.nixpkgs.follows = "nixpkgs";
+    nixcord.inputs.nixpkgs-nixcord.follows = "nixpkgs";
   };
 
   outputs = inputs:
