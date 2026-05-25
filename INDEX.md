@@ -29,6 +29,12 @@
 - `dep-opsec.nix` - Supply-chain cooldown defaults across package managers (`features.dep-opsec.*`)
 - `shell.nix`, `git.nix`, `nix.nix`, etc. - Feature-scoped Home Manager modules
 
+### Reusable NixOS Modules (`modules/nixos/`)
+
+- Identity-free `flake.nixosModules.*` host building blocks (profiles `base`/`server`; services `ssh`, `tailscale`, `avahi`, `podman`, `libvirt`, `syncthing`, `firewall`, `zfs-maintenance`; hardware/host `yubikey`, `zfs-boot`, `esp-sync`, `microvm-bridge`, `orbstack`)
+- `yubikey.nix` - `services.pcscd` + udev rules for smartcard/PIV/age-plugin-yubikey
+- Host-specific values are left as stock options for the consumer to set; no host identity, secrets, or device serials live here
+
 ### Home Manager Configurations (`modules/home/`)
 
 - `targets/linux.nix` - Linux Home Manager activation target

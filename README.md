@@ -77,9 +77,9 @@ For embedding inside an existing NixOS or nix-darwin host, and channel-mismatch 
 
 ## Available modules
 
-Single-tool features: `npm`, `python`, `rust`, `nix`, `direnv`, `zsh`, `git`, `shell`, `editors`, `atuin`, `starship`, `scripting`, `remote`, `net`, `net-utils`, `file-utils`, `build-tools`, `sysmon`, `secrets`, `passage`, `age-plugin-se`, `age-plugin-yubikey`, `email`, `homeshick`, `claude-hooks`, `ai-skills`, `dep-opsec`.
+Home Manager features (`homeModules.*`) — single-tool: `npm`, `python`, `rust`, `nix`, `direnv`, `zsh`, `git`, `git-signing`, `identity`, `kitty`, `shell`, `editors`, `atuin`, `starship`, `scripting`, `remote`, `net`, `net-utils`, `file-utils`, `build-tools`, `sysmon`, `secrets`, `passage`, `age-plugin-se`, `age-plugin-yubikey`, `email`, `homeshick`, `claude-hooks`, `ai-skills`, `dep-opsec`. Meta-module: `base-dev`.
 
-Meta-module: `base-dev`.
+NixOS modules (`nixosModules.*`) — reusable, identity-free host building blocks. Profiles: `base`, `server`. Services: `ssh`, `tailscale`, `avahi`, `podman`, `libvirt`, `syncthing`, `firewall`, `zfs-maintenance`. Hardware/host: `yubikey` (pcscd + udev), `zfs-boot`, `esp-sync`, `microvm-bridge`, `orbstack`. Generic upstream defaults; host-specific values (ports, users, subnets) stay at the consumer's call site.
 
 For the complete list, run `nix flake show github:steinerkelvin/dotfiles`.
 
