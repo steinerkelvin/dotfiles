@@ -10,16 +10,22 @@
 # Pairs with: homeModules.kitty (the $terminal) and homeModules.wl-kbptr (the
 # Super+G binds below invoke the wl-kbptr binary) — import those alongside.
 # dgop (DMS's monitoring backend) comes from nixosModules.unstable-packages on
-# the host. niri's HM module is imported here explicitly (on a NixOS host
-# niri-flake injects it via home-manager.sharedModules, but a standalone HM
-# config needs it for programs.niri.settings + config.lib.niri.actions).
+# the host.
+#
+# niri's own HM module is NOT imported here: niri-flake's NixOS module injects it
+# via home-manager.sharedModules on every NixOS host, and niri-flake declares
+# programs.niri.finalConfig from both paths, so importing it again collides
+# ("option already declared"). The only consumers of this module are NixOS hosts
+# (the desktop nixosModule + inputs.niri.nixosModules.niri), which supply the niri
+# HM module + config.lib.niri.actions used by programs.niri.settings below. A
+# standalone home-manager config that wants this rice must import
+# inputs.niri.homeModules.niri itself.
 { inputs, ... }:
 {
   flake.homeModules.graphical =
     { config, lib, pkgs, ... }:
     {
       imports = [
-        inputs.niri.homeModules.niri
         inputs.dms.homeModules.dank-material-shell
         inputs.dms.homeModules.niri # DMS<->niri integration (keybinds/spawn)
         inputs.nixcord.homeModules.nixcord # declarative Equibop/Equicord
