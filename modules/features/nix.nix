@@ -16,6 +16,7 @@ _: {
       # Explorers / tools
       pkgs.nix-index
       pkgs.nix-tree
+      pkgs.nh
     ];
   };
 }

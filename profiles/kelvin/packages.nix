@@ -8,5 +8,6 @@
     pkgs.stc-cli # Syncthing CLI (`stc` command)
     pkgs.pciutils
     pkgs.nixos-option
+    pkgs.zed-editor
   ];
 }
