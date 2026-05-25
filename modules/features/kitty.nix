@@ -83,8 +83,9 @@ _: {
           globinclude ${kittyDir}/dank-tabs.conf
 
           # Local hand-edited overrides (not nix-managed; seeded empty if missing).
-          # Included last so it overrides everything above.
-          include ${kittyDir}/kitty.custom
+          # Included last so it overrides everything above. `.conf` so editors
+          # syntax-highlight it as kitty config.
+          include ${kittyDir}/kitty.custom.conf
         '';
       };
 
@@ -92,14 +93,14 @@ _: {
       xdg.configFile."kitty/shell_reentry.py".source = ./_kitty/shell_reentry.py;
       xdg.configFile."kitty/shell-reentry.md".source = ./_kitty/shell-reentry.md;
 
-      # Seed an editable, non-nix-managed kitty.custom only if absent, so the
+      # Seed an editable, non-nix-managed kitty.custom.conf only if absent, so the
       # include never warns and the file stays outside the nix store (store files
       # are read-only, hence the chmod).
       home.activation.seedKittyCustom = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
-        kc="${kittyDir}/kitty.custom"
+        kc="${kittyDir}/kitty.custom.conf"
         if [ ! -e "$kc" ]; then
           run mkdir -p "$(dirname "$kc")"
-          run cp ${pkgs.writeText "kitty.custom" "# kitty.custom -- local overrides, edit freely. Not managed by nix.\n"} "$kc"
+          run cp ${pkgs.writeText "kitty.custom.conf" "# kitty.custom.conf -- local overrides, edit freely. Not managed by nix.\n"} "$kc"
           run chmod u+w "$kc"
         fi
       '';
