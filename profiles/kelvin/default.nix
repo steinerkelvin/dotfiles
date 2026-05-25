@@ -1,8 +1,9 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
 
 {
   imports = [
     inputs.self.homeModules.base-dev
+    inputs.self.homeModules.identity
     inputs.self.homeModules.ai-skills
     inputs.self.homeModules.nixvim
     inputs.self.homeModules.claude-hooks
@@ -14,6 +15,12 @@
   ];
 
   home = {
+    # Home-manager bootstrap for the dotfiles targets (was in the old
+    # identity.nix, which conflated git identity with home identity). Kept here,
+    # not in homeModules.identity, so external consumers (castle) that set their
+    # own username/stateVersion aren't forced onto these.
+    username = lib.mkDefault "kelvin";
+    stateVersion = lib.mkDefault "23.05";
     sessionPath = [ "$HOME/bin" ];
     sessionVariables = {
       EDITOR = "nvim";

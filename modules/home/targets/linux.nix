@@ -11,7 +11,6 @@
       extraSpecialArgs = { inherit inputs; };
       modules = [
         ../../../profiles/kelvin/default.nix
-        ../../../profiles/kelvin/identity.nix
         ../../../profiles/kelvin/platform/linux.nix
       ];
     };
