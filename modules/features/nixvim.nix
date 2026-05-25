@@ -294,9 +294,10 @@
       # python kitten by absolute path, but the plugin lives at a versioned nix
       # store path. Generate an include file with the interpolated path (kept
       # version-coherent with the kitty-scrollback-nvim extraPlugins entry
-      # above); the static homeshick kitty.conf just `include`s this. Safe to
-      # drop here: ~/.config/kitty is a real dir with file-level homeshick
-      # symlinks, so a nix-managed sibling file does not collide with kitty.conf.
+      # above); the kitty module (modules/features/kitty.nix) `include`s this.
+      # Generation stays here so the path tracks the plugin version used by
+      # nixvim. ~/.config/kitty is a real dir, so this sibling file sits next to
+      # the home-manager-generated kitty.conf without collision.
       home.file.".config/kitty/kitty-scrollback.conf".text = ''
         action_alias kitty_scrollback_nvim kitten ${pkgs.vimPlugins.kitty-scrollback-nvim}/python/kitty_scrollback_nvim.py
         map kitty_mod+h kitty_scrollback_nvim

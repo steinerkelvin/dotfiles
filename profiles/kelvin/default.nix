@@ -6,6 +6,7 @@
     inputs.self.homeModules.identity
     inputs.self.homeModules.ai-skills
     inputs.self.homeModules.nixvim
+    inputs.self.homeModules.kitty
     inputs.self.homeModules.claude-hooks
     inputs.self.homeModules.email
     inputs.self.homeModules.homeshick
