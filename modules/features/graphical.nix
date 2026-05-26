@@ -86,13 +86,16 @@
 
             "Mod+H".action = focus-column-left;
             "Mod+L".action = focus-column-right;
-            "Mod+J".action = focus-window-down;
-            "Mod+K".action = focus-window-up;
+            # Spillover: walks windows inside the current column, then falls
+            # through to the next workspace when at the top/bottom edge.
+            # Mod+Page_{Up,Down} below stays as the pure workspace jump.
+            "Mod+J".action = focus-window-or-workspace-down;
+            "Mod+K".action = focus-window-or-workspace-up;
 
             "Mod+Shift+H".action = move-column-left;
             "Mod+Shift+L".action = move-column-right;
-            "Mod+Shift+J".action = move-window-down;
-            "Mod+Shift+K".action = move-window-up;
+            "Mod+Shift+J".action = move-window-down-or-to-workspace-down;
+            "Mod+Shift+K".action = move-window-up-or-to-workspace-up;
 
             "Mod+F".action = maximize-column;
             "Mod+Shift+F".action = fullscreen-window;
