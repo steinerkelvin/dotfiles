@@ -77,27 +77,40 @@ _: {
       # (verified via `gdbus introspect` -- the interfaces aren't even
       # exposed). The pin in config.niri only chooses among candidates; it
       # does not bypass UseIn.
-      xdg.portal = {
-        enable = true;
-        extraPortals = [
-          (pkgs.xdg-desktop-portal-gtk.overrideAttrs (old: {
+      # Patch the manifests globally via an overlay (rather than overrideAttrs
+      # inline in extraPortals): programs.hyprland and other modules also
+      # pull xdg-desktop-portal-gtk into extraPortals, which would otherwise
+      # collide on systemd user units (two store paths providing the same
+      # .service file). The overlay replaces the package everywhere.
+      nixpkgs.overlays = [
+        (final: prev: {
+          xdg-desktop-portal-gtk = prev.xdg-desktop-portal-gtk.overrideAttrs (old: {
             postInstall = (old.postInstall or "") + ''
               substituteInPlace $out/share/xdg-desktop-portal/portals/gtk.portal \
                 --replace-fail 'UseIn=gnome' 'UseIn=gnome;niri'
             '';
-          }))
-          (pkgs.xdg-desktop-portal-gnome.overrideAttrs (old: {
+          });
+          xdg-desktop-portal-gnome = prev.xdg-desktop-portal-gnome.overrideAttrs (old: {
             postInstall = (old.postInstall or "") + ''
               substituteInPlace $out/share/xdg-desktop-portal/portals/gnome.portal \
                 --replace-fail 'UseIn=gnome' 'UseIn=gnome;niri'
             '';
-          }))
-          (pkgs.xdg-desktop-portal-wlr.overrideAttrs (old: {
+          });
+          xdg-desktop-portal-wlr = prev.xdg-desktop-portal-wlr.overrideAttrs (old: {
             postInstall = (old.postInstall or "") + ''
               substituteInPlace $out/share/xdg-desktop-portal/portals/wlr.portal \
                 --replace-fail 'phosh;Hyprland;' 'phosh;Hyprland;niri;'
             '';
-          }))
+          });
+        })
+      ];
+
+      xdg.portal = {
+        enable = true;
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.xdg-desktop-portal-gnome
+          pkgs.xdg-desktop-portal-wlr
         ];
         config.niri = {
           default = [ "gnome" "gtk" ];
