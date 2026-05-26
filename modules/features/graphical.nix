@@ -97,9 +97,10 @@
             "Mod+Tab".action = toggle-overview;
 
             # Screenshots -- niri built-ins (no grim/slurp pipeline needed).
+            # (No screenshot-window in the niri-flake DSL; skip the per-window
+            # variant. The region picker via `screenshot` covers it.)
             "Print".action = screenshot;
             "Ctrl+Print".action = screenshot-screen;
-            "Alt+Print".action = screenshot-window;
 
             # wl-kbptr — keyboard-driven mouse pointer. Mod+G = tile-grid jump
             # then hjkl split (works on any app); Mod+Shift+G = opencv CV hints
