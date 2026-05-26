@@ -60,10 +60,17 @@ _: {
       };
       programs.gamemode.enable = true;
 
-      # Portals — screen share, file pickers. Hyprland portal added by programs.hyprland.
+      # Portals — screen share, file pickers. Hyprland portal added by
+      # programs.hyprland; gnome portal handles ScreenCast under niri (niri
+      # 25.x implements ext-image-capture-source-v1, which xdp-gnome >=45
+      # supports). niri-portals.conf already prefers gnome via `default=`, and
+      # hyprland portal's `UseIn=Hyprland` keeps it winning under Hyprland.
       xdg.portal = {
         enable = true;
-        extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.xdg-desktop-portal-gnome
+        ];
       };
 
       hardware.bluetooth.enable = true;
