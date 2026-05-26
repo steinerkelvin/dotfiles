@@ -112,6 +112,21 @@
 
           exec-once = [ "dms run" ]; # spawn DMS in Hyprland's live wayland env
 
+          # Pull DMS-written snippets into the generated hyprland.conf. Without
+          # these `source` lines, DMS' settings panel writes to ~/.config/hypr/dms/
+          # but Hyprland never reads them -- the resolution dropdown etc. silently
+          # no-op. The dms flake exposes homeModules.niri for niri integration but
+          # no equivalent homeModules.hyprland, so this wiring is by hand.
+          # DMS-specific monitor rules in outputs.conf override the catch-all
+          # below by output-name match (last specific rule wins per output).
+          source = [
+            "~/.config/hypr/dms/colors.conf"
+            "~/.config/hypr/dms/cursor.conf"
+            "~/.config/hypr/dms/layout.conf"
+            "~/.config/hypr/dms/outputs.conf"
+            "~/.config/hypr/dms/windowrules.conf"
+          ];
+
           monitor = [ ", preferred, auto, auto" ];
           env = [
             "XCURSOR_SIZE,24"
