@@ -67,6 +67,7 @@
         # huge. Defaults to 0.33 (~1707px), Mod+R cycles through.
         layout = {
           center-focused-column = "on-overflow";
+          always-center-single-column = true;
           preset-column-widths = [
             { proportion = 0.166; }   # ~853px  -- compact terminal / chat
             { proportion = 0.25; }    # 1280px  -- editor pane
