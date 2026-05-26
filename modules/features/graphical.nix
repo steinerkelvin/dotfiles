@@ -56,6 +56,14 @@
           layout = "us";
           options = "compose:rctrl,caps:super";
         };
+
+        # Center a column that doesn't fill the screen. On the 5120x1440
+        # ultrawide a 50% column lands centered with gutters either side --
+        # gives a "two halves" feel without true display split. Two side-by-
+        # side columns still tile normally; only single-narrow-column triggers
+        # the centering.
+        layout.center-focused-column = "on-overflow";
+
         binds =
           with config.lib.niri.actions;
           {
@@ -77,6 +85,22 @@
             "Mod+R".action = switch-preset-column-width;
             "Mod+Shift+E".action = quit;
 
+            # Launcher alt-binding for Hyprland muscle memory. DMS already
+            # binds Mod+Space to the same spotlight toggle via its niri module
+            # (inputs.dms.homeModules.niri); Mod+D mirrors Hyprland's $mod,D.
+            "Mod+D".action = spawn "dms" "ipc" "spotlight" "toggle";
+
+            # Hotkey cheatsheet + workspace overview -- niri built-ins.
+            # (Hyprland uses `dms ipc hypr toggleBinds/toggleOverview`, which is
+            # Hyprland-specific IPC; niri has native equivalents.)
+            "Mod+Slash".action = show-hotkey-overlay-title;
+            "Mod+Tab".action = toggle-overview;
+
+            # Screenshots -- niri built-ins (no grim/slurp pipeline needed).
+            "Print".action = screenshot;
+            "Ctrl+Print".action = screenshot-screen;
+            "Alt+Print".action = screenshot-window;
+
             # wl-kbptr — keyboard-driven mouse pointer. Mod+G = tile-grid jump
             # then hjkl split (works on any app); Mod+Shift+G = opencv CV hints
             # (only useful where edge-detection finds targets).
@@ -87,15 +111,13 @@
             "Mod+Ctrl+J".action = move-column-to-workspace-down;
             "Mod+Ctrl+K".action = move-column-to-workspace-up;
           }
-          # Workspaces 1-9: focus by index. (niri-flake's DSL has no
-          # move-column-to-workspace-by-index; cross-workspace moves use the
-          # relative Mod+Ctrl+J/K binds above.)
+          # Workspaces 1-9: focus by index + move-column-to-workspace by index.
           // builtins.listToAttrs (
-            builtins.map
-              (i: {
-                name = "Mod+${toString i}";
-                value.action = focus-workspace i;
-              })
+            builtins.concatMap
+              (i: [
+                { name = "Mod+${toString i}"; value.action = focus-workspace i; }
+                { name = "Mod+Shift+${toString i}"; value.action = move-column-to-workspace i; }
+              ])
               (lib.range 1 9)
           );
       };
