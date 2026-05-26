@@ -93,14 +93,13 @@
             # Hotkey cheatsheet + workspace overview -- niri built-ins.
             # (Hyprland uses `dms ipc hypr toggleBinds/toggleOverview`, which is
             # Hyprland-specific IPC; niri has native equivalents.)
-            "Mod+Slash".action = show-hotkey-overlay-title;
+            "Mod+Slash".action = show-hotkey-overlay;
             "Mod+Tab".action = toggle-overview;
 
-            # Screenshots -- niri built-ins (no grim/slurp pipeline needed).
-            # (No screenshot-window in the niri-flake DSL; skip the per-window
-            # variant. The region picker via `screenshot` covers it.)
-            "Print".action = screenshot;
-            "Ctrl+Print".action = screenshot-screen;
+            # Screenshots -- niri-flake's DSL doesn't expose the built-in
+            # screenshot actions, so spawn grim/slurp like the Hyprland binds.
+            "Print".action = spawn "sh" "-c" ''grim -g "$(slurp)" - | wl-copy'';
+            "Shift+Print".action = spawn "sh" "-c" ''grim -g "$(slurp)" "$HOME/pictures/$(date -Iseconds).png"'';
 
             # wl-kbptr — keyboard-driven mouse pointer. Mod+G = tile-grid jump
             # then hjkl split (works on any app); Mod+Shift+G = opencv CV hints
@@ -112,13 +111,15 @@
             "Mod+Ctrl+J".action = move-column-to-workspace-down;
             "Mod+Ctrl+K".action = move-column-to-workspace-up;
           }
-          # Workspaces 1-9: focus by index + move-column-to-workspace by index.
+          # Workspaces 1-9: focus by index. (niri-flake's DSL doesn't expose
+          # move-column-to-workspace with an index argument -- only the
+          # relative -down/-up variants, already bound to Mod+Ctrl+J/K above.)
           // builtins.listToAttrs (
-            builtins.concatMap
-              (i: [
-                { name = "Mod+${toString i}"; value.action = focus-workspace i; }
-                { name = "Mod+Shift+${toString i}"; value.action = move-column-to-workspace i; }
-              ])
+            builtins.map
+              (i: {
+                name = "Mod+${toString i}";
+                value.action = focus-workspace i;
+              })
               (lib.range 1 9)
           );
       };
