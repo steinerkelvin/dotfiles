@@ -57,12 +57,25 @@
           options = "compose:rctrl,caps:super";
         };
 
-        # Center a column that doesn't fill the screen. On the 5120x1440
-        # ultrawide a 50% column lands centered with gutters either side --
-        # gives a "two halves" feel without true display split. Two side-by-
-        # side columns still tile normally; only single-narrow-column triggers
-        # the centering.
-        layout.center-focused-column = "on-overflow";
+        # Layout tuning for the 5120x1440 G9 ultrawide.
+        #
+        # Center a narrow focused column so it lands with gutters either side
+        # (gives a "two halves" feel without true display split). Two side-by-
+        # side columns still tile normally; only single-narrow-column triggers.
+        #
+        # Preset widths skew small for 5120px-wide -- 0.5 = 2560px is already
+        # huge. Defaults to 0.33 (~1707px), Mod+R cycles through.
+        layout = {
+          center-focused-column = "on-overflow";
+          preset-column-widths = [
+            { proportion = 0.166; }   # ~853px  -- compact terminal / chat
+            { proportion = 0.25; }    # 1280px  -- editor pane
+            { proportion = 0.333; }   # ~1707px -- default
+            { proportion = 0.5; }     # 2560px  -- "half"
+            { proportion = 0.666; }   # ~3413px
+          ];
+          default-column-width.proportion = 0.333;
+        };
 
         binds =
           with config.lib.niri.actions;

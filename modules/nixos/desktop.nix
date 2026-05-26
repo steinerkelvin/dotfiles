@@ -61,16 +61,26 @@ _: {
       programs.gamemode.enable = true;
 
       # Portals — screen share, file pickers. Hyprland portal added by
-      # programs.hyprland; gnome portal handles ScreenCast under niri (niri
-      # 25.x implements ext-image-capture-source-v1, which xdp-gnome >=45
-      # supports). niri-portals.conf already prefers gnome via `default=`, and
-      # hyprland portal's `UseIn=Hyprland` keeps it winning under Hyprland.
+      # programs.hyprland (its UseIn=Hyprland keeps it preferred there).
+      #
+      # niri: ScreenCast goes through xdg-desktop-portal-wlr (niri implements
+      # wlr-screencopy-unstable-v1). xdp-gnome stays for the picker / settings
+      # interfaces. The explicit ScreenCast pin in xdg.portal.config.niri
+      # below forces wlr to win — without the pin the request falls through
+      # to xdp-hyprland (which then dies because Hyprland isn't running) or
+      # to xdp-gnome (which silently no-ops without a real GNOME session).
       xdg.portal = {
         enable = true;
         extraPortals = [
           pkgs.xdg-desktop-portal-gtk
           pkgs.xdg-desktop-portal-gnome
+          pkgs.xdg-desktop-portal-wlr
         ];
+        config.niri = {
+          default = [ "gnome" "gtk" ];
+          "org.freedesktop.impl.portal.ScreenCast" = "wlr";
+          "org.freedesktop.impl.portal.Screenshot" = "wlr";
+        };
       };
 
       hardware.bluetooth.enable = true;
