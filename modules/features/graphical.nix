@@ -97,6 +97,7 @@
             "Mod+F".action = maximize-column;
             "Mod+Shift+F".action = fullscreen-window;
             "Mod+R".action = switch-preset-column-width;
+            "Mod+C".action = center-column;
             "Mod+Shift+E".action = quit;
 
             # Consume/expel windows across columns. A niri column is a vertical
@@ -110,6 +111,10 @@
             # binds Mod+Space to the same spotlight toggle via its niri module
             # (inputs.dms.homeModules.niri); Mod+D mirrors Hyprland's $mod,D.
             "Mod+D".action = spawn "dms" "ipc" "spotlight" "toggle";
+
+            # Flip DMS light/dark + mirror to xdp Settings so Firefox/Chromium
+            # follow via prefers-color-scheme. Script defined in home.packages.
+            "Mod+Alt+T".action = spawn "theme-toggle";
 
             # Hotkey cheatsheet + workspace overview -- niri built-ins.
             # (Hyprland uses `dms ipc hypr toggleBinds/toggleOverview`, which is
@@ -311,6 +316,20 @@
         pkgs.zathura
         pkgs.imv
         pkgs.pavucontrol
+
+        # theme-toggle: flip DMS light/dark via IPC, and mirror the choice to
+        # the xdg-desktop-portal Settings interface (gsettings color-scheme)
+        # so Firefox / Chromium see prefers-color-scheme update. DMS itself
+        # does not publish org.freedesktop.appearance to the portal.
+        (pkgs.writeShellScriptBin "theme-toggle" ''
+          set -eu
+          dms ipc theme toggle >/dev/null || true
+          mode=$(dms ipc theme getMode 2>/dev/null || echo "")
+          case "$mode" in
+            light) ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-light ;;
+            dark)  ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-dark ;;
+          esac
+        '')
       ];
     };
 }
