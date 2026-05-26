@@ -31,6 +31,23 @@
         inputs.nixcord.homeModules.nixcord # declarative Equibop/Equicord
       ];
 
+      # home-manager's xdg.portal module overrides NIX_XDG_DESKTOP_PORTAL_DIR
+      # to point at the per-user profile (~/.../share/xdg-desktop-portal/portals)
+      # whenever it's enabled by any imported HM module. The NixOS-level
+      # extraPortals install into the *system* profile and xdp never sees them
+      # (`Requested gtk.portal is unrecognized` etc., gdbus introspect shows
+      # no ScreenCast / Settings / FileChooser). Mirror the extraPortals here
+      # so the patched packages (UseIn=niri added via nixpkgs.overlays at the
+      # NixOS layer) land in the per-user profile too.
+      xdg.portal = {
+        enable = true;
+        extraPortals = [
+          pkgs.xdg-desktop-portal-gtk
+          pkgs.xdg-desktop-portal-gnome
+          pkgs.xdg-desktop-portal-wlr
+        ];
+      };
+
       # DankMaterialShell — Quickshell-based shell (bar, launcher, notifications,
       # lock, control center). Defaults pull matugen/cava/khal/wtype from stable.
       programs.dank-material-shell = {
