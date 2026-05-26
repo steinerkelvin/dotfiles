@@ -64,17 +64,40 @@ _: {
       # programs.hyprland (its UseIn=Hyprland keeps it preferred there).
       #
       # niri: ScreenCast goes through xdg-desktop-portal-wlr (niri implements
-      # wlr-screencopy-unstable-v1). xdp-gnome stays for the picker / settings
-      # interfaces. The explicit ScreenCast pin in xdg.portal.config.niri
-      # below forces wlr to win — without the pin the request falls through
-      # to xdp-hyprland (which then dies because Hyprland isn't running) or
-      # to xdp-gnome (which silently no-ops without a real GNOME session).
+      # wlr-screencopy-unstable-v1). xdp-gnome covers Settings (color-scheme
+      # for the prefers-color-scheme portal interface) and the standard
+      # FileChooser / Notification / etc set. The explicit pin in
+      # xdg.portal.config.niri forces wlr to win for ScreenCast.
+      #
+      # Why the UseIn patches: xdp 1.20+ only registers an impl backend on a
+      # given desktop when the backend's `.portal` manifest claims that
+      # desktop via UseIn. None of the upstream manifests list niri, so
+      # without these substitutions xdp loads zero backends in a niri session
+      # and ScreenCast / Settings / FileChooser silently vanish from the bus
+      # (verified via `gdbus introspect` -- the interfaces aren't even
+      # exposed). The pin in config.niri only chooses among candidates; it
+      # does not bypass UseIn.
       xdg.portal = {
         enable = true;
         extraPortals = [
-          pkgs.xdg-desktop-portal-gtk
-          pkgs.xdg-desktop-portal-gnome
-          pkgs.xdg-desktop-portal-wlr
+          (pkgs.xdg-desktop-portal-gtk.overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              substituteInPlace $out/share/xdg-desktop-portal/portals/gtk.portal \
+                --replace-fail 'UseIn=gnome' 'UseIn=gnome;niri'
+            '';
+          }))
+          (pkgs.xdg-desktop-portal-gnome.overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              substituteInPlace $out/share/xdg-desktop-portal/portals/gnome.portal \
+                --replace-fail 'UseIn=gnome' 'UseIn=gnome;niri'
+            '';
+          }))
+          (pkgs.xdg-desktop-portal-wlr.overrideAttrs (old: {
+            postInstall = (old.postInstall or "") + ''
+              substituteInPlace $out/share/xdg-desktop-portal/portals/wlr.portal \
+                --replace-fail 'phosh;Hyprland;' 'phosh;Hyprland;niri;'
+            '';
+          }))
         ];
         config.niri = {
           default = [ "gnome" "gtk" ];
