@@ -107,9 +107,15 @@
             "Mod+G".action = spawn "wl-kbptr" "-o" "modes=tile,split";
             "Mod+Shift+G".action = spawn "wl-kbptr" "-o" "modes=floating,click";
 
+            # Switch focus between adjacent workspaces.
+            "Mod+Page_Down".action = focus-workspace-down;
+            "Mod+Page_Up".action = focus-workspace-up;
+
             # Move the focused column to an adjacent workspace.
             "Mod+Ctrl+J".action = move-column-to-workspace-down;
             "Mod+Ctrl+K".action = move-column-to-workspace-up;
+            "Mod+Ctrl+Page_Down".action = move-column-to-workspace-down;
+            "Mod+Ctrl+Page_Up".action = move-column-to-workspace-up;
           }
           # Workspaces 1-9: focus by index. (niri-flake's DSL doesn't expose
           # move-column-to-workspace with an index argument -- only the
