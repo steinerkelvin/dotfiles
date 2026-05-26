@@ -24,5 +24,11 @@
     "enabled": true,
     "autoAllowBashIfSandboxed": true,
     "allowUnsandboxedCommands": true
-  }
+  },
+  "enabledMcpjsonServers": [
+    "exa",
+    "qmd",
+    "kaether",
+    "kaether-channel"
+  ]
 }
