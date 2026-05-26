@@ -85,6 +85,13 @@
             "Mod+R".action = switch-preset-column-width;
             "Mod+Shift+E".action = quit;
 
+            # Consume/expel windows across columns. A niri column is a vertical
+            # stack; these merge a neighbor's window into the current column
+            # (consume) or push the current window out into its own column
+            # (expel). The direction-aware variants pick which based on layout.
+            "Mod+BracketLeft".action = consume-or-expel-window-left;
+            "Mod+BracketRight".action = consume-or-expel-window-right;
+
             # Launcher alt-binding for Hyprland muscle memory. DMS already
             # binds Mod+Space to the same spotlight toggle via its niri module
             # (inputs.dms.homeModules.niri); Mod+D mirrors Hyprland's $mod,D.
