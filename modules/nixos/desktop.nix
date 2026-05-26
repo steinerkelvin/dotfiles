@@ -84,6 +84,18 @@ _: {
         pkgs.nerd-fonts.symbols-only
       ];
 
+      # Pin font rendering — slight hinting + native bytecode hinter is the
+      # usual sweet spot for hinted fonts (JetBrainsMono, Noto). autohint only
+      # helps unhinted fonts and tends to make hinted ones worse.
+      fonts.fontconfig = {
+        antialias = true;
+        hinting = {
+          enable = true;
+          style = "slight";
+          autohint = false;
+        };
+      };
+
       # Compositor-adjacent CLI tools. Terminal + rice live in the HM graphical module.
       environment.systemPackages = [
         pkgs.kitty
