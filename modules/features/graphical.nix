@@ -31,14 +31,20 @@
         inputs.nixcord.homeModules.nixcord # declarative Equibop/Equicord
       ];
 
-      # home-manager's xdg.portal module overrides NIX_XDG_DESKTOP_PORTAL_DIR
-      # to point at the per-user profile (~/.../share/xdg-desktop-portal/portals)
-      # whenever it's enabled by any imported HM module. The NixOS-level
-      # extraPortals install into the *system* profile and xdp never sees them
-      # (`Requested gtk.portal is unrecognized` etc., gdbus introspect shows
-      # no ScreenCast / Settings / FileChooser). Mirror the extraPortals here
-      # so the patched packages (UseIn=niri added via nixpkgs.overlays at the
-      # NixOS layer) land in the per-user profile too.
+      # INVARIANT (HM + NixOS portal-dir mismatch -- nix-community/home-manager#7124):
+      # home-manager's xdg.portal module sets NIX_XDG_DESKTOP_PORTAL_DIR to the
+      # per-user profile (~/.../share/xdg-desktop-portal/portals) whenever it
+      # is enabled by *any* imported HM module (here: dms/niri/nixcord pull it
+      # in transitively). xdp scans only that env-var dir, so NixOS-level
+      # `xdg.portal.extraPortals` -- which install into the *system* profile --
+      # become invisible (`Requested gtk.portal is unrecognized`, gdbus
+      # introspect shows no ScreenCast / Settings / FileChooser).
+      #
+      # Workaround until HM#7124 lands: mirror NixOS extraPortals at the HM
+      # layer here. Any portal omitted from this list is lost. The patched
+      # packages (UseIn=niri appended via nixpkgs.overlays at the NixOS layer,
+      # so xdp 1.20 actually registers backends on niri) flow through because
+      # `pkgs.*` here resolves to the same overlaid nixpkgs.
       xdg.portal = {
         enable = true;
         extraPortals = [
@@ -95,6 +101,17 @@
           default-column-width.proportion = 0.333;
         };
 
+        # Per-app window rules. kitty spawns at the 0.25 preset (~1280px on
+        # the G9) instead of the global 0.333 default -- terminals don't need
+        # editor-pane width, and a smaller default leaves room to tile a
+        # browser/editor alongside without a Mod+R cycle every spawn.
+        window-rules = [
+          {
+            matches = [ { app-id = "^kitty$"; } ];
+            default-column-width.proportion = 0.25;
+          }
+        ];
+
         binds =
           with config.lib.niri.actions;
           {
@@ -116,7 +133,12 @@
 
             "Mod+F".action = maximize-column;
             "Mod+Shift+F".action = fullscreen-window;
+            # Mod+R cycles preset column widths small -> large -> wrap.
+            # Mod+Shift+R cycles backwards so you don't have to wrap around
+            # when you just overshot. niri v25.08+ exposes the -back variant
+            # natively.
             "Mod+R".action = switch-preset-column-width;
+            "Mod+Shift+R".action = switch-preset-column-width-back;
             "Mod+C".action = center-column;
             "Mod+Shift+E".action = quit;
 
@@ -338,17 +360,30 @@
         pkgs.pavucontrol
         pkgs.wev # xev for Wayland — debug keypress/pointer events
 
-        # theme-toggle: flip DMS light/dark via IPC, and mirror the choice to
-        # the xdg-desktop-portal Settings interface (gsettings color-scheme)
-        # so Firefox / Chromium see prefers-color-scheme update. DMS itself
-        # does not publish org.freedesktop.appearance to the portal.
+        # theme-toggle: flip DMS light/dark via IPC, and mirror the choice
+        # into dconf so xdg-desktop-portal Settings (org.freedesktop.appearance
+        # color-scheme) reports it to Firefox / Chromium / libadwaita apps.
+        # DMS itself does not publish appearance to the portal.
+        #
+        # We write via `dconf write` rather than `gsettings set` deliberately:
+        # NixOS does not expose GSettings schemas globally (nixpkgs#33277), so
+        # a bare `gsettings set` from an unwrapped shell errors with
+        # "No schemas installed" unless the script is wrapped with
+        # XDG_DATA_DIRS pointing at gsettings-desktop-schemas. `dconf write`
+        # bypasses the schema lookup -- xdp-gtk reads the same dconf key for
+        # its Settings impl, so the portal value updates either way.
+        # `programs.dconf.enable = true` lives in modules/nixos/desktop.nix.
+        #
+        # We re-read `dms ipc theme getMode` after toggling because DMS's IPC
+        # `toggle()` return is the *opposite* of the new state (see DMS's
+        # Common/Theme.qml:1873).
         (pkgs.writeShellScriptBin "theme-toggle" ''
           set -eu
           dms ipc theme toggle >/dev/null || true
           mode=$(dms ipc theme getMode 2>/dev/null || echo "")
           case "$mode" in
-            light) ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-light ;;
-            dark)  ${pkgs.glib}/bin/gsettings set org.gnome.desktop.interface color-scheme prefer-dark ;;
+            light) ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-light'" ;;
+            dark)  ${pkgs.dconf}/bin/dconf write /org/gnome/desktop/interface/color-scheme "'prefer-dark'"  ;;
           esac
         '')
       ];
