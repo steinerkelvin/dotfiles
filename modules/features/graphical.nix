@@ -336,6 +336,7 @@
         pkgs.zathura
         pkgs.imv
         pkgs.pavucontrol
+        pkgs.wev # xev for Wayland — debug keypress/pointer events
 
         # theme-toggle: flip DMS light/dark via IPC, and mirror the choice to
         # the xdg-desktop-portal Settings interface (gsettings color-scheme)
