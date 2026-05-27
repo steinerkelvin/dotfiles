@@ -20,5 +20,10 @@ _: {
 
       # udev rules granting the seat user access to the YubiKey USB device.
       services.udev.packages = [ pkgs.yubikey-personalization ];
+
+      # pcsc-tools ships `pcsc_scan`, the canonical "is pcscd healthy + can it
+      # see the card" probe. Tiny package; goes with the module so every host
+      # that enables yubikey gets the diagnostic without a separate opt-in.
+      environment.systemPackages = [ pkgs.pcsc-tools ];
     };
 }
