@@ -360,6 +360,14 @@
         pkgs.pavucontrol
         pkgs.wev # xev for Wayland — debug keypress/pointer events
 
+        # Pywalfox native companion -- pipes the active wal/matugen palette into
+        # Firefox so the browser chrome tracks the DMS theme switch. Install the
+        # Firefox extension separately (about:addons -> "Pywalfox"); on first
+        # run, `pywalfox install` to register the native messaging manifest and
+        # `pywalfox update` after each `wal -i`/matugen apply. The DMS theme
+        # toggle above can chain to pywalfox by adding a hook script.
+        pkgs.pywalfox-native
+
         # theme-toggle: flip DMS light/dark via IPC, and mirror the choice
         # into dconf so xdg-desktop-portal Settings (org.freedesktop.appearance
         # color-scheme) reports it to Firefox / Chromium / libadwaita apps.
