@@ -25,6 +25,9 @@ _:
       ./_ai-skills/code-stats.nix
       ./_ai-skills/diagram-tools.nix
       ./_ai-skills/pix-qr.nix
+      ./_ai-skills/humanizer.nix
+      ./_ai-skills/tailscale-serve.nix
+      ./_ai-skills/wt.nix
     ];
 
     config = lib.mkIf config.programs.claude-code.enable {
