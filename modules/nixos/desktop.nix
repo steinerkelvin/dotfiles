@@ -18,6 +18,12 @@ _: {
       programs.hyprland.enable = true;
       programs.niri.enable = true;
 
+      # Force Electron/Chromium apps onto native Wayland (Ozone). Without this
+      # they default to the bundled X11 path; on a niri session with no Xwayland
+      # that crashes outright (Spotify's old CEF SIGTRAPs in display init).
+      # Setting it session-wide fixes the whole class at once. Harmless on X11.
+      environment.sessionVariables.NIXOS_OZONE_WL = "1";
+
       # Greeter — minimal TTY greeter listing installed wayland sessions.
       services.greetd = {
         enable = true;

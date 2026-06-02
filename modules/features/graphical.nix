@@ -75,6 +75,12 @@
       # lock via caps:super, matching Hyprland). niri is columnar, hence the
       # column/window split on the movement binds.
       programs.niri.settings = {
+        # X11 bridge — niri is pure Wayland and ships no Xwayland. Spawn
+        # xwayland-satellite so X11-only apps have a display; niri 25.05+ then
+        # auto-sets DISPLAY for spawned clients. Merges with DMS's own
+        # spawn-at-startup (enableSpawn) rather than replacing it.
+        spawn-at-startup = [ { command = [ "xwayland-satellite" ]; } ];
+
         input.keyboard.xkb = {
           layout = "us";
           options = "compose:rctrl,caps:super";
@@ -359,6 +365,7 @@
         pkgs.imv
         pkgs.pavucontrol
         pkgs.wev # xev for Wayland — debug keypress/pointer events
+        pkgs.xwayland-satellite # rootless Xwayland for niri (X11-only apps)
 
         # Pywalfox native companion -- pipes the active wal/matugen palette into
         # Firefox so the browser chrome tracks the DMS theme switch. Install the
