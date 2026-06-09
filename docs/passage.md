@@ -111,7 +111,7 @@ passage rm -f smoke-test
 See `scripts/pass-to-passage.py`. Run after the store is initialised.
 
 ```sh
-just check-hm-mac && ./bootstrap-home-manager.sh   # Phase 0+1 active
+cd ~/kspace && just deploy-darwin   # Phase 0+1 active (Mac deploys via kspace)
 # provisioning steps above -- capture three recipient strings
 # init store with those recipients
 uv run scripts/pass-to-passage.py --source ~/.password-store --verify

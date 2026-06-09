@@ -91,10 +91,10 @@ If you cloned to hack on it directly:
 - [`modules/features/`](modules/features/): reusable `flake.homeModules.*`.
 - [`modules/home/targets/`](modules/home/targets/): concrete activation targets.
 - [`profiles/kelvin/`](profiles/kelvin/): Kelvin's profile (not part of the public surface).
-- [`modules/hosts/satsuki.nix`](modules/hosts/satsuki.nix): nix-darwin host config.
-- [`bootstrap-home-manager.sh`](bootstrap-home-manager.sh): bootstrap + deploy.
+- [`modules/hosts/_satsuki/`](modules/hosts/_satsuki/): OrbStack builder helpers (the satsuki darwin host itself moved to kspace on 2026-05-29).
+- [`bootstrap-home-manager.sh`](bootstrap-home-manager.sh): bootstrap + deploy (Linux standalone HM; on the Mac, deploy from kspace).
 
-Common commands: `just check`, `just check-hm-linux`, `just check-hm-mac`, `just lint`, `./bootstrap-home-manager.sh`.
+Common commands: `just check`, `just check-hm-linux`, `just lint`, `./bootstrap-home-manager.sh`.
 
 ## More docs
 

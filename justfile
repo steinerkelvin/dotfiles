@@ -7,11 +7,8 @@ update:
 deploy-hm *args:
     ./bootstrap-home-manager.sh {{args}}
 
-deploy-darwin *args:
-    sudo ./bootstrap-darwin.sh {{args}}
-
-# Create and provision the OrbStack NixOS builder VM.
-# Run deploy-darwin afterwards to register the builder on the host.
+# Create and provision the OrbStack NixOS builder VM. Register it on the host
+# afterwards by applying kspace's darwin config: `cd ~/kspace && just deploy-darwin`.
 deploy-orbstack-builder:
     #!/bin/sh
     set -e
@@ -36,9 +33,6 @@ check:
 
 check-all-systems:
     nix flake check "path:$PWD" --all-systems --no-build --keep-going
-
-check-hm-mac:
-    nix build "path:$PWD#homeConfigurations.satsuki.activationPackage"
 
 check-hm-linux:
     nix build "path:$PWD#homeConfigurations.linux.activationPackage"

@@ -44,7 +44,12 @@ repo_dir=$(
 
 case "$(uname -s)" in
   Darwin)
-    target="satsuki"
+    # The standalone homeConfigurations.satsuki target was retired: on the
+    # only Darwin host (satsuki) home-manager now ships bundled inside
+    # kspace's darwinConfigurations.satsuki. Deploy from ~/kspace instead.
+    echo "Error: no standalone home-manager target on Darwin." >&2
+    echo "Deploy via kspace: cd ~/kspace && just deploy-darwin" >&2
+    exit 1
     ;;
   Linux)
     target="linux"

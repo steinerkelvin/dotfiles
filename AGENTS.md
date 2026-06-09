@@ -36,10 +36,10 @@ See [INDEX.md](./INDEX.md) for a complete map of this repository's structure.
 
 ## Deploy
 
-- Apply this repo's home-manager config to the current machine: `just deploy-hm`.
-- Wraps `./bootstrap-home-manager.sh`, which builds `homeConfigurations.<target>.activationPackage` (`satsuki` on Darwin, `linux` on Linux) and runs `./result/activate`.
-- For nix-darwin system config (not home-manager): `just deploy-darwin`.
-- Dry-check before deploying: `just check-hm-mac` / `just check-hm-linux`.
+- Apply this repo's standalone home-manager config (Linux only): `just deploy-hm`.
+- Wraps `./bootstrap-home-manager.sh`, which builds `homeConfigurations.linux.activationPackage` and runs `./result/activate`.
+- **Darwin (satsuki) deploys from kspace, not here.** Both the nix-darwin system config and home-manager now live in kspace's `darwinConfigurations.satsuki` (HM bundled via `home-manager.darwinModules.default`); this repo is consumed there as a module library. Apply with `cd ~/kspace && just deploy-darwin`.
+- Dry-check before deploying: `just check-hm-linux`.
 - Pass through to activate with `--`, e.g. `just deploy-hm -- --backup bak` to keep existing dotfiles aside.
 
 ## Style Guidelines
