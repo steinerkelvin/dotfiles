@@ -25,7 +25,10 @@ _: {
           allow_remote_control = "socket-only";
           listen_on = "unix:/tmp/kitty-{kitty_pid}";
 
-          hide_window_decorations = "titlebar-only";
+          # macOS keeps the native title bar (traffic lights + drag area);
+          # elsewhere the titlebar is hidden.
+          hide_window_decorations =
+            if pkgs.stdenv.hostPlatform.isDarwin then "no" else "titlebar-only";
           window_padding_width = "16 4 0";
 
           # Layouts: first entry is the default. tall keeps one full-height main
