@@ -8,7 +8,7 @@ _: {
       # Language server
       pkgs.nil
       # Linters
-      pkgs.statix
+      # pkgs.statix # broken test suite (empty_list_concat) on nixpkgs-26.05 aarch64-darwin as of 2026-09-02
       pkgs.deadnix
       # Formatters
       pkgs.nixfmt-classic
