@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# kssh - kitty's ssh kitten (proper terminfo bootstrap + shell integration),
+# wrapped with k-shell-helper so kitty's re-entry keybinds (cmd+t / cmd+n /
+# ctrl+shift+enter, see shell-reentry.md) open new tabs/windows back into the
+# same host instead of a fresh local shell.
+#
+# Usage: kssh [ssh-options...] destination [remote-command...]
+#
+# Re-entry publishes the ssh:<destination> handle (see k-shell-helper),
+# which new tabs dispatch via a plain `ssh -t` -- not the ssh kitten itself.
+# That's the handle scheme's documented default, not a bug here: it keeps
+# kssh a thin wrapper instead of re-encoding the full kitten invocation.
+#
+# destination is taken as the last positional argument, matching ssh's own
+# CLI convention. If a remote-command is given after the destination, this
+# heuristic breaks (the command's last word is not the host) -- fine for the
+# common `kssh host` / `kssh -p 2222 host` cases this exists for.
+set -euo pipefail
+
+if [ "$#" -eq 0 ]; then
+  echo "usage: kssh [ssh-options...] destination [remote-command...]" >&2
+  exit 2
+fi
+
+destination="${*: -1}"
+
+exec k-shell-helper wrap "ssh:${destination}" -- kitty +kitten ssh "$@"

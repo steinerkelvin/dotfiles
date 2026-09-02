@@ -109,6 +109,14 @@ _: {
         executable = true;
       };
 
+      # kssh: kitty's ssh kitten wrapped with k-shell-helper re-entry
+      # publishing, so new tabs opened while ssh'd in land back on the same
+      # host. See _kitty/kssh header for the handle-vs-kitten tradeoff.
+      home.file.".local/bin/kssh" = {
+        source = ./_kitty/kssh;
+        executable = true;
+      };
+
       # Seed an editable, non-nix-managed kitty.custom.conf only if absent, so the
       # include never warns and the file stays outside the nix store (store files
       # are read-only, hence the chmod).
