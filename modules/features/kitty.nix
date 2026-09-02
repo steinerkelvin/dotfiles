@@ -98,6 +98,17 @@ _: {
       xdg.configFile."kitty/shell_reentry.py".source = ./_kitty/shell_reentry.py;
       xdg.configFile."kitty/shell-reentry.md".source = ./_kitty/shell-reentry.md;
 
+      # Producer half of the re-entry protocol: the host-side script that
+      # wrappers (docker run, ssh, nix develop) call to publish a re-entry
+      # command. Was stranded in the old homeshick `home/bin/` tree after
+      # the consumer kitten migrated here 2026-05-25 -- nothing deployed it.
+      # PEP-723 script (`uv run --script` shebang); `.local/bin` is on PATH
+      # via homeModules.base-dev's sessionPath.
+      home.file.".local/bin/k-shell-helper" = {
+        source = ./_kitty/k-shell-helper;
+        executable = true;
+      };
+
       # Seed an editable, non-nix-managed kitty.custom.conf only if absent, so the
       # include never warns and the file stays outside the nix store (store files
       # are read-only, hence the chmod).
