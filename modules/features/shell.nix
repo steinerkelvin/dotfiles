@@ -1,5 +1,58 @@
 _: {
   flake.homeModules.shell = { pkgs, ... }: {
+    # Shell-agnostic aliases -- home-manager applies these to zsh, bash, and
+    # fish uniformly. Moved out of programs.zsh.shellAliases 2026-09-01 so
+    # bash gets them too without duplication.
+    home.shellAliases = {
+      # Shell aliases
+      rmr = "rm -r";
+      dusm = "du -hs";
+      bath = "bat --style=header-filename,grid --decorations=always";
+      colon2line = "tr ':' '\n'";
+      # Nix aliases
+      nxs = "nix-shell --command zsh";
+      nxd = "nix develop --command zsh";
+      nxu = "nix flake update";
+      # Git aliases
+      gff = "git merge --ff-only";
+      glff = "git pull --ff-only";
+      glogh = "git log --oneline --decorate --graph HEAD";
+      tigh = "tig -a HEAD";
+      gno = "git add --intent-to-add";
+      gnoa = "git add --intent-to-add .";
+      # Dev aliases
+      j = "just";
+      jl = "just --list";
+      # Editor aliases
+      c = "code .";
+      h = "hx .";
+      zd = "zeditor .";
+      ## Cargo aliases
+      cgr = "cargo run --";
+      ## Pnpm
+      p = "pnpm";
+      pr = "pnpm run";
+      px = "pnpm exec";
+      ## Bun
+      b = "bun";
+      br = "bun run";
+      bx = "bun x";
+      ## Docker aliases
+      dk = "sudo docker";
+      dkr = "sudo docker run --rm -it";
+      dokrun = "sudo docker run --rm -it";
+      # Eza aliases
+      ll = "eza -l --group-directories-first";
+      la = "eza -l -a --group-directories-first";
+      # Kitty aliases
+      sshk = "kitty +kitten ssh";
+      icatk = "kitty +icat";
+      # Claude shortcuts
+      cl = "claude";
+      clc = "claude --continue";
+      clm = "claude --model";
+    };
+
     home.packages = [
       # Fuzzy finder
       pkgs.fzf

@@ -29,7 +29,10 @@
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin
       config.flake.homeModules.starship
+      config.flake.homeModules.zoxide
+      config.flake.homeModules.fzf
       config.flake.homeModules.zsh
+      config.flake.homeModules.bash
       config.flake.homeModules.git
       config.flake.homeModules.worktree
       config.flake.homeModules.rust

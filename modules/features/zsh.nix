@@ -15,64 +15,12 @@ _: {
       sessionVariables = {
         ZSH_DISABLE_COMPFIX = "true";
       };
-      shellAliases = {
-        # Shell aliases
-        rmr = "rm -r";
-        dusm = "du -hs";
-        bath = "bat --style=header-filename,grid --decorations=always";
-        colon2line = "tr ':' '\n'";
-        # Nix aliases
-        nxs = "nix-shell --command zsh";
-        nxd = "nix develop --command zsh";
-        nxu = "nix flake update";
-        # Git aliases
-        gff = "git merge --ff-only";
-        glff = "git pull --ff-only";
-        glogh = "git log --oneline --decorate --graph HEAD";
-        tigh = "tig -a HEAD";
-        gno = "git add --intent-to-add";
-        gnoa = "git add --intent-to-add .";
-        # Dev aliases
-        j = "just";
-        jl = "just --list";
-        # Editor aliases
-        c = "code .";
-        h = "hx .";
-        zd = "zeditor .";
-        ## Cargo aliases
-        cgr = "cargo run --";
-        ## Pnpm
-        p = "pnpm";
-        pr = "pnpm run";
-        px = "pnpm exec";
-        ## Bun
-        b = "bun";
-        br = "bun run";
-        bx = "bun x";
-        ## Docker aliases
-        dk = "sudo docker";
-        dkr = "sudo docker run --rm -it";
-        dokrun = "sudo docker run --rm -it";
-        # Eza aliases
-        ll = "eza -l --group-directories-first";
-        la = "eza -l -a --group-directories-first";
-        # Kitty aliases
-        sshk = "kitty +kitten ssh";
-        icatk = "kitty +icat";
-        # Claude shortcuts 
-        cl = "claude";
-        clc = "claude --continue";
-        clm = "claude --model";
-      };
+
+      # Shared aliases live in home.shellAliases (modules/features/shell.nix)
+      # so they apply identically to zsh and bash.
 
       initContent = ''
-        # Utility Shell Functions
-        function nxr { nix-shell -p $1 --command $1 }
-        function dusort { du -h $@ | sort -h }
-
-        # Unalias commands
-        unalias gk 2>/dev/null || true
-        unalias gke 2>/dev/null || true
+        ${builtins.readFile ./shell-common.sh}
 
         # just completions
         if command -v just &>/dev/null; then
@@ -84,9 +32,10 @@ _: {
         enable = true;
         plugins = [
           "sudo"
-          "zoxide"
           "git"
-          "fzf"
+          # zoxide/fzf moved to their own home-manager modules 2026-09-01
+          # (modules/features/zoxide.nix, modules/features/fzf.nix) so bash
+          # gets the same integration instead of only zsh via oh-my-zsh.
           # Dropped 2026-05-13 after atuin-history audit:
           # - rust (cargo×55, rustup×3 -- cargo ships its own zsh
           #   completion in nixpkgs)
