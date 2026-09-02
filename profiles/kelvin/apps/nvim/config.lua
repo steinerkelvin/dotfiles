@@ -1,3 +1,14 @@
+vim.g.mapleader = ' '
+
+-- OSC 52 clipboard, scoped to the "*" register only ("+" stays system clipboard)
+local osc52 = require('vim.ui.clipboard.osc52')
+vim.g.clipboard = {
+  name = "OSC52-star-only",
+  copy = { ["*"] = osc52.copy("*") },
+  paste = { ["*"] = osc52.paste("*") },
+}
+vim.keymap.set({ 'n', 'x' }, '<leader>y', '"*y', { noremap = true })
+
 -- non-yank delete (Delete without affecting registers)
 vim.keymap.set('n', '<space>d', '"_d', { noremap = true })
 vim.keymap.set('v', '<space>d', '"_d', { noremap = true })
