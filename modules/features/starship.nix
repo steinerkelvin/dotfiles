@@ -8,7 +8,7 @@ _: {
         directory.truncate_to_repo = false;
 
         # Explicit format -- only these modules render
-        format = "\${custom.ssh}$username$hostname$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
+        format = "\${env_var.shell_name}\${custom.ssh}$username$hostname$directory$git_branch$git_status$python$cmd_duration$line_break$jobs$character";
 
         # Username + hostname: SSH sessions only
         username = {
@@ -27,6 +27,15 @@ _: {
         git_status = {
           format = "([$all_status$ahead_behind]($style) )";
           style = "yellow";
+        };
+
+        # Tag for shells that swap in their own environment (nix devshells and friends,
+        # which hardcode PS1); such a shell opts in by exporting the var itself.
+        # Parens escaped: ( ) delimits a conditional group in starship's format grammar.
+        env_var.shell_name = {
+          variable = "CUSTOM_SHELL_NAME";
+          format = "[\\($env_value\\)]($style) ";
+          style = "bold red";
         };
 
         # SSH indicator
