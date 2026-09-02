@@ -22,6 +22,15 @@
       programs.nixvim = {
         enable = true;
 
+        # Reuse home-manager's pkgs instead of letting nixvim import its own
+        # nixpkgs (its default is useGlobalPackages = false, i.e. a second
+        # independent instantiation). One nixpkgs eval instead of two, and it
+        # drops the "Nixvim's inputs pin Nixpkgs to <rev>" warning at the
+        # root rather than waiving it: with pkgs supplied, nixvim never
+        # consults nixpkgs.source at all. Upstream asserts nixvim's own
+        # nixpkgs.overlays/config are empty -- we set neither.
+        nixpkgs.useGlobalPackages = true;
+
         globals.mapleader = " ";
         globals.maplocalleader = " ";
 
