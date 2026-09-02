@@ -13,6 +13,12 @@ vim.keymap.set({ 'n', 'x' }, '<leader>y', '"*y', { noremap = true })
 vim.keymap.set('n', '<space>d', '"_d', { noremap = true })
 vim.keymap.set('v', '<space>d', '"_d', { noremap = true })
 
+-- autoread: pick up files changed on disk (eg by p9 sync) without prompting
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ 'FocusGained', 'BufEnter', 'CursorHold', 'CursorHoldI' }, {
+  command = 'checktime',
+})
+
 -- disable netrw (required by nvim-tree)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
