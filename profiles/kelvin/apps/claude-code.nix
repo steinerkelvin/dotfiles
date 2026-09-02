@@ -27,7 +27,12 @@ in
   # Tradeoff: plugins installed interactively via /plugin do NOT survive a
   # deploy -- declare them in `enabledPlugins`/`extraKnownMarketplaces`
   # below to persist them. This is the declarative model on purpose.
-  home.file.".claude/settings.json".force = true;
+  # NOTE: keyed on the absolute path, not ".claude/settings.json". As of
+  # home-manager 26.05 the claude-code module keys its own home.file entry
+  # on `${config.home.homeDirectory}/.claude/settings.json`; using the
+  # relative form here creates a *second* entry with the same resolved
+  # target and HM aborts with "Conflicting managed target files".
+  home.file."${home}/.claude/settings.json".force = true;
 
   programs.claude-code.settings = {
     theme = "dark";
