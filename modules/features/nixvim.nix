@@ -11,6 +11,12 @@
 #
 # Requires the `claude` CLI on PATH for claudecode.nvim. Castle/profiles
 # already provision it; this module deliberately does not duplicate.
+#
+# Deliberately NOT carried over from the legacy config (decided 2026-09-02,
+# when the port gaps were audited): copilot-lua (claudecode.nvim covers the
+# AI layer), vim-wakatime, nvim-tree + the netrw-disable globals, and
+# telescope-zoxide (shell zoxide via modules/features/zoxide.nix stays).
+# leap-nvim was replaced by flash.nvim, not dropped.
 
 { inputs, ... }:
 {
@@ -43,7 +49,24 @@
           shiftwidth = 4;
           # Intentionally NOT setting clipboard = "unnamedplus".
           # Use cp / cv mappings below for explicit system-clipboard ops.
+
+          # Pick up files changed on disk (eg by p9 sync) without prompting.
+          # Needs the checktime autocmd below to actually fire -- autoread
+          # alone only re-reads when vim happens to notice.
+          autoread = true;
         };
+
+        autoCmd = [
+          {
+            event = [
+              "FocusGained"
+              "BufEnter"
+              "CursorHold"
+              "CursorHoldI"
+            ];
+            command = "checktime";
+          }
+        ];
 
         # Clipboard ergonomics: explicit only, no global unnamedplus.
         # Reflex tip: `"0p` pastes the most recent yank, surviving any
@@ -68,10 +91,28 @@
             options.desc = "Paste from system clipboard";
           }
           {
+            mode = [
+              "n"
+              "x"
+            ];
+            key = "<leader>y";
+            action = ''"*y'';
+            options.desc = "Yank to terminal clipboard (OSC 52)";
+          }
+          {
             mode = "n";
             key = "x";
             action = ''"_x'';
             options.desc = "Delete char without clobbering register";
+          }
+          {
+            mode = [
+              "n"
+              "v"
+            ];
+            key = "<leader>d";
+            action = ''"_d'';
+            options.desc = "Delete without clobbering register";
           }
 
           # claudecode.nvim keymaps (the README suggests these but does
@@ -216,6 +257,7 @@
 
         plugins.which-key.enable = true;
         plugins.web-devicons.enable = true;
+        plugins.nvim-surround.enable = true;
 
         # flash.nvim: jump-anywhere motion. Defaults call setup() and enable
         # the f/t/F/T multi-line enhancement. Jump keymaps are added below.
@@ -291,6 +333,18 @@
         ];
 
         extraConfigLua = ''
+          -- OSC 52 clipboard provider, scoped to the "*" register only.
+          -- "+" keeps whatever native provider exists (cp/cv above), so
+          -- <leader>y works over ssh/tmux where there is no local X/wayland
+          -- selection to talk to. Set here rather than via `globals.clipboard`
+          -- because the table holds lua functions from the osc52 module.
+          local osc52 = require("vim.ui.clipboard.osc52")
+          vim.g.clipboard = {
+            name = "OSC52-star-only",
+            copy = { ["*"] = osc52.copy("*") },
+            paste = { ["*"] = osc52.paste("*") },
+          }
+
           require("claudecode").setup({
             terminal = {
               provider = "none",
