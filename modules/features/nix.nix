@@ -11,7 +11,10 @@ _: {
       # pkgs.statix # broken test suite (empty_list_concat) on nixpkgs-26.05 aarch64-darwin as of 2026-09-02
       pkgs.deadnix
       # Formatters
-      pkgs.nixfmt-classic
+      # RFC-166 nixfmt, not nixfmt-classic: classic is unmaintained AND ships
+      # its binary as `nixfmt`, so having it here shadowed the 1.x nixfmt that
+      # kspace's `nix fmt` / lefthook expect.
+      pkgs.nixfmt
       pkgs.nixpkgs-fmt
       # Explorers / tools
       pkgs.nix-index

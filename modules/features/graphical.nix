@@ -209,6 +209,11 @@
       # actions and kitty for the terminal.
       wayland.windowManager.hyprland = {
         enable = true;
+        # Pinned explicitly: HM 26.05 flipped this default to "lua". We're
+        # still getting "hyprlang" only because home.stateVersion is below
+        # 26.05, so without this the behavior would change silently whenever
+        # stateVersion moves. Migrate deliberately, not as a side effect.
+        configType = "hyprlang";
         settings = {
           "$mod" = "SUPER";
           "$terminal" = "kitty";
