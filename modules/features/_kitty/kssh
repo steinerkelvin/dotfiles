@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 # kssh - kitty's ssh kitten (proper terminfo bootstrap + shell integration),
 # wrapped with k-shell-helper so kitty's re-entry keybinds (cmd+t / cmd+n /
-# ctrl+shift+enter, see shell-reentry.md) open new tabs/windows back into the
-# same host instead of a fresh local shell.
+# ctrl+shift+enter, see shell-reentry.md) reopen the SAME `kitty +kitten ssh`
+# invocation, not a fresh local shell.
 #
 # Usage: kssh [ssh-options...] destination [remote-command...]
 #
-# Re-entry publishes the ssh:<destination> handle (see k-shell-helper),
-# which new tabs dispatch via a plain `ssh -t` -- not the ssh kitten itself.
-# That's the handle scheme's documented default, not a bug here: it keeps
-# kssh a thin wrapper instead of re-encoding the full kitten invocation.
+# Publishes a cmd: handle -- the full, shell-quoted `kitty +kitten ssh $@`
+# argv -- instead of the built-in ssh: scheme, which dispatches re-entry to
+# plain `ssh -t`. Plain ssh inherits this process's KITTY_* env vars
+# (KITTY_INSTALLATION_DIR etc.); if the remote host also runs kitty locally
+# and its own shell rc trusts those vars unconditionally (as ours does --
+# see ~/.zshrc's KITTY_INSTALLATION_DIR block), it can end up trying to
+# source integration from a client-side path that doesn't exist there.
+# Harmless (a stray warning, shell still lands fine) but noisy. Re-entering
+# via the actual kitten avoids it: the kitten sets up its own clean remote
+# environment every time, identically to the primary connection.
 #
-# destination is taken as the last positional argument, matching ssh's own
-# CLI convention. If a remote-command is given after the destination, this
-# heuristic breaks (the command's last word is not the host) -- fine for the
-# common `kssh host` / `kssh -p 2222 host` cases this exists for.
+# Bonus of capturing the whole argv instead of a bare destination: re-entry
+# reproduces the exact invocation, remote-command and all -- no "last arg is
+# the host" guesswork.
 set -euo pipefail
 
 if [ "$#" -eq 0 ]; then
@@ -22,6 +27,10 @@ if [ "$#" -eq 0 ]; then
   exit 2
 fi
 
-destination="${*: -1}"
+argv=(kitty +kitten ssh "$@")
+quoted=""
+for arg in "${argv[@]}"; do
+  quoted+="$(printf '%q' "$arg") "
+done
 
-exec k-shell-helper wrap "ssh:${destination}" -- kitty +kitten ssh "$@"
+exec k-shell-helper wrap "cmd:${quoted% }" -- "${argv[@]}"
