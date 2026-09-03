@@ -1,7 +1,0 @@
-{ ... }:
-
-{
-  imports = [
-    ./claude-code.nix
-  ];
-}

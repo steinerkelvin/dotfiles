@@ -9,7 +9,6 @@
 - `/modules/features/` - Reusable `flake.homeModules.*` building blocks
 - `/modules/home/` - Concrete Home Manager configuration entrypoints
 - `/modules/hosts/` - Host-level system configurations
-- `/profiles/` - Kelvin-specific Home Manager profile composition kept outside the dendritic part tree
 - `/mac/` - macOS-specific configuration and setup notes
 - `/packages/` - Related package workspaces
 - `/old/` - Legacy configurations and archived reference material
@@ -17,7 +16,7 @@
 ### Configuration Files
 
 - `flake.nix` - Nix flake entry point
-- `bootstrap-home-manager.sh` - Bootstraps Nix if needed, then activates the repo-pinned Home Manager config
+- `bootstrap-nix.sh` - Installs Nix on a bare machine (standalone; nothing in the repo calls it)
 - `justfile` - Task definitions for the `just` command runner
 
 ## Nix Configuration
@@ -28,6 +27,7 @@
 - `ai-skills.nix` - AI tooling skill layer
 - `dep-opsec.nix` - Supply-chain cooldown defaults across package managers (`features.dep-opsec.*`)
 - `identity.nix`, `work-identity.nix` - Personal git identity, plus a directory-scoped override for work checkouts
+- `darwin-platform.nix` - macOS home shape, Homebrew shellenv, GNU userland, GUI launchd PATH agent
 - `shell.nix`, `git.nix`, `nix.nix`, etc. - Feature-scoped Home Manager modules
 - `graphical.nix` - Wayland desktop rice (DankMaterialShell + niri + Hyprland + Discord)
 - `wl-kbptr.nix` - keyboard-driven mouse pointer for Wayland
@@ -40,17 +40,8 @@
 
 ### Home Manager Configurations (`modules/home/`)
 
-- `targets/linux.nix` - Linux Home Manager activation target
+- `targets/ci.nix` - Build-coverage target over the exported homeModules; not deployable
 - `dev.nix` - Minimal dev/container-oriented profile
-
-### Kelvin-Specific Layer (`profiles/kelvin/`)
-
-- `default.nix` - Shared personal composition entrypoint
-- `apps/` - App-specific Kelvin-owned modules and adjacent assets
-- `apps/claude-code.nix` - Claude Code enablement and local feature toggles
-- `platform/` - Platform-only profile settings
-- `zsh.nix`, `packages.nix` - Personal overlays on top of reusable modules
-- `vscode-remote.sh` - Helper script referenced by the Kelvin profile layer
 
 ### Host Configurations (`modules/hosts/`)
 

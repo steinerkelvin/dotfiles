@@ -2,7 +2,9 @@
 
 ## Nix
 
-Run `./bootstrap-home-manager.sh` in root of this repo to set up home-manager. The script will offer to install Nix via the Determinate Installer if not already present, then build and activate the pinned home-manager profile.
+This repo does not deploy anything on its own -- it is a module library. The Mac is configured by a downstream flake that applies a `nix-darwin` system config with home-manager bundled in; deploy from there.
+
+On a bare machine, `./bootstrap-nix.sh` installs Nix via the Determinate Installer first.
 
 ## Brew packages
 

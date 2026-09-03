@@ -4,11 +4,8 @@ default:
 update:
     nix flake update
 
-deploy-hm *args:
-    ./bootstrap-home-manager.sh {{args}}
-
 # Create and provision the OrbStack NixOS builder VM. Register it on the host
-# afterwards by applying kspace's darwin config: `cd ~/kspace && just deploy-darwin`.
+# afterwards by applying the downstream darwin config.
 deploy-orbstack-builder:
     #!/bin/sh
     set -e
@@ -34,8 +31,10 @@ check:
 check-all-systems:
     nix flake check "path:$PWD" --all-systems --no-build --keep-going
 
-check-hm-linux:
-    nix build "path:$PWD#homeConfigurations.linux.activationPackage"
+# Build the CI coverage target (modules/home/targets/ci.nix). Not deployable --
+# it exists to prove the exported homeModules still build.
+check-hm:
+    nix build "path:$PWD#homeConfigurations.ci-linux.activationPackage"
 
 test-workflow:
     act -j build --container-architecture linux/amd64

@@ -23,7 +23,7 @@ Add more recipients as new hosts come online (e.g., linux box -> SSH ed25519 pub
 
 ## One-time provisioning (per Mac)
 
-After `bootstrap-home-manager.sh` ships the new modules:
+After the next deploy ships the new modules:
 
 ```sh
 mkdir -p ~/.config/passage/identities
@@ -111,7 +111,7 @@ passage rm -f smoke-test
 See `scripts/pass-to-passage.py`. Run after the store is initialised.
 
 ```sh
-cd ~/kspace && just deploy-darwin   # Phase 0+1 active (Mac deploys via kspace)
+# deploy from downstream first -- Phase 0+1 active
 # provisioning steps above -- capture three recipient strings
 # init store with those recipients
 uv run scripts/pass-to-passage.py --source ~/.password-store --verify
