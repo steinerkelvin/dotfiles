@@ -1,10 +1,9 @@
 # Reusable home-manager feature module: nixvim-backed Neovim setup with
 # coder/claudecode.nvim wired in. Opt-in only -- NOT imported by base-dev.
 #
-# Coexists at-rest with the legacy programs.neovim config in
-# profiles/kelvin/apps/nvim/. Activate exactly one of them per profile;
-# both produce $HOME/.nix-profile/bin/nvim and home-manager will fail
-# on the collision.
+# This is the only Neovim config in the tree. The legacy programs.neovim
+# config under profiles/kelvin/apps/nvim/ was deleted 2026-09-03, after the
+# port gaps below were audited and closed.
 #
 # External consumers:
 #   imports = [ inputs.dotfiles.homeModules.nixvim ];
