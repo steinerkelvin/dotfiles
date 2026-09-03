@@ -27,6 +27,7 @@
 - `base-dev.nix` - Shared developer baseline
 - `ai-skills.nix` - AI tooling skill layer
 - `dep-opsec.nix` - Supply-chain cooldown defaults across package managers (`features.dep-opsec.*`)
+- `identity.nix`, `work-identity.nix` - Personal git identity, plus a directory-scoped override for work checkouts
 - `shell.nix`, `git.nix`, `nix.nix`, etc. - Feature-scoped Home Manager modules
 - `graphical.nix` - Wayland desktop rice (DankMaterialShell + niri + Hyprland + Discord)
 - `wl-kbptr.nix` - keyboard-driven mouse pointer for Wayland
@@ -40,13 +41,11 @@
 ### Home Manager Configurations (`modules/home/`)
 
 - `targets/linux.nix` - Linux Home Manager activation target
-- `targets/satsuki.nix` - macOS Home Manager activation target
 - `dev.nix` - Minimal dev/container-oriented profile
 
 ### Kelvin-Specific Layer (`profiles/kelvin/`)
 
 - `default.nix` - Shared personal composition entrypoint
-- `identity.nix` - Username, Git identity, and profile-wide identity defaults
 - `apps/` - App-specific Kelvin-owned modules and adjacent assets
 - `apps/claude-code.nix` - Claude Code enablement and local feature toggles
 - `platform/` - Platform-only profile settings

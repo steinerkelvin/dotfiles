@@ -67,10 +67,10 @@
 
 #### Vim/Neovim Plugins
 
-- ✓ leap.nvim - modern alternative to vim-easymotion for fast cursor movement
+- ✓ leap.nvim - superseded by flash.nvim in the nixvim config (a swap, not a drop)
 - vim-multiple-cursors - multiple selection editing (consider alternatives)
-- ✓ vim-wakatime - time tracking for coding
-- ✓ nvim-surround - text object manipulation
+- ~~vim-wakatime~~ - deliberately dropped in the nixvim port (2026-09-02)
+- ✓ nvim-surround - text object manipulation (restored in the nixvim port, 396ba45)
 
 #### Tab Completion Behavior (Fixed)
 
