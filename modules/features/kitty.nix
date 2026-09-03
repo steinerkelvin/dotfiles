@@ -60,16 +60,28 @@ _: {
           "cmd+shift+d" = "dump_lines_with_attrs";
           # Copy last command output
           "ctrl+shift+a" = "launch --stdin-source=@last_cmd_output --type=background clip-copy";
-          # Open windows/tabs in the current dir, honoring shell re-entry
-          # (docker exec / ssh advertised via k_shell_reentry). Falls back to a
-          # bare `launch --cwd=current` when no advertisement is present. See
-          # shell-reentry.md.
+          # Panes (new "window" in kitty's terms) default to re-entry: honor
+          # shell re-entry (docker exec / ssh advertised via
+          # k_shell_reentry), falling back to a bare `launch --cwd=current`
+          # when no advertisement is present. See shell-reentry.md.
           "ctrl+shift+enter" = "kitten shell_reentry.py window";
-          "ctrl+shift+n" = "kitten shell_reentry.py os-window";
-          "ctrl+shift+t" = "kitten shell_reentry.py tab";
-          "cmd+t" = "kitten shell_reentry.py tab";
           "cmd+enter" = "kitten shell_reentry.py window";
-          "cmd+n" = "kitten shell_reentry.py os-window";
+
+          # Tabs and OS windows default to plain cwd-preserving launches, NOT
+          # re-entry -- a fresh local shell in the current dir is the more
+          # useful default for "bigger" splits; the ssh/docker session itself
+          # is what you'd usually want confined to a pane. Re-entry is still
+          # one modifier away (shift added on top).
+          "ctrl+shift+t" = "launch --cwd=current --type=tab";
+          "cmd+t" = "launch --cwd=current --type=tab";
+          "ctrl+shift+n" = "launch --cwd=current --type=os-window";
+          "cmd+n" = "launch --cwd=current --type=os-window";
+
+          # Secondary binds: same tab/os-window, but with re-entry.
+          "ctrl+shift+alt+t" = "kitten shell_reentry.py tab";
+          "cmd+shift+t" = "kitten shell_reentry.py tab";
+          "ctrl+shift+alt+n" = "kitten shell_reentry.py os-window";
+          "cmd+shift+n" = "kitten shell_reentry.py os-window";
         };
 
         # `include`/`globinclude` can't be expressed via `settings`; HM appends
@@ -97,6 +109,19 @@ _: {
       # Custom kitten used by the re-entry keybinds, plus its protocol doc.
       xdg.configFile."kitty/shell_reentry.py".source = ./_kitty/shell_reentry.py;
       xdg.configFile."kitty/shell-reentry.md".source = ./_kitty/shell-reentry.md;
+
+      # shell_reentry.py's `launch` call always passes `--cwd=current`
+      # (reusing the source window's tracked local cwd) even when it's
+      # dispatching a re-entry command like `kitty +kitten ssh host`. The ssh
+      # kitten's bootstrap then treats that inherited $PWD as its remote cwd
+      # target when ssh.conf's `cwd` is unset, and tries to `cd` into it on
+      # the remote host -- which fails (noisily, harmlessly) whenever the
+      # local and remote path layouts differ, e.g. satsuki's
+      # /Users/kelvin/kspace doesn't exist on momo. Pin `cwd` explicitly so
+      # it's always evaluated (and expanded) on the remote side instead.
+      xdg.configFile."kitty/ssh.conf".text = ''
+        cwd $HOME
+      '';
 
       # Producer half of the re-entry protocol: the host-side script that
       # wrappers (docker run, ssh, nix develop) call to publish a re-entry
