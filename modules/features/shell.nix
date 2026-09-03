@@ -13,13 +13,39 @@ _: {
       nxs = "nix-shell --command zsh";
       nxd = "nix develop --command zsh";
       nxu = "nix flake update";
-      # Git aliases
-      gff = "git merge --ff-only";
-      glff = "git pull --ff-only";
-      glogh = "git log --oneline --decorate --graph HEAD";
-      tigh = "tig -a HEAD";
+      # Git aliases. The oh-my-zsh git plugin (modules/features/zsh.nix)
+      # defines ~250 of these but only for zsh, so bash got none of them.
+      # Ported 2026-09-03 from an atuin usage audit -- the same method that
+      # trimmed the plugin list on 2026-05-13. Definitions match oh-my-zsh
+      # verbatim, so it doesn't matter which one wins under zsh.
+      g = "git";
+      gst = "git status";
+      ga = "git add";
       gno = "git add --intent-to-add";
       gnoa = "git add --intent-to-add .";
+      gc = "git commit --verbose";
+      "gc!" = "git commit --verbose --amend";
+      gd = "git diff";
+      gdca = "git diff --cached";
+      gl = "git pull";
+      glff = "git pull --ff-only";
+      gf = "git fetch";
+      gp = "git push";
+      gpd = "git push --dry-run";
+      gb = "git branch";
+      gbd = "git branch --delete";
+      gco = "git checkout";
+      gsw = "git switch";
+      grs = "git restore";
+      grb = "git rebase";
+      gff = "git merge --ff-only";
+      gmff = "git merge --ff-only";
+      glog = "git log --oneline --decorate --graph";
+      glogh = "git log --oneline --decorate --graph HEAD";
+      gsts = "git stash show --patch";
+      gclean = "git clean --interactive -d";
+      gpristine = "git reset --hard && git clean --force -dfx";
+      tigh = "tig -a HEAD";
       # Dev aliases
       j = "just";
       jl = "just --list";
