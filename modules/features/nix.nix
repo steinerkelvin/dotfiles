@@ -13,7 +13,7 @@ _: {
       # Formatters
       # RFC-166 nixfmt, not nixfmt-classic: classic is unmaintained AND ships
       # its binary as `nixfmt`, so having it here shadowed the 1.x nixfmt that
-      # kspace's `nix fmt` / lefthook expect.
+      # downstream `nix fmt` / lefthook expect.
       pkgs.nixfmt
       pkgs.nixpkgs-fmt
       # Explorers / tools

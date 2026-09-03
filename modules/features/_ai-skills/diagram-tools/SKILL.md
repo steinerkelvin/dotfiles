@@ -156,7 +156,7 @@ Supported types include: `mermaid`, `d2`, `graphviz`, `plantuml`, `c4plantuml`, 
 
 Output formats: `svg`, `png`, `pdf`, `jpeg` (subset depending on type).
 
-`KROKI_URL` defaults to `https://kroki.io` (public demo, non-commercial use, swallows error messages above a size threshold). For self-hosted, use the `services/kroki/compose.yaml` in kspace: `just kroki-up` brings up core + Mermaid companion at `http://localhost:8000`. Other repos can copy or reference that compose file.
+`KROKI_URL` defaults to `https://kroki.io` (public demo, non-commercial use, swallows error messages above a size threshold). For self-hosted, run the Kroki core container plus the Mermaid companion via Docker Compose; they come up at `http://localhost:8000`.
 
 Mermaid, BPMN, Excalidraw, and diagrams.net live in optional companion containers (`yuzutech/kroki-mermaid`, etc.) — not bundled in the base image.
 

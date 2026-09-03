@@ -116,8 +116,8 @@ _: {
       # kitten's bootstrap then treats that inherited $PWD as its remote cwd
       # target when ssh.conf's `cwd` is unset, and tries to `cd` into it on
       # the remote host -- which fails (noisily, harmlessly) whenever the
-      # local and remote path layouts differ, e.g. satsuki's
-      # /Users/kelvin/kspace doesn't exist on momo. Pin `cwd` explicitly so
+      # local and remote path layouts differ -- a macOS `/Users/...` cwd has
+      # no counterpart on a Linux box. Pin `cwd` explicitly so
       # it's always evaluated (and expanded) on the remote side instead.
       xdg.configFile."kitty/ssh.conf".text = ''
         cwd $HOME

@@ -278,10 +278,10 @@
           };
 
           # Make find_files / live_grep follow symlinks and bypass
-          # gitignore. Needed for setups like ~/kspace where the entry
-          # points to actual code are symlinks inside a gitignored
-          # `repos/` directory. Common noise dirs are explicitly
-          # excluded via globs so the listings stay usable.
+          # gitignore. Needed for layouts where the entry points to actual
+          # code are symlinks into a gitignored directory of checkouts.
+          # Common noise dirs are explicitly excluded via globs so the
+          # listings stay usable.
           settings.defaults.vimgrep_arguments = [
             "${pkgs.ripgrep}/bin/rg"
             "--color=never"
