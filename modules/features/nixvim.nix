@@ -332,16 +332,41 @@
         ];
 
         extraConfigLua = ''
-          -- OSC 52 clipboard provider, scoped to the "*" register only.
-          -- "+" keeps whatever native provider exists (cp/cv above), so
-          -- <leader>y works over ssh/tmux where there is no local X/wayland
-          -- selection to talk to. Set here rather than via `globals.clipboard`
+          -- Clipboard: "+" is the local system clipboard, "*" always pushes
+          -- through OSC 52 to whatever terminal I am actually sitting at
+          -- (<leader>y), which is the case ssh/tmux gets wrong.
+          --
+          -- Assigning a table to `vim.g.clipboard` replaces the provider
+          -- wholesale - autodetection is gone and any register missing from
+          -- the table resolves to v:null, which dies with E475 on use. So
+          -- both registers have to be spelled out, and the native tool has
+          -- to be picked here. Set from lua rather than `globals.clipboard`
           -- because the table holds lua functions from the osc52 module.
+          --
+          -- osc52.copy("*") writes the PRIMARY selection, which is not what
+          -- ctrl-v pastes; the CLIPBOARD writer is osc52.copy("+"), so "*"
+          -- gets that one. Reading back over OSC 52 needs a terminal
+          -- round-trip that kitty gates behind a prompt, so paste never uses
+          -- it when a local tool exists.
           local osc52 = require("vim.ui.clipboard.osc52")
+
+          local function native()
+            if (vim.env.WAYLAND_DISPLAY or "") ~= "" and vim.fn.executable("wl-copy") == 1 then
+              return { "wl-copy", "--type", "text/plain" }, { "wl-paste", "--no-newline" }
+            elseif (vim.env.DISPLAY or "") ~= "" and vim.fn.executable("xclip") == 1 then
+              return { "xclip", "-i", "-selection", "clipboard" },
+                { "xclip", "-o", "-selection", "clipboard" }
+            elseif vim.fn.executable("pbcopy") == 1 then
+              return { "pbcopy" }, { "pbpaste" }
+            end
+            return osc52.copy("+"), osc52.paste("+")
+          end
+
+          local sys_copy, sys_paste = native()
           vim.g.clipboard = {
-            name = "OSC52-star-only",
-            copy = { ["*"] = osc52.copy("*") },
-            paste = { ["*"] = osc52.paste("*") },
+            name = "native-plus-osc52-star",
+            copy = { ["+"] = sys_copy, ["*"] = osc52.copy("+") },
+            paste = { ["+"] = sys_paste, ["*"] = sys_paste },
           }
 
           require("claudecode").setup({
