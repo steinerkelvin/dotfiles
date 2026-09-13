@@ -82,6 +82,10 @@ _: {
           "cmd+shift+t" = "kitten shell_reentry.py tab";
           "ctrl+shift+alt+n" = "kitten shell_reentry.py os-window";
           "cmd+shift+n" = "kitten shell_reentry.py os-window";
+
+          # Detach the active pane (kitty "window") out of its tab.
+          "ctrl+f3" = "detach_window new-tab";
+          "ctrl+f4" = "detach_window ask";
         };
 
         # `include`/`globinclude` can't be expressed via `settings`; HM appends
