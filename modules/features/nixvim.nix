@@ -329,6 +329,11 @@
         extraPlugins = with pkgs.vimPlugins; [
           claudecode-nvim
           kitty-scrollback-nvim
+          # Coqtail: interactive proof stepping for Coq/Rocq (.v buffers only,
+          # inert elsewhere). The prover is deliberately NOT bundled here --
+          # each proof project's `nix develop` shell puts its own pinned
+          # coqidetop on PATH and Coqtail picks that up.
+          Coqtail
         ];
 
         extraConfigLua = ''
