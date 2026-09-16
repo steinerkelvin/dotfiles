@@ -40,7 +40,7 @@
       config.flake.homeModules.python
       config.flake.homeModules.dep-opsec
     ];
-    home.sessionPath = [ "$HOME/.local/bin" ];
+    home.sessionPath = [ "$HOME/.local/bin" "$HOME/bin" ];
     programs.home-manager.enable = true;
     features.dep-opsec.enable = true;
   };
