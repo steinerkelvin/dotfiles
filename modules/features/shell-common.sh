@@ -8,3 +8,7 @@ function dusort { du -h $@ | sort -h; }
 # Unalias commands
 unalias gk 2>/dev/null || true
 unalias gke 2>/dev/null || true
+
+if [ -r "$HOME/shrc.custom" ]; then
+  . "$HOME/shrc.custom"
+fi
