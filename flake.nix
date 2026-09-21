@@ -23,7 +23,12 @@
 
     # Wayland desktop rice (homeModules.graphical): niri scrolling compositor,
     # DankMaterialShell (Quickshell desktop shell), declarative Discord.
-    niri.url = "github:sodiboo/niri-flake";
+    #
+    # epireyn's fork, not sodiboo/niri-flake: upstream went unmaintained after
+    # 2026-08-04 with `niri-stable` still pinned to v25.08 (2025-08-30), three
+    # releases behind niri's own v26.04. The fork (sodiboo/niri-flake#1813) is
+    # API-compatible and tracks releases again. Revisit if sodiboo resumes.
+    niri.url = "github:epireyn/niri-flake";
     niri.inputs.nixpkgs.follows = "nixpkgs";
 
     dms.url = "github:AvengeMedia/DankMaterialShell/stable";
