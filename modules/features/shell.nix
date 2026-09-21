@@ -78,6 +78,8 @@ _: {
       clc = "claude --continue";
       clm = "claude --model";
       claudio = "CLAUDE_CONFIG_DIR=~/.claude-personal claude";
+      # Codex shortcuts
+      codexo = "CODEX_HOME=~/.codex-personal codex";
     };
 
     home.packages = [

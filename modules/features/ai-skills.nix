@@ -30,15 +30,28 @@ _:
       ./_ai-skills/wt.nix
     ];
 
+    options.programs.ai-skills.mirrorDirs = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      default = [ ".codex" ];
+      example = [ ".codex" ".claude-personal" ".codex-personal" ];
+      description = ''
+        Config dirs, relative to $HOME, that receive a copy of the merged
+        skill set. `~/.claude` is not listed: the upstream claude-code module
+        writes it. Each extra CLI profile (a separate account and history,
+        reached through the `claudio` / `codexo` aliases) belongs here, since
+        the account is what should differ between profiles, not the skills.
+      '';
+    };
+
     config = lib.mkIf config.programs.claude-code.enable {
-      # Codex loads skills the same way as Claude Code. Mirror the final
-      # merged set (built-ins + downstream contributions) into ~/.codex/skills.
-      home.file = lib.mapAttrs'
-        (name: source: {
-          name = ".codex/skills/${name}";
-          value.source = source;
-        })
-        config.programs.claude-code.skills;
+      # Codex loads skills the same way as Claude Code, and every mirrored
+      # profile wants the final merged set (built-ins + downstream
+      # contributions), not just the built-ins.
+      home.file = lib.listToAttrs (lib.concatMap
+        (dir: lib.mapAttrsToList
+          (name: source: lib.nameValuePair "${dir}/skills/${name}" { inherit source; })
+          config.programs.claude-code.skills)
+        config.programs.ai-skills.mirrorDirs);
     };
   };
 }
