@@ -18,7 +18,9 @@ Typical setup and use::
 The Claude provider patches only account identity fields. In particular, it
 preserves ``mcpOAuth`` entries in ``.credentials.json`` and all project history.
 The Codex provider swaps only ``auth.json`` and leaves the rest of ``CODEX_HOME``
-alone. Close the corresponding CLI before saving or switching a profile.
+alone. Credential profiles are reusable across config directories; active-profile
+state is tracked separately for each resolved config directory. Close the
+corresponding CLI before saving or switching a profile.
 """
 
 from __future__ import annotations
@@ -188,6 +190,9 @@ def refuse_running_process(tool: str) -> None:
 class Provider(Protocol):
     name: str
 
+    @property
+    def root(self) -> Path: ...
+
     def capture(self) -> JsonObject: ...
 
     def validate_snapshot(self, snapshot: JsonObject) -> None: ...
@@ -341,8 +346,13 @@ class ProfileStore:
         return data_root() / self.provider.name
 
     @property
-    def active_path(self) -> Path:
-        return self.root / ".active"
+    def active_state_path(self) -> Path:
+        return self.root / ".active.json"
+
+    @property
+    def root_key(self) -> str:
+        """Canonical live config root used for per-directory active state."""
+        return str(self.provider.root.resolve(strict=False))
 
     def prepare(self) -> None:
         ensure_private_dir(data_root())
@@ -351,21 +361,36 @@ class ProfileStore:
     def profile_path(self, name: str) -> Path:
         return self.root / f"{validate_profile_name(name)}.json"
 
-    def active(self) -> str | None:
+    def active_state(self) -> JsonObject:
         try:
-            if self.active_path.is_symlink():
-                raise AiAuthError(f"refusing to read symlink: {self.active_path}")
-            name = self.active_path.read_text(encoding="utf-8").strip()
-        except AiAuthError:
-            raise
-        except FileNotFoundError:
-            return None
-        except OSError as error:
-            raise AiAuthError(f"could not read active profile marker: {error}") from error
-        return validate_profile_name(name)
+            state = read_json(self.active_state_path)
+        except AiAuthError as error:
+            if not self.active_state_path.exists() and not self.active_state_path.is_symlink():
+                return {"version": PROFILE_VERSION, "roots": {}}
+            raise error
+        if state.get("version") != PROFILE_VERSION:
+            raise AiAuthError("unsupported active-state version")
+        roots = state.get("roots")
+        if not isinstance(roots, dict):
+            raise AiAuthError("active state has an invalid roots mapping")
+        for root, name in roots.items():
+            if not isinstance(root, str) or not isinstance(name, str):
+                raise AiAuthError("active state has an invalid root entry")
+            validate_profile_name(name)
+        return state
+
+    def active(self) -> str | None:
+        roots = self.active_state()["roots"]
+        assert isinstance(roots, dict)
+        name = roots.get(self.root_key)
+        return validate_profile_name(name) if isinstance(name, str) else None
 
     def set_active(self, name: str) -> None:
-        atomic_write_text(self.active_path, validate_profile_name(name) + "\n")
+        state = self.active_state()
+        roots = state["roots"]
+        assert isinstance(roots, dict)
+        roots[self.root_key] = validate_profile_name(name)
+        atomic_write_json(self.active_state_path, state)
 
     def names(self) -> list[str]:
         if not self.root.exists():
@@ -470,6 +495,7 @@ def status(provider: Provider) -> None:
     store = ProfileStore(provider)
     active = store.active()
     live = provider.capture()
+    print(f"root: {store.root_key}")
     print(f"active: {active or '(untracked)'}")
     print(f"live: {provider.whoami() or '(email unavailable)'}")
     if active is None:
