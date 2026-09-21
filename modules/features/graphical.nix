@@ -116,6 +116,15 @@
             matches = [ { app-id = "^kitty$"; } ];
             default-column-width.proportion = 0.25;
           }
+          {
+            # term-popup uses its own app-id; titles remain owned by the TUI.
+            # New floating windows are centered by niri by default.
+            matches = [ { app-id = "^term-popup$"; } ];
+            open-floating = true;
+            open-focused = true;
+            default-column-width = { fixed = 900; };
+            default-window-height = { fixed = 500; };
+          }
         ];
 
         binds =
@@ -363,6 +372,13 @@
       # Graphical apps. Terminal + screenshot tools live at the system level
       # (nixosModules.desktop); these are the user-facing GUI set.
       home.packages = [
+        (pkgs.writeShellApplication {
+          name = "term-popup";
+          text = builtins.replaceStrings
+            [ "@kitty@" ]
+            [ "${pkgs.kitty}/bin/kitty" ]
+            (builtins.readFile ./_graphical/term-popup.sh);
+        })
         pkgs.telegram-desktop
         pkgs.spotify
         pkgs.mpv
