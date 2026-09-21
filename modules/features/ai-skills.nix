@@ -14,11 +14,15 @@
 #
 # Toggles for optional built-ins live under `programs.ai-skills.*`.
 
-_:
+{ config, ... }:
 
+let
+  k-ai-auth = config.flake.homeModules.k-ai-auth;
+in
 {
   flake.homeModules.ai-skills = { config, lib, ... }: {
     imports = [
+      k-ai-auth
       ./_ai-skills/uv-scripts.nix
       ./_ai-skills/direnv-layout-uv.nix
       ./_ai-skills/structural-search.nix

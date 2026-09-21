@@ -25,6 +25,7 @@
 
 - `base-dev.nix` - Shared developer baseline
 - `ai-skills.nix` - AI tooling skill layer
+- `k-ai-auth.nix` - Account-only credential switching for Claude Code and Codex
 - `dep-opsec.nix` - Supply-chain cooldown defaults across package managers (`features.dep-opsec.*`)
 - `identity.nix`, `work-identity.nix` - Personal git identity, plus a directory-scoped override for work checkouts
 - `darwin-platform.nix` - macOS home shape, Homebrew shellenv, GNU userland, GUI launchd PATH agent
