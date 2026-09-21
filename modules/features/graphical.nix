@@ -61,17 +61,16 @@
         systemd.enable = false; # spawned per-compositor instead (see file header)
 
         # niri: DMS owns niri's shell-action keybinds + autostart (spawn `dms
-        # run`). Includes are limited to dms/outputs.kdl (the settings panel's
-        # display profiles); binds/colors stay out so they don't fight
-        # enableKeybinds. The module warns about enableKeybinds + includes;
-        # harmless with this file list. Our compositor binds are below.
+        # run`). `includes` is off: it rewrites config.kdl into a wrapper of
+        # `include` nodes, and niri-stable 25.08 has no `include` -- the whole
+        # config then fails to parse and niri falls back to its built-in
+        # default (no DMS spawn, no binds). Re-enable only on a niri that
+        # supports `include`; it would also inject DMS binds/colors, which
+        # fight enableKeybinds. Our compositor binds are below.
         niri = {
           enableKeybinds = true;
           enableSpawn = true;
-          includes = {
-            enable = true;
-            filesToInclude = [ "outputs" ];
-          };
+          includes.enable = false;
         };
       };
 
