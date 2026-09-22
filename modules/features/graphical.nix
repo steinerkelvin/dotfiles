@@ -89,14 +89,30 @@
         # nix-store symlink, and a relative include resolves against the store
         # dir, not ~/.config/niri. `optional` means a missing file is fine.
         includes = [
-          # DMS regenerates these on every theme/settings change. Only the
-          # additive ones: dms/layout.kdl and dms/outputs.kdl would fight the
-          # layout tuning below, and dms/input.kdl isn't wired up by anyone.
-          # Safe because niri-flake emits nothing competing -- focus-ring
-          # colors are nullable and unset here, and `recent-windows` is
-          # omitted entirely unless configured.
-          { path = "~/.config/niri/dms/colors.kdl"; optional = true; }
+          # Everything DMS generates, in its own default order. Conflicts are
+          # safe: these sit above the settings below, and niri is later-wins,
+          # so nix always beats DMS on any key both define (gaps, focus-ring
+          # width, touchpad tap/natural-scroll, cursor theme).
+          #
+          # What they actually contribute is the non-overlapping half --
+          # dms/colors.kdl's palette, dms/layout.kdl's rounded-corner
+          # window-rule (window-rule nodes accumulate rather than override),
+          # dms/input.kdl's dwt + flat accel, dms/wpblur.kdl's backdrop.
+          #
+          # dms/layout.kdl's `border { width 2 }` is inert here: niri's border
+          # special case means a border section in an *included* file doesn't
+          # enable the border, only one in the main config would. Ours stays
+          # `off`. See Configuration:-Include.md#border-special-case.
+          #
+          # binds.kdl and cursor.kdl are currently 0 bytes -- listed so they
+          # work if DMS ever starts writing them.
           { path = "~/.config/niri/dms/alttab.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/binds.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/colors.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/cursor.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/input.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/layout.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/outputs.kdl"; optional = true; }
           { path = "~/.config/niri/dms/windowrules.kdl"; optional = true; }
           { path = "~/.config/niri/dms/wpblur.kdl"; optional = true; }
 
@@ -104,6 +120,10 @@
           # included files, so saving it hot-reloads without a rebuild. Good
           # for trying settings nix doesn't set yet; anything that sticks
           # should graduate into this file.
+          #
+          # Kept LAST on purpose: it's the only way to beat dms/outputs.kdl,
+          # which also claims DP-1. Two files owning one output is a trap --
+          # if display settings start fighting, this is the first place to look.
           { path = "~/.config/niri/custom.kdl"; optional = true; }
         ];
 
