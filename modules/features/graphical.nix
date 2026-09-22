@@ -79,17 +79,32 @@
       # lock via caps:super, matching Hyprland). niri is columnar, hence the
       # column/window split on the movement binds.
       programs.niri.settings = {
-        # Scratch file for trying config out live, outside nix. niri watches
-        # included files and hot-reloads them, so edits apply without a
-        # rebuild; `optional` means it's fine for the file not to exist.
-        # Absolute (~) rather than relative because config.kdl is a nix-store
-        # symlink, and relative includes resolve against the *store* dir.
-        # Anything worth keeping graduates into this file.
+        # Extra kdl merged in alongside the settings below. Note the
+        # precedence: niri-flake emits these `include` lines at the TOP of the
+        # generated config and niri is later-wins, so anything defined further
+        # down in this file beats anything in an included file. Includes can
+        # only fill in settings nix leaves unset.
+        #
+        # Paths are absolute (~) rather than relative because config.kdl is a
+        # nix-store symlink, and a relative include resolves against the store
+        # dir, not ~/.config/niri. `optional` means a missing file is fine.
         includes = [
-          {
-            path = "~/.config/niri/custom.kdl";
-            optional = true;
-          }
+          # DMS regenerates these on every theme/settings change. Only the
+          # additive ones: dms/layout.kdl and dms/outputs.kdl would fight the
+          # layout tuning below, and dms/input.kdl isn't wired up by anyone.
+          # Safe because niri-flake emits nothing competing -- focus-ring
+          # colors are nullable and unset here, and `recent-windows` is
+          # omitted entirely unless configured.
+          { path = "~/.config/niri/dms/colors.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/alttab.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/windowrules.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/wpblur.kdl"; optional = true; }
+
+          # Hand-edited scratch file, deliberately outside nix. niri watches
+          # included files, so saving it hot-reloads without a rebuild. Good
+          # for trying settings nix doesn't set yet; anything that sticks
+          # should graduate into this file.
+          { path = "~/.config/niri/custom.kdl"; optional = true; }
         ];
 
         # X11 bridge — niri is pure Wayland and ships no Xwayland. Spawn
