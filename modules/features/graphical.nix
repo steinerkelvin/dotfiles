@@ -79,6 +79,19 @@
       # lock via caps:super, matching Hyprland). niri is columnar, hence the
       # column/window split on the movement binds.
       programs.niri.settings = {
+        # Scratch file for trying config out live, outside nix. niri watches
+        # included files and hot-reloads them, so edits apply without a
+        # rebuild; `optional` means it's fine for the file not to exist.
+        # Absolute (~) rather than relative because config.kdl is a nix-store
+        # symlink, and relative includes resolve against the *store* dir.
+        # Anything worth keeping graduates into this file.
+        includes = [
+          {
+            path = "~/.config/niri/custom.kdl";
+            optional = true;
+          }
+        ];
+
         # X11 bridge — niri is pure Wayland and ships no Xwayland. Spawn
         # xwayland-satellite so X11-only apps have a display; niri 25.05+ then
         # auto-sets DISPLAY for spawned clients. Merges with DMS's own
