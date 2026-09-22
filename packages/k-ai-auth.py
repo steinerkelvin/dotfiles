@@ -218,7 +218,11 @@ class ClaudeProvider:
 
     @property
     def config_path(self) -> Path:
-        return self.root / ".claude.json"
+        # Stock Claude splits state between ~/.claude/ and ~/.claude.json.
+        # CLAUDE_CONFIG_DIR relocates both into the override directory.
+        if os.environ.get("CLAUDE_CONFIG_DIR"):
+            return self.root / ".claude.json"
+        return Path.home() / ".claude.json"
 
     def capture(self) -> JsonObject:
         credentials = read_json(self.credentials_path)
