@@ -107,18 +107,20 @@
           # binds.kdl and cursor.kdl are currently 0 bytes -- listed so they
           # work if DMS ever starts writing them.
           #
-          # dms/outputs.kdl is deliberately NOT here. `output` is a multipart
-          # section: niri inserts those as-is without merging, and Outputs::find
-          # takes the FIRST match by name -- so for outputs the earliest include
-          # wins, the reverse of every merged section. Including it would make
-          # its DP-1 block (5120x1440@120) shadow the one in custom.kdl no
-          # matter what order we use. Display config lives in custom.kdl.
+          # dms/outputs.kdl owns the displays -- set them in DMS's display
+          # panel, which persists to monitors.json and regenerates that file.
+          # Do NOT also define `output` in custom.kdl: `output` is a multipart
+          # section, inserted as-is without merging, and Outputs::find takes
+          # the FIRST match by name -- so for outputs the earliest include
+          # wins, the reverse of every merged section, and a second DP-1 block
+          # further down would be silently dead config.
           { path = "~/.config/niri/dms/alttab.kdl"; optional = true; }
           { path = "~/.config/niri/dms/binds.kdl"; optional = true; }
           { path = "~/.config/niri/dms/colors.kdl"; optional = true; }
           { path = "~/.config/niri/dms/cursor.kdl"; optional = true; }
           { path = "~/.config/niri/dms/input.kdl"; optional = true; }
           { path = "~/.config/niri/dms/layout.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/outputs.kdl"; optional = true; }
           { path = "~/.config/niri/dms/windowrules.kdl"; optional = true; }
           { path = "~/.config/niri/dms/wpblur.kdl"; optional = true; }
 
