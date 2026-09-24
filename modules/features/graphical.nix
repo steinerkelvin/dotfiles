@@ -74,6 +74,13 @@
         };
       };
 
+      # Vicinae owns the primary launcher shortcut; DMS spotlight remains
+      # available on Mod+D. Keep its server warm so `vicinae toggle` is instant.
+      programs.vicinae = {
+        enable = true;
+        systemd.enable = true;
+      };
+
       # niri rice — niri ships NO default binds, so without these the session is
       # unusable (only DMS shell toggles exist). Mod = Super (logo key, and caps
       # lock via caps:super, matching Hyprland). niri is columnar, hence the
@@ -224,9 +231,12 @@
             "Mod+BracketLeft".action = consume-or-expel-window-left;
             "Mod+BracketRight".action = consume-or-expel-window-right;
 
-            # Launcher alt-binding for Hyprland muscle memory. DMS already
-            # binds Mod+Space to the same spotlight toggle via its niri module
-            # (inputs.dms.homeModules.niri); Mod+D mirrors Hyprland's $mod,D.
+            # Override the DMS niri module's Mod+Space launcher bind with
+            # Vicinae, while keeping DMS spotlight available on Mod+D.
+            "Mod+Space" = lib.mkForce {
+              action = spawn "vicinae" "toggle";
+              hotkey-overlay.title = "Toggle Vicinae Launcher";
+            };
             "Mod+D".action = spawn "dms" "ipc" "spotlight" "toggle";
 
             # Flip DMS light/dark + mirror to xdp Settings so Firefox/Chromium
@@ -356,8 +366,10 @@
             "$mod, E, togglesplit," # dwindle
             "$mod SHIFT, E, exit,"
 
+            # Vicinae is the primary launcher; DMS spotlight stays on $mod+D.
+            "$mod, Space, exec, vicinae toggle"
+
             # DMS shell surfaces (dms ipc <target> <function>; needs DMS running).
-            "$mod, Space, exec, dms ipc spotlight toggle" # launcher (also $mod, D)
             "$mod, N, exec, dms ipc notifications toggle"
             "$mod, Comma, exec, dms ipc settings toggle"
             "$mod, V, exec, dms ipc clipboard toggle"
