@@ -28,6 +28,8 @@ _: {
         pkgs.git
         pkgs.htop
         pkgs.tmux
+        # So TERM=xterm-kitty works when SSHing in from kitty
+        pkgs.kitty.terminfo
       ];
     };
 }
