@@ -299,6 +299,11 @@ def running_processes(provider: Provider, root: Path) -> list[int]:
             pass
         if not matched:
             continue
+        # A zombie has exited and holds no credentials; its environ reads empty,
+        # which would otherwise fail closed. Only its parent can reap it.
+        with contextlib.suppress(OSError, IndexError):
+            if (process_dir / "stat").read_text().rsplit(")", 1)[1].split()[0] == "Z":
+                continue
         # The Claude in Chrome native host is a stdio-to-socket relay for the
         # browser extension. Claude Code dispatches it before loading config or
         # credentials, and it never reads or refreshes OAuth tokens, so it cannot
