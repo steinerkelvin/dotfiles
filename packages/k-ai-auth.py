@@ -331,10 +331,19 @@ def refuse_running_process(provider: Provider) -> None:
     matches = running_processes(provider, root)
     if not matches:
         return
-    processes = "\n".join(f"  {pid:>8}  {describe_process(pid)}" for pid in matches)
+    descriptions = {pid: describe_process(pid) for pid in matches}
+    processes = "\n".join(f"  {pid:>8}  {text}" for pid, text in descriptions.items())
+    hint = ""
+    if provider.name == "codex" and any("app-server" in text for text in descriptions.values()):
+        # Codex keeps a background app-server per CODEX_HOME that holds the login
+        # and can renew it; it has its own stop command and restarts on demand.
+        hint = (
+            "\nthe Codex background service holds this login; stop it with:\n"
+            f"  CODEX_HOME={display_path(str(root))} codex app-server daemon stop"
+        )
     raise AiAuthError(
         f"refusing while {provider.name} is running against {root}; close these first so "
-        f"they cannot overwrite the switched credentials:\n{processes}"
+        f"they cannot overwrite the switched credentials:\n{processes}{hint}"
     )
 
 
