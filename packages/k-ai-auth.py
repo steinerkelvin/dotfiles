@@ -205,8 +205,8 @@ def format_reset(when: datetime | None) -> str:
     local = when.astimezone()
     now = datetime.now().astimezone()
     if local.date() == now.date():
-        return f" ↻{local:%H:%M}"
-    return f" ↻{local:%a %H:%M}"
+        return f"{local:%H:%M}"
+    return f"{local:%a %H:%M}"
 
 
 def environment_root(variable: str, default: str, env: Mapping[str, str]) -> Path | None:
@@ -354,15 +354,25 @@ class Provider(Protocol):
 
     def fetch_usage(self, snapshot: JsonObject) -> JsonObject: ...
 
-    def format_usage(self, usage: JsonObject) -> dict[str, str]:
-        """Table cells keyed by column name (window label, or "note")."""
-        ...
+    def format_usage(self, usage: JsonObject) -> UsageCells: ...
 
 
-def usage_window(percent: object, reset: datetime | None) -> str | None:
+@dataclass(frozen=True)
+class Window:
+    """One rate-limit window: percent used and when it resets."""
+
+    percent: float
+    reset: datetime | None
+
+
+# Table cells keyed by column: a window label ("5h", "week", ...) or "note".
+UsageCells = dict[str, "Window | str"]
+
+
+def usage_window(percent: object, reset: datetime | None) -> Window | None:
     if not isinstance(percent, int | float):
         return None
-    return f"{percent:3.0f}%{format_reset(reset)}"
+    return Window(float(percent), reset)
 
 
 def parse_iso(raw: object) -> datetime | None:
@@ -530,8 +540,8 @@ class ClaudeProvider:
             },
         )
 
-    def format_usage(self, usage: JsonObject) -> dict[str, str]:
-        cells = {}
+    def format_usage(self, usage: JsonObject) -> UsageCells:
+        cells: UsageCells = {}
         for key, label in (
             ("five_hour", "5h"),
             ("seven_day", "week"),
@@ -649,8 +659,8 @@ class CodexProvider:
             headers["ChatGPT-Account-Id"] = tokens["account_id"]
         return http_json("GET", CODEX_USAGE_URL, headers)
 
-    def format_usage(self, usage: JsonObject) -> dict[str, str]:
-        cells = {}
+    def format_usage(self, usage: JsonObject) -> UsageCells:
+        cells: UsageCells = {}
         notes = []
         limits = usage.get("rate_limit")
         if isinstance(limits, dict):
@@ -956,33 +966,104 @@ def usage_report(provider: Provider, *, force_refresh: bool) -> dict[str, JsonOb
         }
 
 
+def use_color() -> bool:
+    return (
+        sys.stdout.isatty() and not os.environ.get("NO_COLOR") and os.environ.get("TERM") != "dumb"
+    )
+
+
+def paint(text: str, style: str, enabled: bool) -> str:
+    return f"\x1b[{style}m{text}\x1b[0m" if enabled and text.strip() else text
+
+
+def percent_style(percent: float) -> str:
+    if percent >= 95:
+        return "1;31"
+    if percent >= 80:
+        return "31"
+    if percent >= 50:
+        return "33"
+    return "32"
+
+
 def print_usage(tools: list[str], *, as_json: bool, force_refresh: bool) -> None:
     reports = {tool: usage_report(PROVIDERS[tool], force_refresh=force_refresh) for tool in tools}
     if as_json:
         print(json.dumps(reports, indent=2, sort_keys=True))
         return
-    rows: list[tuple[list[str], dict[str, str], str]] = []
+    color = use_color()
+    dim, bold = "2", "1"
+
+    # Cells are (plain, painted) pairs so widths ignore escape codes.
+    Cell = tuple[str, str]
+
+    def cell(text: str, style: str = "") -> Cell:
+        return text, paint(text, style, color) if style else text
+
+    def window_cell(window: Window) -> Cell:
+        percent = f"{window.percent:3.0f}%"
+        reset = format_reset(window.reset)
+        plain = f"{percent}  {reset}".rstrip()
+        painted = paint(percent, percent_style(window.percent), color)
+        if reset:
+            painted += "  " + paint(reset, dim, color)
+        return plain, painted
+
+    parsed = {
+        tool: {
+            name: PROVIDERS[tool].format_usage(result["usage"]) if "usage" in result else None
+            for name, result in report.items()
+        }
+        for tool, report in reports.items()
+    }
     columns = ["5h", "week"]
+    for rows in parsed.values():
+        for cells in rows.values():
+            columns += [key for key in cells or {} if key not in columns and key != "note"]
+
+    # Each body row: name, where, one cell per window column, trailing text.
+    table: list[tuple[str | None, list[Cell], Cell]] = []
     for tool, report in reports.items():
+        table.append((tool, [], cell("")))
         if not report:
-            rows.append(([tool, "(no profiles)", ""], {}, ""))
+            table.append((None, [cell("(no profiles)", dim)], cell("")))
         for name, result in report.items():
-            prefix = [tool, name, result["source"]]
-            if "usage" not in result:
-                rows.append((prefix, {}, result["error"]))
+            where = result["source"]
+            prefix = [cell(name), cell(where, "" if where.startswith("~") else dim)]
+            cells = parsed[tool][name]
+            if cells is None:
+                table.append((None, prefix, cell(result["error"], "33")))
                 continue
-            cells = PROVIDERS[tool].format_usage(result["usage"])
-            columns += [key for key in cells if key not in columns and key != "note"]
-            rows.append((prefix, cells, cells.get("note", "")))
-    header = ["TOOL", "PROFILE", "WHERE", *(column.upper() for column in columns), "NOTE"]
-    table = [header] + [
-        [*prefix, *(cells.get(column, "") for column in columns), note]
-        for prefix, cells, note in rows
+            windows = [
+                window_cell(value) if isinstance(value := cells.get(column), Window) else cell("")
+                for column in columns
+            ]
+            note = cells.get("note")
+            table.append((None, prefix + windows, cell(note if isinstance(note, str) else "", dim)))
+
+    header = [cell(""), cell("WHERE", dim), *(cell(column.upper(), dim) for column in columns)]
+    body = [cells for tool, cells, _ in table if tool is None]
+    widths = [
+        max(len(row[index][0]) for row in [header, *body] if index < len(row))
+        for index in range(len(header))
     ]
-    widths = [max(len(row[index]) for row in table) for index in range(len(header) - 1)]
-    for row in table:
-        padded = [cell.ljust(width) for cell, width in zip(row, widths, strict=False)]
-        print("  ".join([*padded, row[-1]]).rstrip())
+
+    def render(cells: list[Cell], trailing: Cell) -> str:
+        parts = [
+            painted + " " * (width - len(plain))
+            for (plain, painted), width in zip(cells, widths, strict=False)
+        ]
+        if trailing[0]:
+            # Error text starts where the window columns would.
+            parts.append(trailing[1])
+        return ("  " + "   ".join(parts)).rstrip()
+
+    print(render(header, cell("")))
+    for tool, cells, trailing in table:
+        if tool is not None:
+            print(paint(tool, bold, color))
+        else:
+            print(render(cells, trailing))
 
 
 def add_usage_arguments(parser: argparse.ArgumentParser) -> None:
