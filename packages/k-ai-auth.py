@@ -310,6 +310,11 @@ def running_processes(provider: Provider, root: Path) -> list[int]:
         # clobber a switch even though it runs without CLAUDE_CONFIG_DIR.
         if tool == "claude" and argv is not None and b"--chrome-native-host" in argv[1:]:
             continue
+        # Codex's daemon auto-updater only installs app-server packages and never
+        # handles the login; an app-server it starts is its own process and is
+        # still checked here. `daemon stop` does not stop the updater.
+        if tool == "codex" and argv is not None and b"pid-update-loop" in argv[1:]:
+            continue
         process_config = process_root(provider, process_dir)
         if process_config is None or process_config.resolve(strict=False) == target:
             matches.append(pid)
