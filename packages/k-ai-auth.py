@@ -311,16 +311,44 @@ def running_processes(provider: Provider, root: Path) -> list[int]:
     return sorted(matches)
 
 
+def describe_process(pid: int, width: int = 100) -> str:
+    """A process's command line, shortened, for telling the user what to close."""
+    try:
+        argv = (Path("/proc") / str(pid) / "cmdline").read_bytes().split(b"\0")
+    except OSError:
+        return "(exited or unreadable)"
+    command = " ".join(os.fsdecode(arg) for arg in argv if arg)
+    return command if len(command) <= width else command[: width - 1] + "…"
+
+
 def refuse_running_process(provider: Provider) -> None:
     root = provider.root.resolve(strict=False)
     matches = running_processes(provider, root)
     if not matches:
         return
-    pids = ", ".join(str(pid) for pid in matches)
+    processes = "\n".join(f"  {pid:>8}  {describe_process(pid)}" for pid in matches)
     raise AiAuthError(
-        f"refusing while {provider.name} is running against {root} (PID {pids}); close it "
-        "first so it cannot overwrite the switched credentials"
+        f"refusing while {provider.name} is running against {root}; close these first so "
+        f"they cannot overwrite the switched credentials:\n{processes}"
     )
+
+
+def refuse_active_elsewhere(store: ProfileStore, name: str) -> None:
+    """Refuse to put one saved login into a second config directory.
+
+    Refresh tokens are single-use: when either directory renews, the other is left
+    holding a retired token and gets logged out (a reused retired token may even
+    revoke the login everywhere).
+    """
+    roots = [root for root, active in store.active_state()["roots"].items() if active == name]
+    others = [root for root in roots if root != store.root_key]
+    if others:
+        raise AiAuthError(
+            f"profile {name} is already active in {', '.join(others)}; two directories "
+            "sharing one login log each other out when either renews its token. Switch "
+            "that directory to another profile first, or log in separately here and save "
+            "it under a new name"
+        )
 
 
 class Provider(Protocol):
@@ -815,6 +843,7 @@ def save_profile(provider: Provider, name: str) -> None:
     with store.locked():
         # Re-check: a CLI may have started while we waited for the lock.
         refuse_running_process(provider)
+        refuse_active_elsewhere(store, name)
         snapshot = provider.capture()
         store.save(name, snapshot)
         store.set_active(name)
@@ -827,6 +856,7 @@ def use_profile(provider: Provider, name: str) -> None:
     with store.locked():
         # Re-check: a CLI may have started while we waited for the lock.
         refuse_running_process(provider)
+        refuse_active_elsewhere(store, name)
         # Validate the target before updating the outgoing profile.
         target = store.load(name)
         provider.validate_snapshot(target)
