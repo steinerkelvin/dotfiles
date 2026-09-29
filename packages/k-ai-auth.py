@@ -28,11 +28,12 @@ Subscription usage can be read for every profile without switching::
     k-ai-auth codex usage --json
 
 A profile that is active in some config directory is read from that directory's
-live credentials and is never refreshed: providers rotate refresh tokens, so an
-outside refresh would log the running CLI out. A profile that is not active
-anywhere is refreshed when its access token has expired, and the rotated tokens
-are written back to the profile. ``usage`` never writes live credential files,
-so it is safe while the CLIs are running.
+live credentials. Providers rotate refresh tokens, so an outside refresh would
+log a running CLI out: an expired live token is refreshed only when no CLI is
+running against any directory holding that login, and the rotated tokens are
+written to the profile and to those directories' credential files (account
+fields only, as ``use`` does). A profile that is not active anywhere is
+refreshed when its access token has expired and written back to the profile.
 """
 
 from __future__ import annotations
@@ -334,6 +335,10 @@ class Provider(Protocol):
 
     def apply(self, snapshot: JsonObject) -> None: ...
 
+    def write_tokens(self, snapshot: JsonObject) -> None:
+        """Store refreshed tokens in this root's live credentials, touching nothing else."""
+        ...
+
     def whoami(self) -> str | None: ...
 
     def refresh_expiry(self, snapshot: JsonObject) -> float | None: ...
@@ -471,6 +476,10 @@ class ClaudeProvider:
         # the shared config directory, not to the Anthropic account.
         patch_json(self.credentials_path, {"claudeAiOauth": snapshot["oauth"]})
 
+    def write_tokens(self, snapshot: JsonObject) -> None:
+        self.validate_snapshot(snapshot)
+        patch_json(self.credentials_path, {"claudeAiOauth": snapshot["oauth"]})
+
     def whoami(self) -> str | None:
         account = read_json(self.config_path).get("oauthAccount")
         if not isinstance(account, dict):
@@ -597,6 +606,13 @@ class CodexProvider:
     def apply(self, snapshot: JsonObject) -> None:
         self.validate_snapshot(snapshot)
         atomic_write_json(self.auth_path, snapshot)
+
+    def write_tokens(self, snapshot: JsonObject) -> None:
+        self.validate_snapshot(snapshot)
+        patch_json(
+            self.auth_path,
+            {key: snapshot[key] for key in ("tokens", "last_refresh") if key in snapshot},
+        )
 
     def whoami(self) -> str | None:
         auth = read_json(self.auth_path)
@@ -881,12 +897,14 @@ def display_path(path: str) -> str:
     return "~" + path[len(home) :] if path == home or path.startswith(home + "/") else path
 
 
-def live_snapshots(provider: Provider, roots: list[str]) -> dict[str, JsonObject]:
-    """Live credentials per active root; unreadable roots are left out."""
-    snapshots = {}
+def live_snapshots(provider: Provider, roots: list[str]) -> dict[str, JsonObject | None]:
+    """Live credentials per active root; None for a root that cannot be read."""
+    snapshots: dict[str, JsonObject | None] = {}
     for root in roots:
-        with contextlib.suppress(AiAuthError):
+        try:
             snapshots[root] = provider.at(root).capture()
+        except AiAuthError:
+            snapshots[root] = None
     return snapshots
 
 
@@ -895,7 +913,7 @@ def account_usage(
     store: ProfileStore,
     name: str,
     roots: list[str],
-    live: dict[str, JsonObject],
+    live: dict[str, JsonObject | None],
     *,
     force_refresh: bool,
 ) -> JsonObject:
@@ -903,7 +921,7 @@ def account_usage(
     try:
         snapshot = None
         if roots:
-            candidates = [(root, live[root]) for root in roots if root in live]
+            candidates = [(root, value) for root in roots if (value := live.get(root)) is not None]
             if not candidates:
                 raise AiAuthError(
                     f"cannot read live credentials in {', '.join(map(display_path, roots))}"
@@ -916,15 +934,54 @@ def account_usage(
             candidates = [
                 (root, value)
                 for root, value in live.items()
-                if token is not None and provider.refresh_token(value) == token
+                if value is not None
+                and token is not None
+                and provider.refresh_token(value) == token
             ]
         if candidates:
             root, snapshot = max(candidates, key=lambda item: provider.access_expiry(item[1]) or 0)
             source = display_path(root) if roots else f"{display_path(root)} (same login)"
             expiry = provider.access_expiry(snapshot)
-            if expiry is not None and expiry <= time.time():
-                # Never refresh live credentials: rotation would log the CLI out.
-                return {"source": source, "error": "stale (refreshes when that CLI next runs)"}
+            if expiry is not None and expiry - EXPIRY_MARGIN <= time.time():
+                token = provider.refresh_token(snapshot)
+                holders = [
+                    holder
+                    for holder, value in live.items()
+                    if value is not None
+                    and token is not None
+                    and provider.refresh_token(value) == token
+                ]
+                # Rotation would log out any CLI still holding the old token, and
+                # an unreadable root might be holding it without us knowing.
+                unknown = any(value is None for value in live.values())
+                busy = [holder for holder in holders if running_processes(provider, Path(holder))]
+                if token is None or busy or unknown:
+                    if expiry <= time.time():
+                        return {"source": source, "error": "stale (that CLI refreshes it)"}
+                else:
+                    try:
+                        snapshot = provider.refresh(snapshot)
+                    except AiAuthError as error:
+                        return {"source": source, "error": f"needs login ({error})"}
+                    # The private profile first: if a live write then fails, the
+                    # rotated tokens still survive somewhere.
+                    if name in store.names():
+                        store.save(name, snapshot)
+                    failed = []
+                    for holder in holders:
+                        try:
+                            provider.at(holder).write_tokens(snapshot)
+                        except (AiAuthError, OSError):
+                            failed.append(display_path(holder))
+                        else:
+                            live[holder] = snapshot
+                    source += " (refreshed)"
+                    if failed:
+                        return {
+                            "source": source,
+                            "error": f"refreshed, but could not write {', '.join(failed)}; "
+                            "the new tokens are only in the saved profile, so log in again there",
+                        }
         else:
             assert snapshot is not None
             expiry = provider.access_expiry(snapshot)
@@ -938,6 +995,8 @@ def account_usage(
         return {"source": source, "usage": provider.fetch_usage(snapshot)}
     except AiAuthError as error:
         return {"source": source, "error": str(error)}
+    except OSError as error:
+        return {"source": source, "error": f"could not write credentials: {error.strerror}"}
     except (AttributeError, KeyError, TypeError, ValueError):
         return {"source": source, "error": "malformed credentials"}
 
