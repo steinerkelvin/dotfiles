@@ -34,6 +34,11 @@ running against any directory holding that login, and the rotated tokens are
 written to the profile and to those directories' credential files (account
 fields only, as ``use`` does). A profile that is not active anywhere is
 refreshed when its access token has expired and written back to the profile.
+
+One saved login is never active in two directories: refresh tokens are single-use,
+so the copies would log each other out. To use an account in two directories, log
+in separately in each and save the second login under its own name
+(``save personal-2 --new-login``); ``usage`` groups profiles of one account.
 """
 
 from __future__ import annotations
@@ -60,6 +65,9 @@ from typing import Any, Protocol
 
 JsonObject = dict[str, Any]
 PROFILE_VERSION = 1
+# Active state v2 adds `pending`/`repair` reservations; bumped so versions that
+# would ignore them refuse the file instead. v1 files are read and upgraded.
+STATE_VERSION = 2
 PROFILE_RE = re.compile(r"[A-Za-z0-9][A-Za-z0-9._-]*\Z")
 HTTP_TIMEOUT = 15
 # Refresh a little before expiry so the usage request cannot race it.
@@ -357,17 +365,92 @@ def refuse_active_elsewhere(store: ProfileStore, name: str) -> None:
 
     Refresh tokens are single-use: when either directory renews, the other is left
     holding a retired token and gets logged out (a reused retired token may even
-    revoke the login everywhere).
+    revoke the login everywhere). A separate `/login` gives an independent token
+    chain, saved as its own profile; the hint points at one when it exists.
     """
-    roots = [root for root, active in store.active_state()["roots"].items() if active == name]
-    others = [root for root in roots if root != store.root_key]
-    if others:
-        raise AiAuthError(
-            f"profile {name} is already active in {', '.join(others)}; two directories "
-            "sharing one login log each other out when either renews its token. Switch "
-            "that directory to another profile first, or log in separately here and save "
-            "it under a new name"
+    others = [root for root in store.holders(name) if root != store.root_key]
+    if not others:
+        return
+    provider = store.provider
+    free = []
+    with contextlib.suppress(AiAuthError):
+        key = provider.account_key(store.load(name))
+        for other in store.names():
+            if other == name or store.holders(other) or key is None:
+                continue
+            with contextlib.suppress(AiAuthError):
+                if provider.account_key(store.load(other)) == key:
+                    free.append(other)
+    if free:
+        hint = f"use {' or '.join(free)} instead (same account, not active anywhere)"
+    else:
+        taken = set(store.names())
+        base = re.sub(r"-\d+\Z", "", name)
+        suggestion = next(f"{base}-{n}" for n in range(2, 1000) if f"{base}-{n}" not in taken)
+        hint = (
+            f"to use this account here too, log in again in this directory and save that "
+            f"login under a new name: `k-ai-auth {provider.name} save {suggestion}`"
         )
+    raise AiAuthError(
+        f"profile {name} is already active in {', '.join(map(display_path, others))}; two "
+        f"directories sharing one login log each other out when either renews it. {hint}"
+    )
+
+
+def refuse_duplicate_login(store: ProfileStore, name: str, snapshot: JsonObject) -> None:
+    """Refuse to save one token chain under a second name (it would look free)."""
+    token = store.provider.refresh_token(snapshot)
+    if token is None:
+        return
+    for other in store.names():
+        if other == name:
+            continue
+        other_token = None
+        with contextlib.suppress(AiAuthError):
+            other_token = store.provider.refresh_token(store.load(other))
+        if other_token == token:
+            raise AiAuthError(
+                f"this login is already saved as {other}; log in again first to save an "
+                f"independent credential as {name}"
+            )
+
+
+def recover_root(store: ProfileStore) -> None:
+    """Finish what an interrupted switch or renewal left behind in this root."""
+    provider = store.provider
+    root = store.root_key
+    state = store.active_state()
+    repair = state["repair"].get(root)
+    if repair is not None:
+        # A renewal saved rotated tokens but could not write them here; the live
+        # file holds a retired token, so restore the saved one before capturing.
+        provider.write_tokens(store.load(repair))
+        store.set_entry("repair", root, None)
+    pending = state["pending"].get(root)
+    if pending:
+        live = provider.capture()
+        token = provider.refresh_token(live)
+        saved = {}
+        for name in pending:
+            with contextlib.suppress(AiAuthError):
+                saved[name] = store.load(name)
+        matches = [name for name, value in saved.items() if provider.refresh_token(value) == token]
+        if len(matches) == 1:
+            # Re-apply the whole snapshot: a Claude switch writes account metadata
+            # and tokens separately, so the crash may have left them mismatched.
+            provider.apply(saved[matches[0]])
+            store.set_active(matches[0])
+        else:
+            # The CLI rotated the token or someone logged in again. Adopt it for the
+            # profile of the same account; otherwise it is a login we do not track.
+            account = provider.account_key(live)
+            same = [n for n, value in saved.items() if provider.account_key(value) == account]
+            if account is not None and len(same) == 1:
+                store.save(same[0], live)
+                store.set_active(same[0])
+            else:
+                store.set_active(None)
+        store.set_entry("pending", root, None)
 
 
 class Provider(Protocol):
@@ -399,6 +482,10 @@ class Provider(Protocol):
     def access_expiry(self, snapshot: JsonObject) -> float | None: ...
 
     def refresh_token(self, snapshot: JsonObject) -> str | None: ...
+
+    def account_key(self, snapshot: JsonObject) -> str | None:
+        """Stable id of the account a credential belongs to; groups profiles for display."""
+        ...
 
     def refresh(self, snapshot: JsonObject) -> JsonObject:
         """Return a new snapshot with rotated tokens; the input is not modified."""
@@ -549,6 +636,13 @@ class ClaudeProvider:
         token = oauth.get("refreshToken") if isinstance(oauth, dict) else None
         return token if isinstance(token, str) else None
 
+    def account_key(self, snapshot: JsonObject) -> str | None:
+        account = snapshot.get("account")
+        if not isinstance(account, dict):
+            return None
+        key = account.get("accountUuid") or account.get("emailAddress")
+        return key if isinstance(key, str) else None
+
     def access_expiry(self, snapshot: JsonObject) -> float | None:
         oauth = snapshot.get("oauth")
         raw = oauth.get("expiresAt") if isinstance(oauth, dict) else None
@@ -682,6 +776,18 @@ class CodexProvider:
         token = tokens.get("refresh_token") if isinstance(tokens, dict) else None
         return token if isinstance(token, str) else None
 
+    def account_key(self, snapshot: JsonObject) -> str | None:
+        tokens = snapshot.get("tokens")
+        if not isinstance(tokens, dict):
+            return None
+        id_token = tokens.get("id_token")
+        claims = jwt_claims(id_token) if isinstance(id_token, str) else None
+        email = claims.get("email") if claims else None
+        account = tokens.get("account_id")
+        # One email can belong to several workspaces; each is its own account.
+        parts = [part for part in (account, email) if isinstance(part, str)]
+        return ":".join(parts) or None
+
     def access_expiry(self, snapshot: JsonObject) -> float | None:
         tokens = snapshot.get("tokens")
         token = tokens.get("access_token") if isinstance(tokens, dict) else None
@@ -788,10 +894,11 @@ class ProfileStore:
             state = read_json(self.active_state_path)
         except AiAuthError as error:
             if not self.active_state_path.exists() and not self.active_state_path.is_symlink():
-                return {"version": PROFILE_VERSION, "roots": {}}
+                return {"version": STATE_VERSION, "roots": {}, "pending": {}, "repair": {}}
             raise error
-        if state.get("version") != PROFILE_VERSION:
+        if state.get("version") not in (1, STATE_VERSION):
             raise AiAuthError("unsupported active-state version")
+        state["version"] = STATE_VERSION
         roots = state.get("roots")
         if not isinstance(roots, dict):
             raise AiAuthError("active state has an invalid roots mapping")
@@ -799,6 +906,14 @@ class ProfileStore:
             if not isinstance(root, str) or not isinstance(name, str):
                 raise AiAuthError("active state has an invalid root entry")
             validate_profile_name(name)
+        # Optional: switches interrupted mid-way ({root: [names]}) and live files
+        # that missed a renewal ({root: name}).
+        for key, kind in (("pending", list), ("repair", str)):
+            entries = state.setdefault(key, {})
+            if not isinstance(entries, dict) or not all(
+                isinstance(root, str) and isinstance(value, kind) for root, value in entries.items()
+            ):
+                raise AiAuthError(f"active state has an invalid {key} mapping")
         return state
 
     def active(self) -> str | None:
@@ -807,12 +922,24 @@ class ProfileStore:
         name = roots.get(self.root_key)
         return validate_profile_name(name) if isinstance(name, str) else None
 
-    def set_active(self, name: str) -> None:
+    def set_active(self, name: str | None) -> None:
+        self.set_entry("roots", self.root_key, name and validate_profile_name(name))
+
+    def set_entry(self, key: str, root: str, value: object) -> None:
+        """Set or (with None) clear one root's entry in an active-state mapping."""
         state = self.active_state()
-        roots = state["roots"]
-        assert isinstance(roots, dict)
-        roots[self.root_key] = validate_profile_name(name)
+        if value is None:
+            state[key].pop(root, None)
+        else:
+            state[key][root] = value
         atomic_write_json(self.active_state_path, state)
+
+    def holders(self, name: str) -> list[str]:
+        """Roots where a profile is active or caught in an interrupted switch."""
+        state = self.active_state()
+        roots = [root for root, active in state["roots"].items() if active == name]
+        pending = [root for root, names in state["pending"].items() if name in names]
+        return roots + [root for root in pending if root not in roots]
 
     def names(self) -> list[str]:
         if not self.root.exists():
@@ -856,16 +983,36 @@ class ProfileStore:
             os.close(descriptor)
 
 
-def save_profile(provider: Provider, name: str) -> None:
+def save_profile(provider: Provider, name: str, *, new_login: bool = False) -> None:
     refuse_running_process(provider)
     store = ProfileStore(provider)
     with store.locked():
         # Re-check: a CLI may have started while we waited for the lock.
         refuse_running_process(provider)
+        recover_root(store)
         refuse_active_elsewhere(store, name)
         snapshot = provider.capture()
+        refuse_duplicate_login(store, name, snapshot)
+        current = store.active()
+        if current is not None and current != name and not new_login:
+            # Tokens rotate, so equality cannot tell "the CLI renewed X's login" from
+            # "a fresh /login"; ask when the account is (or may be) the same.
+            try:
+                current_account = provider.account_key(store.load(current))
+            except AiAuthError:
+                current_account = None
+            if current_account == provider.account_key(snapshot):
+                raise AiAuthError(
+                    f"this directory holds {current}, same account; saving it as {name} would "
+                    "give one login two names. If you ran /login here for an independent "
+                    f"login, rerun with --new-login; to refresh {current}, save it as {current}"
+                )
+        # Reserve both names here first so a crash between writes never leaves
+        # the new profile looking free to another directory.
+        store.set_entry("pending", store.root_key, [n for n in (current, name) if n])
         store.save(name, snapshot)
         store.set_active(name)
+        store.set_entry("pending", store.root_key, None)
     print(f"saved {provider.name} profile {name} and marked it active")
 
 
@@ -875,6 +1022,7 @@ def use_profile(provider: Provider, name: str) -> None:
     with store.locked():
         # Re-check: a CLI may have started while we waited for the lock.
         refuse_running_process(provider)
+        recover_root(store)
         refuse_active_elsewhere(store, name)
         # Validate the target before updating the outgoing profile.
         target = store.load(name)
@@ -890,6 +1038,9 @@ def use_profile(provider: Provider, name: str) -> None:
             store.set_active(name)
             print(f"{provider.name} profile {name} was already active; refreshed its snapshot")
             return
+        # Mark both profiles as held here until the switch completes, so a crash
+        # in between never leaves either looking free to another directory.
+        store.set_entry("pending", store.root_key, [n for n in (active, name) if n])
         try:
             provider.apply(target)
             store.set_active(name)
@@ -901,7 +1052,9 @@ def use_profile(provider: Provider, name: str) -> None:
                     "switch failed and rollback also failed; inspect the live credential "
                     f"files before launching {provider.name}: {rollback_error}"
                 ) from error
+            store.set_entry("pending", store.root_key, None)
             raise
+        store.set_entry("pending", store.root_key, None)
     print(f"switched {provider.name} from {active or '(untracked)'} to {name}")
 
 
@@ -1018,18 +1171,25 @@ def account_usage(
                         store.save(name, snapshot)
                     failed = []
                     for holder in holders:
+                        # Journal first: if we die mid-write, the next use/save/usage
+                        # there restores the saved tokens instead of capturing the
+                        # retired live ones over them.
+                        if name in store.names():
+                            store.set_entry("repair", holder, name)
                         try:
                             provider.at(holder).write_tokens(snapshot)
                         except (AiAuthError, OSError):
-                            failed.append(display_path(holder))
+                            failed.append(holder)
                         else:
-                            live[holder] = snapshot
+                            store.set_entry("repair", holder, None)
+                        live[holder] = None if holder in failed else snapshot
                     source += " (refreshed)"
                     if failed:
                         return {
                             "source": source,
-                            "error": f"refreshed, but could not write {', '.join(failed)}; "
-                            "the new tokens are only in the saved profile, so log in again there",
+                            "snapshot": snapshot,
+                            "error": "could not write the renewed login to "
+                            f"{', '.join(map(display_path, failed))}; repair pending",
                         }
         else:
             assert snapshot is not None
@@ -1041,7 +1201,7 @@ def account_usage(
                     return {"source": source, "error": f"needs login ({error})"}
                 store.save(name, snapshot)
                 source = "saved (refreshed)"
-        return {"source": source, "usage": provider.fetch_usage(snapshot)}
+        return {"source": source, "snapshot": snapshot}
     except AiAuthError as error:
         return {"source": source, "error": str(error)}
     except OSError as error:
@@ -1050,19 +1210,48 @@ def account_usage(
         return {"source": source, "error": "malformed credentials"}
 
 
+def repair_roots(provider: Provider, store: ProfileStore) -> set[str]:
+    """Retry live writes a renewal missed; return the roots still needing repair."""
+    pending = set()
+    for root, name in list(store.active_state()["repair"].items()):
+        try:
+            if running_processes(provider, Path(root)):
+                raise AiAuthError("busy")
+            provider.at(root).write_tokens(store.load(name))
+        except (AiAuthError, OSError):
+            pending.add(root)
+        else:
+            store.set_entry("repair", root, None)
+    return pending
+
+
 def usage_report(provider: Provider, *, force_refresh: bool) -> dict[str, JsonObject]:
+    """Usage per account; each account lists the profiles (logins) it has."""
     store = ProfileStore(provider)
     # Hold the lock throughout so a concurrent `use` cannot activate a profile
     # between the active-state read and a refresh of its saved copy.
     with store.locked():
+        unrepaired = repair_roots(provider, store)
+        state = store.active_state()
         open_roots: dict[str, list[str]] = {}
-        for root, name in sorted(store.active_state()["roots"].items()):
+        for root, name in sorted(state["roots"].items()):
             open_roots.setdefault(name, []).append(root)
         live = live_snapshots(provider, [root for roots in open_roots.values() for root in roots])
+        for root in unrepaired:
+            # Its live file holds a retired token: never read, send or renew it.
+            live[root] = None
         names = store.names()
         names += sorted(set(open_roots) - set(names))
-        return {
-            name: account_usage(
+        results = {}
+        for name in names:
+            pending = [root for root, members in state["pending"].items() if name in members]
+            if pending:
+                results[name] = {
+                    "source": display_path(pending[0]),
+                    "error": f"interrupted switch; run `k-ai-auth {provider.name} use` there",
+                }
+                continue
+            results[name] = account_usage(
                 provider,
                 store,
                 name,
@@ -1070,8 +1259,41 @@ def usage_report(provider: Provider, *, force_refresh: bool) -> dict[str, JsonOb
                 live,
                 force_refresh=force_refresh,
             )
-            for name in names
-        }
+
+        groups: dict[str, list[str]] = {}
+        for name, result in results.items():
+            key = None
+            snapshot = result.get("snapshot")
+            if snapshot is None:
+                with contextlib.suppress(AiAuthError):
+                    snapshot = store.load(name)
+            with contextlib.suppress(AttributeError, TypeError):
+                key = provider.account_key(snapshot) if snapshot else None
+            groups.setdefault(key or f"profile:{name}", []).append(name)
+
+        report: dict[str, JsonObject] = {}
+        for key, members in groups.items():
+            entry: JsonObject = {
+                "profiles": {
+                    name: {k: v for k, v in results[name].items() if k != "snapshot"}
+                    for name in members
+                }
+            }
+            errors = []
+            for name in members:
+                snapshot = results[name].get("snapshot")
+                if snapshot is None:
+                    continue
+                try:
+                    entry["usage"] = provider.fetch_usage(snapshot)
+                    break
+                except AiAuthError as error:
+                    errors.append(str(error))
+            if "usage" not in entry:
+                first = next((results[m].get("error") for m in members), None)
+                entry["error"] = first or (errors[0] if errors else "no usable credential")
+            report[", ".join(members)] = entry
+        return report
 
 
 def use_color() -> bool:
@@ -1119,8 +1341,8 @@ def print_usage(tools: list[str], *, as_json: bool, force_refresh: bool) -> None
 
     parsed = {
         tool: {
-            name: PROVIDERS[tool].format_usage(result["usage"]) if "usage" in result else None
-            for name, result in report.items()
+            label: PROVIDERS[tool].format_usage(entry["usage"]) if "usage" in entry else None
+            for label, entry in report.items()
         }
         for tool, report in reports.items()
     }
@@ -1129,25 +1351,34 @@ def print_usage(tools: list[str], *, as_json: bool, force_refresh: bool) -> None
         for cells in rows.values():
             columns += [key for key in cells or {} if key not in columns and key != "note"]
 
-    # Each body row: name, where, one cell per window column, trailing text.
+    # Each body row: profiles, where, one cell per window column, trailing text.
     table: list[tuple[str | None, list[Cell], Cell]] = []
     for tool, report in reports.items():
         table.append((tool, [], cell("")))
         if not report:
             table.append((None, [cell("(no profiles)", dim)], cell("")))
-        for name, result in report.items():
-            where = result["source"]
-            prefix = [cell(name), cell(where, "" if where.startswith("~") else dim)]
-            cells = parsed[tool][name]
+        for label, entry in report.items():
+            profiles = entry["profiles"]
+            wheres = [result["source"] for result in profiles.values()]
+            all_saved = all(not where.startswith("~") for where in wheres)
+            prefix = [cell(label), cell(", ".join(wheres), dim if all_saved else "")]
+            cells = parsed[tool][label]
             if cells is None:
-                table.append((None, prefix, cell(result["error"], "33")))
+                table.append((None, prefix, cell(entry["error"], "33")))
                 continue
             windows = [
                 window_cell(value) if isinstance(value := cells.get(column), Window) else cell("")
                 for column in columns
             ]
-            note = cells.get("note")
-            table.append((None, prefix + windows, cell(note if isinstance(note, str) else "", dim)))
+            # A login of this account may still need attention (stale, repair).
+            problems = [
+                f"{name}: {result['error']}"
+                for name, result in profiles.items()
+                if "error" in result
+            ]
+            note = cells.get("note") if isinstance(cells.get("note"), str) else ""
+            text = "; ".join(problems + ([note] if note else []))
+            table.append((None, prefix + windows, cell(text, "33" if problems else dim)))
 
     header = [cell(""), cell("WHERE", dim), *(cell(column.upper(), dim) for column in columns)]
     body = [cells for tool, cells, _ in table if tool is None]
@@ -1195,6 +1426,13 @@ def build_parser() -> argparse.ArgumentParser:
         for command in ("save", "use"):
             command_parser = commands.add_parser(command)
             command_parser.add_argument("name", type=validate_profile_name)
+            if command == "save":
+                command_parser.add_argument(
+                    "--new-login",
+                    action="store_true",
+                    help="the live login is a fresh /login, independent of the profile "
+                    "this directory held",
+                )
         commands.add_parser("list")
         commands.add_parser("status")
         add_usage_arguments(commands.add_parser("usage"))
@@ -1209,7 +1447,7 @@ def main() -> int:
         return 0
     provider = PROVIDERS[args.tool]
     if args.command == "save":
-        save_profile(provider, args.name)
+        save_profile(provider, args.name, new_login=args.new_login)
     elif args.command == "use":
         use_profile(provider, args.name)
     elif args.command == "list":
