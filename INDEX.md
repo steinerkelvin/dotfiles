@@ -11,7 +11,6 @@
 - `/modules/hosts/` - Host-level system configurations
 - `/mac/` - macOS-specific configuration and setup notes
 - `/packages/` - Related package workspaces
-- `/old/` - Legacy configurations and archived reference material
 
 ### Configuration Files
 

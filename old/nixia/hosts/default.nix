@@ -1,3 +1,0 @@
-{
-  nixia = (import ./nixia);
-}
