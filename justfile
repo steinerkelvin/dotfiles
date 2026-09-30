@@ -16,7 +16,7 @@ deploy-orbstack-builder:
     ./modules/hosts/_satsuki/setup-orbstack-builder.sh
 
 fmt:
-    find . -name "*.nix" -exec nixpkgs-fmt {} \;
+    nix fmt -- .
 
 lint:
     statix check .
