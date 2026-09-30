@@ -146,7 +146,7 @@
         # xwayland-satellite so X11-only apps have a display; niri 25.05+ then
         # auto-sets DISPLAY for spawned clients. Merges with DMS's own
         # spawn-at-startup (enableSpawn) rather than replacing it.
-        spawn-at-startup = [ { command = [ "xwayland-satellite" ]; } ];
+        spawn-at-startup = [{ command = [ "xwayland-satellite" ]; }];
 
         input.keyboard.xkb = {
           layout = "us";
@@ -165,10 +165,10 @@
           center-focused-column = "on-overflow";
           always-center-single-column = true;
           preset-column-widths = [
-            { proportion = 0.25; }    # 1280px  -- editor pane
-            { proportion = 0.333; }   # ~1707px -- default
-            { proportion = 0.5; }     # 2560px  -- "half"
-            { proportion = 0.666; }   # ~3413px
+            { proportion = 0.25; } # 1280px  -- editor pane
+            { proportion = 0.333; } # ~1707px -- default
+            { proportion = 0.5; } # 2560px  -- "half"
+            { proportion = 0.666; } # ~3413px
           ];
           default-column-width.proportion = 0.333;
         };
@@ -179,7 +179,7 @@
           {
             # term-popup uses its own app-id; titles remain owned by the TUI.
             # New floating windows are centered by niri by default.
-            matches = [ { app-id = "^term-popup$"; } ];
+            matches = [{ app-id = "^term-popup$"; }];
             open-floating = true;
             open-focused = true;
             default-column-width = { fixed = 900; };

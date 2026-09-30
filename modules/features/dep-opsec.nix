@@ -65,7 +65,8 @@ _:
         let
           m = cfg.pnpm.minimumReleaseAgeMinutes;
           d = m / 1440;
-        in d + (if (m - d * 1440) > 0 then 1 else 0);
+        in
+        d + (if (m - d * 1440) > 0 then 1 else 0);
       npmrcMinReleaseAgeDays =
         if cfg.npm.enable then cfg.npm.releaseAgeDays else pnpmMinReleaseAgeDaysCeil;
       npmrcText =

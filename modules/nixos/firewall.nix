@@ -11,7 +11,7 @@ _: {
         enable = lib.mkDefault true;
         trustedInterfaces = [ "tailscale0" ];
         # mosh's conventional UDP range
-        allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
+        allowedUDPPortRanges = [{ from = 60000; to = 61000; }];
       };
     };
 }

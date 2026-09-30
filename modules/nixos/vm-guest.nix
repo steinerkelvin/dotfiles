@@ -31,6 +31,6 @@ _: {
       ];
 
       # mosh's conventional UDP range
-      networking.firewall.allowedUDPPortRanges = [ { from = 60000; to = 61000; } ];
+      networking.firewall.allowedUDPPortRanges = [{ from = 60000; to = 61000; }];
     };
 }

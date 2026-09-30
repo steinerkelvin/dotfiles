@@ -15,11 +15,10 @@
 # homeConfigurations entry to its activationPackage, filtered by system), so it
 # lands in checks.x86_64-linux with no further wiring.
 
-{
-  inputs,
-  config,
-  overlays,
-  ...
+{ inputs
+, config
+, overlays
+, ...
 }:
 
 {

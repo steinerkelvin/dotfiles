@@ -11,11 +11,10 @@
 # `config.home.homeDirectory`, which the consumer sets.
 _: {
   flake.homeModules.darwin-platform =
-    {
-      config,
-      lib,
-      pkgs,
-      ...
+    { config
+    , lib
+    , pkgs
+    , ...
     }:
     let
       home = config.home.homeDirectory;
