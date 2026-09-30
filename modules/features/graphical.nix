@@ -165,7 +165,6 @@
           center-focused-column = "on-overflow";
           always-center-single-column = true;
           preset-column-widths = [
-            { proportion = 0.166; }   # ~853px  -- compact terminal / chat
             { proportion = 0.25; }    # 1280px  -- editor pane
             { proportion = 0.333; }   # ~1707px -- default
             { proportion = 0.5; }     # 2560px  -- "half"
@@ -174,15 +173,9 @@
           default-column-width.proportion = 0.333;
         };
 
-        # Per-app window rules. kitty spawns at the 0.25 preset (~1280px on
-        # the G9) instead of the global 0.333 default -- terminals don't need
-        # editor-pane width, and a smaller default leaves room to tile a
-        # browser/editor alongside without a Mod+R cycle every spawn.
+        # Per-app window rules. (A kitty 0.25 default width was G9-only and
+        # niri can't match window rules by output, so it is disabled.)
         window-rules = [
-          {
-            matches = [ { app-id = "^kitty$"; } ];
-            default-column-width.proportion = 0.25;
-          }
           {
             # term-popup uses its own app-id; titles remain owned by the TUI.
             # New floating windows are centered by niri by default.
