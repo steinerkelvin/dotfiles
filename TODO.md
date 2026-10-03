@@ -23,12 +23,6 @@
 - [ ] Audit Nix flake input pinning (separate decision from cooldown — track
       whether an age-gate primitive ever materialises upstream).
 
-## Momo Server
-
-- [ ] Setup Linux machine
-- [ ] Configure Home Assistant
-- [ ] Configure Smokeping
-
 ## Nix Experiments
 
 - [ ] test `lorri` (https://github.com/nix-community/lorri)
