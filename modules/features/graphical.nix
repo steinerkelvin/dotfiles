@@ -263,15 +263,27 @@
             "Mod+Ctrl+Page_Down".action = move-column-to-workspace-down;
             "Mod+Ctrl+Page_Up".action = move-column-to-workspace-up;
           }
-          # Workspaces 1-9: focus by index. (niri-flake's DSL doesn't expose
-          # move-column-to-workspace with an index argument -- only the
-          # relative -down/-up variants, already bound to Mod+Ctrl+J/K above.)
+          # Workspaces 1-9: Mod+N focuses by index, Mod+Ctrl+N moves the focused
+          # column there (matching the relative Mod+Ctrl+J/K binds above), and
+          # Mod+Shift+N moves just the focused window. The
+          # DSL only exposes zero-argument actions as bare functions; actions
+          # with an argument are set as `action.<name> = arg`.
           // builtins.listToAttrs (
-            builtins.map
-              (i: {
-                name = "Mod+${toString i}";
-                value.action = focus-workspace i;
-              })
+            builtins.concatMap
+              (i: [
+                {
+                  name = "Mod+${toString i}";
+                  value.action = focus-workspace i;
+                }
+                {
+                  name = "Mod+Ctrl+${toString i}";
+                  value.action.move-column-to-workspace = i;
+                }
+                {
+                  name = "Mod+Shift+${toString i}";
+                  value.action.move-window-to-workspace = i;
+                }
+              ])
               (lib.range 1 9)
           );
       };
