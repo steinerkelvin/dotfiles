@@ -1,10 +1,10 @@
 _: {
-  flake.homeModules.net = { pkgs, ... }: {
+  flake.homeModules.net-debug = { pkgs, ... }: {
     home.packages = [
-      pkgs.mosh
       pkgs.inetutils
       pkgs.nmap
       pkgs.dig
+      pkgs.tcpdump
     ];
   };
 }

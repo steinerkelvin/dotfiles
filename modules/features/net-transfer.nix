@@ -1,7 +1,6 @@
 _: {
-  flake.homeModules.net-utils = { pkgs, ... }: {
+  flake.homeModules.net-transfer = { pkgs, ... }: {
     home.packages = [
-      pkgs.openssh
       pkgs.curl
       pkgs.wget
       pkgs.rsync

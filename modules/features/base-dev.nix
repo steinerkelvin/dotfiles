@@ -19,12 +19,12 @@
       config.flake.homeModules.age-plugin-yubikey
       config.flake.homeModules.sysmon
       config.flake.homeModules.build-tools
-      config.flake.homeModules.net
+      config.flake.homeModules.net-debug
       config.flake.homeModules.shell
       config.flake.homeModules.editors
       config.flake.homeModules.scripting
       config.flake.homeModules.remote
-      config.flake.homeModules.net-utils
+      config.flake.homeModules.net-transfer
       config.flake.homeModules.file-utils
       config.flake.homeModules.direnv
       config.flake.homeModules.atuin

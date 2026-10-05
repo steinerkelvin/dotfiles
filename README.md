@@ -77,7 +77,7 @@ For embedding inside an existing NixOS or nix-darwin host, and channel-mismatch 
 
 ## Available modules
 
-Home Manager features (`homeModules.*`) — single-tool: `npm`, `python`, `rust`, `nix`, `direnv`, `zsh`, `git`, `git-signing`, `identity`, `kitty`, `shell`, `editors`, `atuin`, `starship`, `scripting`, `remote`, `net`, `net-utils`, `file-utils`, `build-tools`, `sysmon`, `secrets`, `passage`, `age-plugin-se`, `age-plugin-yubikey`, `email`, `homeshick`, `claude-hooks`, `ai-skills`, `dep-opsec`. Meta-module: `base-dev`. Desktop rice: `graphical` (DankMaterialShell + niri + Hyprland + Discord), `wl-kbptr`.
+Home Manager features (`homeModules.*`) — single-tool: `npm`, `python`, `rust`, `nix`, `direnv`, `zsh`, `git`, `git-signing`, `identity`, `kitty`, `shell`, `editors`, `atuin`, `starship`, `scripting`, `remote`, `net-debug`, `net-transfer`, `file-utils`, `build-tools`, `sysmon`, `secrets`, `passage`, `age-plugin-se`, `age-plugin-yubikey`, `email`, `homeshick`, `claude-hooks`, `ai-skills`, `dep-opsec`. Meta-module: `base-dev`. Desktop rice: `graphical` (DankMaterialShell + niri + Hyprland + Discord), `wl-kbptr`.
 
 NixOS modules (`nixosModules.*`) — reusable, identity-free host building blocks. Profiles: `base`, `server`, `desktop`, `vm-guest`. Services: `ssh`, `tailscale`, `avahi`, `podman`, `libvirt`, `syncthing`, `firewall`, `zfs-maintenance`. Hardware/host: `yubikey` (pcscd + udev), `zfs-boot`, `esp-sync`, `microvm-bridge`, `orbstack`. Generic upstream defaults; host-specific values (ports, users, subnets) stay at the consumer's call site.
 
