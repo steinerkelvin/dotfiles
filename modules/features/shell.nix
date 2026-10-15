@@ -77,7 +77,6 @@ _: {
       cl = "claude";
       clc = "claude --continue";
       clm = "claude --model";
-      claudio = "CLAUDE_CONFIG_DIR=~/.claude-personal claude";
       # Codex shortcuts
       codexo = "CODEX_HOME=~/.codex-personal codex";
       # Pi shortcuts
@@ -109,6 +108,11 @@ _: {
       pkgs.tlrc
       # Pager (used by git, man, etc; missing in minimal containers like k-sandbox)
       pkgs.less
+      # Claude Code on the personal profile. A command, not an alias, so
+      # non-interactive shells and agents can run it too.
+      (pkgs.writeShellScriptBin "claudio" ''
+        CLAUDE_CONFIG_DIR="$HOME/.claude-personal" exec claude "$@"
+      '')
     ];
   };
 }
