@@ -42,7 +42,7 @@ in
         Config dirs, relative to $HOME, that receive a copy of the merged
         skill set. `~/.claude` is not listed: the upstream claude-code module
         writes it. Each extra CLI profile (a separate account and history,
-        reached through the `claudio` / `codexo` aliases) belongs here, since
+        reached through the `claudio` / `codexo` commands) belongs here, since
         the account is what should differ between profiles, not the skills.
       '';
     };
