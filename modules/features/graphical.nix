@@ -173,6 +173,13 @@
           default-column-width.proportion = 0.333;
         };
 
+        # Fixed workspaces 1-9. Named workspaces persist even when empty, so
+        # all nine always exist and DMS's switcher shows all nine. niri still
+        # keeps its one dynamic empty workspace after them; that one can't be
+        # turned off. No open-on-output: they open on whichever output is
+        # first, so the module doesn't pin a monitor name.
+        workspaces = lib.genAttrs (map toString (lib.range 1 9)) (_: { });
+
         # Per-app window rules. (A kitty 0.25 default width was G9-only and
         # niri can't match window rules by output, so it is disabled.)
         window-rules = [
@@ -263,25 +270,27 @@
             "Mod+Ctrl+Page_Down".action = move-column-to-workspace-down;
             "Mod+Ctrl+Page_Up".action = move-column-to-workspace-up;
           }
-          # Workspaces 1-9: Mod+N focuses by index, Mod+Ctrl+N moves the focused
-          # column there (matching the relative Mod+Ctrl+J/K binds above), and
-          # Mod+Shift+N moves just the focused window. The
-          # DSL only exposes zero-argument actions as bare functions; actions
-          # with an argument are set as `action.<name> = arg`.
+          # Workspaces 1-9: Mod+N focuses the named workspace "N", Mod+Ctrl+N
+          # moves the focused column there (matching the relative Mod+Ctrl+J/K
+          # binds above), and Mod+Shift+N moves just the focused window.
+          # Targeting by name rather than index keeps the binds right if a
+          # workspace gets reordered (DMS drag-reorder) or sits on another
+          # output. The DSL only exposes zero-argument actions as bare
+          # functions; actions with an argument are set as `action.<name> = arg`.
           // builtins.listToAttrs (
             builtins.concatMap
               (i: [
                 {
                   name = "Mod+${toString i}";
-                  value.action = focus-workspace i;
+                  value.action.focus-workspace = toString i;
                 }
                 {
                   name = "Mod+Ctrl+${toString i}";
-                  value.action.move-column-to-workspace = i;
+                  value.action.move-column-to-workspace = toString i;
                 }
                 {
                   name = "Mod+Shift+${toString i}";
-                  value.action.move-window-to-workspace = i;
+                  value.action.move-window-to-workspace = toString i;
                 }
               ])
               (lib.range 1 9)
