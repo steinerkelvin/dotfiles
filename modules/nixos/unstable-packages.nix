@@ -9,6 +9,8 @@
 #     defaults dgop.package to pkgs.dgop, which is unstable-only.
 #   - age-plugin-tpm: TPM-backed age identity for agenix boot decryption; stable
 #     25.11 predates the v1.0.1 multi-recipient fix + p256tag recipient scheme.
+#   - niri-sidebar: floating sidebar manager for niri (graphical homeModule);
+#     not in stable yet.
 { inputs, ... }:
 {
   flake.nixosModules.unstable-packages = {
@@ -19,6 +21,7 @@
           worktrunk
           dgop
           age-plugin-tpm
+          niri-sidebar
           ;
       })
     ];

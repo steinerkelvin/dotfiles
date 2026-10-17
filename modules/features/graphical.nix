@@ -146,7 +146,11 @@
         # xwayland-satellite so X11-only apps have a display; niri 25.05+ then
         # auto-sets DISPLAY for spawned clients. Merges with DMS's own
         # spawn-at-startup (enableSpawn) rather than replacing it.
-        spawn-at-startup = [{ command = [ "xwayland-satellite" ]; }];
+        # niri-sidebar's daemon restacks the sidebar when one of its windows closes.
+        spawn-at-startup = [
+          { command = [ "xwayland-satellite" ]; }
+          { command = [ "niri-sidebar" "listen" ]; }
+        ];
 
         input.keyboard.xkb = {
           layout = "us";
@@ -191,6 +195,13 @@
             open-focused = true;
             default-column-width = { fixed = 900; };
             default-window-height = { fixed = 500; };
+          }
+          {
+            # Let floating windows shrink to niri-sidebar's slot size; apps
+            # with a larger minimum otherwise overlap the stack.
+            matches = [{ is-floating = true; }];
+            min-width = 100;
+            min-height = 100;
           }
         ];
 
@@ -259,6 +270,15 @@
             # (only useful where edge-detection finds targets).
             "Mod+G".action = spawn "wl-kbptr" "-o" "modes=tile,split";
             "Mod+Shift+G".action = spawn "wl-kbptr" "-o" "modes=floating,click";
+
+            # niri-sidebar -- floating stack of up to 3 utility windows on the
+            # right. Mod+S moves the focused window in/out (sidebar-toggle caps
+            # the stack), Mod+Shift+S hides the stack to a peeking strip,
+            # Mod+Ctrl+S reverses it, Mod+Alt+R restacks.
+            "Mod+S".action = spawn "sidebar-toggle";
+            "Mod+Shift+S".action = spawn "niri-sidebar" "toggle-visibility";
+            "Mod+Ctrl+S".action = spawn "niri-sidebar" "flip";
+            "Mod+Alt+R".action = spawn "niri-sidebar" "reorder";
 
             # Switch focus between adjacent workspaces.
             "Mod+Page_Down".action = focus-workspace-down;
@@ -447,6 +467,28 @@
         };
       };
 
+      # niri-sidebar sizes a stack of 3: on a 1440px-tall output,
+      # (1440 - 50 top - 10 bottom - 2 gaps of 10) / 3 = 453, rounded down.
+      # The tool has no window limit of its own; sidebar-toggle enforces 3.
+      xdg.configFile."niri-sidebar/config.toml".text = ''
+        [geometry]
+        width = 400
+        height = 450
+        gap = 10
+
+        [margins]
+        top = 50
+        right = 10
+        left = 10
+        bottom = 10
+
+        [interaction]
+        position = "right"
+        peek = 10
+        focus_peek = 50
+        sticky = false
+      '';
+
       # Discord — Equibop (Vesktop fork) with Equicord, managed by nixcord. Base
       # Discord/Vencord install disabled; Equibop bundles Equicord.
       programs.nixcord = {
@@ -473,6 +515,36 @@
         pkgs.pavucontrol
         pkgs.wev # xev for Wayland — debug keypress/pointer events
         pkgs.xwayland-satellite # rootless Xwayland for niri (X11-only apps)
+        pkgs.niri-sidebar # floating sidebar for niri (unstable-only; binds above)
+
+        # `niri-sidebar toggle-window`, refusing to add a 4th window. Counts
+        # only tracked windows that still exist, since the state file can keep
+        # ids of windows closed while the listen daemon wasn't running.
+        (pkgs.writeShellApplication {
+          name = "sidebar-toggle";
+          runtimeInputs = [
+            pkgs.niri-sidebar
+            pkgs.jq
+            pkgs.libnotify
+          ];
+          text = ''
+            max=3
+            state="''${XDG_CACHE_HOME:-$HOME/.cache}/niri-sidebar/state.json"
+            if [ -f "$state" ]; then
+              focused=$(niri msg -j focused-window | jq '.id')
+              live=$(niri msg -j windows | jq '[.[].id]')
+              count=$(jq --argjson id "$focused" --argjson live "$live" '
+                if any(.windows[]; .id == $id) then 0
+                else [.windows[] | select(.id as $i | $live | index($i))] | length
+                end' "$state")
+              if [ "$count" -ge "$max" ]; then
+                notify-send "Sidebar full" "$max windows max; take one out with Mod+S first."
+                exit 0
+              fi
+            fi
+            exec niri-sidebar toggle-window
+          '';
+        })
 
         # Pywalfox native companion -- pipes the active wal/matugen palette into
         # Firefox so the browser chrome tracks the DMS theme switch. Install the
