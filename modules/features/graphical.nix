@@ -263,7 +263,8 @@
             # Screenshots -- niri-flake's DSL doesn't expose the built-in
             # screenshot actions, so spawn grim/slurp like the Hyprland binds.
             "Print".action = spawn "sh" "-c" ''grim -g "$(slurp)" - | wl-copy'';
-            "Shift+Print".action = spawn "sh" "-c" ''grim -g "$(slurp)" "$HOME/pictures/$(date -Iseconds).png"'';
+            # Shift+Print saves to a file and copies its path (see screenshot-file).
+            "Shift+Print".action = spawn "screenshot-file";
 
             # wl-kbptr — keyboard-driven mouse pointer. Mod+G = tile-grid jump
             # then hjkl split (works on any app); Mod+Shift+G = opencv CV hints
@@ -436,9 +437,10 @@
             "$mod, S, togglespecialworkspace, magic"
             "$mod SHIFT, S, movetoworkspace, special:magic"
 
-            # Screenshots (region -> clipboard / file). On Print; $mod+P is notepad.
+            # Screenshots (region -> clipboard image / file + path). On Print;
+            # $mod+P is notepad.
             '', Print, exec, grim -g "$(slurp)" - | wl-copy''
-            ''SHIFT, Print, exec, grim -g "$(slurp)" "$HOME/pictures/$(date -Iseconds).png"''
+            "SHIFT, Print, exec, screenshot-file"
           ]
           # Workspaces 1-10 (0 = workspace 10): switch + move-to.
           ++ builtins.concatLists (
@@ -571,6 +573,28 @@
         # We re-read `dms ipc theme getMode` after toggling because DMS's IPC
         # `toggle()` return is the *opposite* of the new state (see DMS's
         # Common/Theme.qml:1873).
+        # Region screenshot to ~/pictures/screenshots, with the file's path (not
+        # the image) put on the clipboard -- for pasting into tools that take a
+        # path but not an image paste, like a terminal agent. Esc in slurp cancels.
+        (pkgs.writeShellApplication {
+          name = "screenshot-file";
+          runtimeInputs = [
+            pkgs.grim
+            pkgs.slurp
+            pkgs.wl-clipboard
+            pkgs.libnotify
+          ];
+          text = ''
+            dir="$HOME/pictures/screenshots"
+            mkdir -p "$dir"
+            region=$(slurp) || exit 0
+            file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
+            grim -g "$region" "$file"
+            printf '%s' "$file" | wl-copy
+            notify-send -i "$file" "Screenshot saved, path copied" "$file"
+          '';
+        })
+
         (pkgs.writeShellScriptBin "theme-toggle" ''
           set -eu
           dms ipc theme toggle >/dev/null || true
