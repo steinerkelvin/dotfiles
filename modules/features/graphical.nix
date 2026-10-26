@@ -209,6 +209,7 @@
           with config.lib.niri.actions;
           {
             "Mod+Return".action = spawn "kitty";
+            "Mod+Grave".action = spawn "kitten" "quick-access-terminal";
             "Mod+Q".action = close-window;
 
             "Mod+H".action = focus-column-left;
@@ -261,8 +262,10 @@
             "Mod+Tab".action = toggle-overview;
 
             # Screenshots -- niri-flake's DSL doesn't expose the built-in
-            # screenshot actions, so spawn grim/slurp like the Hyprland binds.
-            "Print".action = spawn "sh" "-c" ''grim -g "$(slurp)" - | wl-copy'';
+            # screenshot actions, so spawn them through `niri msg`. Niri's UI
+            # freezes the frame before you select, so hover state survives
+            # (slurp's overlay steals the pointer and drops it).
+            "Print".action = spawn "niri" "msg" "action" "screenshot" "--show-pointer" "false";
             # Shift+Print saves to a file and copies its path (see screenshot-file).
             "Shift+Print".action = spawn "screenshot-file";
 
@@ -575,7 +578,9 @@
         # Common/Theme.qml:1873).
         # Region screenshot to ~/pictures/screenshots, with the file's path (not
         # the image) put on the clipboard -- for pasting into tools that take a
-        # path but not an image paste, like a terminal agent. Esc in slurp cancels.
+        # path but not an image paste, like a terminal agent. Esc cancels.
+        # Under niri it uses the built-in screenshot UI (frozen frame, keeps
+        # hover state); elsewhere it falls back to grim + slurp.
         (pkgs.writeShellApplication {
           name = "screenshot-file";
           runtimeInputs = [
@@ -587,9 +592,21 @@
           text = ''
             dir="$HOME/pictures/screenshots"
             mkdir -p "$dir"
-            region=$(slurp) || exit 0
             file="$dir/$(date +%Y-%m-%d_%H-%M-%S).png"
-            grim -g "$region" "$file"
+            if [ -n "''${NIRI_SOCKET:-}" ]; then
+              # The action returns before the selection is made, so wait for
+              # the file; a cancelled selection never writes one.
+              niri msg action screenshot --show-pointer false --path "$file"
+              for _ in $(seq 600); do
+                [ -s "$file" ] && break
+                sleep 0.2
+              done
+              [ -s "$file" ] || exit 0
+              sleep 0.2 # let niri finish writing
+            else
+              region=$(slurp) || exit 0
+              grim -g "$region" "$file"
+            fi
             printf '%s' "$file" | wl-copy
             notify-send -i "$file" "Screenshot saved, path copied" "$file"
           '';
