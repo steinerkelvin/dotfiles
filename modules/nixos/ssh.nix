@@ -8,6 +8,8 @@ _: {
       enable = true;
       settings = {
         PasswordAuthentication = false;
+        # With UsePAM, this is a second route to a password prompt.
+        KbdInteractiveAuthentication = false;
         PermitRootLogin = "prohibit-password";
       };
     };
