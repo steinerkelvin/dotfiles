@@ -34,7 +34,7 @@
     dms.url = "github:AvengeMedia/DankMaterialShell/stable";
     dms.inputs.nixpkgs.follows = "nixpkgs";
 
-    nixcord.url = "github:kaylorben/nixcord";
+    nixcord.url = "github:4evy/nixcord";
     nixcord.inputs.nixpkgs.follows = "nixpkgs";
   };
 

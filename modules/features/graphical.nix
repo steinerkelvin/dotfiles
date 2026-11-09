@@ -121,15 +121,15 @@
           # the FIRST match by name -- so for outputs the earliest include
           # wins, the reverse of every merged section, and a second DP-1 block
           # further down would be silently dead config.
-          { path = "~/.config/niri/dms/alttab.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/binds.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/colors.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/cursor.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/input.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/layout.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/outputs.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/windowrules.kdl"; optional = true; }
-          { path = "~/.config/niri/dms/wpblur.kdl"; optional = true; }
+          { path = "~/.config/niri/dms/alttab.kdl"; }
+          { path = "~/.config/niri/dms/binds.kdl"; }
+          { path = "~/.config/niri/dms/colors.kdl"; }
+          { path = "~/.config/niri/dms/cursor.kdl"; }
+          { path = "~/.config/niri/dms/input.kdl"; }
+          { path = "~/.config/niri/dms/layout.kdl"; }
+          { path = "~/.config/niri/dms/outputs.kdl"; }
+          { path = "~/.config/niri/dms/windowrules.kdl"; }
+          { path = "~/.config/niri/dms/wpblur.kdl"; }
 
           # Hand-edited scratch file, deliberately outside nix. niri watches
           # included files, so saving it hot-reloads without a rebuild. Good
@@ -139,7 +139,7 @@
           # Kept LAST on purpose: it's the only way to beat dms/outputs.kdl,
           # which also claims DP-1. Two files owning one output is a trap --
           # if display settings start fighting, this is the first place to look.
-          { path = "~/.config/niri/custom.kdl"; optional = true; }
+          { path = "~/.config/niri/custom.kdl"; }
         ];
 
         # X11 bridge — niri is pure Wayland and ships no Xwayland. Spawn
