@@ -53,6 +53,13 @@
           # Needs the checktime autocmd below to actually fire -- autoread
           # alone only re-reads when vim happens to notice.
           autoread = true;
+
+          # Soft-wrapped lines keep their indent and break between words. The
+          # marker is as wide as a two-character comment leader ("# ", "--"),
+          # so continued comment text lines up under the first line's text.
+          breakindent = true;
+          linebreak = true;
+          showbreak = "↪ ";
         };
 
         autoCmd = [
@@ -379,6 +386,17 @@
               provider = "none",
             },
           })
+
+          -- Machine-local additions that stay out of this repo. init.lua is a
+          -- read-only store path, so this is the one hand-editable hook; a
+          -- missing file is skipped, a broken one is reported.
+          local local_config = vim.fn.stdpath("config") .. "/local.lua"
+          if vim.uv.fs_stat(local_config) then
+            local ok, err = pcall(dofile, local_config)
+            if not ok then
+              vim.notify("local.lua: " .. tostring(err), vim.log.levels.WARN)
+            end
+          end
         '';
       };
 
