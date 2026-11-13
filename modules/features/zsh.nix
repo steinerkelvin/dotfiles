@@ -14,6 +14,8 @@ _: {
       # has never fired in practice.
       sessionVariables = {
         ZSH_DISABLE_COMPFIX = "true";
+        # Titles come from zsh-title.zsh below, not oh-my-zsh's termsupport.
+        DISABLE_AUTO_TITLE = "true";
       };
 
       # Shared aliases live in home.shellAliases (modules/features/shell.nix)
@@ -21,6 +23,8 @@ _: {
 
       initContent = ''
         ${builtins.readFile ./shell-common.sh}
+
+        ${builtins.readFile ./zsh-title.zsh}
 
         # just completions
         if command -v just &>/dev/null; then

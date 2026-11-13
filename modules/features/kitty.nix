@@ -18,6 +18,9 @@ _: {
         # leftover minimal config) and injects the actual sourcing into
         # programs.zsh.initContent. Relies on programs.zsh.enable (homeModules.zsh).
         shellIntegration.enableZshIntegration = true;
+        # `no-title`: zsh sets the title itself (zsh-title.zsh) so the working
+        # directory stays in it while a command runs.
+        shellIntegration.mode = "no-rc no-title";
 
         settings = {
           # Remote control only via a per-pid unix socket (not from programs
