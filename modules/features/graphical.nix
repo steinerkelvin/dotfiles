@@ -502,9 +502,23 @@
         equibop.enable = true;
       };
 
+      # Icon theme. Without a real theme installed and selected, Qt under the
+      # gtk3 platform theme (what DMS's quickshell runs with) never searches
+      # hicolor, so tray items that publish an icon *name* (Telegram) render
+      # as the missing-texture checkerboard. Papirus inherits hicolor.
+      # GTK apps read the dconf key. DMS's quickshell is not wrapped with the
+      # GSettings schemas, so its GTK never sees dconf and falls back to
+      # gtk-3.0/settings.ini -- hence both.
+      dconf.settings."org/gnome/desktop/interface".icon-theme = "Papirus";
+      xdg.configFile."gtk-3.0/settings.ini".text = ''
+        [Settings]
+        gtk-icon-theme-name=Papirus
+      '';
+
       # Graphical apps. Terminal + screenshot tools live at the system level
       # (nixosModules.desktop); these are the user-facing GUI set.
       home.packages = [
+        pkgs.papirus-icon-theme
         (pkgs.writeShellApplication {
           name = "term-popup";
           text = builtins.replaceStrings
