@@ -60,15 +60,15 @@
         enable = true;
         systemd.enable = false; # spawned per-compositor instead (see file header)
 
-        # niri: DMS owns niri's shell-action keybinds + autostart (spawn `dms
-        # run`). `includes` is off: it rewrites config.kdl into a wrapper of
-        # `include` nodes, and niri-stable 25.08 has no `include` -- the whole
-        # config then fails to parse and niri falls back to its built-in
-        # default (no DMS spawn, no binds). Re-enable only on a niri that
-        # supports `include`; it would also inject DMS binds/colors, which
-        # fight enableKeybinds. Our compositor binds are below.
+        # niri: DMS owns autostart (spawn `dms run`). Its keybinds are off and
+        # copied into our binds below, so the lock can follow Mod. `includes`
+        # is off: it rewrites config.kdl into a wrapper of `include` nodes,
+        # and niri-stable 25.08 has no `include` -- the whole config then
+        # fails to parse and niri falls back to its built-in default (no DMS
+        # spawn, no binds). Re-enable only on a niri that supports `include`;
+        # it would also inject DMS binds/colors, which fight ours.
         niri = {
-          enableKeybinds = true;
+          enableKeybinds = false;
           enableSpawn = true;
           includes.enable = false;
         };
@@ -82,8 +82,8 @@
       };
 
       # niri rice — niri ships NO default binds, so without these the session is
-      # unusable (only DMS shell toggles exist). Mod = Super (logo key, and caps
-      # lock via caps:super, matching Hyprland). niri is columnar, hence the
+      # unusable (only DMS shell toggles exist). Mod = Caps Lock (see mod-key
+      # below; the logo key is left to apps). niri is columnar, hence the
       # column/window split on the movement binds.
       programs.niri.settings = {
         # Extra kdl merged in alongside the settings below. Note the
@@ -152,9 +152,15 @@
           { command = [ "niri-sidebar" "listen" ]; }
         ];
 
+        # Mod = Caps Lock only. lv5:caps_switch makes Caps Lock the level-5
+        # modifier (Mod3), which the us layout doesn't otherwise use, and
+        # mod-key points niri at it. The logo key stays plain Super and passes
+        # through to apps. (caps:hyper would not work: Hyper shares Mod4 with
+        # Super, so niri couldn't tell the two keys apart.)
+        input.mod-key = "ISO_Level5_Shift";
         input.keyboard.xkb = {
           layout = "us";
-          options = "compose:rctrl,caps:super";
+          options = "compose:rctrl,lv5:caps_switch";
         };
 
         # Layout tuning for the 5120x1440 G9 ultrawide.
@@ -209,6 +215,8 @@
           with config.lib.niri.actions;
           {
             "Mod+Return".action = spawn "kitty";
+            # Fallback on the logo key, in case the Caps Lock Mod breaks.
+            "Super+Return".action = spawn "kitty";
             "Mod+Grave".action = spawn "kitten" "quick-access-terminal";
             "Mod+Q".action = close-window;
 
@@ -243,9 +251,8 @@
             "Mod+BracketLeft".action = consume-or-expel-window-left;
             "Mod+BracketRight".action = consume-or-expel-window-right;
 
-            # Override the DMS niri module's Mod+Space launcher bind with
-            # Vicinae, while keeping DMS spotlight available on Mod+D.
-            "Mod+Space" = lib.mkForce {
+            # Vicinae is the launcher; DMS spotlight stays available on Mod+D.
+            "Mod+Space" = {
               action = spawn "vicinae" "toggle";
               hotkey-overlay.title = "Toggle Vicinae Launcher";
             };
@@ -260,6 +267,73 @@
             # Hyprland-specific IPC; niri has native equivalents.)
             "Mod+Slash".action = show-hotkey-overlay;
             "Mod+Tab".action = toggle-overview;
+
+            # DMS shell binds. Copied from the DMS module's enableKeybinds
+            # (off above): it hardcodes the lock on Super+Alt+L, and a niri
+            # bind can't be removed once another module defines it. Here the
+            # lock follows Mod and the logo-key combo stays free for apps.
+            "Mod+N" = {
+              action = spawn "dms" "ipc" "notifications" "toggle";
+              hotkey-overlay.title = "Toggle Notification Center";
+            };
+            "Mod+Comma" = {
+              action = spawn "dms" "ipc" "settings" "toggle";
+              hotkey-overlay.title = "Toggle Settings";
+            };
+            "Mod+P" = {
+              action = spawn "dms" "ipc" "notepad" "toggle";
+              hotkey-overlay.title = "Toggle Notepad";
+            };
+            "Mod+Alt+L" = {
+              action = spawn "dms" "ipc" "lock" "lock";
+              hotkey-overlay.title = "Toggle Lock Screen";
+            };
+            "Mod+X" = {
+              action = spawn "dms" "ipc" "powermenu" "toggle";
+              hotkey-overlay.title = "Toggle Power Menu";
+            };
+            "Mod+Alt+N" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "night" "toggle";
+              hotkey-overlay.title = "Toggle Night Mode";
+            };
+            "Mod+V" = {
+              action = spawn "dms" "ipc" "clipboard" "toggle";
+              hotkey-overlay.title = "Toggle Clipboard Manager";
+            };
+            "Mod+M" = {
+              action = spawn "dms" "ipc" "processlist" "toggle";
+              hotkey-overlay.title = "Toggle Process List";
+            };
+            "XF86AudioRaiseVolume" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "audio" "increment" "3";
+            };
+            "XF86AudioLowerVolume" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "audio" "decrement" "3";
+            };
+            "XF86AudioMute" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "audio" "mute";
+            };
+            "XF86AudioMicMute" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "audio" "micmute";
+            };
+            "XF86MonBrightnessUp" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "brightness" "increment" "5" "";
+            };
+            "XF86MonBrightnessDown" = {
+              allow-when-locked = true;
+              action = spawn "dms" "ipc" "brightness" "decrement" "5" "";
+            };
+            "XF86TouchpadToggle" = {
+              allow-when-locked = true;
+              repeat = false;
+              action = spawn "niri" "msg" "action" "toggle-touchpad";
+            };
 
             # Screenshots -- niri-flake's DSL doesn't expose the built-in
             # screenshot actions, so spawn them through `niri msg`. Niri's UI
